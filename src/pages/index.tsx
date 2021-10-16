@@ -30,7 +30,7 @@ const Home = () => {
         }}
       />
 
-      <Header layout="default" />
+      <Header />
 
       <Footer />
     </>

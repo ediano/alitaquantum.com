@@ -21,7 +21,7 @@ export const GlobalStyle = createGlobalStyle<Props>`
   }
 
   html, body, #__next {
-    height: 100%;
+    min-height: 100vh;
   }
 
   body {

@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import { shade } from 'polished'
+import { shade, lighten } from 'polished'
 
 import { Container, lessThan, greaterThan } from 'styles/layout'
 
@@ -31,6 +31,29 @@ export const Wrapper = styled(Container)`
 
   padding: 0 2rem;
 `
+
+export const LogoText = styled.div`
+  ${lessThan(500)(css`
+    display: none;
+  `)}
+`
+
+export const Alita = styled.span`
+  ${({ theme }) => css`
+    color: ${theme.colors.primary};
+    font-weight: 600;
+  `}
+`
+
+export const Quantum = styled.span`
+  margin-left: 5px;
+
+  ${({ theme }) => css`
+    color: ${theme.colors.white};
+    background: ${theme.colors.primary};
+  `}
+`
+
 export const Logo = styled.a`
   display: grid;
   grid-gap: 0.5rem;
@@ -41,16 +64,14 @@ export const Logo = styled.a`
     color: ${theme.colors.primary};
     font-size: ${theme.fonts.sizes.m};
 
-    &:hover {
-      color: red;
+    &:hover ${Alita} {
+      color: ${shade(0.25, theme.colors.primary)};
+    }
+
+    &:hover ${Quantum} {
+      background: ${shade(0.25, theme.colors.primary)};
     }
   `}
-`
-
-export const LogoText = styled.span`
-  ${lessThan(500)(css`
-    display: none;
-  `)}
 `
 
 export const WrapperItens = styled.div`
@@ -89,9 +110,11 @@ export const Itens = styled.ul`
 `
 
 export const Item = styled.li`
-  ${lessThan('m')(css`
-    margin: 0.5rem 0;
-  `)}
+  ${({ theme }) => css`
+    ${lessThan('m')(css`
+      border-top: 1px solid ${lighten(0.75, theme.colors.black)};
+    `)}
+  `}
 
   ${greaterThan('m')(css`
     & + & {
@@ -106,7 +129,7 @@ export const ItemLink = styled.a`
     font-size: ${theme.fonts.sizes.xs};
 
     &:hover {
-      color: red;
+      color: ${shade(0.25, theme.colors.primary)};
     }
   `}
 
@@ -128,12 +151,13 @@ export const Button = styled.button`
     color: ${theme.colors.primary};
 
     &:hover {
-      color: ${shade(0.5, theme.colors.primary)};
+      color: ${shade(0.25, theme.colors.primary)};
     }
   `}
 
   ${lessThan('m')(css`
-    display: block;
+    display: flex;
+    align-items: center;
   `)}
 `
 
@@ -158,4 +182,8 @@ export const CloseMenu = styled.button`
     opacity: 0.25;
     visibility: visible;
   }
+
+  ${greaterThan('m')(css`
+    display: none;
+  `)}
 `

@@ -4,6 +4,6 @@ export const site = {
   description:
     'Troque criptomoedas de forma simples, fácil e sem limites a qualquer momento',
   url: 'https://alitaquantum.com',
-  favicon: '/favicon.ico',
-  logo: '/logo.png'
+  favicon: '/img/favicon.png',
+  logo: '/img/logo_reverse.png'
 }
