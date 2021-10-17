@@ -7,6 +7,8 @@ type Props = {
 }
 
 export const Container = styled.header<Props>`
+  position: relative;
+
   ${({ layout }) =>
     layout === 'default' &&
     css`

@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { MdMenu } from 'react-icons/md'
 
 import content from './content'
@@ -21,20 +20,8 @@ export const Navbar = ({ layout = 'default' }: Props) => {
       <S.Wrapper>
         <Link href="/" passHref>
           <S.Logo>
-            <Image
-              src="/img/logo_reverse.png"
-              width={54}
-              height={54}
-              layout="fixed"
-              quality={100}
-              placeholder="blur"
-              blurDataURL="/img/logo_reverse.png"
-            />
-
-            <S.LogoText>
-              <S.Alita>Alita</S.Alita>
-              <S.Quantum>Quantum</S.Quantum>
-            </S.LogoText>
+            <S.Alita>Alita</S.Alita>
+            <S.Quantum>Quantum</S.Quantum>
           </S.Logo>
         </Link>
 

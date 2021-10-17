@@ -30,12 +30,10 @@ export const Wrapper = styled(Container)`
   justify-content: space-between;
 
   padding: 0 2rem;
-`
 
-export const LogoText = styled.div`
-  ${lessThan(500)(css`
-    display: none;
-  `)}
+  ${({ theme }) => css`
+    border-bottom: 1px solid ${lighten(0.6, theme.colors.secondary)};
+  `}
 `
 
 export const Alita = styled.span`
@@ -46,8 +44,6 @@ export const Alita = styled.span`
 `
 
 export const Quantum = styled.span`
-  margin-left: 5px;
-
   ${({ theme }) => css`
     color: ${theme.colors.white};
     background: ${theme.colors.primary};
@@ -58,19 +54,12 @@ export const Logo = styled.a`
   display: grid;
   grid-gap: 0.5rem;
   align-items: center;
+  justify-items: center;
   grid-template-columns: auto auto;
 
   ${({ theme }) => css`
     color: ${theme.colors.primary};
     font-size: ${theme.fonts.sizes.m};
-
-    &:hover ${Alita} {
-      color: ${shade(0.25, theme.colors.primary)};
-    }
-
-    &:hover ${Quantum} {
-      background: ${shade(0.25, theme.colors.primary)};
-    }
   `}
 `
 
@@ -127,6 +116,7 @@ export const ItemLink = styled.a`
   ${({ theme }) => css`
     color: ${theme.colors.secondary};
     font-size: ${theme.fonts.sizes.xs};
+    font-weight: 500;
 
     &:hover {
       color: ${shade(0.25, theme.colors.primary)};
