@@ -4,6 +4,6 @@ export const changeNow = axios.create({
   baseURL: 'https://api.changenow.io/v2',
   headers: {
     'Content-Type': 'application/json',
-    'x-changenow-api-key': process.env.REACT_APP_API_KEY as string
+    'x-changenow-api-key': process.env.NEXT_PUBLIC_CHANGENOW_API_KEY as string
   }
 })

@@ -1,5 +1,1 @@
-import { changeNow } from 'services/ChangeNowService'
-
-export default {
-  changeNow
-}
+export { changeNow } from 'services/ChangeNowService'

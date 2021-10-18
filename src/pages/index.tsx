@@ -5,6 +5,7 @@ import { site } from 'config/site'
 import { getUrl } from 'utils/getUrl'
 
 import { Header } from 'components/Header'
+import { FullScreen } from 'components/FullScreen'
 import { Footer } from 'components/Footer'
 
 const Home = () => {
@@ -13,6 +14,7 @@ const Home = () => {
       <Head>
         <title>{site.name}</title>
       </Head>
+
       <NextSeo
         title={site.description}
         canonical={getUrl('/')}
@@ -30,7 +32,9 @@ const Home = () => {
         }}
       />
 
-      <Header layout="default" />
+      <Header>
+        <FullScreen />
+      </Header>
 
       <Footer />
     </>

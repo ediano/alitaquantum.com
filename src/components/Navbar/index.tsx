@@ -1,9 +1,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { MdMenu } from 'react-icons/md'
 
-import { site } from 'config/site'
 import content from './content'
 
 import * as S from './styles'
@@ -22,17 +20,8 @@ export const Navbar = ({ layout = 'default' }: Props) => {
       <S.Wrapper>
         <Link href="/" passHref>
           <S.Logo>
-            <Image
-              src="/logo.png"
-              width={54}
-              height={54}
-              layout="fixed"
-              quality={100}
-              placeholder="blur"
-              blurDataURL="/logo.png"
-            />
-
-            <S.LogoText>{site.name}</S.LogoText>
+            <S.Alita>Alita</S.Alita>
+            <S.Quantum>Quantum</S.Quantum>
           </S.Logo>
         </Link>
 

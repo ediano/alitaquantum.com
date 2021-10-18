@@ -5,13 +5,13 @@ import { Navbar, OptionsLayout } from 'components/Navbar'
 import * as S from './styles'
 
 type Props = {
-  layout: OptionsLayout
+  layout?: OptionsLayout
   children?: ReactNode
 }
 
-export const Header = ({ layout, children }: Props) => {
+export const Header = ({ layout = 'default', children }: Props) => {
   return (
-    <S.Container>
+    <S.Container layout={layout}>
       <Navbar layout={layout} />
 
       {children}
