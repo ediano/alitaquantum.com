@@ -13,20 +13,37 @@ import { changeNow } from 'services'
 
 import * as S from './styles'
 
-export const Form = () => {
-  const [selectedCurrency, setSelectedCurrency] = useState({
-    currencyToSend: 'btc',
-    currencyReceived: 'eth'
-  })
-  const [amountToSend, setAmountToSend] = useState('0')
-  const [amountReceived, setAmountReceived] = useState('0')
+export type AvailableCurrenciesProps = {
+  ticker: string
+  name: string
+  image: string
+  network: string
+  hasExternalId: boolean
+}
 
-  const handleInputAmountToSendChange = useCallback(
+export const Form = () => {
+  const [error, setError] = useState('')
+  const [availableCurrencies, setAvailableCurrencies] = useState<
+    AvailableCurrenciesProps[]
+  >([])
+  const [selectedCurrency, setSelectedCurrency] = useState({
+    fromCurrencyName: 'Bitcoin',
+    fromCurrencyTicker: 'btc',
+    fromNetwork: 'btc',
+    toCurrencyName: 'Ethereum',
+    toCurrencyTicker: 'eth',
+    toNetwork: 'eth'
+  })
+  const [fromAmount, setFromAmount] = useState('0')
+  const [toAmount, setToAmount] = useState('0')
+  const [minAmount, setMinAmount] = useState('0')
+
+  const handleInputFromAmountChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       const { value, name } = event.target
 
-      if (Number(value) >= 0 && name === 'amountToSend') {
-        setAmountToSend(value)
+      if (Number(value) >= 0 && name === 'fromAmount') {
+        setFromAmount(value)
       }
     },
     []
@@ -38,27 +55,58 @@ export const Form = () => {
         target: { value, name }
       } = event as ChangeEvent<HTMLInputElement>
 
+      const currency = availableCurrencies.find(
+        (currency) => currency.name === value
+      )
+
       setSelectedCurrency((state) => {
-        const toSend = state.currencyToSend
-        const received = state.currencyReceived
-        if (value === toSend || value === received) {
+        const from = state.fromCurrencyName
+        const to = state.toCurrencyName
+
+        if (value === from || value === to) {
           return {
-            currencyToSend: state.currencyReceived,
-            currencyReceived: state.currencyToSend
+            fromCurrencyName: state.toCurrencyName,
+            fromCurrencyTicker: state.toCurrencyTicker,
+            fromNetwork: state.toNetwork,
+            toCurrencyName: state.fromCurrencyName,
+            toCurrencyTicker: state.fromCurrencyTicker,
+            toNetwork: state.fromNetwork
           }
         }
 
-        return { ...state, [name]: value }
+        if (name === 'fromCurrency') {
+          return {
+            ...state,
+            fromCurrencyName: currency!.name,
+            fromCurrencyTicker: currency!.ticker,
+            fromNetwork: currency!.network
+          }
+        }
+
+        if (name === 'toCurrency') {
+          return {
+            ...state,
+            toCurrencyName: currency!.name,
+            toCurrencyTicker: currency!.ticker,
+            toNetwork: currency!.network
+          }
+        }
+
+        return state
       })
     },
-    []
+    [availableCurrencies]
   )
 
   const handleButtonSelectChange = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
       setSelectedCurrency((state) => ({
-        currencyToSend: state.currencyReceived,
-        currencyReceived: state.currencyToSend
+        fromCurrencyName: state.toCurrencyName,
+        fromCurrencyTicker: state.toCurrencyTicker,
+        fromNetwork: state.toNetwork,
+        toCurrencyName: state.fromCurrencyName,
+        toCurrencyTicker: state.fromCurrencyTicker,
+        toNetwork: state.fromNetwork
       }))
     },
     []
@@ -66,49 +114,105 @@ export const Form = () => {
 
   const handleSelectedCurrencyClick = useCallback((event: any) => {
     const { name } = event.target
-    setSelectedCurrency((state) => ({ ...state, [name]: '' }))
+
+    setSelectedCurrency((state) => {
+      if (name === 'fromCurrency') {
+        return {
+          ...state,
+          fromCurrencyName: '',
+          fromCurrencyTicker: '',
+          fromNetwork: ''
+        }
+      }
+
+      if (name === 'toCurrency') {
+        return {
+          ...state,
+          toCurrencyName: '',
+          toCurrencyTicker: '',
+          toNetwork: ''
+        }
+      }
+
+      return state
+    })
   }, [])
 
   useEffect(() => {
     async function handle() {
       try {
-        const response = await changeNow.get(
-          '/exchange/available-pairs?fromCurrency=&toCurrency=&fromNetwork=&toNetwork=&flow='
+        const response = await changeNow.get<AvailableCurrenciesProps[]>(
+          '/exchange/currencies?active=&flow=standard&buy=&sell='
         )
 
-        console.log(response)
-      } catch (error) {
-        console.log(error)
-      }
+        const data = response.data.map((currency) => ({
+          ticker: currency.ticker,
+          name: currency.name,
+          image: currency.image,
+          network: currency.network,
+          hasExternalId: currency.hasExternalId
+        }))
+
+        setAvailableCurrencies(data)
+      } catch (error) {}
     }
 
     handle()
   }, [])
 
+  useEffect(() => {
+    setToAmount('0')
+  }, [])
+
+  useEffect(() => {
+    const { fromCurrencyTicker, toCurrencyTicker, fromNetwork, toNetwork } =
+      selectedCurrency
+
+    async function handle() {
+      try {
+        const response = await changeNow.get<{ minAmount: number }>(
+          `exchange/min-amount?fromCurrency=${fromCurrencyTicker}&toCurrency=${toCurrencyTicker}&fromNetwork=${fromNetwork}&toNetwork=${toNetwork}&flow=standard`
+        )
+
+        setMinAmount(String(response.data.minAmount))
+        setFromAmount(String(Number(response.data.minAmount) * 10))
+      } catch (err: any) {
+        setMinAmount('0')
+        setFromAmount('0')
+
+        if (err.response.data.error === 'pair_is_inactive') {
+          setError('Par está inativo')
+        }
+      }
+    }
+
+    if (fromCurrencyTicker && toCurrencyTicker) handle()
+  }, [selectedCurrency])
+
   return (
     <S.Container>
       <S.WrapperBlock>
         <S.Input
-          name="amountToSend"
-          value={amountToSend || ''}
-          onChange={handleInputAmountToSendChange}
+          name="fromAmount"
+          value={fromAmount || ''}
+          onChange={handleInputFromAmountChange}
+          color={minAmount > fromAmount ? 'alert' : ''}
         />
 
-        <Select name="currencyToSend">
-          <S.InputSelect
-            list="currencyToSend"
-            name="currencyToSend"
-            value={selectedCurrency.currencyToSend}
-            onFocus={handleSelectedCurrencyClick}
-            onClick={handleSelectedCurrencyClick}
-            onChange={handleInputSelectChange}
-          />
-        </Select>
+        <S.InputSelect
+          list="fromCurrency"
+          name="fromCurrency"
+          value={selectedCurrency.fromCurrencyName}
+          onFocus={handleSelectedCurrencyClick}
+          onClick={handleSelectedCurrencyClick}
+          onChange={handleInputSelectChange}
+        />
+        <Select name="fromCurrency" currencies={availableCurrencies} />
       </S.WrapperBlock>
 
       <S.WrapperBlock>
         <S.WrapperDetails>
-          <div></div>
+          {minAmount > fromAmount && <div>Erro aqui!</div>}
 
           <S.Button type="button" onClick={handleButtonSelectChange}>
             <BsArrowDownUp />
@@ -117,22 +221,17 @@ export const Form = () => {
       </S.WrapperBlock>
 
       <S.WrapperBlock>
-        <S.Input
-          name="amountReceived"
-          disabled={true}
-          defaultValue={amountReceived}
-        />
+        <S.Input name="toAmount" disabled={true} defaultValue={toAmount} />
 
-        <Select name="currencyReceived">
-          <S.InputSelect
-            list="currencyReceived"
-            name="currencyReceived"
-            value={selectedCurrency.currencyReceived}
-            onFocus={handleSelectedCurrencyClick}
-            onClick={handleSelectedCurrencyClick}
-            onChange={handleInputSelectChange}
-          />
-        </Select>
+        <S.InputSelect
+          list="toCurrency"
+          name="toCurrency"
+          value={selectedCurrency.toCurrencyName}
+          onFocus={handleSelectedCurrencyClick}
+          onClick={handleSelectedCurrencyClick}
+          onChange={handleInputSelectChange}
+        />
+        <Select name="toCurrency" currencies={availableCurrencies} />
       </S.WrapperBlock>
     </S.Container>
   )

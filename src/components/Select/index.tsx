@@ -1,25 +1,22 @@
-import { ReactNode } from 'react'
+import { useCallback } from 'react'
+
+import { AvailableCurrenciesProps } from 'components/Form'
 
 import * as S from './styles'
 
 type Props = {
   name: string
-  data?: string[]
-  children: ReactNode
+  currencies: AvailableCurrenciesProps[]
 }
 
-export const Select = ({ name, data, children }: Props) => {
-  return (
-    <S.Container>
-      {children}
+export const Select = ({ name, currencies }: Props) => {
+  const handleDatalistChange = useCallback(() => {}, [])
 
-      <S.Datalist id={name} defaultValue="btc">
-        <S.Option value="btc">Bitcoin</S.Option>
-        <S.Option value="ltc">Litecoin</S.Option>
-        <S.Option value="bnb">Binance</S.Option>
-        <S.Option value="trx">Tron</S.Option>
-        <S.Option value="eth">Ethereum</S.Option>
-      </S.Datalist>
+  return (
+    <S.Container id={name} onChange={handleDatalistChange}>
+      {currencies.map((currency, index) => (
+        <S.Option key={currency.ticker + index} value={currency.name} />
+      ))}
     </S.Container>
   )
 }

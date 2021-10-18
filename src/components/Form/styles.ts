@@ -37,8 +37,10 @@ export const WrapperBlock = styled.div`
 `
 
 export const Input = styled(InputBase)`
-  ${({ theme }) => css`
+  ${({ theme, disabled }) => css`
     padding: 0 ${theme.spacing.xs};
+
+    color: ${disabled && theme.colors.white};
   `}
 `
 
@@ -64,6 +66,8 @@ export const WrapperDetails = styled.div`
 export const Button = styled.button`
   cursor: pointer;
   background: transparent;
+
+  margin-left: auto;
 
   ${({ theme }) => css`
     font-size: ${theme.fonts.sizes.m};
