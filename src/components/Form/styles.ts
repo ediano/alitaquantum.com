@@ -1,10 +1,13 @@
 import styled, { css } from 'styled-components'
-import { transparentize, lighten } from 'polished'
+import { transparentize, lighten, shade } from 'polished'
 import { Input as InputBase } from 'components/Input'
-import { Container as TextTouchBase } from 'components/TextTouch/styled'
 
 type WrapperBlockProps = {
   alert?: boolean
+}
+
+type NetworkProps = {
+  network: 'from' | 'to'
 }
 
 export const Container = styled.form`
@@ -26,6 +29,9 @@ export const Container = styled.form`
 export const WrapperBlock = styled.div<WrapperBlockProps>`
   overflow: hidden;
 
+  display: flex;
+  flex-direction: column;
+
   ${({ theme, alert }) => css`
     & + & {
       margin-top: ${theme.spacing.m};
@@ -34,9 +40,10 @@ export const WrapperBlock = styled.div<WrapperBlockProps>`
     ${alert &&
     css`
       border-radius: ${theme.border.xs};
+      border-bottom-right-radius: 0;
       box-shadow: 0 0 4px 1px ${theme.colors.alert};
     `}
-  `}
+  `};
 `
 
 export const InputBlock = styled.div<WrapperBlockProps>`
@@ -50,6 +57,7 @@ export const InputBlock = styled.div<WrapperBlockProps>`
     ${!alert
       ? css`
           border-radius: ${theme.border.xs};
+          border-bottom-right-radius: 0;
         `
       : css`
           border-radius: 0;
@@ -75,7 +83,7 @@ export const InputSelect = styled(InputBase)`
 
   ${({ theme }) => css`
     padding: 0 ${theme.spacing.xs};
-    background: ${theme.colors.secondary};
+    background: ${shade(0.25, theme.colors.secondary)};
     color: ${theme.colors.white};
     font-size: ${theme.fonts.sizes.xs};
   `}
@@ -112,8 +120,11 @@ export const Alert = styled.span`
   `}
 `
 
-export const AlertFixedRate = styled.span`
+export const AlertFixedRate = styled.div`
   position: relative;
+`
+
+export const AlertFixedRateText = styled.span`
   cursor: pointer;
 
   ${({ theme }) => css`
@@ -121,8 +132,19 @@ export const AlertFixedRate = styled.span`
     color: ${lighten(0.75, theme.colors.text)};
     border-bottom: 1px dashed;
   `}
+`
 
-  &:hover ${TextTouchBase} {
-    visibility: visible;
-  }
+export const Network = styled.span<NetworkProps>`
+  margin-left: auto;
+
+  ${({ theme, network }) => css`
+    color: ${theme.colors.white};
+    padding: 0 ${theme.spacing.xxs};
+    border-bottom-right-radius: ${theme.border.xs};
+    border-bottom-left-radius: ${theme.border.xs};
+
+    background: ${network === 'from'
+      ? lighten(0.2, theme.colors.secondary)
+      : shade(0.2, theme.colors.primary)};
+  `}
 `

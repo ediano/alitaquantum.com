@@ -2,8 +2,6 @@ import styled, { css } from 'styled-components'
 import { lighten } from 'polished'
 
 export const Container = styled.div`
-  visibility: hidden;
-
   min-width: 200px;
 
   position: absolute;
@@ -37,4 +35,22 @@ export const Container = styled.div`
       transform: translate(-50%, 100%);
     }
   `}
+`
+
+export const Close = styled.button`
+  cursor: pointer;
+  display: block;
+  margin-left: auto;
+  margin-top: -15px;
+
+  ${({ theme }) => css`
+    font-size: 2rem;
+
+    background: ${lighten(0.05, theme.colors.secondary)};
+    color: ${theme.colors.white};
+    padding: ${theme.spacing.xxs} ${theme.spacing.s} 0;
+    border-radius: ${theme.spacing.xxs};
+  `}
+
+  transform: translateY(-50%);
 `

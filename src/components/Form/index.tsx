@@ -34,6 +34,7 @@ export const Form = ({ children }: Props) => {
   const [minAmount, setMinAmount] = useState('0')
   const [estimatedAmount, setEstimatedAmount] = useState('0')
   const [isAlert, setIsAlert] = useState(false)
+  const [isAlertFixedRate, setIsAlertFixedRate] = useState(false)
 
   const handlerInputFromAmountChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
@@ -170,8 +171,6 @@ export const Form = ({ children }: Props) => {
   }, [selectedCurrency])
 
   useEffect(() => {
-    const { fromNetwork, toNetwork } = selectedCurrency
-
     async function effectEstimatedAmount() {
       try {
         const response = await Api.getEstimatedAmount({
@@ -187,7 +186,7 @@ export const Form = ({ children }: Props) => {
       }
     }
 
-    if (fromNetwork && toNetwork && Number(fromAmount) >= Number(minAmount)) {
+    if (Number(fromAmount) >= Number(minAmount)) {
       effectEstimatedAmount()
     } else {
       setEstimatedAmount('0')
@@ -198,6 +197,8 @@ export const Form = ({ children }: Props) => {
     const isTheMinValueIsHigher = Number(minAmount) > Number(fromAmount)
     setIsAlert(isTheMinValueIsHigher)
   }, [minAmount, fromAmount])
+
+  console.log(selectedCurrency)
 
   return (
     <S.Container>
@@ -221,12 +222,21 @@ export const Form = ({ children }: Props) => {
           />
           <Select name="fromCurrency" currencies={currencies} />
         </S.InputBlock>
+        <S.Network network="from">
+          Network: {selectedCurrency.fromNetwork.toUpperCase()}
+        </S.Network>
       </S.WrapperBlock>
 
       <S.WrapperDetails>
-        <S.AlertFixedRate>
-          Sem taxas adicionais
-          <TextTouch message="As taxas de conexão de rede e todas as outras taxas de câmbio estão incluídas na aposta." />
+        <S.AlertFixedRate
+          onClick={() => setIsAlertFixedRate(!isAlertFixedRate)}
+        >
+          <S.AlertFixedRateText>Sem taxas adicionais</S.AlertFixedRateText>
+          <TextTouch
+            toggle={isAlertFixedRate}
+            setToggle={setIsAlertFixedRate}
+            message="As taxas de conexão de rede e todas as outras taxas de câmbio estão incluídas na aposta."
+          />
         </S.AlertFixedRate>
 
         <S.Button type="button" onClick={handlerButtonSelectedCurrencyChange}>
@@ -252,6 +262,9 @@ export const Form = ({ children }: Props) => {
           />
           <Select name="toCurrency" currencies={currencies} />
         </S.InputBlock>
+        <S.Network network="to">
+          Network: {selectedCurrency.toNetwork.toUpperCase()}
+        </S.Network>
       </S.WrapperBlock>
     </S.Container>
   )
