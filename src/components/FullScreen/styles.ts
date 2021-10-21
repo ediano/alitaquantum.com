@@ -27,7 +27,7 @@ export const Wrapper = styled(ContainerBase)`
   flex-direction: row;
   justify-content: space-evenly;
 
-  min-height: 700px;
+  min-height: 800px;
 
   ${lessThan('l')(css`
     flex-direction: column;

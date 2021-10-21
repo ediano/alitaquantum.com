@@ -1,17 +1,23 @@
+import Image from 'next/image'
+
 import * as S from './styled'
 
-type Props = {
-  title: string
-  image: { src: string; alt?: string }
-  description: string
-}
+import { SuggestionsProps } from 'types/components'
 
-export const Suggestion = ({ title, image, description }: Props) => {
+export const Suggestion = ({ title, image, description }: SuggestionsProps) => {
   return (
     <S.Container>
       <S.Title>{title}</S.Title>
 
-      <S.Image src={image.src} alt={image.alt} width={100} height={100} />
+      <Image
+        src={image.src}
+        alt={title}
+        width={100}
+        height={100}
+        objectFit="contain"
+        placeholder="blur"
+        blurDataURL={image.src}
+      />
 
       <S.Description>{description}</S.Description>
     </S.Container>

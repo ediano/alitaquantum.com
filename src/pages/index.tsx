@@ -1,4 +1,3 @@
-import {} from 'frontmatter-markdown-loader'
 import Head from 'next/head'
 import { GetStaticProps } from 'next'
 import { NextSeo } from 'next-seo'
@@ -8,6 +7,7 @@ import { getUrl } from 'utils/getUrl'
 
 import { Header } from 'components/Header'
 import { FullScreen } from 'components/FullScreen'
+import { Steps } from 'components/Steps'
 import { Suggestion } from 'components/Suggestion'
 import { Footer } from 'components/Footer'
 
@@ -45,6 +45,8 @@ const Home = ({ suggestions }: HomeProps) => {
 
       <S.Main>
         <S.Container>
+          <Steps />
+
           {suggestions.map((item) => (
             <Suggestion key={item.title} {...item} />
           ))}

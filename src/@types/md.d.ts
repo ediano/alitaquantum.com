@@ -1,3 +1,4 @@
+// md.d.ts
 declare module '*.md' {
   const attributes: any
   const body: string

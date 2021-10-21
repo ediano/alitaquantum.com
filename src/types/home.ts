@@ -1,8 +1,4 @@
-export type SuggestionsProps = {
-  title: string
-  image: { src: string; alt?: string }
-  description: string
-}
+import { SuggestionsProps } from './components'
 
 export type HomeProps = {
   suggestions: SuggestionsProps[]
