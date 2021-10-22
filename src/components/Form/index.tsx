@@ -25,7 +25,15 @@ const initialProps = {
   toNetwork: 'eth'
 }
 
-type InitialProps = typeof initialProps
+type FlowCoins = {
+  fromAmount: string
+  minAmount: string
+  maxAmount: string
+  fromCurrency: string
+  fromNetwork: string
+  toCurrency: string
+  toNetwork: string
+}
 
 type Props = {
   children?: ReactNode
@@ -35,7 +43,7 @@ export const Form = ({ children }: Props) => {
   const [currencies, setCurrencies] = useState<Currencies[]>([])
 
   const [selectedCurrency, setSelectedCurrency] = useState(initialProps)
-  const [flowCoins, setFlowCoins] = useState<InitialProps>({} as InitialProps)
+  const [flowCoins, setFlowCoins] = useState<FlowCoins>({} as FlowCoins)
 
   const [fromAmount, setFromAmount] = useState('0')
   const [minAmount, setMinAmount] = useState('0')
@@ -54,6 +62,7 @@ export const Form = ({ children }: Props) => {
 
       if (Number(value) >= 0 && name === 'fromAmount' && limit) {
         setFromAmount(value)
+        setFlowCoins((state) => ({ ...state, fromAmount: value }))
       }
     },
     []
@@ -164,22 +173,28 @@ export const Form = ({ children }: Props) => {
 
     async function loading() {
       try {
-        const response = await Api.getMinAmount({
+        const response = await Api.getRange({
           fromCurrency,
           fromNetwork,
           toCurrency,
           toNetwork
         })
 
-        if (!response.data.minAmount) {
-          setMinAmount('0')
-          setFromAmount(String(Number('0').toFixed(8)))
-        } else {
-          setFlowCoins(selectedCurrency)
-          setMinAmount(String(response.data.minAmount))
-          const minimumQuantityTimesX = response.data.minAmount * 10
-          setFromAmount(String(minimumQuantityTimesX.toFixed(8)))
-        }
+        setMinAmount(String(response.data.minAmount))
+
+        const minimumQuantityTimesX = response.data.minAmount * 10
+
+        setFromAmount(String(minimumQuantityTimesX.toFixed(8)))
+
+        setFlowCoins({
+          fromCurrency,
+          fromNetwork,
+          toCurrency,
+          toNetwork,
+          minAmount: String(response.data.minAmount),
+          maxAmount: String(response.data.maxAmount),
+          fromAmount: String(minimumQuantityTimesX.toFixed(8))
+        })
       } catch (err) {
         setMinAmount('0')
         setFromAmount(String(Number('0').toFixed(8)))
@@ -190,12 +205,19 @@ export const Form = ({ children }: Props) => {
   }, [selectedCurrency])
 
   useEffect(() => {
-    const { fromCurrency, fromNetwork, toCurrency, toNetwork } = flowCoins
+    const {
+      fromAmount: fromAmountFlow,
+      minAmount: minAmountFlow,
+      fromCurrency,
+      fromNetwork,
+      toCurrency,
+      toNetwork
+    } = flowCoins
 
     async function loading() {
       try {
         const response = await Api.getEstimatedAmount({
-          fromAmount,
+          fromAmount: fromAmountFlow,
           fromCurrency,
           fromNetwork,
           toCurrency,
@@ -212,15 +234,14 @@ export const Form = ({ children }: Props) => {
       }
     }
 
-    const isGreaterThanZero = Number(fromAmount) > 0 && Number(minAmount) > 0
-    const areEqualOrGreater = Number(fromAmount) >= Number(minAmount)
+    const isValidAmount = Number(fromAmountFlow) >= Number(minAmountFlow)
 
-    if (isGreaterThanZero && areEqualOrGreater && fromNetwork && toNetwork) {
+    if (fromNetwork && toNetwork && isValidAmount) {
       loading()
     } else {
       setEstimatedAmount('0')
     }
-  }, [fromAmount, minAmount, flowCoins])
+  }, [flowCoins])
 
   useEffect(() => {
     const isTheMinValueIsHigher = Number(minAmount) > Number(fromAmount)

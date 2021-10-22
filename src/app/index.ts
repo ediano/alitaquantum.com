@@ -1,13 +1,10 @@
-import nc from 'next-connect'
+import { NextApiRequest, NextApiResponse, NextApiHandler } from 'next'
 
-import { corsConfig } from 'config/cors'
-import { app as appValidating } from 'middlewares/validating'
+import { middleware } from 'middlewares/middleware'
 
-const onNoMatch = (err: any, req: any, res: any) => {
-  console.log({ err, req, res })
-  return { err, req, res }
+export const app = (fn: NextApiHandler) => {
+  return async (req: NextApiRequest, res: NextApiResponse) => {
+    const response = await middleware(req, res, fn)
+    return response
+  }
 }
-
-export const app = nc({ onError: onNoMatch, onNoMatch })
-  .use(corsConfig())
-  .use(appValidating)

@@ -14,14 +14,21 @@ export type Currencies = {
   hasExternalId: boolean
 }
 
-export type ReqMinAmount = {
+export type ReqRange = {
   fromCurrency: string
   fromNetwork: string
   toCurrency: string
   toNetwork: string
 }
 
-export type MinAmount = { minAmount: number }
+export type Range = {
+  fromCurrency: string
+  fromNetwork: string
+  toCurrency: string
+  toNetwork: string
+  maxAmount: number | null
+  minAmount: number
+}
 
 export type ReqEstimatedAmount = {
   fromAmount: string

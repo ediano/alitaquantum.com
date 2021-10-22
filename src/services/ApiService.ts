@@ -2,10 +2,10 @@ import axios from 'axios'
 
 import type {
   Currencies,
-  ReqMinAmount,
-  MinAmount,
-  ReqEstimatedAmount,
-  EstimatedAmount
+  Range,
+  ReqRange,
+  EstimatedAmount,
+  ReqEstimatedAmount
 } from './ChangeNowService'
 
 const Api = axios.create({
@@ -20,8 +20,8 @@ export const getCurrencies = async () => {
   return response
 }
 
-export const getMinAmount = async (options: ReqMinAmount) => {
-  const response = await Api.get<MinAmount>('/min-amount', {
+export const getRange = async (options: ReqRange) => {
+  const response = await Api.get<Range>('/range', {
     params: { ...options }
   })
 
@@ -38,6 +38,6 @@ export const getEstimatedAmount = async (options: ReqEstimatedAmount) => {
 
 export default {
   getCurrencies,
-  getMinAmount,
+  getRange,
   getEstimatedAmount
 }

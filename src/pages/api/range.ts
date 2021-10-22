@@ -4,7 +4,7 @@ import { app } from 'app'
 import { ChangeNow } from 'services/ChangeNowService'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const response = await ChangeNow.get('/estimated-amount', {
+  const response = await ChangeNow.get('/range', {
     params: { flow: 'standard', ...req.query }
   })
 

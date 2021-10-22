@@ -10,9 +10,9 @@ export type AvailableCurrencies = {
   hasExternalId: boolean
 }
 
-const handlerCurrencies = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const response = await ChangeNow.get<Currencies[]>('/currencies', {
-    params: { active: true, flow: 'fixed-rate' }
+    params: { active: true, flow: 'standard' }
   })
 
   const data = response.data.map((currency) => ({
@@ -25,4 +25,4 @@ const handlerCurrencies = async (req: NextApiRequest, res: NextApiResponse) => {
   return res.status(response.status).json(data)
 }
 
-export default app.get(handlerCurrencies)
+export default app(handler)
