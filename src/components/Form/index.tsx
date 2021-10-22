@@ -16,23 +16,31 @@ import Api from 'services/ApiService'
 
 import * as S from './styles'
 
+const initialProps = {
+  fromName: 'Bitcoin',
+  fromCurrency: 'btc',
+  fromNetwork: 'btc',
+  toName: 'Ethereum',
+  toCurrency: 'eth',
+  toNetwork: 'eth'
+}
+
+type InitialProps = typeof initialProps
+
 type Props = {
   children?: ReactNode
 }
 
 export const Form = ({ children }: Props) => {
   const [currencies, setCurrencies] = useState<Currencies[]>([])
-  const [selectedCurrency, setSelectedCurrency] = useState({
-    fromCurrencyName: 'Bitcoin',
-    fromCurrencyTicker: 'btc',
-    fromNetwork: 'btc',
-    toCurrencyName: 'Ethereum',
-    toCurrencyTicker: 'eth',
-    toNetwork: 'eth'
-  })
+
+  const [selectedCurrency, setSelectedCurrency] = useState(initialProps)
+  const [flowCoins, setFlowCoins] = useState<InitialProps>({} as InitialProps)
+
   const [fromAmount, setFromAmount] = useState('0')
   const [minAmount, setMinAmount] = useState('0')
   const [estimatedAmount, setEstimatedAmount] = useState('0')
+
   const [isAlert, setIsAlert] = useState(false)
   const [isAlertFixedRate, setIsAlertFixedRate] = useState(false)
 
@@ -60,16 +68,16 @@ export const Form = ({ children }: Props) => {
       const currency = currencies.find((currency) => currency.name === value)
 
       setSelectedCurrency((state) => {
-        const from = state.fromCurrencyName
-        const to = state.toCurrencyName
+        const from = state.fromName
+        const to = state.toName
 
         if (value === from || value === to) {
           return {
-            fromCurrencyName: state.toCurrencyName,
-            fromCurrencyTicker: state.toCurrencyTicker,
+            fromName: state.toName,
+            fromCurrency: state.toCurrency,
             fromNetwork: state.toNetwork,
-            toCurrencyName: state.fromCurrencyName,
-            toCurrencyTicker: state.fromCurrencyTicker,
+            toName: state.fromName,
+            toCurrency: state.fromCurrency,
             toNetwork: state.fromNetwork
           }
         }
@@ -77,8 +85,8 @@ export const Form = ({ children }: Props) => {
         if (name === 'fromCurrency') {
           return {
             ...state,
-            fromCurrencyName: currency?.name || value,
-            fromCurrencyTicker: currency?.ticker || '',
+            fromName: currency?.name || value,
+            fromCurrency: currency?.ticker || '',
             fromNetwork: currency?.network || ''
           }
         }
@@ -86,8 +94,8 @@ export const Form = ({ children }: Props) => {
         if (name === 'toCurrency') {
           return {
             ...state,
-            toCurrencyName: currency?.name || value,
-            toCurrencyTicker: currency?.ticker || '',
+            toName: currency?.name || value,
+            toCurrency: currency?.ticker || '',
             toNetwork: currency?.network || ''
           }
         }
@@ -101,11 +109,11 @@ export const Form = ({ children }: Props) => {
   const handlerButtonSelectedCurrencyChange = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
       setSelectedCurrency((state) => ({
-        fromCurrencyName: state.toCurrencyName,
-        fromCurrencyTicker: state.toCurrencyTicker,
+        fromName: state.toName,
+        fromCurrency: state.toCurrency,
         fromNetwork: state.toNetwork,
-        toCurrencyName: state.fromCurrencyName,
-        toCurrencyTicker: state.fromCurrencyTicker,
+        toName: state.fromName,
+        toCurrency: state.fromCurrency,
         toNetwork: state.fromNetwork
       }))
     },
@@ -119,8 +127,8 @@ export const Form = ({ children }: Props) => {
       if (name === 'fromCurrency') {
         return {
           ...state,
-          fromCurrencyName: '',
-          fromCurrencyTicker: '',
+          fromName: '',
+          fromCurrency: '',
           fromNetwork: ''
         }
       }
@@ -128,8 +136,8 @@ export const Form = ({ children }: Props) => {
       if (name === 'toCurrency') {
         return {
           ...state,
-          toCurrencyName: '',
-          toCurrencyTicker: '',
+          toName: '',
+          toCurrency: '',
           toNetwork: ''
         }
       }
@@ -139,7 +147,7 @@ export const Form = ({ children }: Props) => {
   }, [])
 
   useEffect(() => {
-    async function effectCurrencies() {
+    async function loading() {
       try {
         const response = await Api.getCurrencies()
 
@@ -147,58 +155,77 @@ export const Form = ({ children }: Props) => {
       } catch (err) {}
     }
 
-    effectCurrencies()
+    loading()
   }, [])
 
   useEffect(() => {
-    const { fromNetwork, toNetwork } = selectedCurrency
+    const { fromCurrency, fromNetwork, toCurrency, toNetwork } =
+      selectedCurrency
 
-    async function effectMinAmount() {
+    async function loading() {
       try {
-        const response = await Api.getMinAmount(selectedCurrency)
+        const response = await Api.getMinAmount({
+          fromCurrency,
+          fromNetwork,
+          toCurrency,
+          toNetwork
+        })
 
-        setMinAmount(String(response.data.minAmount))
-
-        const minimumQuantityTimesX = response.data.minAmount * 10
-        setFromAmount(String(minimumQuantityTimesX.toFixed(8)))
+        if (!response.data.minAmount) {
+          setMinAmount('0')
+          setFromAmount(String(Number('0').toFixed(8)))
+        } else {
+          setFlowCoins(selectedCurrency)
+          setMinAmount(String(response.data.minAmount))
+          const minimumQuantityTimesX = response.data.minAmount * 10
+          setFromAmount(String(minimumQuantityTimesX.toFixed(8)))
+        }
       } catch (err) {
         setMinAmount('0')
-        setFromAmount('0')
+        setFromAmount(String(Number('0').toFixed(8)))
       }
     }
 
-    if (fromNetwork && toNetwork) effectMinAmount()
+    if (fromNetwork && toNetwork) loading()
   }, [selectedCurrency])
 
   useEffect(() => {
-    async function effectEstimatedAmount() {
+    const { fromCurrency, fromNetwork, toCurrency, toNetwork } = flowCoins
+
+    async function loading() {
       try {
         const response = await Api.getEstimatedAmount({
           fromAmount,
-          ...selectedCurrency
+          fromCurrency,
+          fromNetwork,
+          toCurrency,
+          toNetwork
         })
 
-        console.log(response)
-
-        setEstimatedAmount(String(response.data.toAmount))
+        if (!response.data.toAmount) {
+          setEstimatedAmount('0')
+        } else {
+          setEstimatedAmount(String(response.data.toAmount))
+        }
       } catch (err) {
         setEstimatedAmount('0')
       }
     }
 
-    if (Number(fromAmount) >= Number(minAmount)) {
-      effectEstimatedAmount()
+    const isGreaterThanZero = Number(fromAmount) > 0 && Number(minAmount) > 0
+    const areEqualOrGreater = Number(fromAmount) >= Number(minAmount)
+
+    if (isGreaterThanZero && areEqualOrGreater && fromNetwork && toNetwork) {
+      loading()
     } else {
       setEstimatedAmount('0')
     }
-  }, [fromAmount, minAmount, selectedCurrency])
+  }, [fromAmount, minAmount, flowCoins])
 
   useEffect(() => {
     const isTheMinValueIsHigher = Number(minAmount) > Number(fromAmount)
     setIsAlert(isTheMinValueIsHigher)
   }, [minAmount, fromAmount])
-
-  console.log(selectedCurrency)
 
   return (
     <S.Container>
@@ -215,7 +242,7 @@ export const Form = ({ children }: Props) => {
           <S.InputSelect
             list="fromCurrency"
             name="fromCurrency"
-            value={selectedCurrency.fromCurrencyName}
+            value={selectedCurrency.fromName}
             onFocus={handlerSelectedCurrencyClick}
             onClick={handlerSelectedCurrencyClick}
             onChange={handlerInputSelectedCurrencyChange}
@@ -255,7 +282,7 @@ export const Form = ({ children }: Props) => {
           <S.InputSelect
             list="toCurrency"
             name="toCurrency"
-            value={selectedCurrency.toCurrencyName}
+            value={selectedCurrency.toName}
             onFocus={handlerSelectedCurrencyClick}
             onClick={handlerSelectedCurrencyClick}
             onChange={handlerInputSelectedCurrencyChange}

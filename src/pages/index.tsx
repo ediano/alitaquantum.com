@@ -15,7 +15,7 @@ import * as S from 'styles/pages/home'
 
 import { HomeProps } from 'types/home'
 
-const Home = ({ suggestions }: HomeProps) => {
+const Home = ({ suggestions, steps }: HomeProps) => {
   return (
     <>
       <Head>
@@ -45,7 +45,7 @@ const Home = ({ suggestions }: HomeProps) => {
 
       <S.Main>
         <S.Container>
-          <Steps />
+          <Steps {...steps} />
 
           {suggestions.map((item) => (
             <Suggestion key={item.title} {...item} />
@@ -63,8 +63,10 @@ export const getStaticProps: GetStaticProps = async () => {
     'content/pages/home/suggestions.md'
   )
 
+  const { attributes: steps } = await import('content/pages/home/steps.md')
+
   return {
-    props: { suggestions }
+    props: { suggestions, steps }
   }
 }
 

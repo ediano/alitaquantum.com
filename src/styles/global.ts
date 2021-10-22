@@ -82,6 +82,7 @@ export const GlobalStyle = createGlobalStyle<Props>`
 
   html {
     font-size: 65%;
+    font-family: ${(props) => props.theme.fonts.family.default};
   }
 
   html, body, #__next {
@@ -98,7 +99,7 @@ export const GlobalStyle = createGlobalStyle<Props>`
   textarea,
   button,
   code {
-    font-family: ${(props) => props.theme.fonts.family.openSans};
+    font-family: ${(props) => props.theme.fonts.family.primary};
   }
 
   ul li,

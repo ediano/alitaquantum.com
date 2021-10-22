@@ -1,5 +1,7 @@
 import styled, { css } from 'styled-components'
-import { shade } from 'polished'
+import { shade, lighten } from 'polished'
+import { GiFootsteps } from 'react-icons/gi'
+import { MdSecurity } from 'react-icons/md'
 
 export const Container = styled.div`
   position: relative;
@@ -7,7 +9,7 @@ export const Container = styled.div`
 
   margin-top: -100px;
   margin-bottom: 100px;
-  padding: 120px;
+  padding: 60px;
 
   ${({ theme }) => css`
     color: ${theme.colors.white};
@@ -17,25 +19,81 @@ export const Container = styled.div`
   `}
 `
 
+export const Title = styled.h2`
+  display: flex;
+  align-items: center;
+
+  ${({ theme }) => css`
+    font-size: ${theme.fonts.sizes.l};
+  `}
+`
+
+export const FootStepsIcon = styled(GiFootsteps)`
+  margin-left: auto;
+
+  ${({ theme }) => css`
+    font-size: ${theme.fonts.sizes.xxl};
+  `}
+`
+
 export const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
 
+  text-align: center;
+  align-items: center;
+  justify-content: space-between;
+
   ${({ theme }) => css`
-    gap: ${theme.spacing.xxl};
+    margin: ${theme.spacing.xxl} auto;
   `}
 `
 
 export const Item = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  height: 100%;
+
   ${({ theme }) => css`
+    padding: ${theme.spacing.xxl};
+
+    font-size: ${theme.fonts.sizes.m};
+    font-family: ${theme.fonts.family.secondary};
+
     & + & {
-      margin-left: 1px solid ${theme.colors.secondary};
+      border-left: 1px solid ${theme.colors.secondary};
     }
   `}
 `
 
-export const Title = styled.h2``
+export const Position = styled.span`
+  ${({ theme }) => css`
+    padding: ${theme.spacing.m};
+    color: ${lighten(0.5, theme.colors.secondary)};
+  `}
+`
 
-export const Subtitle = styled.h3``
+export const Description = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-export const Footer = styled.div``
+  ${({ theme }) => css`
+    padding: ${theme.spacing.m};
+    color: ${theme.colors.white};
+    font-weight: ${theme.fonts.weight.semiBold};
+    background: ${shade(0.25, theme.colors.primary)};
+    border-radius: ${theme.spacing.xs};
+  `}
+`
+
+export const SecureIcon = styled(MdSecurity)`
+  ${({ theme }) => css`
+    color: ${theme.colors.white};
+    font-size: ${theme.fonts.sizes.l};
+    font-weight: ${theme.fonts.weight.semiBold};
+    border-radius: ${theme.spacing.xs};
+  `}
+`

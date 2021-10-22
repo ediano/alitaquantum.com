@@ -8,10 +8,11 @@ import type {
   EstimatedAmount
 } from './ChangeNowService'
 
-type Response<T> = T & { data: T }
-
 const Api = axios.create({
-  baseURL: '/api'
+  baseURL: '/api',
+  headers: {
+    'x-validating-app': 'alita-quantum'
+  }
 })
 
 export const getCurrencies = async () => {
@@ -20,19 +21,17 @@ export const getCurrencies = async () => {
 }
 
 export const getMinAmount = async (options: ReqMinAmount) => {
-  const response = await Api.post<ReqMinAmount, Response<MinAmount>>(
-    '/min-amount',
-    options
-  )
+  const response = await Api.get<MinAmount>('/min-amount', {
+    params: { ...options }
+  })
 
   return response
 }
 
 export const getEstimatedAmount = async (options: ReqEstimatedAmount) => {
-  const response = await Api.post<
-    ReqEstimatedAmount,
-    Response<EstimatedAmount>
-  >('/estimated-amount', options)
+  const response = await Api.get<EstimatedAmount>('/estimated-amount', {
+    params: { ...options }
+  })
 
   return response
 }

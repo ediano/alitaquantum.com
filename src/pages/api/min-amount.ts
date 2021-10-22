@@ -1,15 +1,17 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { app } from 'app'
-import { getMinAmount, ReqMinAmount } from 'services/ChangeNowService'
+import { ChangeNow, ReqMinAmount } from 'services/ChangeNowService'
 
 const handlerMinAmount = async (
-  req: NextApiRequest & { body: ReqMinAmount },
+  req: NextApiRequest & { query?: ReqMinAmount },
   res: NextApiResponse
 ) => {
-  const response = await getMinAmount(req.body)
+  const response = await ChangeNow.get('/min-amount', {
+    params: { flow: 'fixed-rate', ...req.query }
+  })
 
-  res.status(response.status).json(response.data)
+  return res.status(response.status).json(response.data)
 }
 
-export default app.post(handlerMinAmount)
+export default app.get(handlerMinAmount)

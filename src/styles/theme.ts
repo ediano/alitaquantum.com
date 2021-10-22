@@ -30,9 +30,11 @@ export const theme = {
   },
   fonts: {
     family: {
-      openSans: `'Open Sans', sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
+      default: `-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
       Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"`,
-      nunito: `'Nunito', sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
+      primary: `'Open Sans', sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"`,
+      secondary: `'Nunito', sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
       Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"`
     },
     sizes: {

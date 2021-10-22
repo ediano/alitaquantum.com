@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { app } from 'app'
-import { getCurrencies } from 'services/ChangeNowService'
+import { ChangeNow, Currencies } from 'services/ChangeNowService'
 
 export type AvailableCurrencies = {
   ticker: string
@@ -11,7 +11,9 @@ export type AvailableCurrencies = {
 }
 
 const handlerCurrencies = async (req: NextApiRequest, res: NextApiResponse) => {
-  const response = await getCurrencies()
+  const response = await ChangeNow.get<Currencies[]>('/currencies', {
+    params: { active: true, flow: 'fixed-rate' }
+  })
 
   const data = response.data.map((currency) => ({
     ticker: currency.ticker,
@@ -20,7 +22,7 @@ const handlerCurrencies = async (req: NextApiRequest, res: NextApiResponse) => {
     hasExternalId: currency.hasExternalId
   }))
 
-  res.status(response.status).json(data)
+  return res.status(response.status).json(data)
 }
 
 export default app.get(handlerCurrencies)

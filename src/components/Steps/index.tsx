@@ -1,23 +1,28 @@
 import * as S from './styles'
 
-import content from './content'
+import { StepsProps } from 'types/components'
 
-export const Steps = () => {
+export const Steps = ({ title, description, itens }: StepsProps) => {
   return (
     <S.Container>
-      <S.Title>{content.title}</S.Title>
+      <S.Title>
+        {title}
+        <S.FootStepsIcon />
+      </S.Title>
 
       <S.Wrapper>
-        {content.itens.map((item) => (
-          <S.Item key={item.subtitle}>
-            <S.Subtitle>{item.subtitle}</S.Subtitle>
+        {itens.map(({ item, position }) => (
+          <S.Item key={item}>
+            <S.Position>{position}</S.Position>
+            {item}
           </S.Item>
         ))}
       </S.Wrapper>
 
-      <S.Footer>
-        <S.Subtitle>{content.description}</S.Subtitle>
-      </S.Footer>
+      <S.Description>
+        {description}
+        <S.SecureIcon />
+      </S.Description>
     </S.Container>
   )
 }

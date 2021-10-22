@@ -27,7 +27,7 @@ export const Wrapper = styled(ContainerBase)`
   flex-direction: row;
   justify-content: space-evenly;
 
-  min-height: 800px;
+  min-height: 850px;
 
   ${lessThan('l')(css`
     flex-direction: column;
@@ -68,7 +68,7 @@ export const Content = styled.div`
 export const Title = styled.h1`
   ${({ theme }) => css`
     font-size: ${theme.fonts.sizes.l};
-    font-family: ${theme.fonts.family.nunito};
+    font-family: ${theme.fonts.family.secondary};
     color: ${theme.colors.secondary};
     font-weight: ${theme.fonts.weight.regular};
     line-height: ${theme.spacing.xxl};
