@@ -23,8 +23,6 @@ export const FullScreen = () => {
         <S.Form>
           <Form />
         </S.Form>
-
-        <S.Footer>footer</S.Footer>
       </S.Wrapper>
     </S.Container>
   )

@@ -9,8 +9,8 @@ const sizes = {
   xs: '360px',
   s: '640px',
   m: '800px',
-  l: '1024px',
-  xl: '1280px'
+  l: '1280px',
+  xl: '1440px'
 }
 
 type Sizes = keyof typeof sizes | number

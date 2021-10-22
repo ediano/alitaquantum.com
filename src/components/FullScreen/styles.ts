@@ -1,13 +1,15 @@
 import styled, { css } from 'styled-components'
 import NextImage from 'next/image'
-import { Container as ContainerBase } from 'styles/layout'
+import { Container as ContainerBase, lessThan } from 'styles/layout'
 
 export const Container = styled.section`
-  position: absolute;
-  inset: 0;
+  position: relative;
   z-index: 1;
 
-  min-height: 100vh;
+  min-height: 100%;
+
+  margin-top: -64px;
+  padding-top: 64px;
 
   ${({ theme }) => css`
     background: ${theme.colors.whiteIce};
@@ -20,36 +22,47 @@ export const Image = styled(NextImage)`
 
 export const Wrapper = styled(ContainerBase)`
   position: relative;
-  z-index: 0;
 
-  height: calc(100% - 64px);
-  margin-top: 64px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 
-  display: grid;
-  grid-template-areas:
-    'content form'
-    'footer footer';
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 2fr 1fr;
+  min-height: 700px;
 
-  ${({ theme }) => css`
-    grid-gap: ${theme.spacing.m};
-  `}
+  ${lessThan('l')(css`
+    flex-direction: column;
+    justify-content: center;
+  `)}
 `
 
 const gridWrapperCss = css`
+  width: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+
   ${({ theme }) => css`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    justify-items: center;
-    padding: ${theme.spacing.xl};
+    padding: ${theme.spacing.xxl} ${theme.spacing.m};
+    margin: ${theme.spacing.xxl} auto;
+
+    ${lessThan('l')(css`
+      width: 70%;
+      margin: 0 auto;
+      padding: ${theme.spacing.xxl} ${theme.spacing.m};
+      text-align: center;
+    `)}
+
+    ${lessThan('m')(css`
+      width: 100%;
+      padding: ${theme.spacing.xxl} ${theme.spacing.m};
+    `)}
   `}
 `
 
 export const Content = styled.div`
   ${gridWrapperCss}
-  grid-area: content;
 `
 
 export const Title = styled.h1`
@@ -59,17 +72,24 @@ export const Title = styled.h1`
     color: ${theme.colors.secondary};
     font-weight: ${theme.fonts.weight.regular};
     line-height: ${theme.spacing.xxl};
+
+    ${lessThan('m')(css`
+      font-size: ${theme.fonts.sizes.m};
+      line-height: ${theme.spacing.l};
+    `)}
   `}
 `
 
 export const Form = styled.div`
   ${gridWrapperCss}
-  grid-area: form;
 `
 
 export const Footer = styled.div`
-  ${gridWrapperCss}
-  grid-area: footer;
+  text-align: center;
+  width: 100%;
 
-  min-height: 120px;
+  ${({ theme }) => css`
+    padding: ${theme.spacing.xxl} 0;
+    margin-top: ${theme.spacing.xxl};
+  `}
 `

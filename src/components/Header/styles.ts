@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 import { OptionsLayout } from 'components/Navbar'
 
@@ -8,10 +8,4 @@ type Props = {
 
 export const Container = styled.header<Props>`
   position: relative;
-
-  ${({ layout }) =>
-    layout === 'default' &&
-    css`
-      min-height: 100vh;
-    `}
 `
