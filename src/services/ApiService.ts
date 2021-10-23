@@ -2,16 +2,17 @@ import axios from 'axios'
 
 import type {
   Currencies,
-  ReqMinAmount,
-  MinAmount,
-  ReqEstimatedAmount,
-  EstimatedAmount
+  Range,
+  ReqRange,
+  EstimatedAmount,
+  ReqEstimatedAmount
 } from './ChangeNowService'
 
-type Response<T> = T & { data: T }
-
 const Api = axios.create({
-  baseURL: '/api'
+  baseURL: '/api',
+  headers: {
+    'x-validating-app': 'alita-quantum'
+  }
 })
 
 export const getCurrencies = async () => {
@@ -19,26 +20,24 @@ export const getCurrencies = async () => {
   return response
 }
 
-export const getMinAmount = async (options: ReqMinAmount) => {
-  const response = await Api.post<ReqMinAmount, Response<MinAmount>>(
-    '/min-amount',
-    options
-  )
+export const getRange = async (options: ReqRange) => {
+  const response = await Api.get<Range>('/range', {
+    params: { ...options }
+  })
 
   return response
 }
 
 export const getEstimatedAmount = async (options: ReqEstimatedAmount) => {
-  const response = await Api.post<
-    ReqEstimatedAmount,
-    Response<EstimatedAmount>
-  >('/estimated-amount', options)
+  const response = await Api.get<EstimatedAmount>('/estimated-amount', {
+    params: { ...options }
+  })
 
   return response
 }
 
 export default {
   getCurrencies,
-  getMinAmount,
+  getRange,
   getEstimatedAmount
 }

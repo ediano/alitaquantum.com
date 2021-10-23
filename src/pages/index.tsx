@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import { GetStaticProps } from 'next'
 import { NextSeo } from 'next-seo'
 
 import { site } from 'config/site'
@@ -6,9 +7,17 @@ import { getUrl } from 'utils/getUrl'
 
 import { Header } from 'components/Header'
 import { FullScreen } from 'components/FullScreen'
+import { Steps } from 'components/Steps'
+import { Suggestion } from 'components/Suggestion'
+import { Transparency } from 'components/Transparency'
+import { About } from 'components/About'
 import { Footer } from 'components/Footer'
 
-const Home = () => {
+import * as S from 'styles/pages/home'
+
+import { HomeProps } from 'types/home'
+
+const Home = ({ suggestions, steps, transparency, about }: HomeProps) => {
   return (
     <>
       <Head>
@@ -36,9 +45,41 @@ const Home = () => {
         <FullScreen />
       </Header>
 
+      <S.Main>
+        <Steps {...steps} />
+        <Suggestion suggestions={suggestions} />
+        <Transparency {...transparency} />
+        <About {...about} />
+      </S.Main>
+
       <Footer />
     </>
   )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const { attributes: suggestions } = await import(
+    'content/pages/home/suggestions.md'
+  )
+
+  const { attributes: steps } = await import('content/pages/home/steps.md')
+
+  const { attributes: transparency } = await import(
+    'content/pages/home/transparency.md'
+  )
+
+  const { attributes: about, body: aboutBody } = await import(
+    'content/pages/home/about.md'
+  )
+
+  return {
+    props: {
+      suggestions,
+      steps,
+      transparency,
+      about: { ...about, body: aboutBody }
+    }
+  }
 }
 
 export default Home

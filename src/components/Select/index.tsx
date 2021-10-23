@@ -1,12 +1,12 @@
 import { useCallback } from 'react'
 
-import { AvailableCurrenciesProps } from 'components/Form'
+import { Currencies } from 'services/ChangeNowService'
 
 import * as S from './styles'
 
 type Props = {
   name: string
-  currencies: AvailableCurrenciesProps[]
+  currencies: Currencies[]
 }
 
 export const Select = ({ name, currencies }: Props) => {
