@@ -40,6 +40,7 @@ type Props = {
 }
 
 export const Form = ({ children }: Props) => {
+  const [error, setError] = useState('')
   const [currencies, setCurrencies] = useState<Currencies[]>([])
 
   const [selectedCurrency, setSelectedCurrency] = useState(initialProps)
@@ -180,11 +181,10 @@ export const Form = ({ children }: Props) => {
           toNetwork
         })
 
-        setMinAmount(String(response.data.minAmount))
-
         const minimumQuantityTimesX = response.data.minAmount * 10
 
         setFromAmount(String(minimumQuantityTimesX.toFixed(8)))
+        setMinAmount(String(response.data.minAmount))
 
         setFlowCoins({
           fromCurrency,
@@ -195,9 +195,11 @@ export const Form = ({ children }: Props) => {
           maxAmount: String(response.data.maxAmount),
           fromAmount: String(minimumQuantityTimesX.toFixed(8))
         })
-      } catch (err) {
+      } catch (err: any) {
         setMinAmount('0')
         setFromAmount(String(Number('0').toFixed(8)))
+        console.log(err.response.data)
+        setError(err.response?.data?.error)
       }
     }
 
@@ -241,17 +243,17 @@ export const Form = ({ children }: Props) => {
     } else {
       setEstimatedAmount('0')
     }
-  }, [flowCoins])
 
-  useEffect(() => {
-    const isTheMinValueIsHigher = Number(minAmount) > Number(fromAmount)
+    const isTheMinValueIsHigher = Number(minAmountFlow) > Number(fromAmountFlow)
     setIsAlert(isTheMinValueIsHigher)
-  }, [minAmount, fromAmount])
+  }, [flowCoins])
 
   return (
     <S.Container>
       <S.WrapperBlock alert={isAlert}>
         {isAlert && <S.Alert>Montante mínimo: {minAmount}</S.Alert>}
+
+        {error}
 
         <S.InputBlock alert={isAlert}>
           <S.Input

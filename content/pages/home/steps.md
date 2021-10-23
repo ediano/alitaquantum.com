@@ -7,5 +7,5 @@ itens:
     position: '2º'
   - item: 'Receba em sua carteira'
     position: '3º'
-description: 'Sem taxas adicionais, sem custódia, totalmente seguro.'
+description: 'Sem taxas adicionais, sem custódia, 100% seguro.'
 ---
