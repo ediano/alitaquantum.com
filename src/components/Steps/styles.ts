@@ -6,8 +6,7 @@ import { Container as ContainerBase, lessThan } from 'styles/layout'
 
 export const Container = styled.section`
   ${({ theme }) => css`
-    padding: ${theme.spacing.xxl} ${theme.spacing.xxl}
-      ${theme.calc(theme.spacing.xxl, 2)};
+    padding: ${theme.calc(theme.spacing.xxl, 3)} 0;
     color: ${theme.colors.white};
     background: ${shade(0.5, theme.colors.secondary)};
     box-shadow: 5px 5px 14px -8px ${shade(0.9, theme.colors.secondary)};
@@ -16,11 +15,7 @@ export const Container = styled.section`
 
 export const Wrapper = styled(ContainerBase)`
   ${({ theme }) => css`
-    padding: ${theme.spacing.xxl};
-
-    ${lessThan('m')(css`
-      padding: ${theme.spacing.xxl} 0;
-    `)}
+    padding: 0 ${theme.spacing.xxl};
   `}
 `
 
