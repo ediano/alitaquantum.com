@@ -9,13 +9,15 @@ import { Header } from 'components/Header'
 import { FullScreen } from 'components/FullScreen'
 import { Steps } from 'components/Steps'
 import { Suggestion } from 'components/Suggestion'
+import { Transparency } from 'components/Transparency'
+import { About } from 'components/About'
 import { Footer } from 'components/Footer'
 
 import * as S from 'styles/pages/home'
 
 import { HomeProps } from 'types/home'
 
-const Home = ({ suggestions, steps }: HomeProps) => {
+const Home = ({ suggestions, steps, transparency, about }: HomeProps) => {
   return (
     <>
       <Head>
@@ -44,13 +46,10 @@ const Home = ({ suggestions, steps }: HomeProps) => {
       </Header>
 
       <S.Main>
-        <S.Container>
-          <Steps {...steps} />
-
-          {suggestions.map((item) => (
-            <Suggestion key={item.title} {...item} />
-          ))}
-        </S.Container>
+        <Steps {...steps} />
+        <Suggestion suggestions={suggestions} />
+        <Transparency {...transparency} />
+        <About {...about} />
       </S.Main>
 
       <Footer />
@@ -65,8 +64,21 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const { attributes: steps } = await import('content/pages/home/steps.md')
 
+  const { attributes: transparency } = await import(
+    'content/pages/home/transparency.md'
+  )
+
+  const { attributes: about, body: aboutBody } = await import(
+    'content/pages/home/about.md'
+  )
+
   return {
-    props: { suggestions, steps }
+    props: {
+      suggestions,
+      steps,
+      transparency,
+      about: { ...about, body: aboutBody }
+    }
   }
 }
 

@@ -1,6 +1,13 @@
-import { SuggestionsProps, StepsProps } from './components'
+import {
+  SuggestionsProps,
+  StepsProps,
+  AboutProps,
+  TransparencyProps
+} from './components'
 
 export type HomeProps = {
   suggestions: SuggestionsProps[]
   steps: StepsProps
+  about: AboutProps
+  transparency: TransparencyProps
 }

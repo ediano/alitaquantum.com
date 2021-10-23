@@ -1,5 +1,5 @@
 ---
-title: 'Troque suas moedas com três passos simples'
+title: 'Troque suas moedas com passos simples'
 itens:
   - item: 'Escolha a moeda'
     position: '1º'

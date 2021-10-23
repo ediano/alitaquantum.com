@@ -1,17 +1,8 @@
 ---
 - title: 'Atomic Wallet'
-  catchphrase: 'Ainda não tem uma carteira de criptomoedas?'
+  link: 'http://bit.ly/35jYNcF'
   image: 
-    src: '/img/logos/atomic-wallet.svg'
-  description: 'Não se preocupe, a Atomic Wallet oferece ótimas opções de moedas para você!'
-- title: 'Coinbase'
-  catchphrase: 'Não se preocupe, a Atomic Wallet oferece ótimas opções de moedas para você!'
-  image: 
-    src: '/img/logos/coinbase.svg'
-  description: ''
-- title: 'NovaDAX'
-  catchphrase: 'Ainda não tem criptomoedas?'
-  image: 
-    src: '/img/logos/novadax.png'
-  description: 'Não se preocupe, a Atomic Wallet oferece ótimas opções de moedas para você!'
+    src: '/img/pages/portfolio.svg'
+    alt: 'Portfólio de criptomoedas'
+  description: 'Se você pensa em construir um portfólio, recomendamos armazenar suas criptomoedas em uma carteira segura onde a custódia fica sobre seu poder, use carteiras frias, a Atomic Wallet é uma ótima sugestão.'
 ---

@@ -4,22 +4,38 @@ import * as S from './styled'
 
 import { SuggestionsProps } from 'types/components'
 
-export const Suggestion = ({ title, image, description }: SuggestionsProps) => {
+type Props = {
+  suggestions: SuggestionsProps[]
+}
+
+export const Suggestion = ({ suggestions }: Props) => {
   return (
-    <S.Container>
-      <S.Title>{title}</S.Title>
+    <S.Container as="section">
+      {suggestions.map(({ title, link, image, description }) => (
+        <S.Wrapper key={title}>
+          <S.Figure>
+            <Image
+              src={image.src}
+              alt={title}
+              layout="fill"
+              placeholder="blur"
+              blurDataURL={image.src}
+            />
+          </S.Figure>
+          <S.Description>
+            {description}
 
-      <Image
-        src={image.src}
-        alt={title}
-        width={100}
-        height={100}
-        objectFit="contain"
-        placeholder="blur"
-        blurDataURL={image.src}
-      />
-
-      <S.Description>{description}</S.Description>
+            <S.Link
+              href={link}
+              target="_blank"
+              aria-label={title}
+              rel="nofollow noopener noreferrer"
+            >
+              Saiba mais!
+            </S.Link>
+          </S.Description>
+        </S.Wrapper>
+      ))}
     </S.Container>
   )
 }
