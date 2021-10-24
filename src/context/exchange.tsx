@@ -38,7 +38,6 @@ type FlowCoins = {
 type ContextProps = {
   currencies: Currencies[]
   selectedCurrency: typeof initialProps
-  flowCoins: InitialProps
   fromAmount: string
   minAmount: string
   estimatedAmount: string
@@ -59,7 +58,7 @@ export const storage = {
     const data = localStorage.getItem(key)
     return !!data && JSON.parse(data)
   },
-  set: (data: FlowCoins) => {
+  set: (data: any) => {
     localStorage.setItem(flowCoinsStorage, JSON.stringify(data))
   }
 }
@@ -242,11 +241,15 @@ export const ExchangeProvider = ({ children }: Props) => {
           toNetwork
         })
 
-        const minimumQuantityTimesX = range.minAmount * 10
+        const newFromAmount = String((range.minAmount * 10).toFixed(8))
 
-        const { fromAmount } = storage.get(flowCoinsStorage)
+        const { fromAmount, minAmount } = storage.get(flowCoinsStorage)
 
-        setFromAmount(fromAmount || String(minimumQuantityTimesX.toFixed(8)))
+        const isMin = Number(minAmount) !== range.minAmount
+
+        const compareAmount = isMin ? newFromAmount : fromAmount
+
+        setFromAmount(compareAmount)
         setMinAmount(String(range.minAmount))
 
         setFlowCoins({
@@ -257,7 +260,7 @@ export const ExchangeProvider = ({ children }: Props) => {
           toCurrency,
           toNetwork,
           minAmount: String(range.minAmount),
-          fromAmount: fromAmount || String(minimumQuantityTimesX.toFixed(8))
+          fromAmount: compareAmount
         })
         storage.set({
           fromName,
@@ -267,7 +270,7 @@ export const ExchangeProvider = ({ children }: Props) => {
           toCurrency,
           toNetwork,
           minAmount: String(range.minAmount),
-          fromAmount: fromAmount || String(minimumQuantityTimesX.toFixed(8))
+          fromAmount: compareAmount
         })
       } catch (err) {
         setMinAmount('0')
@@ -327,7 +330,6 @@ export const ExchangeProvider = ({ children }: Props) => {
       value={{
         currencies,
         selectedCurrency,
-        flowCoins,
         fromAmount,
         minAmount,
         estimatedAmount,
