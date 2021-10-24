@@ -10,9 +10,16 @@ type NetworkProps = {
   network: 'from' | 'to'
 }
 
-export const Container = styled.form`
+export const Container = styled.section`
   position: relative;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`
+
+export const WrapperSelected = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,7 +29,7 @@ export const Container = styled.form`
     border-radius: ${theme.border.s};
     padding: ${theme.spacing.xxl};
     background: ${transparentize(0.45, theme.colors.secondary)};
-    box-shadow: ${theme.shadow};
+    box-shadow: 4px 4px 12px 0 ${theme.colors.secondary};
   `}
 `
 

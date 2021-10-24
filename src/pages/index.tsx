@@ -2,6 +2,8 @@ import Head from 'next/head'
 import { GetStaticProps } from 'next'
 import { NextSeo } from 'next-seo'
 
+import { ExchangeProvider } from 'context/exchange'
+
 import { site } from 'config/site'
 import { getUrl } from 'utils/getUrl'
 
@@ -17,9 +19,9 @@ import * as S from 'styles/pages/home'
 
 import { HomeProps } from 'types/home'
 
-const Home = ({ suggestions, steps, transparency, about }: HomeProps) => {
+const HomePage = ({ suggestions, steps, transparency, about }: HomeProps) => {
   return (
-    <>
+    <ExchangeProvider>
       <Head>
         <title>{site.name}</title>
       </Head>
@@ -53,7 +55,7 @@ const Home = ({ suggestions, steps, transparency, about }: HomeProps) => {
       </S.Main>
 
       <Footer />
-    </>
+    </ExchangeProvider>
   )
 }
 
@@ -82,4 +84,4 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
-export default Home
+export default HomePage

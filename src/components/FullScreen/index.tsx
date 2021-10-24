@@ -1,4 +1,5 @@
-import { Form } from 'components/Form'
+import { Exchange } from 'components/Exchange'
+import { AnchorButton } from 'components/AnchorButton'
 
 import { site } from 'config/site'
 
@@ -20,9 +21,15 @@ export const FullScreen = () => {
           <S.Title>{site.description}</S.Title>
         </S.Content>
 
-        <S.Form>
-          <Form />
-        </S.Form>
+        <S.ExchangeWrapper>
+          <Exchange>
+            <AnchorButton
+              title="Trocar"
+              href="/exchange"
+              style={{ marginTop: '25px' }}
+            />
+          </Exchange>
+        </S.ExchangeWrapper>
       </S.Wrapper>
     </S.Container>
   )

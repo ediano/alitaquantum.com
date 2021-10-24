@@ -1,20 +1,17 @@
 import {
+  createContext,
+  useContext,
+  ReactNode,
   useState,
-  useCallback,
   useEffect,
+  useCallback,
   ChangeEvent,
-  MouseEvent,
-  ReactNode
+  FocusEvent,
+  MouseEvent
 } from 'react'
-import { BsArrowDownUp } from 'react-icons/bs'
 
-import { Select } from 'components/Select'
-import { TextTouch } from 'components/TextTouch'
-
-import { Currencies } from 'services/ChangeNowService'
 import Api from 'services/ApiService'
-
-import * as S from './styles'
+import { Currencies } from 'services/ChangeNowService'
 
 const initialProps = {
   fromName: 'Bitcoin',
@@ -25,25 +22,60 @@ const initialProps = {
   toNetwork: 'eth'
 }
 
+type InitialProps = typeof initialProps
+
 type FlowCoins = {
   fromAmount: string
   minAmount: string
-  maxAmount: string
+  fromName: string
   fromCurrency: string
   fromNetwork: string
+  toName: string
   toCurrency: string
   toNetwork: string
 }
 
-type Props = {
-  children?: ReactNode
+type ContextProps = {
+  currencies: Currencies[]
+  selectedCurrency: typeof initialProps
+  flowCoins: InitialProps
+  fromAmount: string
+  minAmount: string
+  estimatedAmount: string
+  isAlert: boolean
+  handlerInputFromAmountChange: (event: ChangeEvent<HTMLInputElement>) => void
+  handlerButtonSelectedCurrencyChange: () => void
+  handlerInputSelectedCurrencyChange: (
+    event: ChangeEvent<HTMLInputElement>
+  ) => void
+  handlerSelectedCurrencyClick: (
+    event: FocusEvent<HTMLInputElement> & MouseEvent<HTMLInputElement>
+  ) => void
 }
 
-export const Form = ({ children }: Props) => {
-  const [error, setError] = useState('')
+const flowCoinsStorage = 'alitaquantum.com@flow-coins'
+export const storage = {
+  get: (key: string): FlowCoins => {
+    const data = localStorage.getItem(key)
+    return !!data && JSON.parse(data)
+  },
+  set: (data: FlowCoins) => {
+    localStorage.setItem(flowCoinsStorage, JSON.stringify(data))
+  }
+}
+
+const ExchangeContext = createContext<ContextProps>({} as ContextProps)
+
+type Props = {
+  children: ReactNode
+}
+
+export const ExchangeProvider = ({ children }: Props) => {
   const [currencies, setCurrencies] = useState<Currencies[]>([])
 
-  const [selectedCurrency, setSelectedCurrency] = useState(initialProps)
+  const [selectedCurrency, setSelectedCurrency] = useState<InitialProps>(
+    {} as InitialProps
+  )
   const [flowCoins, setFlowCoins] = useState<FlowCoins>({} as FlowCoins)
 
   const [fromAmount, setFromAmount] = useState('0')
@@ -51,7 +83,32 @@ export const Form = ({ children }: Props) => {
   const [estimatedAmount, setEstimatedAmount] = useState('0')
 
   const [isAlert, setIsAlert] = useState(false)
-  const [isAlertFixedRate, setIsAlertFixedRate] = useState(false)
+
+  useEffect(() => {
+    if (storage.get(flowCoinsStorage)) {
+      const {
+        fromName,
+        fromNetwork,
+        fromCurrency,
+        toName,
+        toNetwork,
+        toCurrency
+      } = storage.get(flowCoinsStorage)
+
+      setFlowCoins(storage.get(flowCoinsStorage))
+      setSelectedCurrency({
+        fromName,
+        fromCurrency,
+        fromNetwork,
+        toName,
+        toCurrency,
+        toNetwork
+      })
+      setFromAmount(storage.get(flowCoinsStorage).fromAmount)
+    } else {
+      setSelectedCurrency(initialProps)
+    }
+  }, [])
 
   const handlerInputFromAmountChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +120,10 @@ export const Form = ({ children }: Props) => {
 
       if (Number(value) >= 0 && name === 'fromAmount' && limit) {
         setFromAmount(value)
-        setFlowCoins((state) => ({ ...state, fromAmount: value }))
+        setFlowCoins((state) => {
+          storage.set({ ...state, fromAmount: value })
+          return { ...state, fromAmount: value }
+        })
       }
     },
     []
@@ -71,9 +131,7 @@ export const Form = ({ children }: Props) => {
 
   const handlerInputSelectedCurrencyChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
-      const {
-        target: { value, name }
-      } = event as ChangeEvent<HTMLInputElement>
+      const { value, name } = event.target
 
       const currency = currencies.find((currency) => currency.name === value)
 
@@ -116,22 +174,19 @@ export const Form = ({ children }: Props) => {
     [currencies]
   )
 
-  const handlerButtonSelectedCurrencyChange = useCallback(
-    (event: MouseEvent<HTMLButtonElement>) => {
-      setSelectedCurrency((state) => ({
-        fromName: state.toName,
-        fromCurrency: state.toCurrency,
-        fromNetwork: state.toNetwork,
-        toName: state.fromName,
-        toCurrency: state.fromCurrency,
-        toNetwork: state.fromNetwork
-      }))
-    },
-    []
-  )
+  const handlerButtonSelectedCurrencyChange = useCallback(() => {
+    setSelectedCurrency((state) => ({
+      fromName: state.toName,
+      fromCurrency: state.toCurrency,
+      fromNetwork: state.toNetwork,
+      toName: state.fromName,
+      toCurrency: state.fromCurrency,
+      toNetwork: state.fromNetwork
+    }))
+  }, [])
 
   const handlerSelectedCurrencyClick = useCallback((event: any) => {
-    const { name } = event.target
+    const { name } = event.target as { name: string }
 
     setSelectedCurrency((state) => {
       if (name === 'fromCurrency') {
@@ -169,41 +224,60 @@ export const Form = ({ children }: Props) => {
   }, [])
 
   useEffect(() => {
-    const { fromCurrency, fromNetwork, toCurrency, toNetwork } =
-      selectedCurrency
+    const {
+      fromName,
+      fromCurrency,
+      fromNetwork,
+      toName,
+      toCurrency,
+      toNetwork
+    } = selectedCurrency
 
     async function loading() {
       try {
-        const response = await Api.getRange({
+        const { data: range } = await Api.getRange({
           fromCurrency,
           fromNetwork,
           toCurrency,
           toNetwork
         })
 
-        const minimumQuantityTimesX = response.data.minAmount * 10
+        const minimumQuantityTimesX = range.minAmount * 10
 
-        setFromAmount(String(minimumQuantityTimesX.toFixed(8)))
-        setMinAmount(String(response.data.minAmount))
+        const { fromAmount } = storage.get(flowCoinsStorage)
+
+        setFromAmount(fromAmount || String(minimumQuantityTimesX.toFixed(8)))
+        setMinAmount(String(range.minAmount))
 
         setFlowCoins({
+          fromName,
           fromCurrency,
           fromNetwork,
+          toName,
           toCurrency,
           toNetwork,
-          minAmount: String(response.data.minAmount),
-          maxAmount: String(response.data.maxAmount),
-          fromAmount: String(minimumQuantityTimesX.toFixed(8))
+          minAmount: String(range.minAmount),
+          fromAmount: fromAmount || String(minimumQuantityTimesX.toFixed(8))
         })
-      } catch (err: any) {
+        storage.set({
+          fromName,
+          fromCurrency,
+          fromNetwork,
+          toName,
+          toCurrency,
+          toNetwork,
+          minAmount: String(range.minAmount),
+          fromAmount: fromAmount || String(minimumQuantityTimesX.toFixed(8))
+        })
+      } catch (err) {
         setMinAmount('0')
         setFromAmount(String(Number('0').toFixed(8)))
-        console.log(err.response.data)
-        setError(err.response?.data?.error)
       }
     }
 
-    if (fromNetwork && toNetwork) loading()
+    if (fromNetwork && toNetwork) {
+      loading()
+    }
   }, [selectedCurrency])
 
   useEffect(() => {
@@ -218,7 +292,7 @@ export const Form = ({ children }: Props) => {
 
     async function loading() {
       try {
-        const response = await Api.getEstimatedAmount({
+        const { data: estimated } = await Api.getEstimatedAmount({
           fromAmount: fromAmountFlow,
           fromCurrency,
           fromNetwork,
@@ -226,10 +300,10 @@ export const Form = ({ children }: Props) => {
           toNetwork
         })
 
-        if (!response.data.toAmount) {
+        if (!estimated.toAmount) {
           setEstimatedAmount('0')
         } else {
-          setEstimatedAmount(String(response.data.toAmount))
+          setEstimatedAmount(String(estimated.toAmount))
         }
       } catch (err) {
         setEstimatedAmount('0')
@@ -249,73 +323,30 @@ export const Form = ({ children }: Props) => {
   }, [flowCoins])
 
   return (
-    <S.Container>
-      <S.WrapperBlock alert={isAlert}>
-        {isAlert && <S.Alert>Montante mínimo: {minAmount}</S.Alert>}
-
-        {error}
-
-        <S.InputBlock alert={isAlert}>
-          <S.Input
-            name="fromAmount"
-            value={fromAmount || ''}
-            onChange={handlerInputFromAmountChange}
-          />
-
-          <S.InputSelect
-            list="fromCurrency"
-            name="fromCurrency"
-            value={selectedCurrency.fromName}
-            onFocus={handlerSelectedCurrencyClick}
-            onClick={handlerSelectedCurrencyClick}
-            onChange={handlerInputSelectedCurrencyChange}
-          />
-          <Select name="fromCurrency" currencies={currencies} />
-        </S.InputBlock>
-        <S.Network network="from">
-          Network: {selectedCurrency.fromNetwork.toUpperCase()}
-        </S.Network>
-      </S.WrapperBlock>
-
-      <S.WrapperDetails>
-        <S.AlertFixedRate
-          onClick={() => setIsAlertFixedRate(!isAlertFixedRate)}
-        >
-          <S.AlertFixedRateText>Sem taxas adicionais</S.AlertFixedRateText>
-          <TextTouch
-            toggle={isAlertFixedRate}
-            setToggle={setIsAlertFixedRate}
-            message="As taxas de conexão de rede e todas as outras taxas de câmbio estão incluídas na aposta."
-          />
-        </S.AlertFixedRate>
-
-        <S.Button type="button" onClick={handlerButtonSelectedCurrencyChange}>
-          <BsArrowDownUp />
-        </S.Button>
-      </S.WrapperDetails>
-
-      <S.WrapperBlock>
-        <S.InputBlock>
-          <S.Input
-            name="toAmount"
-            disabled={true}
-            value={Number(estimatedAmount).toFixed(8)}
-          />
-
-          <S.InputSelect
-            list="toCurrency"
-            name="toCurrency"
-            value={selectedCurrency.toName}
-            onFocus={handlerSelectedCurrencyClick}
-            onClick={handlerSelectedCurrencyClick}
-            onChange={handlerInputSelectedCurrencyChange}
-          />
-          <Select name="toCurrency" currencies={currencies} />
-        </S.InputBlock>
-        <S.Network network="to">
-          Network: {selectedCurrency.toNetwork.toUpperCase()}
-        </S.Network>
-      </S.WrapperBlock>
-    </S.Container>
+    <ExchangeContext.Provider
+      value={{
+        currencies,
+        selectedCurrency,
+        flowCoins,
+        fromAmount,
+        minAmount,
+        estimatedAmount,
+        isAlert,
+        handlerInputFromAmountChange,
+        handlerButtonSelectedCurrencyChange,
+        handlerInputSelectedCurrencyChange,
+        handlerSelectedCurrencyClick
+      }}
+    >
+      {children}
+    </ExchangeContext.Provider>
   )
+}
+
+export const useExchange = () => {
+  const context = useContext(ExchangeContext)
+  if (!context) {
+    throw new Error('Cannot use `useAuth` outside of a AuthProvider')
+  }
+  return context
 }

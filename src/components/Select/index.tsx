@@ -14,7 +14,7 @@ export const Select = ({ name, currencies }: Props) => {
 
   return (
     <S.Container id={name} onChange={handleDatalistChange}>
-      {currencies.map((currency, index) => (
+      {currencies?.map((currency, index) => (
         <S.Option key={currency.ticker + index} value={currency.name} />
       ))}
     </S.Container>
