@@ -8,17 +8,15 @@ import { getUrl } from 'utils/getUrl'
 import { Header } from 'components/Header'
 import { Footer } from 'components/Footer'
 
-import { ValidatingTransaction } from 'components/ValidatingTransaction'
-
-const ExchangePage = () => {
+const DepositPage = () => {
   return (
     <ExchangeProvider>
       <NextSeo
         title={'Exchange'}
-        canonical={getUrl('/exchange')}
+        canonical={getUrl('/depositar')}
         openGraph={{
-          url: getUrl('/exchange'),
-          title: `Exchange | ${site.name}`,
+          url: getUrl('/depositar'),
+          title: `Depositar | ${site.name}`,
           description: site.description,
           site_name: site.name
         }}
@@ -26,13 +24,11 @@ const ExchangePage = () => {
 
       <Header />
 
-      <main>
-        <ValidatingTransaction />
-      </main>
+      <main></main>
 
       <Footer />
     </ExchangeProvider>
   )
 }
 
-export default ExchangePage
+export default DepositPage

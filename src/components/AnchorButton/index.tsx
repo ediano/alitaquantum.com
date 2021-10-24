@@ -6,12 +6,22 @@ import * as S from './styles'
 type Props = {
   title: string
   style?: CSSProperties
-} & LinkProps
+} & LinkProps &
+  S.ColorsProps &
+  CSSProperties
 
-export const AnchorButton = ({ title, style, ...props }: Props) => {
+export const AnchorButton = ({
+  title,
+  color,
+  background,
+  style,
+  ...props
+}: Props) => {
   return (
     <Link {...props} passHref>
-      <S.Container style={style}>{title}</S.Container>
+      <S.Container color={color} background={background} style={style}>
+        {title}
+      </S.Container>
     </Link>
   )
 }

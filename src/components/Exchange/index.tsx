@@ -9,10 +9,11 @@ import { useExchange } from 'context/exchange'
 import * as S from './styles'
 
 type Props = {
+  color?: string
   children?: ReactNode
 }
 
-export const Exchange = ({ children }: Props) => {
+export const Exchange = ({ color, children }: Props) => {
   const {
     currencies,
     selectedCurrency,
@@ -30,7 +31,7 @@ export const Exchange = ({ children }: Props) => {
 
   return (
     <S.Container>
-      <S.WrapperSelected>
+      <S.WrapperSelected color={color}>
         <S.WrapperBlock alert={isAlert}>
           {isAlert && <S.Alert>Montante mínimo: {minAmount}</S.Alert>}
 

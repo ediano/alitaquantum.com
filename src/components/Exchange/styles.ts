@@ -10,8 +10,10 @@ type NetworkProps = {
   network: 'from' | 'to'
 }
 
-export const Container = styled.section`
+export const Container = styled.div`
+  width: 100%;
   position: relative;
+  z-index: 1;
 
   display: flex;
   align-items: center;
@@ -19,21 +21,24 @@ export const Container = styled.section`
   flex-direction: column;
 `
 
-export const WrapperSelected = styled.div`
+export const WrapperSelected = styled.div<{ color?: string }>`
+  width: 100%;
+
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
 
-  ${({ theme }) => css`
+  ${({ theme, color }) => css`
     border-radius: ${theme.border.s};
     padding: ${theme.spacing.xxl};
-    background: ${transparentize(0.45, theme.colors.secondary)};
+    background: ${transparentize(0.45, color || theme.colors.secondary)};
     box-shadow: 4px 4px 12px 0 ${theme.colors.secondary};
   `}
 `
 
 export const WrapperBlock = styled.div<WrapperBlockProps>`
+  width: 100%;
   overflow: hidden;
 
   display: flex;
@@ -54,6 +59,7 @@ export const WrapperBlock = styled.div<WrapperBlockProps>`
 `
 
 export const InputBlock = styled.div<WrapperBlockProps>`
+  width: 100%;
   overflow: hidden;
   position: relative;
   display: flex;
