@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 import { shade } from 'polished'
-import { Container as ContainerBase } from 'styles/layout'
+import { Container as ContainerBase, lessThan } from 'styles/layout'
 
 export const Container = styled.div`
   ${({ theme }) => css`
@@ -23,6 +23,11 @@ export const Title = styled.h1`
     font-size: ${theme.fonts.sizes.l};
     font-family: ${theme.fonts.family.secondary};
     margin-bottom: ${theme.spacing.m};
+
+    ${lessThan('m')(css`
+      text-align: center;
+      font-size: ${theme.fonts.sizes.m};
+    `)}
   `}
 `
 
@@ -34,5 +39,10 @@ export const Description = styled.div`
     p + p {
       margin-top: ${theme.spacing.m};
     }
+
+    ${lessThan('m')(css`
+      text-align: center;
+      font-size: ${theme.fonts.sizes.s};
+    `)}
   `}
 `

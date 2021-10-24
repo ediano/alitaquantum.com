@@ -1,7 +1,6 @@
 type Op = '*' | '+'
 
 export const theme = {
-  shadow: '0 4px 12px 0 rgb(0 0 0 / 25%)',
   colors: {
     primary: '#08b9c1',
     secondary: '#444',

@@ -80,7 +80,7 @@ export const Title = styled.h1`
   `}
 `
 
-export const Form = styled.div`
+export const ExchangeWrapper = styled.div`
   ${gridWrapperCss}
 `
 

@@ -1,6 +1,7 @@
-import Head from 'next/head'
 import { GetStaticProps } from 'next'
 import { NextSeo } from 'next-seo'
+
+import { ExchangeProvider } from 'context/exchange'
 
 import { site } from 'config/site'
 import { getUrl } from 'utils/getUrl'
@@ -13,17 +14,11 @@ import { Transparency } from 'components/Transparency'
 import { About } from 'components/About'
 import { Footer } from 'components/Footer'
 
-import * as S from 'styles/pages/home'
-
 import { HomeProps } from 'types/home'
 
-const Home = ({ suggestions, steps, transparency, about }: HomeProps) => {
+const HomePage = ({ suggestions, steps, transparency, about }: HomeProps) => {
   return (
-    <>
-      <Head>
-        <title>{site.name}</title>
-      </Head>
-
+    <ExchangeProvider>
       <NextSeo
         title={site.description}
         canonical={getUrl('/')}
@@ -45,15 +40,15 @@ const Home = ({ suggestions, steps, transparency, about }: HomeProps) => {
         <FullScreen />
       </Header>
 
-      <S.Main>
+      <main>
         <Steps {...steps} />
         <Suggestion suggestions={suggestions} />
         <Transparency {...transparency} />
         <About {...about} />
-      </S.Main>
+      </main>
 
       <Footer />
-    </>
+    </ExchangeProvider>
   )
 }
 
@@ -82,4 +77,4 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
-export default Home
+export default HomePage
