@@ -6,18 +6,16 @@ import content from './content'
 
 import * as S from './styles'
 
-export type OptionsLayout = 'default'
-
-type Props = {
-  layout?: OptionsLayout
+export type Props = {
+  isHero?: boolean
 }
 
-export const Navbar = ({ layout = 'default' }: Props) => {
+export const Navbar = ({ isHero }: Props) => {
   const [active, setActive] = useState(false)
 
   return (
-    <S.Nav layout={layout}>
-      <S.Wrapper>
+    <S.Nav isHero={isHero}>
+      <S.Wrapper isHero={isHero}>
         <Link href="/" passHref>
           <S.Logo>
             <S.Alita>Alita</S.Alita>
@@ -30,7 +28,7 @@ export const Navbar = ({ layout = 'default' }: Props) => {
             {content.map((item) => (
               <S.Item key={item.href}>
                 <Link href={item.href} passHref>
-                  <S.ItemLink>{item.title}</S.ItemLink>
+                  <S.ItemLink isHero={isHero}>{item.title}</S.ItemLink>
                 </Link>
               </S.Item>
             ))}

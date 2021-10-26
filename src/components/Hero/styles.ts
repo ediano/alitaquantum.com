@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components'
 import NextImage from 'next/image'
+import { transparentize } from 'polished'
 import { Container as ContainerBase, lessThan } from 'styles/layout'
 
 export const Container = styled.section`
@@ -8,8 +9,8 @@ export const Container = styled.section`
 
   min-height: 100%;
 
-  margin-top: -64px;
-  padding-top: 64px;
+  margin-top: -100px;
+  padding-top: 100px;
 
   ${({ theme }) => css`
     background: ${theme.colors.whiteIce};
@@ -25,6 +26,7 @@ export const Wrapper = styled(ContainerBase)`
 
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-evenly;
 
   min-height: 850px;
@@ -35,10 +37,11 @@ export const Wrapper = styled(ContainerBase)`
   `)}
 `
 
-const gridWrapperCss = css`
+export const Block = styled.div`
   width: 50%;
 
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   justify-items: center;
@@ -61,8 +64,11 @@ const gridWrapperCss = css`
   `}
 `
 
-export const Content = styled.div`
-  ${gridWrapperCss}
+export const ExchangeWrapper = styled(Block)`
+  ${({ theme }) => css`
+    border-radius: ${theme.spacing.s};
+    border: 1px solid ${transparentize(0.5, theme.colors.secondary)};
+  `}
 `
 
 export const Title = styled.h1`
@@ -78,10 +84,6 @@ export const Title = styled.h1`
       line-height: ${theme.spacing.l};
     `)}
   `}
-`
-
-export const ExchangeWrapper = styled.div`
-  ${gridWrapperCss}
 `
 
 export const Footer = styled.div`

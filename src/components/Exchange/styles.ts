@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components'
 import { transparentize, lighten, shade } from 'polished'
 import { Input as InputBase } from 'components/Input'
 
-type WrapperBlockProps = {
+type AlertProps = {
   alert?: boolean
 }
 
@@ -12,6 +12,8 @@ type NetworkProps = {
 
 export const Container = styled.div`
   width: 100%;
+  margin: 0 auto;
+
   position: relative;
   z-index: 1;
 
@@ -21,61 +23,32 @@ export const Container = styled.div`
   flex-direction: column;
 `
 
-export const WrapperSelected = styled.div<{ color?: string }>`
+export const WrapperBlock = styled.div<AlertProps>`
+  position: relative;
   width: 100%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-
-  ${({ theme, color }) => css`
-    border-radius: ${theme.border.s};
-    padding: ${theme.spacing.xxl};
-    background: ${transparentize(0.45, color || theme.colors.secondary)};
-    box-shadow: 4px 4px 12px 0 ${theme.colors.secondary};
-  `}
-`
-
-export const WrapperBlock = styled.div<WrapperBlockProps>`
-  width: 100%;
-  overflow: hidden;
 
   display: flex;
   flex-direction: column;
 
-  ${({ theme, alert }) => css`
-    & + & {
-      margin-top: ${theme.spacing.m};
-    }
-
-    ${alert &&
+  ${({ theme, alert }) =>
+    alert &&
     css`
       border-radius: ${theme.border.xs};
-      border-bottom-right-radius: 0;
       box-shadow: 0 0 4px 1px ${theme.colors.alert};
-    `}
-  `};
+    `};
 `
 
-export const InputBlock = styled.div<WrapperBlockProps>`
+export const InputBlock = styled.div`
   width: 100%;
   overflow: hidden;
   position: relative;
   display: flex;
 
-  border-top: 1px solid transparent;
+  box-shadow: 0 2px 12px -4px #000;
 
-  ${({ theme, alert }) => css`
-    ${!alert
-      ? css`
-          border-radius: ${theme.border.xs};
-          border-bottom-right-radius: 0;
-        `
-      : css`
-          border-radius: 0;
-          border-top: 1px solid ${transparentize(0.75, theme.colors.secondary)};
-        `}
+  ${({ theme }) => css`
+    border-radius: ${theme.border.xs};
+    border-bottom-right-radius: 0;
   `}
 `
 
@@ -110,7 +83,7 @@ export const WrapperDetails = styled.div`
   justify-content: space-between;
 
   ${({ theme }) => css`
-    padding: ${theme.spacing.m} 0;
+    padding: ${theme.spacing.l} 0;
   `}
 `
 
@@ -121,14 +94,25 @@ export const Button = styled.button`
   margin-left: auto;
 
   ${({ theme }) => css`
-    color: ${theme.colors.white};
-    font-size: ${theme.fonts.sizes.m};
+    color: ${theme.colors.secondary};
+    font-size: ${theme.fonts.sizes.l};
   `}
 `
 
-export const Alert = styled.span`
+export const Alert = styled.span<AlertProps>`
+  position: absolute;
+  text-align: left;
+  visibility: hidden;
+  transform: translateY(-100%);
+
+  ${({ alert }) =>
+    alert &&
+    css`
+      visibility: visible;
+    `}
+
   ${({ theme }) => css`
-    color: ${theme.colors.white};
+    color: ${theme.colors.secondary};
     padding: 0 ${theme.spacing.xxs};
   `}
 `
@@ -142,7 +126,7 @@ export const AlertFixedRateText = styled.span`
 
   ${({ theme }) => css`
     font-size: ${theme.fonts.sizes.xs};
-    color: ${lighten(0.75, theme.colors.text)};
+    color: ${theme.colors.text};
     border-bottom: 1px dashed;
   `}
 `

@@ -1,18 +1,18 @@
 import { ReactNode } from 'react'
 
-import { Navbar, OptionsLayout } from 'components/Navbar'
+import { Navbar } from 'components/Navbar'
 
 import * as S from './styles'
 
-type Props = {
-  layout?: OptionsLayout
+export type Props = {
+  isHero?: boolean
   children?: ReactNode
 }
 
-export const Header = ({ layout = 'default', children }: Props) => {
+export const Header = ({ isHero, children }: Props) => {
   return (
-    <S.Container layout={layout}>
-      <Navbar layout={layout} />
+    <S.Container isHero={isHero}>
+      <Navbar isHero={isHero} />
 
       {children}
     </S.Container>

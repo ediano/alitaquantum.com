@@ -38,6 +38,7 @@ type FlowCoins = {
 type ContextProps = {
   currencies: Currencies[]
   selectedCurrency: typeof initialProps
+  flowCoins: FlowCoins
   fromAmount: string
   minAmount: string
   estimatedAmount: string
@@ -54,8 +55,8 @@ type ContextProps = {
 
 const flowCoinsStorage = 'alitaquantum.com@flow-coins'
 export const storage = {
-  get: (key: string): FlowCoins => {
-    const data = localStorage.getItem(key)
+  get: (): FlowCoins => {
+    const data = localStorage.getItem(flowCoinsStorage)
     return !!data && JSON.parse(data)
   },
   set: (data: any) => {
@@ -84,7 +85,7 @@ export const ExchangeProvider = ({ children }: Props) => {
   const [isAlert, setIsAlert] = useState(false)
 
   useEffect(() => {
-    if (storage.get(flowCoinsStorage)) {
+    if (storage.get()) {
       const {
         fromName,
         fromNetwork,
@@ -92,9 +93,9 @@ export const ExchangeProvider = ({ children }: Props) => {
         toName,
         toNetwork,
         toCurrency
-      } = storage.get(flowCoinsStorage)
+      } = storage.get()
 
-      setFlowCoins(storage.get(flowCoinsStorage))
+      setFlowCoins(storage.get())
       setSelectedCurrency({
         fromName,
         fromCurrency,
@@ -103,7 +104,7 @@ export const ExchangeProvider = ({ children }: Props) => {
         toCurrency,
         toNetwork
       })
-      setFromAmount(storage.get(flowCoinsStorage).fromAmount)
+      setFromAmount(storage.get().fromAmount)
     } else {
       setSelectedCurrency(initialProps)
     }
@@ -243,7 +244,7 @@ export const ExchangeProvider = ({ children }: Props) => {
 
         const newFromAmount = String((range.minAmount * 10).toFixed(8))
 
-        const { fromAmount, minAmount } = storage.get(flowCoinsStorage)
+        const { fromAmount, minAmount } = storage.get()
 
         const isMin = Number(minAmount) !== range.minAmount
 
@@ -275,6 +276,7 @@ export const ExchangeProvider = ({ children }: Props) => {
       } catch (err) {
         setMinAmount('0')
         setFromAmount(String(Number('0').toFixed(8)))
+        setEstimatedAmount('0')
       }
     }
 
@@ -285,8 +287,8 @@ export const ExchangeProvider = ({ children }: Props) => {
 
   useEffect(() => {
     const {
-      fromAmount: fromAmountFlow,
-      minAmount: minAmountFlow,
+      fromAmount,
+      minAmount,
       fromCurrency,
       fromNetwork,
       toCurrency,
@@ -296,7 +298,7 @@ export const ExchangeProvider = ({ children }: Props) => {
     async function loading() {
       try {
         const { data: estimated } = await Api.getEstimatedAmount({
-          fromAmount: fromAmountFlow,
+          fromAmount,
           fromCurrency,
           fromNetwork,
           toCurrency,
@@ -313,7 +315,7 @@ export const ExchangeProvider = ({ children }: Props) => {
       }
     }
 
-    const isValidAmount = Number(fromAmountFlow) >= Number(minAmountFlow)
+    const isValidAmount = Number(fromAmount) >= Number(minAmount)
 
     if (fromNetwork && toNetwork && isValidAmount) {
       loading()
@@ -321,7 +323,7 @@ export const ExchangeProvider = ({ children }: Props) => {
       setEstimatedAmount('0')
     }
 
-    const isTheMinValueIsHigher = Number(minAmountFlow) > Number(fromAmountFlow)
+    const isTheMinValueIsHigher = Number(minAmount) > Number(fromAmount)
     setIsAlert(isTheMinValueIsHigher)
   }, [flowCoins])
 
@@ -330,6 +332,7 @@ export const ExchangeProvider = ({ children }: Props) => {
       value={{
         currencies,
         selectedCurrency,
+        flowCoins,
         fromAmount,
         minAmount,
         estimatedAmount,
@@ -348,7 +351,7 @@ export const ExchangeProvider = ({ children }: Props) => {
 export const useExchange = () => {
   const context = useContext(ExchangeContext)
   if (!context) {
-    throw new Error('Cannot use `useAuth` outside of a AuthProvider')
+    throw new Error('Cannot use `useExchange` outside of a ExchangeProvider')
   }
   return context
 }

@@ -5,7 +5,7 @@ import { site } from 'config/site'
 
 import * as S from './styles'
 
-export const FullScreen = () => {
+export const Hero = () => {
   return (
     <S.Container>
       <S.Image
@@ -17,18 +17,18 @@ export const FullScreen = () => {
       />
 
       <S.Wrapper>
-        <S.Content>
+        <S.Block>
           <S.Title>{site.description}</S.Title>
-        </S.Content>
+        </S.Block>
 
         <S.ExchangeWrapper>
-          <Exchange>
-            <AnchorButton
-              title="Trocar"
-              href="/exchange"
-              style={{ marginTop: '25px' }}
-            />
-          </Exchange>
+          <Exchange />
+
+          <AnchorButton
+            title="Trocar"
+            href="/exchange"
+            style={{ marginTop: '50px' }}
+          />
         </S.ExchangeWrapper>
       </S.Wrapper>
     </S.Container>
