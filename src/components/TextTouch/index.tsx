@@ -9,9 +9,8 @@ type Props = {
 }
 
 export const TextTouch = ({ message, toggle = false, setToggle }: Props) => {
-  if (!toggle) return null
   return (
-    <S.Container>
+    <S.Container toggle={toggle}>
       <S.Close onClick={() => setToggle(!toggle)}>X</S.Close>
       {message}
     </S.Container>

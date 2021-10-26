@@ -1,29 +1,29 @@
 import styled, { css } from 'styled-components'
 import { shade, lighten } from 'polished'
-
 import { Container, lessThan, greaterThan } from 'styles/layout'
 
-import { OptionsLayout } from '.'
-
 type Props = {
-  layout?: OptionsLayout
+  isHero?: boolean
 }
 
 export const Nav = styled.nav<Props>`
   position: relative;
-  height: 64px;
+  height: 100px;
   z-index: 999;
 
-  ${({ theme, layout }) =>
-    layout !== 'default' &&
-    css`
-      background: ${theme.colors.white};
-      box-shadow: 0 4px 12px 0 ${theme.colors.secondary};
-    `}
+  ${({ theme, isHero }) =>
+    isHero
+      ? css`
+          background: ${theme.colors.transparent};
+        `
+      : css`
+          background: ${theme.colors.secondary};
+          box-shadow: 0 4px 12px 0 ${theme.colors.secondary};
+        `}
 `
 
-export const Wrapper = styled(Container)`
-  height: 64px;
+export const Wrapper = styled(Container)<Props>`
+  height: 100px;
 
   display: flex;
   align-items: center;
@@ -31,9 +31,11 @@ export const Wrapper = styled(Container)`
 
   padding: 0 2rem;
 
-  ${({ theme }) => css`
-    border-bottom: 1px solid ${lighten(0.6, theme.colors.secondary)};
-  `}
+  ${({ theme, isHero }) =>
+    isHero &&
+    css`
+      border-bottom: 1px solid ${lighten(0.6, theme.colors.secondary)};
+    `}
 `
 
 export const Alita = styled.span`
@@ -75,7 +77,7 @@ export const Itens = styled.ul`
     flex-direction: column;
 
     position: absolute;
-    top: 64px;
+    top: 100px;
     right: 0;
     z-index: 2;
 
@@ -112,16 +114,29 @@ export const Item = styled.li`
   `)}
 `
 
-export const ItemLink = styled.a`
-  ${({ theme }) => css`
-    color: ${theme.colors.secondary};
-    font-size: ${theme.fonts.sizes.xs};
-    font-weight: 500;
+export const ItemLink = styled.a<Props>`
+  ${({ theme }) =>
+    css`
+      font-size: ${theme.fonts.sizes.xs};
+      font-weight: ${theme.fonts.weight.semiBold};
+    `}
 
-    &:hover {
-      color: ${shade(0.25, theme.colors.primary)};
-    }
-  `}
+  ${({ theme, isHero }) =>
+    isHero
+      ? css`
+          color: ${theme.colors.secondary};
+
+          &:hover {
+            color: ${shade(0.25, theme.colors.primary)};
+          }
+        `
+      : css`
+          color: ${theme.colors.whiteIce};
+
+          &:hover {
+            color: ${shade(0.2, theme.colors.white)};
+          }
+        `}
 
   ${lessThan('m')(css`
     display: block;

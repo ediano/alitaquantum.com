@@ -1,37 +1,15 @@
 import styled, { css } from 'styled-components'
-import { shade, lighten } from 'polished'
-import { Container as ContainerBase } from 'styles/layout'
+import { lighten } from 'polished'
 import { Input as InputBase } from 'components/Input'
 
 type LabelProps = {
   isValue: boolean
 }
 
-export const Container = styled.section`
+export const Wrapper = styled.div`
   position: relative;
-
-  ${({ theme }) => css`
-    padding: ${theme.calc(theme.spacing.xxl, 2)} 0;
-  `}
-`
-
-export const Wrapper = styled(ContainerBase)`
-  ${({ theme }) => css`
-    padding: 0 ${theme.spacing.xxl};
-  `}
-`
-
-export const ExchangeWrapper = styled.div`
-  width: 80%;
-  margin: 0 auto;
-`
-
-export const Block = styled.div`
+  display: block;
   width: 100%;
-
-  ${({ theme }) => css`
-    padding: 0 ${theme.spacing.xxl};
-  `}
 `
 
 export const InputBlock = styled.div`
@@ -40,12 +18,11 @@ export const InputBlock = styled.div`
   z-index: 1;
 
   ${({ theme }) => css`
-    background: ${theme.colors.whiteIce};
+    background: ${theme.colors.white};
     border-radius: ${theme.spacing.xs};
     border: 1px solid ${lighten(0.5, theme.colors.secondary)};
     margin: ${theme.spacing.xxl} 0;
     padding: 0 ${theme.spacing.m};
-    box-shadow: 0 0 8px 0 ${lighten(0.5, theme.colors.secondary)};
   `}
 `
 
@@ -77,13 +54,4 @@ export const Input = styled(InputBase)`
     top: -10%;
     z-index: 0;
   }
-`
-
-export const Figure = styled.figure`
-  position: absolute;
-  inset: 0;
-
-  ${({ theme }) => css`
-    background: ${shade(0.25, theme.colors.primary)};
-  `}
 `
