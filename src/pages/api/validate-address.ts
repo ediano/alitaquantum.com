@@ -5,8 +5,8 @@ import { ChangeNow } from 'services/ChangeNowService'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const response = await ChangeNow.get('/exchange/estimated-amount', {
-      params: { flow: 'standard', ...req.query }
+    const response = await ChangeNow.get('/validate/address', {
+      params: { ...req.query }
     })
 
     return res.status(response.status).json(response.data)

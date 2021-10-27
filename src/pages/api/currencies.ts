@@ -12,7 +12,7 @@ export type AvailableCurrencies = {
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const response = await ChangeNow.get<Currencies[]>('/currencies', {
+    const response = await ChangeNow.get<Currencies[]>('/exchange/currencies', {
       params: { active: true, flow: 'standard' }
     })
 

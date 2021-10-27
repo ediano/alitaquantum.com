@@ -10,7 +10,8 @@ export const theme = {
     whiteIce: '#f1f5f8',
     black: '#000',
     bg: '#191919',
-    alert: '#f9a825'
+    alert: '#f9a825',
+    error: '#f44336'
   },
   spacing: {
     xxs: '0.4rem',
