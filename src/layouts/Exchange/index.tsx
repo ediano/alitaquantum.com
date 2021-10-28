@@ -43,6 +43,7 @@ export const DATA_CREATE_TRANSACTION = {
 
 export const ExchangeLayout = () => {
   const { dataFlow } = useExchange()
+  const [timeoutChange, setTimeoutChange] = useState<any>()
 
   const [dataCreateTransaction, setDataCreateTransaction] =
     useState<DataCreateTransaction>({} as DataCreateTransaction)
@@ -54,13 +55,21 @@ export const ExchangeLayout = () => {
 
   const handlerInputChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
-      const { value, name } = event.target
-      if (name === 'address' || name === 'extraId') {
-        setValidating((state) => ({ ...state, [name]: value }))
-      }
-      setDataCreateTransaction((state) => ({ ...state, [name]: value }))
+      clearTimeout(timeoutChange)
+
+      setTimeoutChange(
+        setTimeout(() => {
+          const { value, name } = event.target
+
+          if (name === 'address' || name === 'extraId') {
+            setValidating((state) => ({ ...state, [name]: value }))
+          }
+
+          setDataCreateTransaction((state) => ({ ...state, [name]: value }))
+        }, 1000)
+      )
     },
-    []
+    [timeoutChange]
   )
 
   useEffect(() => {
@@ -80,21 +89,14 @@ export const ExchangeLayout = () => {
 
   return (
     <S.Main>
-      <S.Wrapper>
-        <S.Message>
-          Você esta trocando <S.Strong>{dataFlow.fromName}</S.Strong> por{' '}
-          <S.Strong>{dataFlow.toName}</S.Strong>
-        </S.Message>
+      <S.Container>
+        <S.Message>Preencha os dados para trocar as moedas.</S.Message>
 
         <Exchange />
 
         <S.BlockWrapper>
           <S.Block>
-            {!validating.address || isValidateAddress ? (
-              <S.LinkText href="http://bit.ly/35jYNcF">
-                Você ainda não tem carteira?
-              </S.LinkText>
-            ) : (
+            {validating.address && !isValidateAddress && (
               <S.Text>Endereço inválido!</S.Text>
             )}
             <S.InputBlock isAddress={!validating.address || isValidateAddress}>
@@ -124,13 +126,49 @@ export const ExchangeLayout = () => {
             </S.Block>
           )}
 
-          <div>Ppções avançadas</div>
+          <div>
+            <span>Opções avançadas</span>
+
+            <div>
+              <S.Block>
+                <S.InputBlock>
+                  <S.Input name="contactEmail" onChange={handlerInputChange} />
+                  <S.Label htmlFor="contactEmail">SEU EMAIL</S.Label>
+                </S.InputBlock>
+              </S.Block>
+
+              <S.Block>
+                <S.InputBlock>
+                  <S.Input name="refundAddress" onChange={handlerInputChange} />
+                  <S.Label htmlFor="refundAddress">
+                    SEU ENDEREÇO{' '}
+                    <strong>{dataFlow.fromName?.toUpperCase()}</strong> PARA
+                    REEMBOLSO
+                  </S.Label>
+                </S.InputBlock>
+              </S.Block>
+
+              {dataFlow.fromId && (
+                <S.Block>
+                  <S.InputBlock>
+                    <S.Input
+                      name="refundExtraId"
+                      onChange={handlerInputChange}
+                    />
+                    <S.Label htmlFor="refundExtraId">
+                      OPCIONAL: <strong>ID/MENO/TAG</strong> PARA REEMBOLSO
+                    </S.Label>
+                  </S.InputBlock>
+                </S.Block>
+              )}
+            </div>
+          </div>
         </S.BlockWrapper>
 
         {!!validating.address && isValidateAddress && (
           <AnchorButton title="Proximo" href="/exchange/tsx" />
         )}
-      </S.Wrapper>
+      </S.Container>
     </S.Main>
   )
 }

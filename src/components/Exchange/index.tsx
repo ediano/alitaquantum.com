@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { BsArrowDownUp } from 'react-icons/bs'
 
 import { Select } from 'components/Select'
+import { Input } from 'components/Input'
 import { TextTouch } from 'components/TextTouch'
 
 import { useExchange } from 'context/exchange'
@@ -36,15 +37,18 @@ export const Exchange = () => {
             onChange={handlerInputFromAmountChange}
           />
 
-          <S.InputSelect
-            list="fromCurrency"
-            name="fromCurrency"
-            value={selectedCurrency?.fromName || ''}
-            onFocus={handlerSelectedCurrencyClick}
-            onClick={handlerSelectedCurrencyClick}
-            onChange={handlerInputSelectedCurrencyChange}
-          />
-          <Select name="fromCurrency" currencies={currencies} />
+          <S.InputSelect>
+            <Input
+              list="fromName"
+              name="fromName"
+              srcImage={selectedCurrency?.fromImage}
+              value={selectedCurrency?.fromName || ''}
+              onFocus={handlerSelectedCurrencyClick}
+              onClick={handlerSelectedCurrencyClick}
+              onChange={handlerInputSelectedCurrencyChange}
+            />
+          </S.InputSelect>
+          <Select name="fromName" currencies={currencies} />
         </S.InputBlock>
         <S.Network network="from">
           Network: {selectedCurrency?.fromNetwork?.toUpperCase()}
@@ -78,15 +82,18 @@ export const Exchange = () => {
             value={Number(estimatedAmount).toFixed(8)}
           />
 
-          <S.InputSelect
-            list="toCurrency"
-            name="toCurrency"
-            value={selectedCurrency?.toName || ''}
-            onFocus={handlerSelectedCurrencyClick}
-            onClick={handlerSelectedCurrencyClick}
-            onChange={handlerInputSelectedCurrencyChange}
-          />
-          <Select name="toCurrency" currencies={currencies} />
+          <S.InputSelect>
+            <Input
+              list="toName"
+              name="toName"
+              srcImage={selectedCurrency?.toImage}
+              value={selectedCurrency?.toName || ''}
+              onFocus={handlerSelectedCurrencyClick}
+              onClick={handlerSelectedCurrencyClick}
+              onChange={handlerInputSelectedCurrencyChange}
+            />
+          </S.InputSelect>
+          <Select name="toName" currencies={currencies} />
         </S.InputBlock>
         <S.Network network="to">
           Network: {selectedCurrency?.toNetwork?.toUpperCase()}

@@ -18,10 +18,12 @@ const initialProps = {
   fromCurrency: 'btc',
   fromNetwork: 'btc',
   fromId: false,
+  fromImage: 'https://changenow.io/images/sprite/currencies/btc.svg',
   toName: 'Ethereum',
   toCurrency: 'eth',
   toNetwork: 'eth',
-  toId: false
+  toId: false,
+  toImage: 'https://changenow.io/images/sprite/currencies/eth.svg'
 }
 
 type InitialProps = typeof initialProps
@@ -33,10 +35,12 @@ export type DataFlow = {
   fromCurrency: string
   fromNetwork: string
   fromId: boolean
+  fromImage: string
   toName: string
   toCurrency: string
   toNetwork: string
   toId: boolean
+  toImage: string
 }
 
 type ContextProps = {
@@ -95,10 +99,12 @@ export const ExchangeProvider = ({ children }: Props) => {
         fromNetwork,
         fromCurrency,
         fromId,
+        fromImage,
         toName,
         toNetwork,
         toCurrency,
-        toId
+        toId,
+        toImage
       } = DATA_FLOW_STORAGE.get()
 
       setDataFlow(DATA_FLOW_STORAGE.get())
@@ -107,10 +113,12 @@ export const ExchangeProvider = ({ children }: Props) => {
         fromCurrency,
         fromNetwork,
         fromId,
+        fromImage,
         toName,
         toCurrency,
         toNetwork,
-        toId
+        toId,
+        toImage
       })
       setFromAmount(DATA_FLOW_STORAGE.get().fromAmount)
     } else {
@@ -153,30 +161,34 @@ export const ExchangeProvider = ({ children }: Props) => {
             fromCurrency: state.toCurrency,
             fromNetwork: state.toNetwork,
             fromId: state.toId,
+            fromImage: state.toImage,
             toName: state.fromName,
             toCurrency: state.fromCurrency,
             toNetwork: state.fromNetwork,
-            toId: state.fromId
+            toId: state.fromId,
+            toImage: state.fromImage
           }
         }
 
-        if (name === 'fromCurrency') {
+        if (name === 'fromName') {
           return {
             ...state,
             fromName: currency?.name || value,
             fromCurrency: currency?.ticker || '',
             fromNetwork: currency?.network || '',
-            fromId: currency?.hasExternalId || false
+            fromId: currency?.hasExternalId || false,
+            fromImage: currency?.image || ''
           }
         }
 
-        if (name === 'toCurrency') {
+        if (name === 'toName') {
           return {
             ...state,
             toName: currency?.name || value,
             toCurrency: currency?.ticker || '',
             toNetwork: currency?.network || '',
-            toId: currency?.hasExternalId || false
+            toId: currency?.hasExternalId || false,
+            toImage: currency?.image || ''
           }
         }
 
@@ -192,10 +204,12 @@ export const ExchangeProvider = ({ children }: Props) => {
       fromCurrency: state.toCurrency,
       fromNetwork: state.toNetwork,
       fromId: state.toId,
+      fromImage: state.toImage,
       toName: state.fromName,
       toCurrency: state.fromCurrency,
       toNetwork: state.fromNetwork,
-      toId: state.fromId
+      toId: state.fromId,
+      toImage: state.fromImage
     }))
   }, [])
 
@@ -203,23 +217,25 @@ export const ExchangeProvider = ({ children }: Props) => {
     const { name } = event.target as { name: string }
 
     setSelectedCurrency((state) => {
-      if (name === 'fromCurrency') {
+      if (name === 'fromName') {
         return {
           ...state,
           fromName: '',
           fromCurrency: '',
           fromNetwork: '',
-          fromId: false
+          fromId: false,
+          fromImage: ''
         }
       }
 
-      if (name === 'toCurrency') {
+      if (name === 'toName') {
         return {
           ...state,
           toName: '',
           toCurrency: '',
           toNetwork: '',
-          toId: false
+          toId: false,
+          toImage: ''
         }
       }
 
@@ -245,10 +261,12 @@ export const ExchangeProvider = ({ children }: Props) => {
       fromCurrency,
       fromNetwork,
       fromId,
+      fromImage,
       toName,
       toCurrency,
       toNetwork,
-      toId
+      toId,
+      toImage
     } = selectedCurrency
 
     async function loading() {
@@ -276,10 +294,12 @@ export const ExchangeProvider = ({ children }: Props) => {
           fromCurrency,
           fromNetwork,
           fromId,
+          fromImage,
           toName,
           toCurrency,
           toNetwork,
           toId,
+          toImage,
           minAmount: String(range.minAmount),
           fromAmount: compareAmount
         })
@@ -288,10 +308,12 @@ export const ExchangeProvider = ({ children }: Props) => {
           fromCurrency,
           fromNetwork,
           fromId,
+          fromImage,
           toName,
           toCurrency,
           toNetwork,
           toId,
+          toImage,
           minAmount: String(range.minAmount),
           fromAmount: compareAmount
         })

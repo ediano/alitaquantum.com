@@ -64,7 +64,8 @@ export const Input = styled(InputBase)`
   `}
 `
 
-export const InputSelect = styled(InputBase)`
+export const InputSelect = styled.div`
+  width: 100%;
   line-height: normal;
 
   ${({ theme }) => css`

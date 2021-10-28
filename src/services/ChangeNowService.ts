@@ -12,6 +12,7 @@ export type Currencies = {
   name: string
   network: string
   hasExternalId: boolean
+  image: string
 }
 
 export type ReqRange = {

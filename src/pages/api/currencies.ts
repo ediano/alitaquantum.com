@@ -20,7 +20,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       ticker: currency.ticker,
       name: currency.name,
       network: currency.network,
-      hasExternalId: currency.hasExternalId
+      hasExternalId: currency.hasExternalId,
+      image: currency.image
     }))
 
     return res.status(response.status).json(data)

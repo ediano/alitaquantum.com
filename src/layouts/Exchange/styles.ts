@@ -13,7 +13,7 @@ export const Main = styled.main`
   `}
 `
 
-export const Wrapper = styled.div`
+export const Container = styled.div`
   width: 100%;
   max-width: 800px;
 
@@ -37,11 +37,11 @@ export const Message = styled.span`
     font-size: ${theme.fonts.sizes.sm};
   `}
 `
-/// //////////////////////////// ////////
+
 export const Strong = styled.strong``
 
 type LabelProps = {
-  isValue: boolean
+  isValue?: boolean
 }
 
 type Address = {
@@ -71,7 +71,7 @@ export const InputBlock = styled.div<Address>`
     border: 1px solid ${lighten(0.5, theme.colors.secondary)};
     padding: 0 ${theme.spacing.m};
 
-    ${isAddress
+    ${isAddress === undefined || isAddress
       ? css`
           border: 1px solid ${lighten(0.5, theme.colors.secondary)};
         `
@@ -101,7 +101,8 @@ export const Label = styled.label<LabelProps & Address>`
       top: -10%;
     `}
 
-    ${!isAddress &&
+    ${isAddress !== undefined &&
+    !isAddress &&
     css`
       color: ${theme.colors.error};
     `}
@@ -112,7 +113,7 @@ export const Input = styled(InputBase)<Address>`
   background: transparent;
 
   ${({ theme, isAddress }) =>
-    isAddress
+    isAddress === undefined || isAddress
       ? css`
           color: ${theme.colors.secondary};
         `
@@ -124,19 +125,6 @@ export const Input = styled(InputBase)<Address>`
     top: -10%;
     z-index: 0;
   }
-`
-
-export const LinkText = styled.a`
-  display: block;
-  text-align: right;
-
-  ${({ theme }) => css`
-    color: ${theme.colors.secondary};
-
-    &:hover {
-      color: ${shade(0.5, theme.colors.secondary)};
-    }
-  `}
 `
 
 export const Text = styled.a`
