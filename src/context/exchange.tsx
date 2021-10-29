@@ -17,28 +17,36 @@ const initialProps = {
   fromName: 'Bitcoin',
   fromCurrency: 'btc',
   fromNetwork: 'btc',
+  fromId: false,
+  fromImage: 'https://changenow.io/images/sprite/currencies/btc.svg',
   toName: 'Ethereum',
   toCurrency: 'eth',
-  toNetwork: 'eth'
+  toNetwork: 'eth',
+  toId: false,
+  toImage: 'https://changenow.io/images/sprite/currencies/eth.svg'
 }
 
 type InitialProps = typeof initialProps
 
-type FlowCoins = {
+export type DataFlow = {
   fromAmount: string
   minAmount: string
   fromName: string
   fromCurrency: string
   fromNetwork: string
+  fromId: boolean
+  fromImage: string
   toName: string
   toCurrency: string
   toNetwork: string
+  toId: boolean
+  toImage: string
 }
 
 type ContextProps = {
   currencies: Currencies[]
   selectedCurrency: typeof initialProps
-  flowCoins: FlowCoins
+  dataFlow: DataFlow
   fromAmount: string
   minAmount: string
   estimatedAmount: string
@@ -53,14 +61,14 @@ type ContextProps = {
   ) => void
 }
 
-const flowCoinsStorage = 'alitaquantum.com@flow-coins'
-export const storage = {
-  get: (): FlowCoins => {
-    const data = localStorage.getItem(flowCoinsStorage)
+const DATA_FLOW_SESSION_STORAGE = 'alitaquantum.com@data-flow'
+export const DATA_FLOW_STORAGE = {
+  get: (): DataFlow => {
+    const data = sessionStorage.getItem(DATA_FLOW_SESSION_STORAGE)
     return !!data && JSON.parse(data)
   },
-  set: (data: any) => {
-    localStorage.setItem(flowCoinsStorage, JSON.stringify(data))
+  set: (data: DataFlow) => {
+    sessionStorage.setItem(DATA_FLOW_SESSION_STORAGE, JSON.stringify(data))
   }
 }
 
@@ -76,7 +84,7 @@ export const ExchangeProvider = ({ children }: Props) => {
   const [selectedCurrency, setSelectedCurrency] = useState<InitialProps>(
     {} as InitialProps
   )
-  const [flowCoins, setFlowCoins] = useState<FlowCoins>({} as FlowCoins)
+  const [dataFlow, setDataFlow] = useState<DataFlow>({} as DataFlow)
 
   const [fromAmount, setFromAmount] = useState('0')
   const [minAmount, setMinAmount] = useState('0')
@@ -85,26 +93,34 @@ export const ExchangeProvider = ({ children }: Props) => {
   const [isAlert, setIsAlert] = useState(false)
 
   useEffect(() => {
-    if (storage.get()) {
+    if (DATA_FLOW_STORAGE.get()) {
       const {
         fromName,
         fromNetwork,
         fromCurrency,
+        fromId,
+        fromImage,
         toName,
         toNetwork,
-        toCurrency
-      } = storage.get()
+        toCurrency,
+        toId,
+        toImage
+      } = DATA_FLOW_STORAGE.get()
 
-      setFlowCoins(storage.get())
+      setDataFlow(DATA_FLOW_STORAGE.get())
       setSelectedCurrency({
         fromName,
         fromCurrency,
         fromNetwork,
+        fromId,
+        fromImage,
         toName,
         toCurrency,
-        toNetwork
+        toNetwork,
+        toId,
+        toImage
       })
-      setFromAmount(storage.get().fromAmount)
+      setFromAmount(DATA_FLOW_STORAGE.get().fromAmount)
     } else {
       setSelectedCurrency(initialProps)
     }
@@ -120,8 +136,8 @@ export const ExchangeProvider = ({ children }: Props) => {
 
       if (Number(value) >= 0 && name === 'fromAmount' && limit) {
         setFromAmount(value)
-        setFlowCoins((state) => {
-          storage.set({ ...state, fromAmount: value })
+        setDataFlow((state) => {
+          DATA_FLOW_STORAGE.set({ ...state, fromAmount: value })
           return { ...state, fromAmount: value }
         })
       }
@@ -144,27 +160,35 @@ export const ExchangeProvider = ({ children }: Props) => {
             fromName: state.toName,
             fromCurrency: state.toCurrency,
             fromNetwork: state.toNetwork,
+            fromId: state.toId,
+            fromImage: state.toImage,
             toName: state.fromName,
             toCurrency: state.fromCurrency,
-            toNetwork: state.fromNetwork
+            toNetwork: state.fromNetwork,
+            toId: state.fromId,
+            toImage: state.fromImage
           }
         }
 
-        if (name === 'fromCurrency') {
+        if (name === 'fromName') {
           return {
             ...state,
             fromName: currency?.name || value,
             fromCurrency: currency?.ticker || '',
-            fromNetwork: currency?.network || ''
+            fromNetwork: currency?.network || '',
+            fromId: currency?.hasExternalId || false,
+            fromImage: currency?.image || ''
           }
         }
 
-        if (name === 'toCurrency') {
+        if (name === 'toName') {
           return {
             ...state,
             toName: currency?.name || value,
             toCurrency: currency?.ticker || '',
-            toNetwork: currency?.network || ''
+            toNetwork: currency?.network || '',
+            toId: currency?.hasExternalId || false,
+            toImage: currency?.image || ''
           }
         }
 
@@ -179,9 +203,13 @@ export const ExchangeProvider = ({ children }: Props) => {
       fromName: state.toName,
       fromCurrency: state.toCurrency,
       fromNetwork: state.toNetwork,
+      fromId: state.toId,
+      fromImage: state.toImage,
       toName: state.fromName,
       toCurrency: state.fromCurrency,
-      toNetwork: state.fromNetwork
+      toNetwork: state.fromNetwork,
+      toId: state.fromId,
+      toImage: state.fromImage
     }))
   }, [])
 
@@ -189,21 +217,25 @@ export const ExchangeProvider = ({ children }: Props) => {
     const { name } = event.target as { name: string }
 
     setSelectedCurrency((state) => {
-      if (name === 'fromCurrency') {
+      if (name === 'fromName') {
         return {
           ...state,
           fromName: '',
           fromCurrency: '',
-          fromNetwork: ''
+          fromNetwork: '',
+          fromId: false,
+          fromImage: ''
         }
       }
 
-      if (name === 'toCurrency') {
+      if (name === 'toName') {
         return {
           ...state,
           toName: '',
           toCurrency: '',
-          toNetwork: ''
+          toNetwork: '',
+          toId: false,
+          toImage: ''
         }
       }
 
@@ -228,9 +260,13 @@ export const ExchangeProvider = ({ children }: Props) => {
       fromName,
       fromCurrency,
       fromNetwork,
+      fromId,
+      fromImage,
       toName,
       toCurrency,
-      toNetwork
+      toNetwork,
+      toId,
+      toImage
     } = selectedCurrency
 
     async function loading() {
@@ -244,7 +280,7 @@ export const ExchangeProvider = ({ children }: Props) => {
 
         const newFromAmount = String((range.minAmount * 10).toFixed(8))
 
-        const { fromAmount, minAmount } = storage.get()
+        const { fromAmount, minAmount } = DATA_FLOW_STORAGE.get()
 
         const isMin = Number(minAmount) !== range.minAmount
 
@@ -253,23 +289,31 @@ export const ExchangeProvider = ({ children }: Props) => {
         setFromAmount(compareAmount)
         setMinAmount(String(range.minAmount))
 
-        setFlowCoins({
+        setDataFlow({
           fromName,
           fromCurrency,
           fromNetwork,
+          fromId,
+          fromImage,
           toName,
           toCurrency,
           toNetwork,
+          toId,
+          toImage,
           minAmount: String(range.minAmount),
           fromAmount: compareAmount
         })
-        storage.set({
+        DATA_FLOW_STORAGE.set({
           fromName,
           fromCurrency,
           fromNetwork,
+          fromId,
+          fromImage,
           toName,
           toCurrency,
           toNetwork,
+          toId,
+          toImage,
           minAmount: String(range.minAmount),
           fromAmount: compareAmount
         })
@@ -293,7 +337,7 @@ export const ExchangeProvider = ({ children }: Props) => {
       fromNetwork,
       toCurrency,
       toNetwork
-    } = flowCoins
+    } = dataFlow
 
     async function loading() {
       try {
@@ -325,14 +369,14 @@ export const ExchangeProvider = ({ children }: Props) => {
 
     const isTheMinValueIsHigher = Number(minAmount) > Number(fromAmount)
     setIsAlert(isTheMinValueIsHigher)
-  }, [flowCoins])
+  }, [dataFlow])
 
   return (
     <ExchangeContext.Provider
       value={{
         currencies,
         selectedCurrency,
-        flowCoins,
+        dataFlow,
         fromAmount,
         minAmount,
         estimatedAmount,

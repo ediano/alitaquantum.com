@@ -3,19 +3,18 @@ import { NextSeo } from 'next-seo'
 import { site } from 'config/site'
 import { getUrl } from 'utils/getUrl'
 
+import { ExchangeProvider } from 'context/exchange'
+
 import { Header } from 'components/Header'
 import { Hero } from 'components/Hero'
-import { Steps } from 'components/Steps'
-import { Suggestion } from 'components/Suggestion'
-import { Transparency } from 'components/Transparency'
-import { About } from 'components/About'
+import { HomeLayout } from 'layouts/Home'
 import { Footer } from 'components/Footer'
 
 import { HomeProps } from 'types/home'
 
 const HomePage = ({ suggestions, steps, transparency, about }: HomeProps) => {
   return (
-    <>
+    <ExchangeProvider>
       <NextSeo
         title={site.description}
         canonical={getUrl('/')}
@@ -37,15 +36,15 @@ const HomePage = ({ suggestions, steps, transparency, about }: HomeProps) => {
         <Hero />
       </Header>
 
-      <main>
-        <Steps {...steps} />
-        <Suggestion suggestions={suggestions} />
-        <Transparency {...transparency} />
-        <About {...about} />
-      </main>
+      <HomeLayout
+        about={about}
+        steps={steps}
+        suggestions={suggestions}
+        transparency={transparency}
+      />
 
       <Footer />
-    </>
+    </ExchangeProvider>
   )
 }
 

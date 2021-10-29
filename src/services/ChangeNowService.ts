@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const ChangeNow = axios.create({
-  baseURL: 'https://api.changenow.io/v2/exchange',
+  baseURL: 'https://api.changenow.io/v2',
   headers: {
     'x-changenow-api-key': process.env.NEXT_PUBLIC_CHANGENOW_API_KEY as string
   }
@@ -12,6 +12,7 @@ export type Currencies = {
   name: string
   network: string
   hasExternalId: boolean
+  image: string
 }
 
 export type ReqRange = {
@@ -44,4 +45,14 @@ export type EstimatedAmount = {
   warningMessage: string | null
   fromAmount: number
   toAmount: number
+}
+
+export type ReqValidateAddress = {
+  address: string
+  currency: string
+}
+
+export type ValidateAddress = {
+  result: boolean
+  message: string | null
 }

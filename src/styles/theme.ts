@@ -2,7 +2,7 @@ type Op = '*' | '+'
 
 export const theme = {
   colors: {
-    transparent: '#rgb(0 0 0 / 0%)',
+    transparent: 'rgb(0 0 0 / 0%)',
     primary: '#08b9c1',
     secondary: '#444',
     text: '#333',
@@ -10,7 +10,8 @@ export const theme = {
     whiteIce: '#f1f5f8',
     black: '#000',
     bg: '#191919',
-    alert: '#f9a825'
+    alert: '#f9a825',
+    error: '#f44336'
   },
   spacing: {
     xxs: '0.4rem',

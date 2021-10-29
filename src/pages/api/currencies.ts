@@ -12,7 +12,7 @@ export type AvailableCurrencies = {
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const response = await ChangeNow.get<Currencies[]>('/currencies', {
+    const response = await ChangeNow.get<Currencies[]>('/exchange/currencies', {
       params: { active: true, flow: 'standard' }
     })
 
@@ -20,7 +20,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       ticker: currency.ticker,
       name: currency.name,
       network: currency.network,
-      hasExternalId: currency.hasExternalId
+      hasExternalId: currency.hasExternalId,
+      image: currency.image
     }))
 
     return res.status(response.status).json(data)

@@ -5,7 +5,9 @@ import type {
   Range,
   ReqRange,
   EstimatedAmount,
-  ReqEstimatedAmount
+  ReqEstimatedAmount,
+  ReqValidateAddress,
+  ValidateAddress
 } from './ChangeNowService'
 
 const Api = axios.create({
@@ -36,8 +38,17 @@ export const getEstimatedAmount = async (options: ReqEstimatedAmount) => {
   return response
 }
 
+export const getValidateAddress = async (options: ReqValidateAddress) => {
+  const response = await Api.get<ValidateAddress>('/validate-address', {
+    params: { ...options }
+  })
+
+  return response
+}
+
 export default {
   getCurrencies,
   getRange,
-  getEstimatedAmount
+  getEstimatedAmount,
+  getValidateAddress
 }

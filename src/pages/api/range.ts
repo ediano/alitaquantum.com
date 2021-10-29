@@ -5,7 +5,7 @@ import { ChangeNow } from 'services/ChangeNowService'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const response = await ChangeNow.get('/range', {
+    const response = await ChangeNow.get('/exchange/range', {
       params: { flow: 'standard', ...req.query }
     })
 

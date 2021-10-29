@@ -4,7 +4,7 @@ const FMLMode = require('frontmatter-markdown-loader/mode')
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ['changenow.io/']
+    domains: ['changenow.io']
   },
   webpack: (config) => {
     config.module.rules.push({
