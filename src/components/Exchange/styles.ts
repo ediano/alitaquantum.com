@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components'
 import { transparentize, lighten, shade } from 'polished'
-import { Input as InputBase } from 'components/Input'
 
 type AlertProps = {
   alert?: boolean
