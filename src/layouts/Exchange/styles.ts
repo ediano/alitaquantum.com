@@ -1,8 +1,13 @@
 import styled, { css } from 'styled-components'
-import { lessThan } from 'styles/layout'
+import { lighten } from 'polished'
 
-import { lighten, shade } from 'polished'
+import { lessThan, Container as ContainerBase } from 'styles/layout'
 import { Input as InputBase } from 'components/Input'
+
+type Props = {
+  isValue?: boolean
+  isAddress?: boolean
+}
 
 export const Main = styled.main`
   position: relative;
@@ -40,14 +45,6 @@ export const Message = styled.span`
 
 export const Strong = styled.strong``
 
-type LabelProps = {
-  isValue?: boolean
-}
-
-type Address = {
-  isAddress?: boolean
-}
-
 export const BlockWrapper = styled.div`
   position: relative;
   display: block;
@@ -60,18 +57,14 @@ export const Block = styled.div`
   `}
 `
 
-export const InputBlock = styled.div<Address>`
-  position: relative;
-  width: 100%;
-  z-index: 1;
-
-  ${({ theme, isAddress }) => css`
-    background: ${theme.colors.white};
+export const InputBlock = styled.div`
+  ${({ theme, color }) => css`
+    color: ${theme.colors.secondary};
     border-radius: ${theme.spacing.xs};
     border: 1px solid ${lighten(0.5, theme.colors.secondary)};
     padding: 0 ${theme.spacing.m};
 
-    ${isAddress === undefined || isAddress
+    ${!color || color === 'secondary'
       ? css`
           border: 1px solid ${lighten(0.5, theme.colors.secondary)};
         `
@@ -81,7 +74,7 @@ export const InputBlock = styled.div<Address>`
   `}
 `
 
-export const Label = styled.label<LabelProps & Address>`
+export const Label = styled.label<Props>`
   position: absolute;
   top: 50%;
   z-index: -1;
@@ -109,29 +102,39 @@ export const Label = styled.label<LabelProps & Address>`
   `}
 `
 
-export const Input = styled(InputBase)<Address>`
-  background: transparent;
-
-  ${({ theme, isAddress }) =>
-    isAddress === undefined || isAddress
-      ? css`
-          color: ${theme.colors.secondary};
-        `
-      : css`
-          color: ${theme.colors.error};
-        `}
-
-  &:focus ~ ${Label} {
-    top: -10%;
-    z-index: 0;
-  }
-`
-
 export const Text = styled.a`
   display: block;
   text-align: right;
 
   ${({ theme }) => css`
     color: ${theme.colors.error};
+  `}
+`
+
+export const WrapperButton = styled.div`
+  margin-bottom: 50px;
+`
+
+export const AdvancedOptionsText = styled.span`
+  display: table;
+  margin: 0 auto;
+  cursor: pointer;
+  border-bottom: 1px dashed;
+
+  ${({ theme }) => css`
+    color: ${lighten(0.25, theme.colors.secondary)};
+  `}
+`
+
+export const AdvancedOptions = styled.div`
+  ${({ theme }) => css`
+    background: ${theme.colors.white};
+    padding: ${theme.spacing.xxl} 0;
+  `}
+`
+
+export const DataOptions = styled(ContainerBase)`
+  ${({ theme }) => css`
+    background: ${theme.colors.white};
   `}
 `

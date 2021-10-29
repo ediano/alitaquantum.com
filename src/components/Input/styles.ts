@@ -3,9 +3,9 @@ import styled, { css } from 'styled-components'
 import { KeyColors } from 'styles/theme'
 
 export type Props = {
-  isIconOrImage?: boolean
   bg?: KeyColors
   color?: KeyColors
+  isValeu?: boolean
 }
 
 export const Container = styled.div<Props>`
@@ -13,36 +13,59 @@ export const Container = styled.div<Props>`
   width: 100%;
   height: 75px;
 
-  ${({ theme, isIconOrImage }) => css`
-    font-size: ${theme.fonts.sizes.s};
+  display: flex;
+  align-items: center;
 
-    ${isIconOrImage &&
+  ${({ theme, bg, color }) => css`
+    font-size: ${theme.fonts.sizes.s};
+    background: ${theme.colors[bg || 'transparent']};
+    color: ${theme.colors[color || 'secondary']};
+  `}
+`
+
+export const Label = styled.label<Props>`
+  position: absolute;
+  top: 50%;
+  z-index: 0;
+  transform: translateY(-50%);
+
+  background: #fff;
+  transition: 0.2s;
+
+  ${({ theme, isValeu }) => css`
+    font-size: ${theme.fonts.sizes.xs};
+
+    ${isValeu &&
     css`
-      padding-left: 40px;
+      z-index: 1;
+      top: -10%;
     `}
   `}
 `
 
 export const Input = styled.input<Props>`
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: 100%;
 
-  ${({ theme, bg, color }) => css`
-    background: ${theme.colors[bg || 'transparent']};
-    color: ${theme.colors[color || 'white']};
+  ${({ theme, color }) => css`
+    background: transparent;
+    color: ${theme.colors[color || 'secondary']};
     font-size: ${theme.fonts.sizes.s};
   `}
+
+  &:focus ~ ${Label} {
+    z-index: 1;
+    top: -10%;
+  }
 `
 
 export const WrapperIcon = styled.span`
-  position: absolute;
-  top: 50%;
-  left: 10px;
-
-  width: 20px;
-  height: 20px;
+  width: 40px;
+  height: 100%;
   display: block;
 
   background-repeat: no-repeat;
-  transform: translateY(-50%);
+  background-position: 50%;
 `

@@ -7,21 +7,24 @@ import * as S from './styles'
 export type Props = {
   icon?: IconType
   srcImage?: string
+  label?: string
+  isValue?: boolean
 } & InputHTMLAttributes<HTMLInputElement> &
   CSSProps
 
 export const Input = ({
   type = 'text',
   name,
+  label,
+  isValue,
   icon: Icon,
   srcImage,
   bg,
   color,
   ...props
 }: Props) => {
-  console.log(props)
   return (
-    <S.Container isIconOrImage={!!Icon || !!srcImage}>
+    <S.Container bg={bg} color={color}>
       {Icon && !srcImage && (
         <S.WrapperIcon>
           <Icon />
@@ -30,7 +33,14 @@ export const Input = ({
       {!Icon && srcImage && (
         <S.WrapperIcon style={{ backgroundImage: `url("${srcImage}")` }} />
       )}
-      <S.Input type={type} name={name} bg={bg} color={color} {...props} />
+
+      <S.Input type={type} name={name} color={color} {...props} />
+
+      {label && (
+        <S.Label htmlFor={name} isValeu={isValue}>
+          {label}
+        </S.Label>
+      )}
     </S.Container>
   )
 }

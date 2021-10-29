@@ -52,8 +52,9 @@ export const InputBlock = styled.div`
   `}
 `
 
-export const Input = styled(InputBase)`
+export const InputWrapper = styled.div<{ disabled?: boolean }>`
   ${({ theme, disabled }) => css`
+    width: 100%;
     padding: 0 ${theme.spacing.xs};
 
     ${disabled &&
@@ -61,18 +62,6 @@ export const Input = styled(InputBase)`
       color: ${theme.colors.white};
       background: ${transparentize(0.25, theme.colors.secondary)};
     `};
-  `}
-`
-
-export const InputSelect = styled.div`
-  width: 100%;
-  line-height: normal;
-
-  ${({ theme }) => css`
-    padding: 0 ${theme.spacing.xs};
-    background: ${shade(0.25, theme.colors.secondary)};
-    color: ${theme.colors.white};
-    font-size: ${theme.fonts.sizes.xs};
   `}
 `
 

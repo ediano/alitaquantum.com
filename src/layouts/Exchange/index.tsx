@@ -4,6 +4,7 @@ import { useExchange } from 'context/exchange'
 import Api from 'services/ApiService'
 
 import { Exchange } from 'components/Exchange'
+import { Input } from 'components/Input'
 import { AnchorButton } from 'components/AnchorButton'
 
 import * as S from './styles'
@@ -23,7 +24,10 @@ type DataCreateTransaction = {
 
 type ValidatingProps = {
   address: string
-  extraId: string
+  extraId?: string
+  refundAddress?: string
+  refundExtraId?: string
+  contactEmail?: string
 }
 
 const DATA_CREATE_TRANSACTION_SESSION_STORAGE =
@@ -66,7 +70,7 @@ export const ExchangeLayout = () => {
           }
 
           setDataCreateTransaction((state) => ({ ...state, [name]: value }))
-        }, 1000)
+        }, 500)
       )
     },
     [timeoutChange]
@@ -99,76 +103,86 @@ export const ExchangeLayout = () => {
             {validating.address && !isValidateAddress && (
               <S.Text>Endereço inválido!</S.Text>
             )}
-            <S.InputBlock isAddress={!validating.address || isValidateAddress}>
-              <S.Input
+            <S.InputBlock
+              color={
+                validating.address && !isValidateAddress ? 'error' : 'secondary'
+              }
+            >
+              <Input
+                isValue={!!validating.address}
                 name="address"
                 onChange={handlerInputChange}
-                isAddress={!validating.address || isValidateAddress}
+                color={
+                  validating.address && !isValidateAddress
+                    ? 'error'
+                    : 'secondary'
+                }
+                label={`SEU ENDEREÇO ${dataFlow.toName?.toUpperCase()}`}
               />
-              <S.Label
-                htmlFor="address"
-                isValue={!!validating.address}
-                isAddress={!validating.address || isValidateAddress}
-              >
-                SEU ENDEREÇO <strong>{dataFlow.toName?.toUpperCase()}</strong>
-              </S.Label>
             </S.InputBlock>
           </S.Block>
 
           {dataFlow.toId && (
             <S.Block>
               <S.InputBlock>
-                <S.Input name="extraId" onChange={handlerInputChange} />
-                <S.Label htmlFor="extraId" isValue={!!validating.extraId}>
-                  OPCIONAL: <strong>ID/MENO/TAG</strong>
-                </S.Label>
+                <Input
+                  isValue={!!validating.extraId}
+                  name="extraId"
+                  onChange={handlerInputChange}
+                  label="OPCIONAL: ID/MENO/TAG"
+                />
               </S.InputBlock>
             </S.Block>
           )}
-
-          <div>
-            <span>Opções avançadas</span>
-
-            <div>
-              <S.Block>
-                <S.InputBlock>
-                  <S.Input name="contactEmail" onChange={handlerInputChange} />
-                  <S.Label htmlFor="contactEmail">SEU EMAIL</S.Label>
-                </S.InputBlock>
-              </S.Block>
-
-              <S.Block>
-                <S.InputBlock>
-                  <S.Input name="refundAddress" onChange={handlerInputChange} />
-                  <S.Label htmlFor="refundAddress">
-                    SEU ENDEREÇO{' '}
-                    <strong>{dataFlow.fromName?.toUpperCase()}</strong> PARA
-                    REEMBOLSO
-                  </S.Label>
-                </S.InputBlock>
-              </S.Block>
-
-              {dataFlow.fromId && (
-                <S.Block>
-                  <S.InputBlock>
-                    <S.Input
-                      name="refundExtraId"
-                      onChange={handlerInputChange}
-                    />
-                    <S.Label htmlFor="refundExtraId">
-                      OPCIONAL: <strong>ID/MENO/TAG</strong> PARA REEMBOLSO
-                    </S.Label>
-                  </S.InputBlock>
-                </S.Block>
-              )}
-            </div>
-          </div>
         </S.BlockWrapper>
 
         {!!validating.address && isValidateAddress && (
-          <AnchorButton title="Proximo" href="/exchange/tsx" />
+          <S.WrapperButton>
+            <AnchorButton title="Proximo" href="/exchange/tsx" />
+          </S.WrapperButton>
         )}
+
+        <S.AdvancedOptionsText>Opções avançadas</S.AdvancedOptionsText>
       </S.Container>
+
+      <S.AdvancedOptions>
+        <S.DataOptions>
+          <S.Block>
+            <S.InputBlock>
+              <Input
+                isValue={!!dataCreateTransaction.contactEmail}
+                name="contactEmail"
+                onChange={handlerInputChange}
+                label="SEU EMAIL"
+              />
+            </S.InputBlock>
+          </S.Block>
+
+          <S.Block>
+            <S.InputBlock>
+              <Input
+                isValue={!!dataCreateTransaction.refundAddress}
+                name="refundAddress"
+                onChange={handlerInputChange}
+                label={`SEU ENDEREÇO ${dataFlow.fromName?.toUpperCase()} PARA REEMBOLSO`}
+              />
+            </S.InputBlock>
+          </S.Block>
+
+          {dataFlow.fromId && (
+            <S.Block>
+              <S.InputBlock>
+                <Input
+                  isValue={!!dataCreateTransaction.refundExtraId}
+                  name="refundExtraId"
+                  onChange={handlerInputChange}
+                  label="OPCIONAL: ID/MENO/TAG PARA REEMBOLSO"
+                />
+              </S.InputBlock>
+            </S.Block>
+          )}
+        </S.DataOptions>
+      </S.AdvancedOptions>
     </S.Main>
   )
 }

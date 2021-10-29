@@ -2,7 +2,7 @@ type Op = '*' | '+'
 
 export const theme = {
   colors: {
-    transparent: '#rgb(0 0 0 / 0%)',
+    transparent: 'rgb(0 0 0 / 0%)',
     primary: '#08b9c1',
     secondary: '#444',
     text: '#333',

@@ -31,23 +31,25 @@ export const Exchange = () => {
         <S.Alert alert={isAlert || false}>Montante mínimo: {minAmount}</S.Alert>
 
         <S.InputBlock>
-          <S.Input
-            name="fromAmount"
-            value={fromAmount || ''}
-            onChange={handlerInputFromAmountChange}
-          />
-
-          <S.InputSelect>
+          <S.InputWrapper>
             <Input
-              list="fromName"
-              name="fromName"
-              srcImage={selectedCurrency?.fromImage}
-              value={selectedCurrency?.fromName || ''}
-              onFocus={handlerSelectedCurrencyClick}
-              onClick={handlerSelectedCurrencyClick}
-              onChange={handlerInputSelectedCurrencyChange}
+              name="fromAmount"
+              value={fromAmount || ''}
+              onChange={handlerInputFromAmountChange}
             />
-          </S.InputSelect>
+          </S.InputWrapper>
+
+          <Input
+            list="fromName"
+            name="fromName"
+            bg="secondary"
+            color="whiteIce"
+            srcImage={selectedCurrency?.fromImage}
+            value={selectedCurrency?.fromName || ''}
+            onFocus={handlerSelectedCurrencyClick}
+            onClick={handlerSelectedCurrencyClick}
+            onChange={handlerInputSelectedCurrencyChange}
+          />
           <Select name="fromName" currencies={currencies} />
         </S.InputBlock>
         <S.Network network="from">
@@ -76,23 +78,26 @@ export const Exchange = () => {
 
       <S.WrapperBlock>
         <S.InputBlock>
-          <S.Input
-            name="toAmount"
-            disabled={true}
-            value={Number(estimatedAmount).toFixed(8)}
-          />
-
-          <S.InputSelect>
+          <S.InputWrapper disabled>
             <Input
-              list="toName"
-              name="toName"
-              srcImage={selectedCurrency?.toImage}
-              value={selectedCurrency?.toName || ''}
-              onFocus={handlerSelectedCurrencyClick}
-              onClick={handlerSelectedCurrencyClick}
-              onChange={handlerInputSelectedCurrencyChange}
+              name="toAmount"
+              disabled
+              color="white"
+              value={Number(estimatedAmount).toFixed(8)}
             />
-          </S.InputSelect>
+          </S.InputWrapper>
+
+          <Input
+            list="toName"
+            name="toName"
+            bg="secondary"
+            color="whiteIce"
+            srcImage={selectedCurrency?.toImage}
+            value={selectedCurrency?.toName || ''}
+            onFocus={handlerSelectedCurrencyClick}
+            onClick={handlerSelectedCurrencyClick}
+            onChange={handlerInputSelectedCurrencyChange}
+          />
           <Select name="toName" currencies={currencies} />
         </S.InputBlock>
         <S.Network network="to">
