@@ -8,7 +8,7 @@ import { getUrl } from 'utils/getUrl'
 import { Header } from 'components/Header'
 import { Footer } from 'components/Footer'
 
-const TSXPage = () => {
+const TXSPage = () => {
   return (
     <ExchangeProvider>
       <NextSeo
@@ -31,4 +31,4 @@ const TSXPage = () => {
   )
 }
 
-export default TSXPage
+export default TXSPage

@@ -16,7 +16,6 @@ export const Exchange = () => {
     minAmount,
     estimatedAmount,
     isAlert,
-    handlerSelectedCurrencyClick,
     handlerButtonSelectedCurrencyChange,
     handlerInputFromAmountChange,
     handlerInputSelectedCurrencyChange
@@ -32,7 +31,7 @@ export const Exchange = () => {
         <S.InputBlock>
           <S.Input
             name="fromAmount"
-            value={fromAmount || ''}
+            defaultValue={fromAmount || ''}
             onChange={handlerInputFromAmountChange}
           />
 
@@ -42,9 +41,7 @@ export const Exchange = () => {
             background="secondary"
             color="whiteIce"
             srcImage={selectedCurrency?.fromImage}
-            value={selectedCurrency?.fromName || ''}
-            onFocus={handlerSelectedCurrencyClick}
-            onClick={handlerSelectedCurrencyClick}
+            defaultValue={selectedCurrency?.fromName || ''}
             onChange={handlerInputSelectedCurrencyChange}
           />
           <Select name="fromName" currencies={currencies} />
@@ -80,7 +77,7 @@ export const Exchange = () => {
             disabled
             color="white"
             background="grey"
-            value={Number(estimatedAmount).toFixed(8)}
+            defaultValue={Number(estimatedAmount).toFixed(8)}
           />
 
           <S.Input
@@ -89,9 +86,7 @@ export const Exchange = () => {
             background="secondary"
             color="whiteIce"
             srcImage={selectedCurrency?.toImage}
-            value={selectedCurrency?.toName || ''}
-            onFocus={handlerSelectedCurrencyClick}
-            onClick={handlerSelectedCurrencyClick}
+            defaultValue={selectedCurrency?.toName || ''}
             onChange={handlerInputSelectedCurrencyChange}
           />
           <Select name="toName" currencies={currencies} />

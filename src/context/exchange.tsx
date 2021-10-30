@@ -50,14 +50,12 @@ type ContextProps = {
   fromAmount: string
   minAmount: string
   estimatedAmount: string
+  transactionSpeedForecast: string
   isAlert: boolean
   handlerInputFromAmountChange: (event: ChangeEvent<HTMLInputElement>) => void
   handlerButtonSelectedCurrencyChange: () => void
   handlerInputSelectedCurrencyChange: (
     event: ChangeEvent<HTMLInputElement>
-  ) => void
-  handlerSelectedCurrencyClick: (
-    event: FocusEvent<HTMLInputElement> & MouseEvent<HTMLInputElement>
   ) => void
 }
 
@@ -89,6 +87,7 @@ export const ExchangeProvider = ({ children }: Props) => {
   const [fromAmount, setFromAmount] = useState('0')
   const [minAmount, setMinAmount] = useState('0')
   const [estimatedAmount, setEstimatedAmount] = useState('0')
+  const [transactionSpeedForecast, setTransactionSpeedForecast] = useState('')
 
   const [isAlert, setIsAlert] = useState(false)
 
@@ -216,36 +215,6 @@ export const ExchangeProvider = ({ children }: Props) => {
     }))
   }, [])
 
-  const handlerSelectedCurrencyClick = useCallback((event: any) => {
-    const { name } = event.target as { name: string }
-
-    setSelectedCurrency((state) => {
-      if (name === 'fromName') {
-        return {
-          ...state,
-          fromName: '',
-          fromCurrency: '',
-          fromNetwork: '',
-          fromId: false,
-          fromImage: ''
-        }
-      }
-
-      if (name === 'toName') {
-        return {
-          ...state,
-          toName: '',
-          toCurrency: '',
-          toNetwork: '',
-          toId: false,
-          toImage: ''
-        }
-      }
-
-      return state
-    })
-  }, [])
-
   useEffect(() => {
     async function loading() {
       try {
@@ -354,11 +323,16 @@ export const ExchangeProvider = ({ children }: Props) => {
 
         if (!estimated.toAmount) {
           setEstimatedAmount('0')
+          setTransactionSpeedForecast('Estimativa não disponível')
         } else {
           setEstimatedAmount(String(estimated.toAmount))
+          setTransactionSpeedForecast(
+            estimated.transactionSpeedForecast || 'Estimativa não disponível'
+          )
         }
       } catch (err) {
         setEstimatedAmount('0')
+        setTransactionSpeedForecast('Estimativa não disponível')
       }
     }
 
@@ -383,11 +357,11 @@ export const ExchangeProvider = ({ children }: Props) => {
         fromAmount,
         minAmount,
         estimatedAmount,
+        transactionSpeedForecast,
         isAlert,
         handlerInputFromAmountChange,
         handlerButtonSelectedCurrencyChange,
-        handlerInputSelectedCurrencyChange,
-        handlerSelectedCurrencyClick
+        handlerInputSelectedCurrencyChange
       }}
     >
       {children}
