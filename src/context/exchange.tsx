@@ -155,7 +155,10 @@ export const ExchangeProvider = ({ children }: Props) => {
         const from = state.fromName
         const to = state.toName
 
-        if (value === from || value === to) {
+        if (
+          (name === 'fromName' && value === to) ||
+          (name === 'toName' && value === from)
+        ) {
           return {
             fromName: state.toName,
             fromCurrency: state.toCurrency,

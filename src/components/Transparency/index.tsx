@@ -4,16 +4,11 @@ import { TransparencyProps } from 'types/components'
 
 import * as S from './styles'
 
-export const Transparency = ({
-  title,
-  message,
-  content
-}: TransparencyProps) => {
+export const Transparency = ({ title, content }: TransparencyProps) => {
   return (
     <S.Container>
       <S.Wrapper>
         <S.Title>{title}</S.Title>
-        <S.Message>{message}</S.Message>
 
         {content.map(({ alt, image, description }) => (
           <S.Content key={alt}>

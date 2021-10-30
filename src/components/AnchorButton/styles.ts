@@ -5,12 +5,15 @@ import { theme } from 'styles/theme'
 
 type Theme = typeof theme.colors
 
-export type ColorsProps = {
+export type Props = {
   color?: keyof Theme
   background?: keyof Theme
+  disabled?: boolean
+  uppercase?: boolean
 }
 
-export const Container = styled.a<ColorsProps>`
+export const Container = styled.a<Props>`
+  position: relative;
   width: 100%;
 
   display: flex;
@@ -20,7 +23,7 @@ export const Container = styled.a<ColorsProps>`
 
   transition: 0.2s;
 
-  ${({ theme, color, background }) => css`
+  ${({ theme, color, background, disabled, uppercase }) => css`
     color: ${theme.colors[color || 'whiteIce']};
     background: ${shade(0.25, theme.colors[background || 'primary'])};
     padding: ${theme.spacing.s};
@@ -33,5 +36,21 @@ export const Container = styled.a<ColorsProps>`
     &:hover {
       background: ${shade(0.5, theme.colors[background || 'primary'])};
     }
+
+    ${uppercase &&
+    css`
+      text-transform: uppercase;
+    `}
+
+    ${disabled &&
+    css`
+      cursor: not-allowed;
+      background: ${theme.colors.secondary};
+      opacity: 0.9;
+
+      &:hover {
+        background: ${theme.colors.secondary};
+      }
+    `}
   `}
 `
