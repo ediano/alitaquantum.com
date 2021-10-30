@@ -5,7 +5,7 @@
     "node": true
   },
   "extends": [
-    "plugin:react/recommended",
+    "plugin:@next/next/recommended",
     "standard"
   ],
   "parser": "@typescript-eslint/parser",
@@ -13,7 +13,7 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": 13,
+    "ecmaVersion": 2017,
     "sourceType": "module"
   },
   "plugins": [
