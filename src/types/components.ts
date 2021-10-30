@@ -13,7 +13,6 @@ export type StepsProps = {
 
 export type TransparencyProps = {
   title: string
-  message: string
   content: Array<{ description: string; image: string; alt: string }>
 }
 

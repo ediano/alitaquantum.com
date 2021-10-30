@@ -20,7 +20,7 @@ export const Container = styled.div`
   ${({ theme }) => css`
     background: ${theme.colors.white};
     padding: ${theme.spacing.xxl};
-    margin: ${theme.calc(theme.spacing.xxl, 2)} auto;
+    margin: ${theme.spacing.m} auto;
     border-radius: ${theme.spacing.s};
 
     ${lessThan('s')(css`
@@ -37,8 +37,6 @@ export const Message = styled.span`
     font-size: ${theme.fonts.sizes.sm};
   `}
 `
-
-export const Strong = styled.strong``
 
 export const BlockWrapper = styled.div`
   position: relative;
@@ -83,15 +81,61 @@ export const AdvancedOptionsText = styled.span`
   `}
 `
 
-export const AdvancedOptions = styled.div`
+export const AdvancedOptions = styled.section`
   ${({ theme }) => css`
     background: ${theme.colors.white};
     padding: ${theme.spacing.xxl} 0;
   `}
 `
 
-export const DataOptions = styled(ContainerBase)`
+export const AdvancedOptionsContainer = styled(ContainerBase)`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
   ${({ theme }) => css`
-    background: ${theme.colors.white};
+    gap: ${theme.spacing.xl};
+  `}
+
+  ${lessThan('m')(css`
+    grid-template-columns: 1fr;
+  `)}
+`
+
+const cssOptions = css`
+  ${({ theme }) => css`
+    border-radius: ${theme.spacing.m};
+    padding: ${theme.spacing.l};
+  `}
+`
+
+export const OptionBlock = styled.div`
+  ${({ theme }) => css`
+    & + & {
+      padding-top: ${theme.spacing.m};
+      margin-top: ${theme.spacing.m};
+      /* border-top: 1px solid ${lighten(0.5, theme.colors.secondary)}; */
+    }
+  `}
+`
+
+export const OptionEmail = styled.div`
+  ${cssOptions}
+`
+
+export const OptionAddress = styled.div`
+  ${cssOptions}
+`
+
+export const OptionMessage = styled.div`
+  ${({ theme }) => css`
+    margin-top: ${theme.spacing.xs};
+    margin-bottom: ${theme.spacing.m};
+    font-size: ${theme.fonts.sizes.xxs};
+  `}
+`
+
+export const OptionTitle = styled.strong`
+  ${({ theme }) => css`
+    color: ${lighten(0.15, theme.colors.secondary)};
   `}
 `

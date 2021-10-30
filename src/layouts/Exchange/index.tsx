@@ -1,11 +1,12 @@
 import { useState, useCallback, useEffect, ChangeEvent } from 'react'
+import { MdEmail } from 'react-icons/md'
 
 import { useExchange } from 'context/exchange'
 import Api from 'services/ApiService'
 
 import { Exchange } from 'components/Exchange'
-import { Input } from 'components/Input'
 import { AnchorButton } from 'components/AnchorButton'
+import { Button } from 'components/Button'
 
 import * as S from './styles'
 
@@ -28,6 +29,11 @@ type ValidatingProps = {
   refundAddress?: string
   refundExtraId?: string
   contactEmail?: string
+}
+
+type HandlerClickValidateAddress = {
+  address: string
+  currency: string
 }
 
 const DATA_CREATE_TRANSACTION_SESSION_STORAGE =
@@ -54,6 +60,8 @@ export const ExchangeLayout = () => {
     {} as ValidatingProps
   )
   const [isValidateAddress, setIsValidateAddress] = useState(true)
+  const [isAdvancedOptions, setIsAdvancedOptions] = useState(false)
+  const [isRefundAddress, setIsRefundAddress] = useState(true)
 
   const handlerInputChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
@@ -64,10 +72,29 @@ export const ExchangeLayout = () => {
       if (name === 'address' || name === 'extraId') {
         setTimeout(() => {
           setValidating((state) => ({ ...state, [name]: value }))
-        }, 1500)
+        }, 500)
       }
 
       setDataCreateTransaction((state) => ({ ...state, [name]: value }))
+    },
+    []
+  )
+
+  const handlerClickValidateAddress = useCallback(
+    (props: HandlerClickValidateAddress) => {
+      const { address, currency } = props
+
+      async function handler() {
+        try {
+          const response = await Api.getValidateAddress({ address, currency })
+
+          setIsRefundAddress(response.data.result)
+        } catch (err) {
+          setIsRefundAddress(false)
+        }
+      }
+
+      if (!!address && !!currency) handler()
     },
     []
   )
@@ -87,81 +114,154 @@ export const ExchangeLayout = () => {
     if (validating.address) handler()
   }, [validating, dataFlow])
 
+  useEffect(() => {
+    if (!isAdvancedOptions) {
+      setDataCreateTransaction((state) => ({
+        ...state,
+        refundAddress: undefined,
+        refundExtraId: undefined,
+        contactEmail: undefined
+      }))
+    }
+  }, [isAdvancedOptions])
+
+  useEffect(() => {
+    setDataCreateTransaction((state) => ({ ...state, ...dataFlow }))
+  }, [dataFlow])
+
   return (
-    <S.Main>
-      <S.Container>
-        <S.Message>Preencha os dados para trocar as moedas.</S.Message>
+    <>
+      <S.Main>
+        <S.Container>
+          <S.Message>Preencha os dados para trocar as moedas.</S.Message>
 
-        <Exchange />
+          <Exchange />
 
-        <S.BlockWrapper>
-          <S.Block>
-            <S.Input
-              isValue={!!validating.address}
-              name="address"
-              onChange={handlerInputChange}
-              color={
-                !!validating.address && !isValidateAddress
-                  ? 'error'
-                  : 'secondary'
-              }
-              label={`SEU ENDEREÇO ${dataFlow.toName?.toUpperCase()}`}
-            />
-          </S.Block>
-
-          {dataFlow.toId && (
+          <S.BlockWrapper>
             <S.Block>
               <S.Input
-                isValue={!!validating.extraId}
-                name="extraId"
+                isValue={!!validating.address}
+                name="address"
                 onChange={handlerInputChange}
-                label="OPCIONAL: ID/MENO/TAG"
+                color={
+                  !!validating.address && !isValidateAddress
+                    ? 'error'
+                    : 'secondary'
+                }
+                label={`SEU ENDEREÇO ${dataFlow.toName?.toUpperCase() || ''}`}
               />
             </S.Block>
-          )}
-        </S.BlockWrapper>
 
-        {!!validating.address && isValidateAddress && (
+            {dataFlow.toId && (
+              <S.Block>
+                <S.Input
+                  isValue={!!validating.extraId}
+                  name="extraId"
+                  onChange={handlerInputChange}
+                  label="OPCIONAL: ID/MENO/TAG"
+                />
+              </S.Block>
+            )}
+          </S.BlockWrapper>
+
           <S.WrapperButton>
-            <AnchorButton title="Proximo" href="/exchange/tsx" />
+            <AnchorButton
+              uppercase
+              title="Proximo"
+              href="/exchange/tsx"
+              disabled={!validating.address || !isValidateAddress}
+            />
           </S.WrapperButton>
-        )}
 
-        <S.AdvancedOptionsText>Opções avançadas</S.AdvancedOptionsText>
-      </S.Container>
+          <S.AdvancedOptionsText
+            onClick={() => setIsAdvancedOptions(!isAdvancedOptions)}
+          >
+            Opções avançadas
+          </S.AdvancedOptionsText>
+        </S.Container>
+      </S.Main>
 
-      <S.AdvancedOptions>
-        <S.DataOptions>
-          <S.Block>
-            <S.Input
-              isValue={!!dataCreateTransaction.contactEmail}
-              name="contactEmail"
-              onChange={handlerInputChange}
-              label="SEU EMAIL"
-            />
-          </S.Block>
+      {isAdvancedOptions && (
+        <S.AdvancedOptions>
+          <S.AdvancedOptionsContainer>
+            <S.OptionEmail>
+              <S.OptionBlock>
+                <S.OptionMessage>
+                  <S.OptionTitle>Receba notificações por e-mail</S.OptionTitle>
+                </S.OptionMessage>
 
-          <S.Block>
-            <S.Input
-              isValue={!!dataCreateTransaction.refundAddress}
-              name="refundAddress"
-              onChange={handlerInputChange}
-              label={`SEU ENDEREÇO ${dataFlow.fromName?.toUpperCase()} PARA REEMBOLSO`}
-            />
-          </S.Block>
+                <S.Input
+                  type="email"
+                  isValue={!!dataCreateTransaction.contactEmail}
+                  name="contactEmail"
+                  onChange={handlerInputChange}
+                  placeholder="SEU EMAIL"
+                  icon={MdEmail}
+                />
 
-          {dataFlow.fromId && (
-            <S.Block>
-              <S.Input
-                isValue={!!dataCreateTransaction.refundExtraId}
-                name="refundExtraId"
-                onChange={handlerInputChange}
-                label="OPCIONAL: ID/MENO/TAG PARA REEMBOLSO"
+                <S.OptionMessage>
+                  Fique por dentro em todo que acontece durante o processo de
+                  troca, seja notificado por e-mail em cada uma das etapa
+                  (moedas recebidas, trocando e envidas).
+                </S.OptionMessage>
+              </S.OptionBlock>
+            </S.OptionEmail>
+
+            <S.OptionAddress>
+              <S.OptionBlock>
+                <S.OptionMessage>
+                  <S.OptionTitle>Endereço da moeda de origem</S.OptionTitle>
+                </S.OptionMessage>
+
+                <S.Input
+                  isValue={!!dataCreateTransaction.refundAddress}
+                  name="refundAddress"
+                  onChange={handlerInputChange}
+                  color={isRefundAddress ? 'secondary' : 'error'}
+                  placeholder={`SEU ENDEREÇO ${
+                    dataFlow.fromName?.toUpperCase() || ''
+                  } PARA REEMBOLSO`}
+                  srcImage={dataFlow.fromImage}
+                />
+
+                <S.OptionMessage>
+                  Em casos de falhas durante a troca, um reembolso automatico
+                  pode ser iniciado sem que você precise intervir manualmente.
+                </S.OptionMessage>
+              </S.OptionBlock>
+
+              {dataFlow.fromId && (
+                <S.OptionBlock>
+                  <S.Input
+                    isValue={!!dataCreateTransaction.refundExtraId}
+                    name="refundExtraId"
+                    onChange={handlerInputChange}
+                    placeholder="OPCIONAL: ID/MENO/TAG PARA REEMBOLSO"
+                    srcImage={dataFlow.fromImage}
+                  />
+
+                  <S.OptionMessage>
+                    Certifique-se se o local de reembolso exige uma das
+                    propriedades
+                  </S.OptionMessage>
+                </S.OptionBlock>
+              )}
+
+              <Button
+                title="Validar endereço"
+                uppercase
+                onClick={() =>
+                  handlerClickValidateAddress({
+                    address: dataCreateTransaction.refundAddress || '',
+                    currency: dataCreateTransaction.fromCurrency || ''
+                  })
+                }
+                style={{ width: 'auto', marginLeft: 'auto' }}
               />
-            </S.Block>
-          )}
-        </S.DataOptions>
-      </S.AdvancedOptions>
-    </S.Main>
+            </S.OptionAddress>
+          </S.AdvancedOptionsContainer>
+        </S.AdvancedOptions>
+      )}
+    </>
   )
 }

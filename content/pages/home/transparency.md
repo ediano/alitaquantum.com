@@ -1,6 +1,5 @@
 ---
-title: 'Transparência'
-message: 'A Alita Quantum está sempre procurando ser transparente.'
+title: 'A Alita Quantum está sempre procurando ser transparente'
 content:
   - description: 'Antes de realizar a troca das moedas é possível saber o quanto você vai receber, este valor não sofre alterações, exceto em casos de quando o depósito é diferente do analisado.'
     image: '/img/pages/analysis.svg'

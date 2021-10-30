@@ -8,7 +8,6 @@ export type Props = {
   icon?: IconType
   srcImage?: string
   label?: string
-  isValue?: boolean
 } & InputHTMLAttributes<HTMLInputElement> &
   CSSProps
 
@@ -22,12 +21,19 @@ export const Input = ({
   srcImage,
   background,
   color,
+  colorIcon,
+  disabled,
   ...props
 }: Props) => {
   return (
-    <S.Container background={background} color={color} {...props}>
+    <S.Container
+      background={background}
+      color={color}
+      disabled={disabled}
+      {...props}
+    >
       {Icon && !srcImage && (
-        <S.WrapperIcon>
+        <S.WrapperIcon color={colorIcon}>
           <Icon />
         </S.WrapperIcon>
       )}
@@ -44,7 +50,12 @@ export const Input = ({
       />
 
       {label && (
-        <S.Label htmlFor={name} color={color} isValeu={isValue}>
+        <S.Label
+          htmlFor={name}
+          color={color}
+          isValue={isValue}
+          isIcon={!!Icon || !!srcImage}
+        >
           {label}
         </S.Label>
       )}

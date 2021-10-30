@@ -20,21 +20,11 @@ export const Title = styled.h1`
   color: #fff;
 
   ${({ theme }) => css`
-    font-size: ${theme.fonts.sizes.l};
+    font-size: ${theme.fonts.sizes.m};
 
     ${lessThan('m')(css`
-      font-size: ${theme.fonts.sizes.m};
+      font-size: ${theme.fonts.sizes.sm};
     `)}
-  `}
-`
-
-export const Message = styled.p`
-  text-align: center;
-  margin-bottom: 2rem;
-  color: #fff;
-
-  ${({ theme }) => css`
-    font-size: ${theme.fonts.sizes.sm};
   `}
 `
 

@@ -1,11 +1,15 @@
 import styled, { css } from 'styled-components'
+import { transparentize } from 'polished'
 
 import { KeyColors } from 'styles/theme'
 
 export type Props = {
   background?: KeyColors
   color?: KeyColors
-  isValeu?: boolean
+  colorIcon?: KeyColors
+  isValue?: boolean
+  isIcon?: boolean
+  disabled?: boolean
 }
 
 export const Container = styled.div<Props>`
@@ -16,11 +20,17 @@ export const Container = styled.div<Props>`
   display: flex;
   align-items: center;
 
-  ${({ theme, background, color }) => css`
+  ${({ theme, background, color, disabled }) => css`
     font-size: ${theme.fonts.sizes.s};
     background: ${theme.colors[background || 'white']};
     color: ${theme.colors[color || 'secondary']};
-    padding: 0 ${theme.spacing.xs};
+    padding: 0 ${theme.spacing.s};
+
+    ${disabled &&
+    css`
+      color: ${theme.colors.white};
+      background: ${transparentize(0.25, theme.colors.secondary)};
+    `}
   `}
 `
 
@@ -32,14 +42,20 @@ export const Label = styled.label<Props>`
 
   transition: 0.2s;
 
-  ${({ theme, color }) => css`
-    left: ${theme.spacing.xs};
-    font-size: ${theme.fonts.sizes.xs};
+  ${({ theme, color, isValue }) => css`
+    left: ${theme.spacing.s};
+    font-size: ${theme.fonts.sizes.xxs};
     color: ${theme.colors[color || 'secondary']};
   `}
 
-  ${({ isValeu }) =>
-    isValeu &&
+  ${({ theme, isIcon }) =>
+    isIcon &&
+    css`
+      left: calc(30px + ${theme.spacing.s});
+    `}
+
+  ${({ isValue }) =>
+    isValue &&
     css`
       z-index: 1;
       top: -12.5%;
@@ -56,6 +72,11 @@ export const Input = styled.input<Props>`
     background: transparent;
     color: ${theme.colors[color || 'secondary']};
     font-size: ${theme.fonts.sizes.s};
+
+    &::placeholder {
+      font-size: ${theme.fonts.sizes.xxs};
+      transform: translateY(-2px);
+    }
   `}
 
   &:focus ~ ${Label} {
@@ -64,11 +85,24 @@ export const Input = styled.input<Props>`
   }
 `
 
-export const WrapperIcon = styled.span`
-  width: 40px;
+export const WrapperIcon = styled.span<Props>`
+  display: flex;
+  align-items: center;
+
+  font-size: 1.8rem;
+
+  width: 30px;
   height: 100%;
-  display: block;
 
   background-repeat: no-repeat;
-  background-position: 50%;
+  background-position: 0 50%;
+
+  ${({ theme, color }) =>
+    color && theme.colors[color]
+      ? css`
+          color: ${theme.colors[color || 'secondary']};
+        `
+      : css`
+          color: ${color};
+        `}
 `
