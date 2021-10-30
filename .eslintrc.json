@@ -5,8 +5,12 @@
     "node": true
   },
   "extends": [
+    "standard",
+    "eslint:recommended",
+    "plugin:react/recommended",
     "plugin:@next/next/recommended",
-    "standard"
+    "eslint:recommended",
+    "next"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
