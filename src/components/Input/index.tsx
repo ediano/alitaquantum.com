@@ -1,7 +1,6 @@
 import { InputHTMLAttributes } from 'react'
 import { IconType } from 'react-icons'
 
-import { Props as CSSProps } from './styles'
 import * as S from './styles'
 
 export type Props = {
@@ -9,7 +8,7 @@ export type Props = {
   srcImage?: string
   label?: string
 } & InputHTMLAttributes<HTMLInputElement> &
-  CSSProps
+  S.Props
 
 export const Input = ({
   type = 'text',

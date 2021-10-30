@@ -9,7 +9,7 @@ type Props = {
   uppercase?: boolean
   style?: CSSProperties
 } & LinkProps &
-  S.ColorsProps &
+  S.Props &
   CSSProperties
 
 export const AnchorButton = ({

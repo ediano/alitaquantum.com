@@ -1,6 +1,5 @@
 import { ReactNode, ButtonHTMLAttributes, AnchorHTMLAttributes } from 'react'
 
-import { Props as StylesProps } from './styles'
 import * as S from './styles'
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>
@@ -10,7 +9,7 @@ type Props = {
   as?: 'button' | 'a'
   title: ReactNode
 } & (ButtonProps | AnchorProps) &
-  StylesProps
+  S.Props
 
 export const Button = ({ as = 'button', title, ...props }: Props) => {
   return (
