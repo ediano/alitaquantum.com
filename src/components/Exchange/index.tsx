@@ -74,7 +74,7 @@ export const Exchange = () => {
         <S.InputBlock>
           <S.Input
             name="toAmount"
-            disabled
+            disabled={true}
             color="white"
             background="grey"
             defaultValue={Number(estimatedAmount).toFixed(8)}
