@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { BsArrowDownUp } from 'react-icons/bs'
 
 import { Select } from 'components/Select'
-import { Input } from 'components/Input'
 import { TextTouch } from 'components/TextTouch'
 
 import { useExchange } from 'context/exchange'
@@ -31,18 +30,16 @@ export const Exchange = () => {
         <S.Alert alert={isAlert || false}>Montante mínimo: {minAmount}</S.Alert>
 
         <S.InputBlock>
-          <S.InputWrapper>
-            <Input
-              name="fromAmount"
-              value={fromAmount || ''}
-              onChange={handlerInputFromAmountChange}
-            />
-          </S.InputWrapper>
+          <S.Input
+            name="fromAmount"
+            value={fromAmount || ''}
+            onChange={handlerInputFromAmountChange}
+          />
 
-          <Input
+          <S.Input
             list="fromName"
             name="fromName"
-            bg="secondary"
+            background="secondary"
             color="whiteIce"
             srcImage={selectedCurrency?.fromImage}
             value={selectedCurrency?.fromName || ''}
@@ -78,19 +75,18 @@ export const Exchange = () => {
 
       <S.WrapperBlock>
         <S.InputBlock>
-          <S.InputWrapper disabled>
-            <Input
-              name="toAmount"
-              disabled
-              color="white"
-              value={Number(estimatedAmount).toFixed(8)}
-            />
-          </S.InputWrapper>
+          <S.Input
+            name="toAmount"
+            disabled
+            color="white"
+            background="grey"
+            value={Number(estimatedAmount).toFixed(8)}
+          />
 
-          <Input
+          <S.Input
             list="toName"
             name="toName"
-            bg="secondary"
+            background="secondary"
             color="whiteIce"
             srcImage={selectedCurrency?.toImage}
             value={selectedCurrency?.toName || ''}

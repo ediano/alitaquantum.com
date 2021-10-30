@@ -4,11 +4,6 @@ import { lighten } from 'polished'
 import { lessThan, Container as ContainerBase } from 'styles/layout'
 import { Input as InputBase } from 'components/Input'
 
-type Props = {
-  isValue?: boolean
-  isAddress?: boolean
-}
-
 export const Main = styled.main`
   position: relative;
 
@@ -57,12 +52,11 @@ export const Block = styled.div`
   `}
 `
 
-export const InputBlock = styled.div`
+export const Input = styled(InputBase)`
   ${({ theme, color }) => css`
     color: ${theme.colors.secondary};
     border-radius: ${theme.spacing.xs};
     border: 1px solid ${lighten(0.5, theme.colors.secondary)};
-    padding: 0 ${theme.spacing.m};
 
     ${!color || color === 'secondary'
       ? css`
@@ -71,43 +65,6 @@ export const InputBlock = styled.div`
       : css`
           border: 1px solid ${theme.colors.error};
         `}
-  `}
-`
-
-export const Label = styled.label<Props>`
-  position: absolute;
-  top: 50%;
-  z-index: -1;
-  transform: translateY(-50%);
-
-  background: #fff;
-  transition: 0.2s;
-  font-size: 1.4rem;
-
-  ${({ theme, isValue, isAddress }) => css`
-    left: ${theme.spacing.m};
-    padding: 0 ${theme.spacing.xxs};
-    border-radius: ${theme.spacing.xxs};
-
-    ${isValue &&
-    css`
-      top: -10%;
-    `}
-
-    ${isAddress !== undefined &&
-    !isAddress &&
-    css`
-      color: ${theme.colors.error};
-    `}
-  `}
-`
-
-export const Text = styled.a`
-  display: block;
-  text-align: right;
-
-  ${({ theme }) => css`
-    color: ${theme.colors.error};
   `}
 `
 

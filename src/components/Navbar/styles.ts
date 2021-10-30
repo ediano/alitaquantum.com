@@ -115,33 +115,27 @@ export const Item = styled.li`
 `
 
 export const ItemLink = styled.a<Props>`
-  ${({ theme }) =>
+  ${({ theme, isHero }) =>
     css`
       font-size: ${theme.fonts.sizes.xs};
       font-weight: ${theme.fonts.weight.semiBold};
+      color: ${theme.colors.secondary};
+
+      &:hover {
+        color: ${shade(0.25, theme.colors.primary)};
+      }
+
+      ${!isHero &&
+      css`
+        color: ${theme.colors.white};
+      `}
+
+      ${lessThan('m')(css`
+        display: block;
+        padding: 1.5rem;
+        color: ${theme.colors.secondary};
+      `)}
     `}
-
-  ${({ theme, isHero }) =>
-    isHero
-      ? css`
-          color: ${theme.colors.secondary};
-
-          &:hover {
-            color: ${shade(0.25, theme.colors.primary)};
-          }
-        `
-      : css`
-          color: ${theme.colors.whiteIce};
-
-          &:hover {
-            color: ${shade(0.2, theme.colors.white)};
-          }
-        `}
-
-  ${lessThan('m')(css`
-    display: block;
-    padding: 1.5rem;
-  `)}
 `
 
 export const Button = styled.button`

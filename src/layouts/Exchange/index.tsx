@@ -47,33 +47,29 @@ export const DATA_CREATE_TRANSACTION = {
 
 export const ExchangeLayout = () => {
   const { dataFlow } = useExchange()
-  const [timeoutChange, setTimeoutChange] = useState<any>()
-
   const [dataCreateTransaction, setDataCreateTransaction] =
     useState<DataCreateTransaction>({} as DataCreateTransaction)
 
   const [validating, setValidating] = useState<ValidatingProps>(
     {} as ValidatingProps
   )
-  const [isValidateAddress, setIsValidateAddress] = useState(false)
+  const [isValidateAddress, setIsValidateAddress] = useState(true)
 
   const handlerInputChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
-      clearTimeout(timeoutChange)
+      const { value, name } = event.target
 
-      setTimeoutChange(
+      if (name === 'address' && !value) setIsValidateAddress(true)
+
+      if (name === 'address' || name === 'extraId') {
         setTimeout(() => {
-          const { value, name } = event.target
+          setValidating((state) => ({ ...state, [name]: value }))
+        }, 1500)
+      }
 
-          if (name === 'address' || name === 'extraId') {
-            setValidating((state) => ({ ...state, [name]: value }))
-          }
-
-          setDataCreateTransaction((state) => ({ ...state, [name]: value }))
-        }, 500)
-      )
+      setDataCreateTransaction((state) => ({ ...state, [name]: value }))
     },
-    [timeoutChange]
+    []
   )
 
   useEffect(() => {
@@ -100,38 +96,27 @@ export const ExchangeLayout = () => {
 
         <S.BlockWrapper>
           <S.Block>
-            {validating.address && !isValidateAddress && (
-              <S.Text>Endereço inválido!</S.Text>
-            )}
-            <S.InputBlock
+            <S.Input
+              isValue={!!validating.address}
+              name="address"
+              onChange={handlerInputChange}
               color={
-                validating.address && !isValidateAddress ? 'error' : 'secondary'
+                !!validating.address && !isValidateAddress
+                  ? 'error'
+                  : 'secondary'
               }
-            >
-              <Input
-                isValue={!!validating.address}
-                name="address"
-                onChange={handlerInputChange}
-                color={
-                  validating.address && !isValidateAddress
-                    ? 'error'
-                    : 'secondary'
-                }
-                label={`SEU ENDEREÇO ${dataFlow.toName?.toUpperCase()}`}
-              />
-            </S.InputBlock>
+              label={`SEU ENDEREÇO ${dataFlow.toName?.toUpperCase()}`}
+            />
           </S.Block>
 
           {dataFlow.toId && (
             <S.Block>
-              <S.InputBlock>
-                <Input
-                  isValue={!!validating.extraId}
-                  name="extraId"
-                  onChange={handlerInputChange}
-                  label="OPCIONAL: ID/MENO/TAG"
-                />
-              </S.InputBlock>
+              <S.Input
+                isValue={!!validating.extraId}
+                name="extraId"
+                onChange={handlerInputChange}
+                label="OPCIONAL: ID/MENO/TAG"
+              />
             </S.Block>
           )}
         </S.BlockWrapper>
@@ -148,37 +133,31 @@ export const ExchangeLayout = () => {
       <S.AdvancedOptions>
         <S.DataOptions>
           <S.Block>
-            <S.InputBlock>
-              <Input
-                isValue={!!dataCreateTransaction.contactEmail}
-                name="contactEmail"
-                onChange={handlerInputChange}
-                label="SEU EMAIL"
-              />
-            </S.InputBlock>
+            <S.Input
+              isValue={!!dataCreateTransaction.contactEmail}
+              name="contactEmail"
+              onChange={handlerInputChange}
+              label="SEU EMAIL"
+            />
           </S.Block>
 
           <S.Block>
-            <S.InputBlock>
-              <Input
-                isValue={!!dataCreateTransaction.refundAddress}
-                name="refundAddress"
-                onChange={handlerInputChange}
-                label={`SEU ENDEREÇO ${dataFlow.fromName?.toUpperCase()} PARA REEMBOLSO`}
-              />
-            </S.InputBlock>
+            <S.Input
+              isValue={!!dataCreateTransaction.refundAddress}
+              name="refundAddress"
+              onChange={handlerInputChange}
+              label={`SEU ENDEREÇO ${dataFlow.fromName?.toUpperCase()} PARA REEMBOLSO`}
+            />
           </S.Block>
 
           {dataFlow.fromId && (
             <S.Block>
-              <S.InputBlock>
-                <Input
-                  isValue={!!dataCreateTransaction.refundExtraId}
-                  name="refundExtraId"
-                  onChange={handlerInputChange}
-                  label="OPCIONAL: ID/MENO/TAG PARA REEMBOLSO"
-                />
-              </S.InputBlock>
+              <S.Input
+                isValue={!!dataCreateTransaction.refundExtraId}
+                name="refundExtraId"
+                onChange={handlerInputChange}
+                label="OPCIONAL: ID/MENO/TAG PARA REEMBOLSO"
+              />
             </S.Block>
           )}
         </S.DataOptions>

@@ -4,5 +4,5 @@
   image: 
     src: '/img/pages/portfolio.svg'
     alt: 'Portfólio de criptomoedas'
-  description: 'Se você pensa em construir um portfólio, recomendamos armazenar suas criptomoedas em uma carteira segura onde a custódia fica sobre seu poder, use carteiras frias, a Atomic Wallet é uma ótima sugestão.'
+  description: 'Construir um portfólio de criptomoedas nunca foi tão fácil, a Atomic Wallet pode te ajudar, com mais de 300 moedas e tokens. Carteira 100% fria.'
 ---

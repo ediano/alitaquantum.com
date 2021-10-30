@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components'
 import { transparentize, lighten, shade } from 'polished'
+import { Input as InputBase } from 'components/Input'
 
 type AlertProps = {
   alert?: boolean
@@ -37,6 +38,15 @@ export const WrapperBlock = styled.div<AlertProps>`
     `};
 `
 
+export const Input = styled(InputBase)`
+  ${({ theme, disabled }) =>
+    disabled &&
+    css`
+      color: ${theme.colors.white};
+      background: ${transparentize(0.25, theme.colors.secondary)};
+    `}
+`
+
 export const InputBlock = styled.div`
   width: 100%;
   overflow: hidden;
@@ -48,19 +58,6 @@ export const InputBlock = styled.div`
   ${({ theme }) => css`
     border-radius: ${theme.border.xs};
     border-bottom-right-radius: 0;
-  `}
-`
-
-export const InputWrapper = styled.div<{ disabled?: boolean }>`
-  ${({ theme, disabled }) => css`
-    width: 100%;
-    padding: 0 ${theme.spacing.xs};
-
-    ${disabled &&
-    css`
-      color: ${theme.colors.white};
-      background: ${transparentize(0.25, theme.colors.secondary)};
-    `};
   `}
 `
 

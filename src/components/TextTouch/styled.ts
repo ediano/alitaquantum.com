@@ -17,6 +17,7 @@ export const Container = styled.div<Props>`
   position: absolute;
   top: -5px;
   left: 50%;
+  z-index: 9;
 
   text-align: center;
 

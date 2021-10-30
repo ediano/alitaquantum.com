@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components'
 import { KeyColors } from 'styles/theme'
 
 export type Props = {
-  bg?: KeyColors
+  background?: KeyColors
   color?: KeyColors
   isValeu?: boolean
 }
@@ -11,15 +11,16 @@ export type Props = {
 export const Container = styled.div<Props>`
   position: relative;
   width: 100%;
-  height: 75px;
+  height: 64px;
 
   display: flex;
   align-items: center;
 
-  ${({ theme, bg, color }) => css`
+  ${({ theme, background, color }) => css`
     font-size: ${theme.fonts.sizes.s};
-    background: ${theme.colors[bg || 'transparent']};
+    background: ${theme.colors[background || 'white']};
     color: ${theme.colors[color || 'secondary']};
+    padding: 0 ${theme.spacing.xs};
   `}
 `
 
@@ -29,18 +30,20 @@ export const Label = styled.label<Props>`
   z-index: 0;
   transform: translateY(-50%);
 
-  background: #fff;
   transition: 0.2s;
 
-  ${({ theme, isValeu }) => css`
+  ${({ theme, color }) => css`
+    left: ${theme.spacing.xs};
     font-size: ${theme.fonts.sizes.xs};
+    color: ${theme.colors[color || 'secondary']};
+  `}
 
-    ${isValeu &&
+  ${({ isValeu }) =>
+    isValeu &&
     css`
       z-index: 1;
-      top: -10%;
+      top: -12.5%;
     `}
-  `}
 `
 
 export const Input = styled.input<Props>`
@@ -57,7 +60,7 @@ export const Input = styled.input<Props>`
 
   &:focus ~ ${Label} {
     z-index: 1;
-    top: -10%;
+    top: -12.5%;
   }
 `
 

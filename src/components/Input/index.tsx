@@ -15,16 +15,17 @@ export type Props = {
 export const Input = ({
   type = 'text',
   name,
+  list,
   label,
   isValue,
   icon: Icon,
   srcImage,
-  bg,
+  background,
   color,
   ...props
 }: Props) => {
   return (
-    <S.Container bg={bg} color={color}>
+    <S.Container background={background} color={color} {...props}>
       {Icon && !srcImage && (
         <S.WrapperIcon>
           <Icon />
@@ -34,13 +35,21 @@ export const Input = ({
         <S.WrapperIcon style={{ backgroundImage: `url("${srcImage}")` }} />
       )}
 
-      <S.Input type={type} name={name} color={color} {...props} />
+      <S.Input
+        type={type}
+        name={name}
+        color={color}
+        list={list}
+        {...{ ...props, className: '' }}
+      />
 
       {label && (
-        <S.Label htmlFor={name} isValeu={isValue}>
+        <S.Label htmlFor={name} color={color} isValeu={isValue}>
           {label}
         </S.Label>
       )}
     </S.Container>
   )
 }
+
+export default Input
