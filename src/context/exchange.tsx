@@ -57,14 +57,25 @@ type ContextProps = {
   ) => void
 }
 
-const DATA_FLOW_SESSION_STORAGE = 'alitaquantum.com@data-flow'
+// const DATA_FLOW_SESSION_STORAGE = 'alitaquantum.com@data-flow'
+// const DATA_FLOW = {
+//   get: (): DataFlow => {
+//     const data = sessionStorage.getItem(DATA_FLOW_SESSION_STORAGE)
+//     return !!data && JSON.parse(data)
+//   },
+//   set: (data: DataFlow) => {
+//     sessionStorage.setItem(DATA_FLOW_SESSION_STORAGE, JSON.stringify(data))
+//   }
+// }
+
 const DATA_FLOW = {
-  get: (): DataFlow => {
-    const data = sessionStorage.getItem(DATA_FLOW_SESSION_STORAGE)
-    return !!data && JSON.parse(data)
+  get: () => {
+    const [name, data] = document.cookie.split('=')
+    if (name === 'alitaquantum.com@data-flow') return JSON.parse(data)
+    return false
   },
   set: (data: DataFlow) => {
-    sessionStorage.setItem(DATA_FLOW_SESSION_STORAGE, JSON.stringify(data))
+    document.cookie = `alitaquantum.com@data-flow=${JSON.stringify(data)}`
   }
 }
 
