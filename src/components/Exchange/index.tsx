@@ -31,7 +31,7 @@ export const Exchange = () => {
         <S.InputBlock>
           <S.Input
             name="fromAmount"
-            defaultValue={fromAmount || ''}
+            value={fromAmount || ''}
             onChange={handlerInputFromAmountChange}
           />
 
@@ -41,7 +41,7 @@ export const Exchange = () => {
             background="secondary"
             color="whiteIce"
             srcImage={selectedCurrency?.fromImage}
-            defaultValue={selectedCurrency?.fromName || ''}
+            value={selectedCurrency?.fromName || ''}
             onChange={handlerInputSelectedCurrencyChange}
           />
           <Select name="fromName" currencies={currencies} />
@@ -77,7 +77,7 @@ export const Exchange = () => {
             disabled={true}
             color="white"
             background="grey"
-            defaultValue={Number(estimatedAmount).toFixed(8)}
+            value={Number(estimatedAmount).toFixed(8)}
           />
 
           <S.Input
@@ -86,7 +86,7 @@ export const Exchange = () => {
             background="secondary"
             color="whiteIce"
             srcImage={selectedCurrency?.toImage}
-            defaultValue={selectedCurrency?.toName || ''}
+            value={selectedCurrency?.toName || ''}
             onChange={handlerInputSelectedCurrencyChange}
           />
           <Select name="toName" currencies={currencies} />

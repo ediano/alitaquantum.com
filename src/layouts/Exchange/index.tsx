@@ -139,150 +139,147 @@ export const ExchangeLayout = () => {
 
   return (
     <>
-      {!confirmTransaction ? (
-        <>
-          <S.Main>
-            <S.Container>
-              <S.Message>Preencha os dados para trocar as moedas.</S.Message>
+      <>
+        <S.Main>
+          <S.Container>
+            <S.Message>Preencha os dados para trocar as moedas.</S.Message>
 
-              <Exchange />
-              <S.BlockWrapper>
+            <Exchange />
+            <S.BlockWrapper>
+              <S.Block>
+                <S.Input
+                  defaultValue=""
+                  isValue={!!validating.address}
+                  name="address"
+                  onChange={handlerInputChange}
+                  color={
+                    !!validating.address && !isValidateAddress
+                      ? 'error'
+                      : 'secondary'
+                  }
+                  label={`SEU ENDEREÇO ${dataFlow.toName?.toUpperCase() || ''}`}
+                />
+              </S.Block>
+
+              {dataFlow.toId && (
                 <S.Block>
                   <S.Input
                     defaultValue=""
-                    isValue={!!validating.address}
-                    name="address"
+                    isValue={!!validating.extraId}
+                    name="extraId"
                     onChange={handlerInputChange}
-                    color={
-                      !!validating.address && !isValidateAddress
-                        ? 'error'
-                        : 'secondary'
-                    }
-                    label={`SEU ENDEREÇO ${
-                      dataFlow.toName?.toUpperCase() || ''
-                    }`}
+                    label="OPCIONAL: ID/MENO/TAG"
                   />
                 </S.Block>
+              )}
+            </S.BlockWrapper>
 
-                {dataFlow.toId && (
-                  <S.Block>
-                    <S.Input
-                      defaultValue=""
-                      isValue={!!validating.extraId}
-                      name="extraId"
-                      onChange={handlerInputChange}
-                      label="OPCIONAL: ID/MENO/TAG"
-                    />
-                  </S.Block>
-                )}
-              </S.BlockWrapper>
+            <S.WrapperButton>
+              <Button
+                uppercase
+                title="Proximo"
+                onClick={() => setConfirmTransaction(true)}
+                disabled={!validating.address || !isValidateAddress}
+              />
+            </S.WrapperButton>
 
-              <S.WrapperButton>
-                <Button
-                  uppercase
-                  title="Proximo"
-                  onClick={() => setConfirmTransaction(true)}
-                  disabled={!validating.address || !isValidateAddress}
-                />
-              </S.WrapperButton>
+            <S.AdvancedOptionsText
+              onClick={() => setIsAdvancedOptions(!isAdvancedOptions)}
+            >
+              Opções avançadas
+            </S.AdvancedOptionsText>
+          </S.Container>
+        </S.Main>
 
-              <S.AdvancedOptionsText
-                onClick={() => setIsAdvancedOptions(!isAdvancedOptions)}
-              >
-                Opções avançadas
-              </S.AdvancedOptionsText>
-            </S.Container>
-          </S.Main>
+        {isAdvancedOptions && (
+          <S.AdvancedOptions>
+            <S.AdvancedOptionsContainer>
+              <S.OptionEmail>
+                <S.OptionBlock>
+                  <S.OptionMessage>
+                    <S.OptionTitle>
+                      Receba notificações por e-mail
+                    </S.OptionTitle>
+                  </S.OptionMessage>
 
-          {isAdvancedOptions && (
-            <S.AdvancedOptions>
-              <S.AdvancedOptionsContainer>
-                <S.OptionEmail>
+                  <S.Input
+                    defaultValue=""
+                    type="email"
+                    isValue={!!dataCreateTransaction.contactEmail}
+                    name="contactEmail"
+                    onChange={handlerInputChange}
+                    placeholder="SEU EMAIL"
+                    icon={MdEmail}
+                  />
+
+                  <S.OptionMessage>
+                    Fique por dentro em todo que acontece durante o processo de
+                    troca, seja notificado por e-mail em cada uma das etapa
+                    (moedas recebidas, trocando e envidas).
+                  </S.OptionMessage>
+                </S.OptionBlock>
+              </S.OptionEmail>
+
+              <S.OptionAddress>
+                <S.OptionBlock>
+                  <S.OptionMessage>
+                    <S.OptionTitle>Endereço da moeda de origem</S.OptionTitle>
+                  </S.OptionMessage>
+
+                  <S.Input
+                    defaultValue=""
+                    isValue={!!dataCreateTransaction.refundAddress}
+                    name="refundAddress"
+                    onChange={handlerInputChange}
+                    color={isRefundAddress ? 'secondary' : 'error'}
+                    placeholder={`SEU ENDEREÇO ${
+                      dataFlow.fromName?.toUpperCase() || ''
+                    } PARA REEMBOLSO`}
+                    srcImage={dataFlow.fromImage}
+                  />
+
+                  <S.OptionMessage>
+                    Em casos de falhas durante a troca, um reembolso automatico
+                    pode ser iniciado sem que você precise intervir manualmente.
+                  </S.OptionMessage>
+                </S.OptionBlock>
+
+                {dataFlow.fromId && (
                   <S.OptionBlock>
-                    <S.OptionMessage>
-                      <S.OptionTitle>
-                        Receba notificações por e-mail
-                      </S.OptionTitle>
-                    </S.OptionMessage>
-
                     <S.Input
                       defaultValue=""
-                      type="email"
-                      isValue={!!dataCreateTransaction.contactEmail}
-                      name="contactEmail"
+                      isValue={!!dataCreateTransaction.refundExtraId}
+                      name="refundExtraId"
                       onChange={handlerInputChange}
-                      placeholder="SEU EMAIL"
-                      icon={MdEmail}
-                    />
-
-                    <S.OptionMessage>
-                      Fique por dentro em todo que acontece durante o processo
-                      de troca, seja notificado por e-mail em cada uma das etapa
-                      (moedas recebidas, trocando e envidas).
-                    </S.OptionMessage>
-                  </S.OptionBlock>
-                </S.OptionEmail>
-
-                <S.OptionAddress>
-                  <S.OptionBlock>
-                    <S.OptionMessage>
-                      <S.OptionTitle>Endereço da moeda de origem</S.OptionTitle>
-                    </S.OptionMessage>
-
-                    <S.Input
-                      defaultValue=""
-                      isValue={!!dataCreateTransaction.refundAddress}
-                      name="refundAddress"
-                      onChange={handlerInputChange}
-                      color={isRefundAddress ? 'secondary' : 'error'}
-                      placeholder={`SEU ENDEREÇO ${
-                        dataFlow.fromName?.toUpperCase() || ''
-                      } PARA REEMBOLSO`}
+                      placeholder="OPCIONAL: ID/MENO/TAG PARA REEMBOLSO"
                       srcImage={dataFlow.fromImage}
                     />
 
                     <S.OptionMessage>
-                      Em casos de falhas durante a troca, um reembolso
-                      automatico pode ser iniciado sem que você precise intervir
-                      manualmente.
+                      Certifique-se se o local de reembolso exige uma das
+                      propriedades
                     </S.OptionMessage>
                   </S.OptionBlock>
+                )}
 
-                  {dataFlow.fromId && (
-                    <S.OptionBlock>
-                      <S.Input
-                        defaultValue=""
-                        isValue={!!dataCreateTransaction.refundExtraId}
-                        name="refundExtraId"
-                        onChange={handlerInputChange}
-                        placeholder="OPCIONAL: ID/MENO/TAG PARA REEMBOLSO"
-                        srcImage={dataFlow.fromImage}
-                      />
+                <Button
+                  title="Validar endereço"
+                  uppercase
+                  onClick={() =>
+                    handlerClickValidateAddress({
+                      address: dataCreateTransaction.refundAddress || '',
+                      currency: dataCreateTransaction.fromCurrency || ''
+                    })
+                  }
+                  style={{ width: 'auto', marginLeft: 'auto' }}
+                />
+              </S.OptionAddress>
+            </S.AdvancedOptionsContainer>
+          </S.AdvancedOptions>
+        )}
+      </>
 
-                      <S.OptionMessage>
-                        Certifique-se se o local de reembolso exige uma das
-                        propriedades
-                      </S.OptionMessage>
-                    </S.OptionBlock>
-                  )}
-
-                  <Button
-                    title="Validar endereço"
-                    uppercase
-                    onClick={() =>
-                      handlerClickValidateAddress({
-                        address: dataCreateTransaction.refundAddress || '',
-                        currency: dataCreateTransaction.fromCurrency || ''
-                      })
-                    }
-                    style={{ width: 'auto', marginLeft: 'auto' }}
-                  />
-                </S.OptionAddress>
-              </S.AdvancedOptionsContainer>
-            </S.AdvancedOptions>
-          )}
-        </>
-      ) : (
+      {confirmTransaction && (
         <ConfirmTransaction
           setToggle={setConfirmTransaction}
           {...dataCreateTransaction}

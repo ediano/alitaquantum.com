@@ -57,25 +57,14 @@ type ContextProps = {
   ) => void
 }
 
-// const DATA_FLOW_SESSION_STORAGE = 'alitaquantum.com@data-flow'
-// const DATA_FLOW = {
-//   get: (): DataFlow => {
-//     const data = sessionStorage.getItem(DATA_FLOW_SESSION_STORAGE)
-//     return !!data && JSON.parse(data)
-//   },
-//   set: (data: DataFlow) => {
-//     sessionStorage.setItem(DATA_FLOW_SESSION_STORAGE, JSON.stringify(data))
-//   }
-// }
-
+const DATA_FLOW_SESSION_STORAGE = 'alitaquantum.com@data-flow'
 const DATA_FLOW = {
-  get: () => {
-    const [name, data] = document.cookie.split('=')
-    if (name === 'dataFlow') return JSON.parse(data)
-    return false
+  get: (): DataFlow => {
+    const data = sessionStorage.getItem(DATA_FLOW_SESSION_STORAGE)
+    return !!data && JSON.parse(data)
   },
   set: (data: DataFlow) => {
-    document.cookie = `dataFlow=${JSON.stringify(data)}`
+    sessionStorage.setItem(DATA_FLOW_SESSION_STORAGE, JSON.stringify(data))
   }
 }
 
@@ -101,7 +90,6 @@ export const ExchangeProvider = ({ children }: Props) => {
   const [isAlert, setIsAlert] = useState(false)
 
   useEffect(() => {
-    console.log(DATA_FLOW.get())
     if (DATA_FLOW.get()) {
       const {
         fromName,
