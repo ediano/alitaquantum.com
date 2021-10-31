@@ -1,8 +1,9 @@
-import { useState, Dispatch, SetStateAction } from 'react'
+import { useState, Dispatch, SetStateAction, MouseEvent } from 'react'
+import { useRouter } from 'next/router'
+
+import Api from 'services/ApiService'
 
 import { Button } from 'components/Button'
-import { AnchorButton } from 'components/AnchorButton'
-
 import { DataCreateTransaction } from 'layouts/Exchange'
 
 import * as S from './styles'
@@ -13,17 +14,59 @@ type Props = {
 
 export const ConfirmTransaction = ({
   fromCurrency,
+  fromNetwork,
   fromAmount,
   toCurrency,
+  toNetwork,
   toAmount,
   address,
+  extraId,
+  contactEmail,
+  refundAddress,
+  refundExtraId,
   transactionSpeedForecast,
   setToggle
 }: Props) => {
+  const router = useRouter()
   const [checkbox, setCheckbox] = useState(false)
 
   const explod = transactionSpeedForecast?.split('-')
   const waitForecast = explod?.length ? explod?.join(' à ') : explod
+
+  const handlerCreateTransaction = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    async function handler() {
+      try {
+        const response = await Api.setCreateExchangeTransaction({
+          address,
+          extraId: extraId || '',
+          fromAmount,
+          fromCurrency,
+          fromNetwork,
+          toCurrency,
+          toNetwork,
+          contactEmail: contactEmail || '',
+          refundAddress: refundAddress || '',
+          refundExtraId: refundExtraId || ''
+        })
+
+        router.push({
+          pathname: '/exchange/[txs]',
+          query: { txs: 'txs', id: response.data.id }
+        })
+      } catch (err) {}
+    }
+    if (
+      fromCurrency &&
+      toCurrency &&
+      fromNetwork &&
+      toNetwork &&
+      fromAmount &&
+      address
+    ) {
+      handler()
+    }
+  }
 
   return (
     <S.Container>
@@ -55,10 +98,11 @@ export const ConfirmTransaction = ({
         </S.Block>
 
         <S.WrapperButton>
-          <AnchorButton
+          <Button
             uppercase
             title="Confirmar"
-            href="/exchange/txs"
+            onClick={handlerCreateTransaction}
+            background={checkbox ? 'primary' : 'secondary'}
             disabled={!checkbox}
           />
 
@@ -71,8 +115,7 @@ export const ConfirmTransaction = ({
               type="checkbox"
               onClick={() => setCheckbox(!checkbox)}
             />
-            Eu li e concordo com os Termos de Uso, Política de Privacidade e
-            Declaração de divulgação dos riscos
+            Confirmo que as informações estão corretas!
           </S.WrapperCheckbox>
         </S.Block>
       </S.Wrapper>

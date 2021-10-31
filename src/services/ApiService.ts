@@ -7,7 +7,9 @@ import type {
   EstimatedAmount,
   ReqEstimatedAmount,
   ReqValidateAddress,
-  ValidateAddress
+  ValidateAddress,
+  ReqCreateExchangeTransaction,
+  CreateExchangeTransaction
 } from './ChangeNowService'
 
 const Api = axios.create({
@@ -46,9 +48,23 @@ export const getValidateAddress = async (options: ReqValidateAddress) => {
   return response
 }
 
+export const setCreateExchangeTransaction = async (
+  options: Omit<ReqCreateExchangeTransaction, 'type' | 'flow'>
+) => {
+  const response = await Api.get<CreateExchangeTransaction>(
+    '/create-exchange-transaction',
+    {
+      params: { ...options }
+    }
+  )
+
+  return response
+}
+
 export default {
   getCurrencies,
   getRange,
   getEstimatedAmount,
-  getValidateAddress
+  getValidateAddress,
+  setCreateExchangeTransaction
 }

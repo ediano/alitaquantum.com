@@ -20,7 +20,7 @@ export const Container = styled.div`
   ${({ theme }) => css`
     background: ${theme.colors.white};
     padding: ${theme.spacing.xxl};
-    margin: ${theme.spacing.m} auto;
+    margin: 0 auto;
     border-radius: ${theme.spacing.s};
 
     ${lessThan('s')(css`

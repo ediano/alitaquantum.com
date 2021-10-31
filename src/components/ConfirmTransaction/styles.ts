@@ -5,7 +5,8 @@ export const Container = styled.div`
   position: relative;
 
   ${({ theme }) => css`
-    padding: ${theme.spacing.xxl};
+    padding: 0 ${theme.spacing.xxl};
+    padding-bottom: ${theme.spacing.xxl};
     background: ${theme.colors.whiteIce};
   `}
 `
@@ -17,7 +18,7 @@ export const Wrapper = styled.div`
   ${({ theme }) => css`
     background: ${theme.colors.white};
     padding: ${theme.spacing.xxl};
-    margin: ${theme.spacing.m} auto;
+    margin: 0 auto;
     border-radius: ${theme.spacing.s};
 
     ${lessThan('s')(css`
