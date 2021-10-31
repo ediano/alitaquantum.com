@@ -24,7 +24,7 @@ export const Container = styled.button<Props>`
 
   transition: 0.2s;
 
-  ${({ theme, color, background, uppercase }) => css`
+  ${({ theme, color, background, uppercase, disabled }) => css`
     color: ${theme.colors[color || 'whiteIce']};
     background: ${shade(0.1, theme.colors[background || 'secondary'])};
     padding: ${theme.spacing.s};
@@ -37,6 +37,14 @@ export const Container = styled.button<Props>`
     &:hover {
       background: ${shade(0.5, theme.colors[background || 'secondary'])};
     }
+
+    ${disabled &&
+    css`
+      cursor: not-allowed;
+      &:hover {
+        background: ${shade(0.1, theme.colors[background || 'secondary'])};
+      }
+    `}
 
     ${uppercase &&
     css`

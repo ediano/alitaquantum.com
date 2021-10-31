@@ -3,13 +3,6 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { app } from 'app'
 import { ChangeNow, Currencies } from 'services/ChangeNowService'
 
-export type AvailableCurrencies = {
-  ticker: string
-  name: string
-  network: string
-  hasExternalId: boolean
-}
-
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const response = await ChangeNow.get<Currencies[]>('/exchange/currencies', {

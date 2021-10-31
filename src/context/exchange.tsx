@@ -5,9 +5,7 @@ import {
   useState,
   useEffect,
   useCallback,
-  ChangeEvent,
-  FocusEvent,
-  MouseEvent
+  ChangeEvent
 } from 'react'
 
 import Api from 'services/ApiService'
@@ -50,25 +48,23 @@ type ContextProps = {
   fromAmount: string
   minAmount: string
   estimatedAmount: string
+  transactionSpeedForecast: string
   isAlert: boolean
   handlerInputFromAmountChange: (event: ChangeEvent<HTMLInputElement>) => void
   handlerButtonSelectedCurrencyChange: () => void
   handlerInputSelectedCurrencyChange: (
     event: ChangeEvent<HTMLInputElement>
   ) => void
-  handlerSelectedCurrencyClick: (
-    event: FocusEvent<HTMLInputElement> & MouseEvent<HTMLInputElement>
-  ) => void
 }
 
-const DATA_FLOW_SESSION_STORAGE = 'alitaquantum.com@data-flow'
-export const DATA_FLOW_STORAGE = {
-  get: (): DataFlow => {
-    const data = sessionStorage.getItem(DATA_FLOW_SESSION_STORAGE)
-    return !!data && JSON.parse(data)
+const DATA_FLOW = {
+  get: () => {
+    const [name, data] = document.cookie.split('=')
+    if (name === 'alitaquantum.com@data-flow') return JSON.parse(data)
+    return false
   },
   set: (data: DataFlow) => {
-    sessionStorage.setItem(DATA_FLOW_SESSION_STORAGE, JSON.stringify(data))
+    document.cookie = `alitaquantum.com@data-flow=${JSON.stringify(data)}`
   }
 }
 
@@ -89,11 +85,12 @@ export const ExchangeProvider = ({ children }: Props) => {
   const [fromAmount, setFromAmount] = useState('0')
   const [minAmount, setMinAmount] = useState('0')
   const [estimatedAmount, setEstimatedAmount] = useState('0')
+  const [transactionSpeedForecast, setTransactionSpeedForecast] = useState('')
 
   const [isAlert, setIsAlert] = useState(false)
 
   useEffect(() => {
-    if (DATA_FLOW_STORAGE.get()) {
+    if (DATA_FLOW.get()) {
       const {
         fromName,
         fromNetwork,
@@ -105,9 +102,9 @@ export const ExchangeProvider = ({ children }: Props) => {
         toCurrency,
         toId,
         toImage
-      } = DATA_FLOW_STORAGE.get()
+      } = DATA_FLOW.get()
 
-      setDataFlow(DATA_FLOW_STORAGE.get())
+      setDataFlow(DATA_FLOW.get())
       setSelectedCurrency({
         fromName,
         fromCurrency,
@@ -120,7 +117,7 @@ export const ExchangeProvider = ({ children }: Props) => {
         toId,
         toImage
       })
-      setFromAmount(DATA_FLOW_STORAGE.get().fromAmount)
+      setFromAmount(DATA_FLOW.get().fromAmount)
     } else {
       setSelectedCurrency(initialProps)
     }
@@ -137,7 +134,7 @@ export const ExchangeProvider = ({ children }: Props) => {
       if (Number(value) >= 0 && name === 'fromAmount' && limit) {
         setFromAmount(value)
         setDataFlow((state) => {
-          DATA_FLOW_STORAGE.set({ ...state, fromAmount: value })
+          DATA_FLOW.set({ ...state, fromAmount: value })
           return { ...state, fromAmount: value }
         })
       }
@@ -216,36 +213,6 @@ export const ExchangeProvider = ({ children }: Props) => {
     }))
   }, [])
 
-  const handlerSelectedCurrencyClick = useCallback((event: any) => {
-    const { name } = event.target as { name: string }
-
-    setSelectedCurrency((state) => {
-      if (name === 'fromName') {
-        return {
-          ...state,
-          fromName: '',
-          fromCurrency: '',
-          fromNetwork: '',
-          fromId: false,
-          fromImage: ''
-        }
-      }
-
-      if (name === 'toName') {
-        return {
-          ...state,
-          toName: '',
-          toCurrency: '',
-          toNetwork: '',
-          toId: false,
-          toImage: ''
-        }
-      }
-
-      return state
-    })
-  }, [])
-
   useEffect(() => {
     async function loading() {
       try {
@@ -283,7 +250,7 @@ export const ExchangeProvider = ({ children }: Props) => {
 
         const newFromAmount = String((range.minAmount * 10).toFixed(8))
 
-        const { fromAmount, minAmount } = DATA_FLOW_STORAGE.get()
+        const { fromAmount, minAmount } = DATA_FLOW.get()
 
         const isMin = Number(minAmount) !== range.minAmount
 
@@ -306,7 +273,7 @@ export const ExchangeProvider = ({ children }: Props) => {
           minAmount: String(range.minAmount),
           fromAmount: compareAmount
         })
-        DATA_FLOW_STORAGE.set({
+        DATA_FLOW.set({
           fromName,
           fromCurrency,
           fromNetwork,
@@ -354,11 +321,16 @@ export const ExchangeProvider = ({ children }: Props) => {
 
         if (!estimated.toAmount) {
           setEstimatedAmount('0')
+          setTransactionSpeedForecast('Estimativa não disponível')
         } else {
           setEstimatedAmount(String(estimated.toAmount))
+          setTransactionSpeedForecast(
+            estimated.transactionSpeedForecast || 'Estimativa não disponível'
+          )
         }
       } catch (err) {
         setEstimatedAmount('0')
+        setTransactionSpeedForecast('Estimativa não disponível')
       }
     }
 
@@ -383,11 +355,11 @@ export const ExchangeProvider = ({ children }: Props) => {
         fromAmount,
         minAmount,
         estimatedAmount,
+        transactionSpeedForecast,
         isAlert,
         handlerInputFromAmountChange,
         handlerButtonSelectedCurrencyChange,
-        handlerInputSelectedCurrencyChange,
-        handlerSelectedCurrencyClick
+        handlerInputSelectedCurrencyChange
       }}
     >
       {children}

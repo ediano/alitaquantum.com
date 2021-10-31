@@ -5,13 +5,14 @@ import { useExchange } from 'context/exchange'
 import Api from 'services/ApiService'
 
 import { Exchange } from 'components/Exchange'
-import { AnchorButton } from 'components/AnchorButton'
 import { Button } from 'components/Button'
+import { ConfirmTransaction } from 'components/ConfirmTransaction'
 
 import * as S from './styles'
 
-type DataCreateTransaction = {
+export type DataCreateTransaction = {
   fromAmount: string
+  toAmount: string
   fromCurrency: string
   fromNetwork: string
   toCurrency: string
@@ -21,14 +22,7 @@ type DataCreateTransaction = {
   refundAddress?: string
   refundExtraId?: string
   contactEmail?: string
-}
-
-type ValidatingProps = {
-  address: string
-  extraId?: string
-  refundAddress?: string
-  refundExtraId?: string
-  contactEmail?: string
+  transactionSpeedForecast: string
 }
 
 type HandlerClickValidateAddress = {
@@ -36,46 +30,33 @@ type HandlerClickValidateAddress = {
   currency: string
 }
 
-const DATA_CREATE_TRANSACTION_SESSION_STORAGE =
-  'alitaquantum.com@data-create-transaction'
-export const DATA_CREATE_TRANSACTION = {
-  get: (): DataCreateTransaction => {
-    const data = sessionStorage.getItem(DATA_CREATE_TRANSACTION_SESSION_STORAGE)
-    return !!data && JSON.parse(data)
-  },
-  set: (data: DataCreateTransaction) => {
-    sessionStorage.setItem(
-      DATA_CREATE_TRANSACTION_SESSION_STORAGE,
-      JSON.stringify(data)
-    )
-  }
-}
-
 export const ExchangeLayout = () => {
-  const { dataFlow } = useExchange()
+  const { dataFlow, estimatedAmount, transactionSpeedForecast } = useExchange()
   const [dataCreateTransaction, setDataCreateTransaction] =
     useState<DataCreateTransaction>({} as DataCreateTransaction)
 
-  const [validating, setValidating] = useState<ValidatingProps>(
-    {} as ValidatingProps
-  )
-  const [isValidateAddress, setIsValidateAddress] = useState(true)
+  const [address, setAddress] = useState('')
+  const [confirmTransaction, setConfirmTransaction] = useState(false)
   const [isAdvancedOptions, setIsAdvancedOptions] = useState(false)
   const [isRefundAddress, setIsRefundAddress] = useState(true)
+  const [isValidatingAddress, setIsValidatingAddress] = useState(false)
+  const [isError, setIsError] = useState(false)
 
   const handlerInputChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       const { value, name } = event.target
 
-      if (name === 'address' && !value) setIsValidateAddress(true)
+      setTimeout(() => {
+        if (name === 'address' && !value) {
+          setConfirmTransaction(false)
+        }
 
-      if (name === 'address' || name === 'extraId') {
-        setTimeout(() => {
-          setValidating((state) => ({ ...state, [name]: value }))
-        }, 500)
-      }
+        if (name === 'address') {
+          setAddress(value)
+        }
 
-      setDataCreateTransaction((state) => ({ ...state, [name]: value }))
+        setDataCreateTransaction((state) => ({ ...state, [name]: value }))
+      }, 500)
     },
     []
   )
@@ -103,31 +84,57 @@ export const ExchangeLayout = () => {
     async function handler() {
       try {
         const response = await Api.getValidateAddress({
-          address: validating.address,
+          address,
           currency: dataFlow.toCurrency
         })
 
-        setIsValidateAddress(response.data.result)
-      } catch (err) {}
+        setIsValidatingAddress(response.data.result)
+      } catch (err) {
+        setIsValidatingAddress(false)
+      }
     }
 
-    if (validating.address) handler()
-  }, [validating, dataFlow])
+    if (address) {
+      handler()
+    } else {
+      setIsValidatingAddress(false)
+    }
+  }, [dataFlow, address])
 
   useEffect(() => {
     if (!isAdvancedOptions) {
       setDataCreateTransaction((state) => ({
         ...state,
-        refundAddress: undefined,
-        refundExtraId: undefined,
-        contactEmail: undefined
+        refundAddress: '',
+        refundExtraId: '',
+        contactEmail: ''
       }))
     }
   }, [isAdvancedOptions])
 
   useEffect(() => {
-    setDataCreateTransaction((state) => ({ ...state, ...dataFlow }))
-  }, [dataFlow])
+    const { fromAmount, fromCurrency, fromNetwork, toCurrency, toNetwork } =
+      dataFlow
+    setDataCreateTransaction((state) => ({
+      ...state,
+      fromAmount,
+      fromCurrency,
+      fromNetwork,
+      toCurrency,
+      toNetwork,
+      toAmount: estimatedAmount,
+      transactionSpeedForecast,
+      extraId: state.extraId || ''
+    }))
+  }, [dataFlow, estimatedAmount, transactionSpeedForecast])
+
+  useEffect(() => {
+    if (address) {
+      setIsError(!isValidatingAddress)
+    } else {
+      setIsError(false)
+    }
+  }, [address, isValidatingAddress])
 
   return (
     <>
@@ -136,18 +143,14 @@ export const ExchangeLayout = () => {
           <S.Message>Preencha os dados para trocar as moedas.</S.Message>
 
           <Exchange />
-
           <S.BlockWrapper>
             <S.Block>
               <S.Input
-                isValue={!!validating.address}
+                defaultValue=""
+                isValue={!!address}
                 name="address"
                 onChange={handlerInputChange}
-                color={
-                  !!validating.address && !isValidateAddress
-                    ? 'error'
-                    : 'secondary'
-                }
+                color={!isError ? 'secondary' : 'error'}
                 label={`SEU ENDEREÇO ${dataFlow.toName?.toUpperCase() || ''}`}
               />
             </S.Block>
@@ -155,7 +158,8 @@ export const ExchangeLayout = () => {
             {dataFlow.toId && (
               <S.Block>
                 <S.Input
-                  isValue={!!validating.extraId}
+                  defaultValue=""
+                  isValue={!!dataCreateTransaction.extraId}
                   name="extraId"
                   onChange={handlerInputChange}
                   label="OPCIONAL: ID/MENO/TAG"
@@ -165,11 +169,12 @@ export const ExchangeLayout = () => {
           </S.BlockWrapper>
 
           <S.WrapperButton>
-            <AnchorButton
+            <Button
               uppercase
               title="Proximo"
-              href="/exchange/tsx"
-              disabled={!validating.address || !isValidateAddress}
+              background={isValidatingAddress ? 'primary' : 'secondary'}
+              onClick={() => setConfirmTransaction(true)}
+              disabled={!isValidatingAddress}
             />
           </S.WrapperButton>
 
@@ -178,6 +183,13 @@ export const ExchangeLayout = () => {
           >
             Opções avançadas
           </S.AdvancedOptionsText>
+
+          {confirmTransaction && address && isValidatingAddress && (
+            <ConfirmTransaction
+              setToggle={setConfirmTransaction}
+              {...dataCreateTransaction}
+            />
+          )}
         </S.Container>
       </S.Main>
 
@@ -191,6 +203,7 @@ export const ExchangeLayout = () => {
                 </S.OptionMessage>
 
                 <S.Input
+                  defaultValue=""
                   type="email"
                   isValue={!!dataCreateTransaction.contactEmail}
                   name="contactEmail"
@@ -214,6 +227,7 @@ export const ExchangeLayout = () => {
                 </S.OptionMessage>
 
                 <S.Input
+                  defaultValue=""
                   isValue={!!dataCreateTransaction.refundAddress}
                   name="refundAddress"
                   onChange={handlerInputChange}
@@ -233,6 +247,7 @@ export const ExchangeLayout = () => {
               {dataFlow.fromId && (
                 <S.OptionBlock>
                   <S.Input
+                    defaultValue=""
                     isValue={!!dataCreateTransaction.refundExtraId}
                     name="refundExtraId"
                     onChange={handlerInputChange}

@@ -25,6 +25,7 @@ export const Hero = () => {
           <Exchange />
 
           <AnchorButton
+            uppercase
             title="Trocar"
             href="/exchange"
             style={{ marginTop: '50px' }}
