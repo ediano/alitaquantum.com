@@ -2,10 +2,12 @@ import styled, { css } from 'styled-components'
 import { lessThan } from 'styles/layout'
 
 export const Container = styled.div`
-  position: relative;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 
   ${({ theme }) => css`
-    padding: 0 ${theme.spacing.xxl};
+    padding: ${theme.spacing.xxl};
     padding-bottom: ${theme.spacing.xxl};
     background: ${theme.colors.whiteIce};
   `}

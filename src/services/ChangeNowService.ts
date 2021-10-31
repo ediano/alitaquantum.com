@@ -3,12 +3,12 @@ import axios from 'axios'
 export const ChangeNow = axios.create({
   baseURL: 'https://api.changenow.io/v2',
   headers: {
-    'Content-Type': 'application/json',
+    'content-type': 'application/json',
     'x-changenow-api-key': process.env.NEXT_PUBLIC_CHANGENOW_API_KEY as string
   }
 })
 
-export interface Currencies {
+export type Currencies = {
   ticker: string
   name: string
   network: string
@@ -16,14 +16,14 @@ export interface Currencies {
   image: string
 }
 
-export interface ReqRange {
+export type ReqRange = {
   fromCurrency: string
   fromNetwork: string
   toCurrency: string
   toNetwork: string
 }
 
-export interface Range {
+export type Range = {
   fromCurrency: string
   fromNetwork: string
   toCurrency: string
@@ -32,7 +32,7 @@ export interface Range {
   minAmount: number
 }
 
-export interface ReqEstimatedAmount {
+export type ReqEstimatedAmount = {
   fromAmount: string
   fromCurrency: string
   fromNetwork: string
@@ -40,7 +40,7 @@ export interface ReqEstimatedAmount {
   toNetwork: string
 }
 
-export interface EstimatedAmount {
+export type EstimatedAmount = {
   validUntil: string
   transactionSpeedForecast: string | null
   warningMessage: string | null
@@ -48,17 +48,17 @@ export interface EstimatedAmount {
   toAmount: number
 }
 
-export interface ReqValidateAddress {
+export type ReqValidateAddress = {
   address: string
   currency: string
 }
 
-export interface ValidateAddress {
+export type ValidateAddress = {
   result: boolean
   message: string | null
 }
 
-export interface ReqCreateExchangeTransaction {
+export type ReqCreateExchangeTransaction = {
   type: string
   flow: string
   fromAmount: string
@@ -73,7 +73,7 @@ export interface ReqCreateExchangeTransaction {
   contactEmail?: string
 }
 
-export interface CreateExchangeTransaction {
+export type CreateExchangeTransaction = {
   id: string
   fromAmount: number
   toAmount: number

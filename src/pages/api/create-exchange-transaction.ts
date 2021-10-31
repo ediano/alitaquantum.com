@@ -8,12 +8,14 @@ import {
 } from 'services/ChangeNowService'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const query = req.query as ReqCreateExchangeTransaction
+
   try {
     const response = await ChangeNow.post<
       ReqCreateExchangeTransaction,
       { data: CreateExchangeTransaction; status: number }
     >('/exchange', {
-      ...(req.query as ReqCreateExchangeTransaction),
+      ...query,
       type: 'direct',
       flow: 'standard'
     })

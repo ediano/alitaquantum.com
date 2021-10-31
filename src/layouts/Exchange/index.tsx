@@ -25,33 +25,9 @@ export type DataCreateTransaction = {
   transactionSpeedForecast: string
 }
 
-type ValidatingProps = {
-  address: string
-  isAddress?: boolean
-  extraId?: string
-  refundAddress?: string
-  refundExtraId?: string
-  contactEmail?: string
-}
-
 type HandlerClickValidateAddress = {
   address: string
   currency: string
-}
-
-const DATA_CREATE_TRANSACTION_SESSION_STORAGE =
-  'alitaquantum.com@data-create-transaction'
-export const DATA_CREATE_TRANSACTION = {
-  get: (): DataCreateTransaction => {
-    const data = sessionStorage.getItem(DATA_CREATE_TRANSACTION_SESSION_STORAGE)
-    return !!data && JSON.parse(data)
-  },
-  set: (data: DataCreateTransaction) => {
-    sessionStorage.setItem(
-      DATA_CREATE_TRANSACTION_SESSION_STORAGE,
-      JSON.stringify(data)
-    )
-  }
 }
 
 export const ExchangeLayout = () => {
@@ -59,30 +35,28 @@ export const ExchangeLayout = () => {
   const [dataCreateTransaction, setDataCreateTransaction] =
     useState<DataCreateTransaction>({} as DataCreateTransaction)
 
-  const [validating, setValidating] = useState<ValidatingProps>(
-    {} as ValidatingProps
-  )
+  const [address, setAddress] = useState('')
   const [confirmTransaction, setConfirmTransaction] = useState(false)
   const [isAdvancedOptions, setIsAdvancedOptions] = useState(false)
   const [isRefundAddress, setIsRefundAddress] = useState(true)
   const [isValidatingAddress, setIsValidatingAddress] = useState(false)
+  const [isError, setIsError] = useState(false)
 
   const handlerInputChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       const { value, name } = event.target
 
-      if (name === 'address' && !value) {
-        setValidating({ address: '', isAddress: undefined })
-        setConfirmTransaction(false)
-      }
+      setTimeout(() => {
+        if (name === 'address' && !value) {
+          setConfirmTransaction(false)
+        }
 
-      if (name === 'address' || name === 'extraId') {
-        setTimeout(() => {
-          setValidating((state) => ({ ...state, [name]: value }))
-        }, 500)
-      }
+        if (name === 'address') {
+          setAddress(value)
+        }
 
-      setDataCreateTransaction((state) => ({ ...state, [name]: value }))
+        setDataCreateTransaction((state) => ({ ...state, [name]: value }))
+      }, 500)
     },
     []
   )
@@ -110,24 +84,22 @@ export const ExchangeLayout = () => {
     async function handler() {
       try {
         const response = await Api.getValidateAddress({
-          address: validating.address,
+          address,
           currency: dataFlow.toCurrency
         })
 
-        setValidating((state) => ({
-          ...state,
-          isAddress: response.data.result || undefined
-        }))
+        setIsValidatingAddress(response.data.result)
       } catch (err) {
-        setValidating((state) => ({
-          ...state,
-          isAddress: undefined
-        }))
+        setIsValidatingAddress(false)
       }
     }
 
-    if (validating.address) handler()
-  }, [validating, dataFlow])
+    if (address) {
+      handler()
+    } else {
+      setIsValidatingAddress(false)
+    }
+  }, [dataFlow, address])
 
   useEffect(() => {
     if (!isAdvancedOptions) {
@@ -157,11 +129,12 @@ export const ExchangeLayout = () => {
   }, [dataFlow, estimatedAmount, transactionSpeedForecast])
 
   useEffect(() => {
-    const { address, isAddress } = validating
-    const isUndefined = !address && isAddress === undefined
-
-    setIsValidatingAddress(isUndefined || !!isAddress)
-  }, [validating])
+    if (address) {
+      setIsError(!isValidatingAddress)
+    } else {
+      setIsError(false)
+    }
+  }, [address, isValidatingAddress])
 
   return (
     <>
@@ -174,10 +147,10 @@ export const ExchangeLayout = () => {
             <S.Block>
               <S.Input
                 defaultValue=""
-                isValue={!!validating.address}
+                isValue={!!address}
                 name="address"
                 onChange={handlerInputChange}
-                color={isValidatingAddress ? 'secondary' : 'error'}
+                color={!isError ? 'secondary' : 'error'}
                 label={`SEU ENDEREÇO ${dataFlow.toName?.toUpperCase() || ''}`}
               />
             </S.Block>
@@ -186,7 +159,7 @@ export const ExchangeLayout = () => {
               <S.Block>
                 <S.Input
                   defaultValue=""
-                  isValue={!!validating.extraId}
+                  isValue={!!dataCreateTransaction.extraId}
                   name="extraId"
                   onChange={handlerInputChange}
                   label="OPCIONAL: ID/MENO/TAG"
@@ -199,9 +172,9 @@ export const ExchangeLayout = () => {
             <Button
               uppercase
               title="Proximo"
-              background={!isValidatingAddress ? 'primary' : 'secondary'}
+              background={isValidatingAddress ? 'primary' : 'secondary'}
               onClick={() => setConfirmTransaction(true)}
-              disabled={isValidatingAddress}
+              disabled={!isValidatingAddress}
             />
           </S.WrapperButton>
 
@@ -210,15 +183,15 @@ export const ExchangeLayout = () => {
           >
             Opções avançadas
           </S.AdvancedOptionsText>
+
+          {confirmTransaction && address && isValidatingAddress && (
+            <ConfirmTransaction
+              setToggle={setConfirmTransaction}
+              {...dataCreateTransaction}
+            />
+          )}
         </S.Container>
       </S.Main>
-
-      {confirmTransaction && validating.address && validating.isAddress && (
-        <ConfirmTransaction
-          setToggle={setConfirmTransaction}
-          {...dataCreateTransaction}
-        />
-      )}
 
       {isAdvancedOptions && (
         <S.AdvancedOptions>
