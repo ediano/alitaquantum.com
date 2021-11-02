@@ -12,7 +12,6 @@ export const Exchange = () => {
   const {
     currencies,
     dataFlow,
-    fromAmount,
     minAmount,
     estimatedAmount,
     isAlert,
@@ -31,7 +30,7 @@ export const Exchange = () => {
         <S.InputBlock>
           <S.Input
             name="fromAmount"
-            value={fromAmount || ''}
+            value={dataFlow.fromAmount || ''}
             onChange={handlerInputFromAmountChange}
           />
 
