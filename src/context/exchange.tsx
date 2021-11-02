@@ -432,7 +432,6 @@ export const ExchangeProvider = ({ children }: Props) => {
           const minAmount = range.value.data.minAmount
 
           if (query.fromAmount && Number(query.fromAmount) >= minAmount) {
-            setIsQueryFromAmount(true)
             const initialFromAmount = query.fromAmount
 
             setMinAmount(String(minAmount))
@@ -483,7 +482,13 @@ export const ExchangeProvider = ({ children }: Props) => {
       }
     }
 
-    if (!isQueryFromAmount) loading()
+    if (!isQueryFromAmount && query.fromAmount) {
+      setFromAmount(query.fromAmount)
+      setIsQueryFromAmount(true)
+      loading()
+    } else if (!isQueryFromAmount) {
+      loading()
+    }
   }, [query.fromAmount, isQueryFromAmount])
 
   return (
