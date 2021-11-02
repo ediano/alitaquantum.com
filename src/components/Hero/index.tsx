@@ -2,10 +2,15 @@ import { Exchange } from 'components/Exchange'
 import { AnchorButton } from 'components/AnchorButton'
 
 import { site } from 'config/site'
+import { useExchange } from 'context/exchange'
 
 import * as S from './styles'
 
 export const Hero = () => {
+  const { dataFlow } = useExchange()
+
+  const { fromAmount, fromName, toName } = dataFlow
+
   return (
     <S.Container>
       <S.Image
@@ -27,7 +32,10 @@ export const Hero = () => {
           <AnchorButton
             uppercase
             title="Trocar"
-            href="/exchange"
+            href={{
+              pathname: '/exchange',
+              query: { fromAmount, fromName, toName }
+            }}
             style={{ marginTop: '50px' }}
           />
         </S.ExchangeWrapper>

@@ -5,8 +5,10 @@ import {
   useState,
   useEffect,
   useCallback,
-  ChangeEvent
+  ChangeEvent,
+  MouseEvent
 } from 'react'
+import { useRouter } from 'next/router'
 
 import Api from 'services/ApiService'
 import { Currencies } from 'services/ChangeNowService'
@@ -21,29 +23,21 @@ const initialProps = {
   toCurrency: 'eth',
   toNetwork: 'eth',
   toId: false,
-  toImage: 'https://changenow.io/images/sprite/currencies/eth.svg'
+  toImage: 'https://changenow.io/images/sprite/currencies/eth.svg',
+  fromAmount: '0',
+  minAmount: '0'
 }
 
-type InitialProps = typeof initialProps
+type DataFlow = typeof initialProps
 
-export type DataFlow = {
-  fromAmount: string
-  minAmount: string
-  fromName: string
-  fromCurrency: string
-  fromNetwork: string
-  fromId: boolean
-  fromImage: string
-  toName: string
-  toCurrency: string
-  toNetwork: string
-  toId: boolean
-  toImage: string
+type Query = {
+  fromAmount?: string
+  fromName?: string
+  toName?: string
 }
 
 type ContextProps = {
   currencies: Currencies[]
-  selectedCurrency: typeof initialProps
   dataFlow: DataFlow
   fromAmount: string
   minAmount: string
@@ -51,21 +45,8 @@ type ContextProps = {
   transactionSpeedForecast: string
   isAlert: boolean
   handlerInputFromAmountChange: (event: ChangeEvent<HTMLInputElement>) => void
-  handlerButtonSelectedCurrencyChange: () => void
-  handlerInputSelectedCurrencyChange: (
-    event: ChangeEvent<HTMLInputElement>
-  ) => void
-}
-
-const DATA_FLOW = {
-  get: () => {
-    const [name, data] = document.cookie.split('=')
-    if (name === 'alitaquantum.com@data-flow') return JSON.parse(data)
-    return false
-  },
-  set: (data: DataFlow) => {
-    document.cookie = `alitaquantum.com@data-flow=${JSON.stringify(data)}`
-  }
+  handlerInputCurrencyChange: (event: ChangeEvent<HTMLInputElement>) => void
+  handlerReverseCurrencyClick: (event: MouseEvent) => void
 }
 
 const ExchangeContext = createContext<ContextProps>({} as ContextProps)
@@ -75,80 +56,76 @@ type Props = {
 }
 
 export const ExchangeProvider = ({ children }: Props) => {
+  const { pathname, push } = useRouter()
+  const query = useRouter().query as Query
   const [currencies, setCurrencies] = useState<Currencies[]>([])
 
-  const [selectedCurrency, setSelectedCurrency] = useState<InitialProps>(
-    {} as InitialProps
-  )
-  const [dataFlow, setDataFlow] = useState<DataFlow>({} as DataFlow)
+  const [dataFlow, setDataFlow] = useState<DataFlow>(initialProps)
 
   const [fromAmount, setFromAmount] = useState('0')
   const [minAmount, setMinAmount] = useState('0')
   const [estimatedAmount, setEstimatedAmount] = useState('0')
   const [transactionSpeedForecast, setTransactionSpeedForecast] = useState('')
 
+  const [isQueryFromAmount, setIsQueryFromAmount] = useState(false)
   const [isAlert, setIsAlert] = useState(false)
 
-  useEffect(() => {
-    if (DATA_FLOW.get()) {
-      const {
-        fromName,
-        fromNetwork,
-        fromCurrency,
-        fromId,
-        fromImage,
-        toName,
-        toNetwork,
-        toCurrency,
-        toId,
-        toImage
-      } = DATA_FLOW.get()
-
-      setDataFlow(DATA_FLOW.get())
-      setSelectedCurrency({
-        fromName,
-        fromCurrency,
-        fromNetwork,
-        fromId,
-        fromImage,
-        toName,
-        toCurrency,
-        toNetwork,
-        toId,
-        toImage
-      })
-      setFromAmount(DATA_FLOW.get().fromAmount)
-    } else {
-      setSelectedCurrency(initialProps)
-    }
-  }, [])
-
   const handlerInputFromAmountChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
+    async (event: ChangeEvent<HTMLInputElement>) => {
+      event.preventDefault()
+
       const { value, name } = event.target
-
       const [natural, tenths] = value.split('.')
-
       const limit = (!tenths || tenths.length <= 8) && natural.length <= 10
 
       if (Number(value) >= 0 && name === 'fromAmount' && limit) {
         setFromAmount(value)
-        setDataFlow((state) => {
-          DATA_FLOW.set({ ...state, fromAmount: value })
-          return { ...state, fromAmount: value }
-        })
+        setDataFlow((state) => ({ ...state, [name]: value }))
+
+        const { fromCurrency, fromNetwork, toCurrency, toNetwork } = dataFlow
+
+        if (pathname === '/exchange') {
+          const { fromName, toName } = dataFlow
+
+          push({
+            pathname: '/exchange',
+            query: { fromAmount: value, fromName, toName }
+          })
+        }
+
+        if (Number(value) >= Number(minAmount)) {
+          setIsAlert(false)
+
+          try {
+            const { data: estimated } = await Api.getEstimatedAmount({
+              fromCurrency,
+              fromNetwork,
+              toCurrency,
+              toNetwork,
+              fromAmount: value
+            })
+
+            setEstimatedAmount(String(estimated.toAmount))
+          } catch (err) {
+            setEstimatedAmount('0')
+          }
+        } else {
+          setEstimatedAmount('0')
+          setIsAlert(true)
+        }
       }
     },
-    []
+    [pathname, push, dataFlow, minAmount]
   )
 
-  const handlerInputSelectedCurrencyChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
+  const handlerInputCurrencyChange = useCallback(
+    async (event: ChangeEvent<HTMLInputElement>) => {
+      event.preventDefault()
       const { value, name } = event.target
 
       const currency = currencies.find((currency) => currency.name === value)
 
-      setSelectedCurrency((state) => {
+      setDataFlow((state) => {
         const from = state.fromName
         const to = state.toName
 
@@ -157,6 +134,7 @@ export const ExchangeProvider = ({ children }: Props) => {
           (name === 'toName' && value === from)
         ) {
           return {
+            ...state,
             fromName: state.toName,
             fromCurrency: state.toCurrency,
             fromNetwork: state.toNetwork,
@@ -170,7 +148,7 @@ export const ExchangeProvider = ({ children }: Props) => {
           }
         }
 
-        if (name === 'fromName') {
+        if (name === 'fromName' && currency?.name) {
           return {
             ...state,
             fromName: currency?.name || value,
@@ -181,7 +159,7 @@ export const ExchangeProvider = ({ children }: Props) => {
           }
         }
 
-        if (name === 'toName') {
+        if (name === 'toName' && currency?.name) {
           return {
             ...state,
             toName: currency?.name || value,
@@ -194,163 +172,329 @@ export const ExchangeProvider = ({ children }: Props) => {
 
         return state
       })
-    },
-    [currencies]
-  )
 
-  const handlerButtonSelectedCurrencyChange = useCallback(() => {
-    setSelectedCurrency((state) => ({
-      fromName: state.toName,
-      fromCurrency: state.toCurrency,
-      fromNetwork: state.toNetwork,
-      fromId: state.toId,
-      fromImage: state.toImage,
-      toName: state.fromName,
-      toCurrency: state.fromCurrency,
-      toNetwork: state.fromNetwork,
-      toId: state.fromId,
-      toImage: state.fromImage
-    }))
-  }, [])
+      if (currency?.name) {
+        const { fromName, toName } = dataFlow
+        const { fromCurrency, fromNetwork, toCurrency, toNetwork } = dataFlow
 
-  useEffect(() => {
-    async function loading() {
-      try {
-        const response = await Api.getCurrencies()
+        if (
+          (name === 'fromName' && value === toName) ||
+          (name === 'toName' && value === fromName)
+        ) {
+          const { data: range } = await Api.getRange({
+            fromCurrency: toCurrency,
+            fromNetwork: toNetwork,
+            toCurrency: fromCurrency,
+            toNetwork: fromNetwork
+          })
 
-        setCurrencies(response.data)
-      } catch (err) {}
-    }
+          const minAmount = range.minAmount
+          const initialFromAmount = String((minAmount * 10).toFixed(8))
 
-    loading()
-  }, [])
+          setIsAlert(false)
+          setMinAmount(String(minAmount))
+          setFromAmount(String(initialFromAmount))
 
-  useEffect(() => {
-    const {
-      fromName,
-      fromCurrency,
-      fromNetwork,
-      fromId,
-      fromImage,
-      toName,
-      toCurrency,
-      toNetwork,
-      toId,
-      toImage
-    } = selectedCurrency
+          setDataFlow((state) => ({
+            ...state,
+            minAmount: String(minAmount),
+            fromAmount: initialFromAmount
+          }))
 
-    async function loading() {
-      try {
-        const { data: range } = await Api.getRange({
-          fromCurrency,
-          fromNetwork,
-          toCurrency,
-          toNetwork
-        })
+          if (pathname === '/exchange') {
+            push({
+              pathname: '/exchange',
+              query: {
+                fromAmount: initialFromAmount,
+                fromName,
+                toName
+              }
+            })
+          }
 
-        const newFromAmount = String((range.minAmount * 10).toFixed(8))
+          const { data: estimated } = await Api.getEstimatedAmount({
+            fromAmount: initialFromAmount,
+            fromCurrency: toCurrency,
+            fromNetwork: toNetwork,
+            toCurrency: fromCurrency,
+            toNetwork: fromNetwork
+          })
 
-        const { fromAmount, minAmount } = DATA_FLOW.get()
-
-        const isMin = Number(minAmount) !== range.minAmount
-
-        const compareAmount = isMin ? newFromAmount : fromAmount
-
-        setFromAmount(compareAmount)
-        setMinAmount(String(range.minAmount))
-
-        setDataFlow({
-          fromName,
-          fromCurrency,
-          fromNetwork,
-          fromId,
-          fromImage,
-          toName,
-          toCurrency,
-          toNetwork,
-          toId,
-          toImage,
-          minAmount: String(range.minAmount),
-          fromAmount: compareAmount
-        })
-        DATA_FLOW.set({
-          fromName,
-          fromCurrency,
-          fromNetwork,
-          fromId,
-          fromImage,
-          toName,
-          toCurrency,
-          toNetwork,
-          toId,
-          toImage,
-          minAmount: String(range.minAmount),
-          fromAmount: compareAmount
-        })
-      } catch (err) {
-        setMinAmount('0')
-        setFromAmount(String(Number('0').toFixed(8)))
-        setEstimatedAmount('0')
-      }
-    }
-
-    if (fromNetwork && toNetwork) {
-      loading()
-    }
-  }, [selectedCurrency])
-
-  useEffect(() => {
-    const {
-      fromAmount,
-      minAmount,
-      fromCurrency,
-      fromNetwork,
-      toCurrency,
-      toNetwork
-    } = dataFlow
-
-    async function loading() {
-      try {
-        const { data: estimated } = await Api.getEstimatedAmount({
-          fromAmount,
-          fromCurrency,
-          fromNetwork,
-          toCurrency,
-          toNetwork
-        })
-
-        if (!estimated.toAmount) {
-          setEstimatedAmount('0')
-          setTransactionSpeedForecast('Estimativa não disponível')
-        } else {
           setEstimatedAmount(String(estimated.toAmount))
           setTransactionSpeedForecast(
-            estimated.transactionSpeedForecast || 'Estimativa não disponível'
+            estimated.transactionSpeedForecast || 'Estimativa indisponivel!'
           )
         }
+
+        if (name === 'fromName') {
+          const { data: range } = await Api.getRange({
+            fromCurrency: currency.ticker,
+            fromNetwork: currency.network,
+            toCurrency: fromCurrency,
+            toNetwork: fromNetwork
+          })
+
+          const minAmount = range.minAmount
+          const initialFromAmount = String((minAmount * 10).toFixed(8))
+
+          setIsAlert(false)
+          setMinAmount(String(minAmount))
+          setFromAmount(String(initialFromAmount))
+
+          setDataFlow((state) => ({
+            ...state,
+            minAmount: String(minAmount),
+            fromAmount: initialFromAmount
+          }))
+
+          if (pathname === '/exchange') {
+            push({
+              pathname: '/exchange',
+              query: {
+                fromAmount: initialFromAmount,
+                fromName: currency.name,
+                toName
+              }
+            })
+          }
+
+          const { data: estimated } = await Api.getEstimatedAmount({
+            fromAmount: initialFromAmount,
+            fromCurrency: currency.ticker,
+            fromNetwork: currency.network,
+            toCurrency: fromCurrency,
+            toNetwork: fromNetwork
+          })
+
+          setEstimatedAmount(String(estimated.toAmount))
+          setTransactionSpeedForecast(
+            estimated.transactionSpeedForecast || 'Estimativa indisponivel!'
+          )
+        }
+
+        if (name === 'toName') {
+          const { data: range } = await Api.getRange({
+            fromCurrency: toCurrency,
+            fromNetwork: toNetwork,
+            toCurrency: currency.ticker,
+            toNetwork: currency.network
+          })
+
+          const minAmount = range.minAmount
+          const initialFromAmount = String((minAmount * 10).toFixed(8))
+
+          setIsAlert(false)
+          setMinAmount(String(minAmount))
+          setFromAmount(String(initialFromAmount))
+
+          setDataFlow((state) => ({
+            ...state,
+            minAmount: String(minAmount),
+            fromAmount: initialFromAmount
+          }))
+
+          if (pathname === '/exchange') {
+            push({
+              pathname: '/exchange',
+              query: {
+                fromAmount: initialFromAmount,
+                fromName,
+                toName: currency.name
+              }
+            })
+          }
+
+          const { data: estimated } = await Api.getEstimatedAmount({
+            fromAmount: initialFromAmount,
+            fromCurrency: toCurrency,
+            fromNetwork: toNetwork,
+            toCurrency: currency.ticker,
+            toNetwork: currency.network
+          })
+
+          setEstimatedAmount(String(estimated.toAmount))
+          setTransactionSpeedForecast(
+            estimated.transactionSpeedForecast || 'Estimativa indisponivel!'
+          )
+        }
+      }
+    },
+    [currencies, pathname, push, dataFlow]
+  )
+
+  const handlerReverseCurrencyClick = useCallback(
+    async (event: MouseEvent) => {
+      event.preventDefault()
+
+      setDataFlow((state) => ({
+        ...state,
+        fromName: state.toName,
+        fromCurrency: state.toCurrency,
+        fromNetwork: state.toNetwork,
+        fromId: state.toId,
+        fromImage: state.toImage,
+        toName: state.fromName,
+        toCurrency: state.fromCurrency,
+        toNetwork: state.fromNetwork,
+        toId: state.fromId,
+        toImage: state.fromImage
+      }))
+
+      const {
+        fromName,
+        fromCurrency,
+        fromNetwork,
+        toName,
+        toCurrency,
+        toNetwork
+      } = dataFlow
+
+      try {
+        const { data: range } = await Api.getRange({
+          fromCurrency: toCurrency,
+          fromNetwork: toNetwork,
+          toCurrency: fromCurrency,
+          toNetwork: fromNetwork
+        })
+
+        const minAmount = range.minAmount
+        const initialFromAmount = String((minAmount * 10).toFixed(8))
+
+        setIsAlert(false)
+        setMinAmount(String(minAmount))
+        setFromAmount(String(initialFromAmount))
+
+        setDataFlow((state) => ({
+          ...state,
+          minAmount: String(minAmount),
+          fromAmount: initialFromAmount
+        }))
+
+        if (pathname === '/exchange') {
+          push({
+            pathname: '/exchange',
+            query: {
+              fromAmount: initialFromAmount,
+              fromName: toName,
+              toName: fromName
+            }
+          })
+        }
+
+        const { data: estimated } = await Api.getEstimatedAmount({
+          fromAmount: initialFromAmount,
+          fromCurrency: toCurrency,
+          fromNetwork: toNetwork,
+          toCurrency: fromCurrency,
+          toNetwork: fromNetwork
+        })
+
+        setEstimatedAmount(String(estimated.toAmount))
+        setTransactionSpeedForecast(
+          estimated.transactionSpeedForecast || 'Estimativa indisponivel!'
+        )
       } catch (err) {
+        if (pathname === '/exchange') {
+          push({
+            pathname: '/exchange',
+            query: {
+              fromAmount: '0',
+              fromName: toName,
+              toName: fromName
+            }
+          })
+        }
+      }
+    },
+    [pathname, push, dataFlow]
+  )
+
+  useEffect(() => {
+    const initialData = {
+      fromCurrency: 'btc',
+      fromNetwork: 'btc',
+      toCurrency: 'eth',
+      toNetwork: 'eth'
+    }
+
+    async function loading() {
+      try {
+        const [currencies, range] = await Promise.allSettled([
+          Api.getCurrencies(),
+          Api.getRange(initialData)
+        ])
+
+        if (currencies.status === 'fulfilled') {
+          setCurrencies(currencies.value.data)
+        }
+
+        if (range.status === 'fulfilled') {
+          const minAmount = range.value.data.minAmount
+
+          if (query.fromAmount && Number(query.fromAmount) >= minAmount) {
+            const initialFromAmount = query.fromAmount
+
+            setMinAmount(String(minAmount))
+            setFromAmount(String(initialFromAmount))
+
+            setDataFlow((state) => ({
+              ...state,
+              minAmount: String(minAmount),
+              fromAmount: initialFromAmount
+            }))
+
+            const { data: estimated } = await Api.getEstimatedAmount({
+              ...initialData,
+              fromAmount: initialFromAmount
+            })
+
+            setEstimatedAmount(String(estimated.toAmount))
+            setTransactionSpeedForecast(
+              estimated.transactionSpeedForecast || 'Estimativa indisponivel!'
+            )
+          } else {
+            const initialFromAmount = String((minAmount * 10).toFixed(8))
+
+            setMinAmount(String(minAmount))
+            setFromAmount(String(initialFromAmount))
+
+            setDataFlow((state) => ({
+              ...state,
+              minAmount: String(minAmount),
+              fromAmount: initialFromAmount
+            }))
+
+            const { data: estimated } = await Api.getEstimatedAmount({
+              ...initialData,
+              fromAmount: initialFromAmount
+            })
+
+            setEstimatedAmount(String(estimated.toAmount))
+            setTransactionSpeedForecast(
+              estimated.transactionSpeedForecast || 'Estimativa indisponivel!'
+            )
+          }
+        }
+      } catch (err) {
+        setMinAmount('0')
+        setFromAmount('0')
         setEstimatedAmount('0')
-        setTransactionSpeedForecast('Estimativa não disponível')
       }
     }
 
-    const isValidAmount = Number(fromAmount) >= Number(minAmount)
-
-    if (fromNetwork && toNetwork && isValidAmount) {
+    if (!isQueryFromAmount && query.fromAmount) {
+      setFromAmount(query.fromAmount)
+      setIsQueryFromAmount(true)
       loading()
-    } else {
-      setEstimatedAmount('0')
+    } else if (!isQueryFromAmount) {
+      loading()
     }
-
-    const isTheMinValueIsHigher = Number(minAmount) > Number(fromAmount)
-    setIsAlert(isTheMinValueIsHigher)
-  }, [dataFlow])
+  }, [query.fromAmount, isQueryFromAmount])
 
   return (
     <ExchangeContext.Provider
       value={{
         currencies,
-        selectedCurrency,
         dataFlow,
         fromAmount,
         minAmount,
@@ -358,8 +502,8 @@ export const ExchangeProvider = ({ children }: Props) => {
         transactionSpeedForecast,
         isAlert,
         handlerInputFromAmountChange,
-        handlerButtonSelectedCurrencyChange,
-        handlerInputSelectedCurrencyChange
+        handlerReverseCurrencyClick,
+        handlerInputCurrencyChange
       }}
     >
       {children}
