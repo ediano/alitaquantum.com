@@ -11,14 +11,14 @@ import * as S from './styles'
 export const Exchange = () => {
   const {
     currencies,
-    selectedCurrency,
+    dataFlow,
     fromAmount,
     minAmount,
     estimatedAmount,
     isAlert,
-    handlerButtonSelectedCurrencyChange,
+    handlerReverseCurrencyClick,
     handlerInputFromAmountChange,
-    handlerInputSelectedCurrencyChange
+    handlerInputCurrencyChange
   } = useExchange()
 
   const [isAlertFixedRate, setIsAlertFixedRate] = useState(false)
@@ -40,14 +40,14 @@ export const Exchange = () => {
             name="fromName"
             background="secondary"
             color="whiteIce"
-            srcImage={selectedCurrency?.fromImage}
-            value={selectedCurrency?.fromName || ''}
-            onChange={handlerInputSelectedCurrencyChange}
+            srcImage={dataFlow.fromImage}
+            value={dataFlow.fromName || ''}
+            onChange={handlerInputCurrencyChange}
           />
           <Select name="fromName" currencies={currencies} />
         </S.InputBlock>
         <S.Network network="from">
-          Network: {selectedCurrency?.fromNetwork?.toUpperCase()}
+          Network: {dataFlow.fromNetwork?.toUpperCase()}
         </S.Network>
       </S.WrapperBlock>
 
@@ -65,7 +65,7 @@ export const Exchange = () => {
           />
         </S.AlertFixedRate>
 
-        <S.Button type="button" onClick={handlerButtonSelectedCurrencyChange}>
+        <S.Button type="button" onClick={handlerReverseCurrencyClick}>
           <BsArrowDownUp />
         </S.Button>
       </S.WrapperDetails>
@@ -85,14 +85,14 @@ export const Exchange = () => {
             name="toName"
             background="secondary"
             color="whiteIce"
-            srcImage={selectedCurrency?.toImage}
-            value={selectedCurrency?.toName || ''}
-            onChange={handlerInputSelectedCurrencyChange}
+            srcImage={dataFlow.toImage}
+            value={dataFlow.toName || ''}
+            onChange={handlerInputCurrencyChange}
           />
           <Select name="toName" currencies={currencies} />
         </S.InputBlock>
         <S.Network network="to">
-          Network: {selectedCurrency?.toNetwork?.toUpperCase()}
+          Network: {dataFlow.toNetwork?.toUpperCase()}
         </S.Network>
       </S.WrapperBlock>
     </S.Container>
