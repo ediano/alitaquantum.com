@@ -132,9 +132,10 @@ export const ExchangeProvider = ({ children }: Props) => {
 
   const handlerStartLoadingEstimatedAmount = useCallback(
     async (state: DataFlow) => {
+      const { fromName, toName } = state
       const { fromCurrency, fromNetwork, toCurrency, toNetwork } = state
 
-      if (toNetwork && toNetwork) {
+      if (fromNetwork && toNetwork) {
         try {
           const { data: range } = await Api.getRange({
             fromCurrency,
@@ -152,6 +153,21 @@ export const ExchangeProvider = ({ children }: Props) => {
             fromAmount: newFromAmount,
             minAmount
           }))
+
+          if (pathname === '/exchange') {
+            push(
+              {
+                pathname: '/exchange',
+                query: {
+                  fromAmount: newFromAmount,
+                  fromName,
+                  toName
+                }
+              },
+              undefined,
+              { shallow: true }
+            )
+          }
 
           const { data: estimated } = await Api.getEstimatedAmount({
             fromAmount: String(newFromAmount),
@@ -173,10 +189,25 @@ export const ExchangeProvider = ({ children }: Props) => {
             fromAmount: '0',
             minAmount: '0'
           }))
+
+          if (pathname === '/exchange') {
+            push(
+              {
+                pathname: '/exchange',
+                query: {
+                  fromAmount: '0',
+                  fromName: toName,
+                  toName: fromName
+                }
+              },
+              undefined,
+              { shallow: true }
+            )
+          }
         }
       }
     },
-    []
+    [pathname, push]
   )
 
   const handlerInputCurrencyChange = useCallback(
@@ -208,7 +239,7 @@ export const ExchangeProvider = ({ children }: Props) => {
 
       setDataFlow((state) => {
         if (name === 'fromName' && value === state.toName) {
-          handlerStartLoadingEstimatedAmount(state)
+          if (currency?.network) handlerStartLoadingEstimatedAmount(state)
 
           return {
             ...state,
@@ -223,10 +254,8 @@ export const ExchangeProvider = ({ children }: Props) => {
             toId: previousCurrency.id,
             toImage: previousCurrency.image
           }
-        }
-
-        if (name === 'toName' && value === state.fromName) {
-          handlerStartLoadingEstimatedAmount(state)
+        } else if (name === 'toName' && value === state.fromName) {
+          if (currency?.network) handlerStartLoadingEstimatedAmount(state)
 
           return {
             ...state,
@@ -241,10 +270,8 @@ export const ExchangeProvider = ({ children }: Props) => {
             toId: state.fromId,
             toImage: state.fromImage
           }
-        }
-
-        if (name === 'fromName') {
-          handlerStartLoadingEstimatedAmount(state)
+        } else if (name === 'fromName') {
+          if (currency?.network) handlerStartLoadingEstimatedAmount(state)
 
           return {
             ...state,
@@ -254,10 +281,8 @@ export const ExchangeProvider = ({ children }: Props) => {
             fromId: currency?.hasExternalId || false,
             fromImage: currency?.image || ''
           }
-        }
-
-        if (name === 'toName') {
-          handlerStartLoadingEstimatedAmount(state)
+        } else if (name === 'toName') {
+          if (currency?.network) handlerStartLoadingEstimatedAmount(state)
 
           return {
             ...state,
@@ -269,7 +294,8 @@ export const ExchangeProvider = ({ children }: Props) => {
           }
         }
 
-        handlerStartLoadingEstimatedAmount(state)
+        if (currency?.network) handlerStartLoadingEstimatedAmount(state)
+
         return state
       })
 
