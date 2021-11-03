@@ -10,8 +10,7 @@ import {
 } from 'react'
 import { useRouter } from 'next/router'
 
-import Api from 'services/ApiService'
-import { Currencies } from 'services/ChangeNowService'
+import ChangeNow, { Currencies } from 'services/ChangeNowService'
 
 const initialProps = {
   fromName: 'Bitcoin',
@@ -90,8 +89,6 @@ export const ExchangeProvider = ({ children }: Props) => {
       if (Number(value) >= 0 && name === 'fromAmount' && limit) {
         setDataFlow((state) => ({ ...state, [name]: value }))
 
-        const { fromCurrency, fromNetwork, toCurrency, toNetwork } = dataFlow
-
         if (pathname === '/exchange') {
           const { fromName, toName } = dataFlow
 
@@ -105,29 +102,27 @@ export const ExchangeProvider = ({ children }: Props) => {
           )
         }
 
-        if (Number(value) >= Number(minAmount)) {
-          setIsAlert(false)
+        const { fromCurrency, fromNetwork, toCurrency, toNetwork } = dataFlow
 
-          try {
-            const { data: estimated } = await Api.getEstimatedAmount({
-              fromCurrency,
-              fromNetwork,
-              toCurrency,
-              toNetwork,
-              fromAmount: value
-            })
+        if (Number(value) >= Number(minAmount)) setIsAlert(false)
+        if (Number(value) < Number(minAmount)) setIsAlert(true)
 
-            setEstimatedAmount(String(estimated.toAmount))
-          } catch (err) {
-            setEstimatedAmount('0')
-          }
-        } else {
+        try {
+          const { data: estimated } = await ChangeNow.getEstimatedAmount({
+            fromCurrency,
+            fromNetwork,
+            toCurrency,
+            toNetwork,
+            fromAmount: value
+          })
+
+          setEstimatedAmount(String(estimated.toAmount))
+        } catch (err) {
           setEstimatedAmount('0')
-          setIsAlert(true)
         }
       }
     },
-    [pathname, push, dataFlow, minAmount]
+    [pathname, push, minAmount, dataFlow]
   )
 
   const handlerStartLoadingEstimatedAmount = useCallback(
@@ -137,7 +132,7 @@ export const ExchangeProvider = ({ children }: Props) => {
 
       if (fromNetwork && toNetwork) {
         try {
-          const { data: range } = await Api.getRange({
+          const { data: range } = await ChangeNow.getRange({
             fromCurrency,
             fromNetwork,
             toCurrency,
@@ -169,7 +164,7 @@ export const ExchangeProvider = ({ children }: Props) => {
             )
           }
 
-          const { data: estimated } = await Api.getEstimatedAmount({
+          const { data: estimated } = await ChangeNow.getEstimatedAmount({
             fromAmount: String(newFromAmount),
             fromCurrency,
             fromNetwork,
@@ -340,7 +335,7 @@ export const ExchangeProvider = ({ children }: Props) => {
       }))
 
       try {
-        const { data: range } = await Api.getRange({
+        const { data: range } = await ChangeNow.getRange({
           fromCurrency: toCurrency,
           fromNetwork: toNetwork,
           toCurrency: fromCurrency,
@@ -374,7 +369,7 @@ export const ExchangeProvider = ({ children }: Props) => {
           )
         }
 
-        const { data: estimated } = await Api.getEstimatedAmount({
+        const { data: estimated } = await ChangeNow.getEstimatedAmount({
           fromAmount: initialFromAmount,
           fromCurrency: toCurrency,
           fromNetwork: toNetwork,
@@ -409,7 +404,7 @@ export const ExchangeProvider = ({ children }: Props) => {
   useEffect(() => {
     async function loading() {
       try {
-        const response = await Api.getCurrencies()
+        const response = await ChangeNow.getCurrencies()
         setCurrencies(response.data)
 
         localStorage.setItem(
@@ -430,7 +425,7 @@ export const ExchangeProvider = ({ children }: Props) => {
     }
 
     try {
-      const { data: range } = await Api.getRange(initialData)
+      const { data: range } = await ChangeNow.getRange(initialData)
 
       const minAmount = range.minAmount
       const initialFromAmount = String((minAmount * 10).toFixed(8))
@@ -443,7 +438,7 @@ export const ExchangeProvider = ({ children }: Props) => {
         fromAmount: initialFromAmount
       }))
 
-      const { data: estimated } = await Api.getEstimatedAmount({
+      const { data: estimated } = await ChangeNow.getEstimatedAmount({
         ...initialData,
         fromAmount: initialFromAmount
       })
@@ -483,7 +478,7 @@ export const ExchangeProvider = ({ children }: Props) => {
         if (fromAmount) {
           setDataFlow((state) => ({ ...state, fromAmount }))
 
-          const { data: estimated } = await Api.getEstimatedAmount({
+          const { data: estimated } = await ChangeNow.getEstimatedAmount({
             fromCurrency: from.ticker,
             fromNetwork: from.network,
             toCurrency: to.ticker,

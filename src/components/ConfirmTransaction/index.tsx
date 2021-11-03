@@ -1,7 +1,7 @@
 import { useState, Dispatch, SetStateAction, MouseEvent } from 'react'
 import { useRouter } from 'next/router'
 
-import Api from 'services/ApiService'
+import ChangeNow from 'services/ChangeNowService'
 
 import { Button } from 'components/Button'
 import { DataCreateTransaction } from 'layouts/Exchange'
@@ -37,7 +37,7 @@ export const ConfirmTransaction = ({
     event.preventDefault()
     async function handler() {
       try {
-        const response = await Api.setCreateExchangeTransaction({
+        const response = await ChangeNow.setCreateExchangeTransaction({
           address,
           extraId: extraId || '',
           fromAmount,

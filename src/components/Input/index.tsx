@@ -60,5 +60,3 @@ export const Input = ({
     </S.Container>
   )
 }
-
-export default Input

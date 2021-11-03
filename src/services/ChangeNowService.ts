@@ -16,6 +16,12 @@ export type Currencies = {
   image: string
 }
 
+export const getCurrencies = async () => {
+  return ChangeNow.get<Currencies[]>('/exchange/currencies', {
+    params: { active: true, flow: 'standard' }
+  })
+}
+
 export type ReqRange = {
   fromCurrency: string
   fromNetwork: string
@@ -30,6 +36,12 @@ export type Range = {
   toNetwork: string
   maxAmount: number | null
   minAmount: number
+}
+
+export const getRange = async (params: ReqRange) => {
+  return ChangeNow.get<Range>('/exchange/range', {
+    params: { flow: 'standard', ...params }
+  })
 }
 
 export type ReqEstimatedAmount = {
@@ -48,6 +60,12 @@ export type EstimatedAmount = {
   toAmount: number
 }
 
+export const getEstimatedAmount = async (params: ReqEstimatedAmount) => {
+  return ChangeNow.get<EstimatedAmount>('/exchange/estimated-amount', {
+    params: { flow: 'standard', ...params }
+  })
+}
+
 export type ReqValidateAddress = {
   address: string
   currency: string
@@ -56,6 +74,12 @@ export type ReqValidateAddress = {
 export type ValidateAddress = {
   result: boolean
   message: string | null
+}
+
+export const getValidateAddress = async (params: ReqValidateAddress) => {
+  return ChangeNow.get<ValidateAddress>('/validate/address', {
+    params: { ...params }
+  })
 }
 
 export type ReqCreateExchangeTransaction = {
@@ -86,4 +110,25 @@ export type CreateExchangeTransaction = {
   payoutExtraId?: string
   refundAddress?: string
   refundExtraId?: string
+}
+
+export const setCreateExchangeTransaction = async (
+  params: Omit<ReqCreateExchangeTransaction, 'type' | 'flow'>
+) => {
+  return ChangeNow.post<
+    ReqCreateExchangeTransaction,
+    { data: CreateExchangeTransaction; status: number }
+  >('/exchange', {
+    ...params,
+    type: 'direct',
+    flow: 'standard'
+  })
+}
+
+export default {
+  getCurrencies,
+  getRange,
+  getEstimatedAmount,
+  getValidateAddress,
+  setCreateExchangeTransaction
 }

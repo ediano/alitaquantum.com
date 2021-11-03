@@ -72,8 +72,9 @@ export const Exchange = () => {
       <S.WrapperBlock>
         <S.InputBlock>
           <S.Input
+            readOnly
+            disabled
             name="toAmount"
-            disabled={true}
             color="white"
             background="grey"
             value={Number(estimatedAmount).toFixed(8)}

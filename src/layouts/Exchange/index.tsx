@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect, ChangeEvent } from 'react'
 import { MdEmail } from 'react-icons/md'
 
 import { useExchange } from 'context/exchange'
-import Api from 'services/ApiService'
+import ChangeNow from 'services/ChangeNowService'
 
 import { Exchange } from 'components/Exchange'
 import { Button } from 'components/Button'
@@ -67,7 +67,10 @@ export const ExchangeLayout = () => {
 
       async function handler() {
         try {
-          const response = await Api.getValidateAddress({ address, currency })
+          const response = await ChangeNow.getValidateAddress({
+            address,
+            currency
+          })
 
           setIsRefundAddress(response.data.result)
         } catch (err) {
@@ -83,7 +86,7 @@ export const ExchangeLayout = () => {
   useEffect(() => {
     async function handler() {
       try {
-        const response = await Api.getValidateAddress({
+        const response = await ChangeNow.getValidateAddress({
           address,
           currency: dataFlow.toCurrency
         })
