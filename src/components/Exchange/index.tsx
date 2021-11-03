@@ -74,7 +74,9 @@ export const Exchange = () => {
         </S.InputBlock>
         <S.Network network="from">
           Network:{' '}
-          {fromName ? fromNetwork : dataFlow.fromNetwork?.toUpperCase()}
+          {fromName
+            ? fromNetwork?.toUpperCase()
+            : dataFlow.fromNetwork?.toUpperCase()}
         </S.Network>
       </S.WrapperBlock>
 
@@ -120,7 +122,10 @@ export const Exchange = () => {
           <Select name="toName" currencies={currencies} />
         </S.InputBlock>
         <S.Network network="to">
-          Network: {toName ? toNetwork : dataFlow.toNetwork?.toUpperCase()}
+          Network:{' '}
+          {toName
+            ? toNetwork?.toUpperCase()
+            : dataFlow.toNetwork?.toUpperCase()}
         </S.Network>
       </S.WrapperBlock>
     </S.Container>
