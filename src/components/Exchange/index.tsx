@@ -1,14 +1,18 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BsArrowDownUp } from 'react-icons/bs'
+import { useRouter } from 'next/router'
 
 import { Select } from 'components/Select'
 import { TextTouch } from 'components/TextTouch'
 
-import { useExchange } from 'context/exchange'
+import { Currencies } from 'services/ChangeNowService'
+import { useExchange, Query } from 'context/exchange'
 
 import * as S from './styles'
 
 export const Exchange = () => {
+  const { fromAmount, fromName, toName } = useRouter().query as Query
+
   const {
     currencies,
     dataFlow,
@@ -21,6 +25,21 @@ export const Exchange = () => {
   } = useExchange()
 
   const [isAlertFixedRate, setIsAlertFixedRate] = useState(false)
+  const [fromImage, setFromImage] = useState('')
+  const [toImage, setToImage] = useState('')
+
+  useEffect(() => {
+    const currencies = localStorage.getItem('alitaquantum.com@currencies')
+
+    if (currencies) {
+      const coins = JSON.parse(currencies) as Currencies[]
+
+      coins.forEach((coin) => {
+        if (coin.name === fromName) setFromImage(coin.image)
+        if (coin.name === toName) setToImage(coin.image)
+      })
+    }
+  }, [fromName, toName])
 
   return (
     <S.Container>
@@ -30,7 +49,7 @@ export const Exchange = () => {
         <S.InputBlock>
           <S.Input
             name="fromAmount"
-            value={dataFlow.fromAmount || ''}
+            value={fromAmount || dataFlow.fromAmount}
             onChange={handlerInputFromAmountChange}
           />
 
@@ -39,8 +58,8 @@ export const Exchange = () => {
             name="fromName"
             background="secondary"
             color="whiteIce"
-            srcImage={dataFlow.fromImage}
-            value={dataFlow.fromName || ''}
+            srcImage={fromName ? fromImage : dataFlow.fromImage}
+            value={fromName || dataFlow.fromName}
             onChange={handlerInputCurrencyChange}
           />
           <Select name="fromName" currencies={currencies} />
@@ -85,8 +104,8 @@ export const Exchange = () => {
             name="toName"
             background="secondary"
             color="whiteIce"
-            srcImage={dataFlow.toImage}
-            value={dataFlow.toName || ''}
+            srcImage={toName ? toImage : dataFlow.toImage}
+            value={toName || dataFlow.toName}
             onChange={handlerInputCurrencyChange}
           />
           <Select name="toName" currencies={currencies} />
