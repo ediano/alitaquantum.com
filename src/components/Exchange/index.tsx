@@ -27,6 +27,8 @@ export const Exchange = () => {
   const [isAlertFixedRate, setIsAlertFixedRate] = useState(false)
   const [fromImage, setFromImage] = useState('')
   const [toImage, setToImage] = useState('')
+  const [fromNetwork, setFromNetwork] = useState('')
+  const [toNetwork, setToNetwork] = useState('')
 
   useEffect(() => {
     const currencies = localStorage.getItem('alitaquantum.com@currencies')
@@ -35,8 +37,14 @@ export const Exchange = () => {
       const coins = JSON.parse(currencies) as Currencies[]
 
       coins.forEach((coin) => {
-        if (coin.name === fromName) setFromImage(coin.image)
-        if (coin.name === toName) setToImage(coin.image)
+        if (coin.name === fromName) {
+          setFromImage(coin.image)
+          setFromNetwork(coin.network)
+        }
+        if (coin.name === toName) {
+          setToImage(coin.image)
+          setToNetwork(coin.network)
+        }
       })
     }
   }, [fromName, toName])
@@ -65,7 +73,8 @@ export const Exchange = () => {
           <Select name="fromName" currencies={currencies} />
         </S.InputBlock>
         <S.Network network="from">
-          Network: {dataFlow.fromNetwork?.toUpperCase()}
+          Network:{' '}
+          {fromName ? fromNetwork : dataFlow.fromNetwork?.toUpperCase()}
         </S.Network>
       </S.WrapperBlock>
 
@@ -111,7 +120,7 @@ export const Exchange = () => {
           <Select name="toName" currencies={currencies} />
         </S.InputBlock>
         <S.Network network="to">
-          Network: {dataFlow.toNetwork?.toUpperCase()}
+          Network: {toName ? toNetwork : dataFlow.toNetwork?.toUpperCase()}
         </S.Network>
       </S.WrapperBlock>
     </S.Container>
