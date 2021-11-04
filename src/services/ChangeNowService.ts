@@ -135,10 +135,46 @@ export const setCreateExchangeTransaction = async (
   )
 }
 
+type ReqTransactionStatus = {
+  id: string
+}
+
+type TransactionStatus = {
+  id: string
+  status: string
+  fromCurrency: string
+  fromNetwork: string
+  toCurrency: string
+  toNetwork: string
+  expectedAmountFrom: null | string
+  expectedAmountTo: null | number
+  amountFrom: null | number
+  amountTo: null | number
+  payinAddress: string
+  payoutAddress: string
+  payinExtraId: null | string
+  payoutExtraId: null | string
+  refundAddress: null | string
+  refundExtraId: null | string
+  createdAt: string
+  updatedAt: string
+  depositReceivedAt: string
+  payinHash: null | string
+  payoutHash: null | string
+}
+
+export const getTransactionStatus = async (params: ReqTransactionStatus) => {
+  return ChangeNow.get<TransactionStatus>('/exchange/by-id', {
+    headers: { ...apiKey },
+    params: { ...params }
+  })
+}
+
 export default {
   getCurrencies,
   getRange,
   getEstimatedAmount,
   getValidateAddress,
-  setCreateExchangeTransaction
+  setCreateExchangeTransaction,
+  getTransactionStatus
 }

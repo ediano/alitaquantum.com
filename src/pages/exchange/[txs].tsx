@@ -1,16 +1,15 @@
 import { NextSeo } from 'next-seo'
 
-import { ExchangeProvider } from 'context/exchange'
-
 import { site } from 'config/site'
 import { getUrl } from 'utils/getUrl'
 
 import { Header } from 'components/Header'
+import { TXSLayout } from 'layouts/TXS'
 import { Footer } from 'components/Footer'
 
 const TXSPage = () => {
   return (
-    <ExchangeProvider>
+    <>
       <NextSeo
         noindex={true}
         nofollow={true}
@@ -26,8 +25,10 @@ const TXSPage = () => {
 
       <Header />
 
+      <TXSLayout />
+
       <Footer />
-    </ExchangeProvider>
+    </>
   )
 }
 
