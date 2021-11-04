@@ -28,6 +28,7 @@ export type DataCreateTransaction = {
 type HandlerClickValidateAddress = {
   address: string
   currency: string
+  origin: string
 }
 
 export const ExchangeLayout = () => {
@@ -37,72 +38,57 @@ export const ExchangeLayout = () => {
 
   const [address, setAddress] = useState('')
   const [confirmTransaction, setConfirmTransaction] = useState(false)
+  const [isDisabledButton, setIsDisabledButton] = useState(true)
   const [isAdvancedOptions, setIsAdvancedOptions] = useState(false)
   const [isRefundAddress, setIsRefundAddress] = useState(true)
-  const [isValidatingAddress, setIsValidatingAddress] = useState(false)
   const [isError, setIsError] = useState(false)
 
   const handlerInputChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       const { value, name } = event.target
 
-      setTimeout(() => {
-        if (name === 'address' && !value) {
-          setConfirmTransaction(false)
-        }
+      const newValue = value.trim()
 
-        if (name === 'address') {
-          setAddress(value)
-        }
-
-        setDataCreateTransaction((state) => ({ ...state, [name]: value }))
-      }, 500)
+      if (name === 'address' && !value) setConfirmTransaction(false)
+      if (name === 'address') setAddress(newValue)
+      setDataCreateTransaction((state) => ({ ...state, [name]: newValue }))
     },
     []
   )
 
   const handlerClickValidateAddress = useCallback(
-    (props: HandlerClickValidateAddress) => {
-      const { address, currency } = props
+    async (props: HandlerClickValidateAddress) => {
+      const { address, currency, origin } = props
 
-      async function handler() {
-        try {
-          const response = await ChangeNow.getValidateAddress({
-            address,
-            currency
-          })
+      try {
+        const response = await ChangeNow.getValidateAddress({
+          address,
+          currency
+        })
 
-          setIsRefundAddress(response.data.result)
-        } catch (err) {
-          setIsRefundAddress(false)
+        if (origin === 'to') {
+          setIsError(!!address && !response.data.result)
+          setIsDisabledButton(!response.data.result)
         }
+        if (origin === 'from') setIsRefundAddress(response.data.result)
+      } catch (err) {
+        if (origin === 'to') {
+          setIsError(false)
+          setIsDisabledButton(true)
+        }
+        if (origin === 'from') setIsRefundAddress(false)
       }
-
-      if (!!address && !!currency) handler()
     },
     []
   )
 
   useEffect(() => {
-    async function handler() {
-      try {
-        const response = await ChangeNow.getValidateAddress({
-          address,
-          currency: dataFlow.toCurrency
-        })
-
-        setIsValidatingAddress(response.data.result)
-      } catch (err) {
-        setIsValidatingAddress(false)
-      }
-    }
-
-    if (address) {
-      handler()
-    } else {
-      setIsValidatingAddress(false)
-    }
-  }, [dataFlow, address])
+    handlerClickValidateAddress({
+      address,
+      origin: 'to',
+      currency: dataFlow.toCurrency
+    })
+  }, [address, dataFlow.toCurrency, handlerClickValidateAddress])
 
   useEffect(() => {
     if (!isAdvancedOptions) {
@@ -116,28 +102,14 @@ export const ExchangeLayout = () => {
   }, [isAdvancedOptions])
 
   useEffect(() => {
-    const { fromAmount, fromCurrency, fromNetwork, toCurrency, toNetwork } =
-      dataFlow
     setDataCreateTransaction((state) => ({
       ...state,
-      fromAmount,
-      fromCurrency,
-      fromNetwork,
-      toCurrency,
-      toNetwork,
+      ...dataFlow,
       toAmount: estimatedAmount,
       transactionSpeedForecast,
       extraId: state.extraId || ''
     }))
   }, [dataFlow, estimatedAmount, transactionSpeedForecast])
-
-  useEffect(() => {
-    if (address) {
-      setIsError(!isValidatingAddress)
-    } else {
-      setIsError(false)
-    }
-  }, [address, isValidatingAddress])
 
   return (
     <>
@@ -175,9 +147,9 @@ export const ExchangeLayout = () => {
             <Button
               uppercase
               title="Proximo"
-              background={isValidatingAddress ? 'primary' : 'secondary'}
+              background={isDisabledButton ? 'secondary' : 'primary'}
               onClick={() => setConfirmTransaction(true)}
-              disabled={!isValidatingAddress}
+              disabled={isDisabledButton}
             />
           </S.WrapperButton>
 
@@ -187,7 +159,7 @@ export const ExchangeLayout = () => {
             Opções avançadas
           </S.AdvancedOptionsText>
 
-          {confirmTransaction && address && isValidatingAddress && (
+          {confirmTransaction && address && !isDisabledButton && (
             <ConfirmTransaction
               setToggle={setConfirmTransaction}
               {...dataCreateTransaction}
@@ -270,6 +242,7 @@ export const ExchangeLayout = () => {
                 uppercase
                 onClick={() =>
                   handlerClickValidateAddress({
+                    origin: 'from',
                     address: dataCreateTransaction.refundAddress || '',
                     currency: dataCreateTransaction.fromCurrency || ''
                   })
