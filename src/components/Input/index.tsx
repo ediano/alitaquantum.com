@@ -24,12 +24,7 @@ export const Input = ({
   ...props
 }: Props) => {
   return (
-    <S.Container
-      background={background}
-      color={color}
-      disabled={props.disabled}
-      {...props}
-    >
+    <S.Container background={background} color={color} {...props}>
       {Icon && !srcImage && (
         <S.WrapperIcon color={colorIcon}>
           <Icon />

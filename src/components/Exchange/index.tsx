@@ -1,22 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { BsArrowDownUp } from 'react-icons/bs'
-import { useRouter } from 'next/router'
 
 import { Select } from 'components/Select'
 import { TextTouch } from 'components/TextTouch'
 
-import { Currencies } from 'services/ChangeNowService'
-import { useExchange, Query } from 'context/exchange'
+import { useExchange } from 'context/exchange'
 
 import * as S from './styles'
 
 export const Exchange = () => {
-  const { fromAmount, fromName, toName } = useRouter().query as Query
-
   const {
     currencies,
     dataFlow,
-    minAmount,
     estimatedAmount,
     isAlert,
     handlerReverseCurrencyClick,
@@ -25,39 +20,18 @@ export const Exchange = () => {
   } = useExchange()
 
   const [isAlertFixedRate, setIsAlertFixedRate] = useState(false)
-  const [fromImage, setFromImage] = useState('')
-  const [toImage, setToImage] = useState('')
-  const [fromNetwork, setFromNetwork] = useState('')
-  const [toNetwork, setToNetwork] = useState('')
-
-  useEffect(() => {
-    const currencies = localStorage.getItem('alitaquantum.com@currencies')
-
-    if (currencies) {
-      const coins = JSON.parse(currencies) as Currencies[]
-
-      coins.forEach((coin) => {
-        if (coin.name === fromName) {
-          setFromImage(coin.image)
-          setFromNetwork(coin.network)
-        }
-        if (coin.name === toName) {
-          setToImage(coin.image)
-          setToNetwork(coin.network)
-        }
-      })
-    }
-  }, [fromName, toName])
 
   return (
     <S.Container>
       <S.WrapperBlock alert={isAlert}>
-        <S.Alert alert={isAlert || false}>Montante mínimo: {minAmount}</S.Alert>
+        <S.Alert alert={isAlert || false}>
+          Montante mínimo: {dataFlow.minAmount}
+        </S.Alert>
 
         <S.InputBlock>
           <S.Input
             name="fromAmount"
-            value={fromAmount || dataFlow.fromAmount}
+            value={dataFlow.fromAmount}
             onChange={handlerInputFromAmountChange}
           />
 
@@ -66,17 +40,14 @@ export const Exchange = () => {
             name="fromName"
             background="secondary"
             color="whiteIce"
-            srcImage={fromName ? fromImage : dataFlow.fromImage}
-            value={fromName || dataFlow.fromName}
+            srcImage={dataFlow.fromImage}
+            value={dataFlow.fromName}
             onChange={handlerInputCurrencyChange}
           />
           <Select name="fromName" currencies={currencies} />
         </S.InputBlock>
         <S.Network network="from">
-          Network:{' '}
-          {fromName
-            ? fromNetwork?.toUpperCase()
-            : dataFlow.fromNetwork?.toUpperCase()}
+          Network: {dataFlow.fromNetwork?.toUpperCase()}
         </S.Network>
       </S.WrapperBlock>
 
@@ -115,17 +86,14 @@ export const Exchange = () => {
             name="toName"
             background="secondary"
             color="whiteIce"
-            srcImage={toName ? toImage : dataFlow.toImage}
-            value={toName || dataFlow.toName}
+            srcImage={dataFlow.toImage}
+            value={dataFlow.toName}
             onChange={handlerInputCurrencyChange}
           />
           <Select name="toName" currencies={currencies} />
         </S.InputBlock>
         <S.Network network="to">
-          Network:{' '}
-          {toName
-            ? toNetwork?.toUpperCase()
-            : dataFlow.toNetwork?.toUpperCase()}
+          Network: {dataFlow.toNetwork?.toUpperCase()}
         </S.Network>
       </S.WrapperBlock>
     </S.Container>

@@ -67,7 +67,7 @@ export const Block = styled.div`
 export const ExchangeWrapper = styled(Block)`
   ${({ theme }) => css`
     border-radius: ${theme.spacing.s};
-    border: 1px solid ${transparentize(0.5, theme.colors.secondary)};
+    background: ${transparentize(0.25, theme.colors.white)};
   `}
 `
 
