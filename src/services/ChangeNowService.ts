@@ -1,11 +1,15 @@
 import axios from 'axios'
 
+const apiKey = {
+  'x-changenow-api-key': process.env.NEXT_PUBLIC_CHANGENOW_API_KEY as string
+}
+
+const contentType = {
+  'content-type': 'application/json'
+}
+
 export const ChangeNow = axios.create({
-  baseURL: 'https://api.changenow.io/v2',
-  headers: {
-    'content-type': 'application/json',
-    'x-changenow-api-key': process.env.NEXT_PUBLIC_CHANGENOW_API_KEY as string
-  }
+  baseURL: 'https://api.changenow.io/v2'
 })
 
 export type Currencies = {
@@ -40,6 +44,7 @@ export type Range = {
 
 export const getRange = async (params: ReqRange) => {
   return ChangeNow.get<Range>('/exchange/range', {
+    headers: { ...apiKey },
     params: { flow: 'standard', ...params }
   })
 }
@@ -62,6 +67,7 @@ export type EstimatedAmount = {
 
 export const getEstimatedAmount = async (params: ReqEstimatedAmount) => {
   return ChangeNow.get<EstimatedAmount>('/exchange/estimated-amount', {
+    headers: { ...apiKey },
     params: { flow: 'standard', ...params }
   })
 }
@@ -118,11 +124,15 @@ export const setCreateExchangeTransaction = async (
   return ChangeNow.post<
     ReqCreateExchangeTransaction,
     { data: CreateExchangeTransaction; status: number }
-  >('/exchange', {
-    ...params,
-    type: 'direct',
-    flow: 'standard'
-  })
+  >(
+    '/exchange',
+    {
+      ...params,
+      type: 'direct',
+      flow: 'standard'
+    },
+    { headers: { ...contentType, ...apiKey } }
+  )
 }
 
 export default {
