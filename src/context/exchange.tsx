@@ -129,6 +129,7 @@ export const ExchangeProvider = ({ children }: Props) => {
         }
 
         try {
+          setEstimatedAmount('')
           const { data: estimated } = await ChangeNow.getEstimatedAmount({
             fromCurrency: dataFlow.fromCurrency,
             fromNetwork: dataFlow.fromNetwork,
@@ -153,6 +154,7 @@ export const ExchangeProvider = ({ children }: Props) => {
 
       if (fromNetwork && toNetwork) {
         try {
+          setEstimatedAmount('')
           const { data: range } = await ChangeNow.getRange({
             fromCurrency,
             fromNetwork,
@@ -356,6 +358,7 @@ export const ExchangeProvider = ({ children }: Props) => {
     }))
 
     try {
+      setEstimatedAmount('')
       const { data: range } = await ChangeNow.getRange({
         fromCurrency: toCurrency,
         fromNetwork: toNetwork,
@@ -434,6 +437,7 @@ export const ExchangeProvider = ({ children }: Props) => {
     }
 
     try {
+      setEstimatedAmount('')
       const { data: range } = await ChangeNow.getRange(initialData)
 
       const minAmount = range.minAmount
@@ -492,6 +496,7 @@ export const ExchangeProvider = ({ children }: Props) => {
       }))
 
       try {
+        setEstimatedAmount('')
         if (fromAmount) {
           const dataRequest = {
             fromCurrency: from.ticker,
