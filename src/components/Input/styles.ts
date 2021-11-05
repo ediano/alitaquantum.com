@@ -42,7 +42,7 @@ export const Label = styled.label<Props>`
 
   transition: 0.2s;
 
-  ${({ theme, color, isValue }) => css`
+  ${({ theme, color }) => css`
     left: ${theme.spacing.s};
     font-size: ${theme.fonts.sizes.xxs};
     color: ${theme.colors[color || 'secondary']};

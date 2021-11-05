@@ -82,7 +82,7 @@ export const ExchangeProvider = ({ children }: Props) => {
   )
 
   const [isQueryLoaded, setIsQueryLoaded] = useState(false)
-  const [estimatedAmount, setEstimatedAmount] = useState('0')
+  const [estimatedAmount, setEstimatedAmount] = useState('')
   const [transactionSpeedForecast, setTransactionSpeedForecast] = useState('')
 
   const [isAlert, setIsAlert] = useState(false)
