@@ -135,11 +135,11 @@ export const setCreateExchangeTransaction = async (
   )
 }
 
-type ReqTransactionStatus = {
+export type ReqTransactionStatus = {
   id: string
 }
 
-type TransactionStatus = {
+export type TransactionStatus = {
   id: string
   status: string
   fromCurrency: string
