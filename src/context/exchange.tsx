@@ -201,8 +201,7 @@ export const ExchangeProvider = ({ children }: Props) => {
           setTransactionSpeedForecast('Estimativa indisponivel!')
           setDataFlow((state) => ({
             ...state,
-            fromAmount: '0',
-            minAmount: '0'
+            fromAmount: '0'
           }))
 
           if (pathname === '/exchange') {
@@ -402,6 +401,13 @@ export const ExchangeProvider = ({ children }: Props) => {
       )
     } catch (err) {
       setEstimatedAmount('0')
+      setTransactionSpeedForecast('Estimativa indisponivel!')
+      setDataFlow((state) => ({
+        ...state,
+        fromAmount: '0',
+        minAmount: '0'
+      }))
+
       if (pathname === '/exchange') {
         push(
           {

@@ -1,10 +1,11 @@
+import { memo } from 'react'
 import ReactMarkdown from 'react-markdown'
 
 import { AboutProps } from 'types/components'
 
 import * as S from './styles'
 
-export const About = ({ title, body }: AboutProps) => {
+const About = ({ title, body }: AboutProps) => {
   return (
     <S.Container>
       <S.Wrapper>
@@ -17,3 +18,5 @@ export const About = ({ title, body }: AboutProps) => {
     </S.Container>
   )
 }
+
+export default memo(About)

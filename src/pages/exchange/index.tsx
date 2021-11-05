@@ -7,7 +7,7 @@ import { getUrl } from 'utils/getUrl'
 
 import { Header } from 'components/Header'
 import { ExchangeLayout } from 'layouts/Exchange'
-import { Footer } from 'components/Footer'
+import Footer from 'components/Footer'
 
 type Props = {
   estimated: any

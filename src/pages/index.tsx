@@ -8,7 +8,7 @@ import { ExchangeProvider } from 'context/exchange'
 import { Header } from 'components/Header'
 import { Hero } from 'components/Hero'
 import { HomeLayout } from 'layouts/Home'
-import { Footer } from 'components/Footer'
+import Footer from 'components/Footer'
 
 import { HomeProps } from 'types/home'
 
