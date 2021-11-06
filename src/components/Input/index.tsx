@@ -15,7 +15,6 @@ export const Input = ({
   name,
   list,
   label,
-  isValue,
   icon: Icon,
   srcImage,
   background,
@@ -46,7 +45,7 @@ export const Input = ({
         <S.Label
           htmlFor={name}
           color={color}
-          isValue={isValue}
+          isValue={!!props.value}
           isIcon={!!Icon || !!srcImage}
         >
           {label}

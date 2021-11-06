@@ -37,22 +37,23 @@ export const ConfirmTransaction = ({
     event.preventDefault()
     async function handler() {
       try {
-        const response = await ChangeNow.setCreateExchangeTransaction({
-          address,
-          extraId: extraId || '',
-          fromAmount,
-          fromCurrency,
-          fromNetwork,
-          toCurrency,
-          toNetwork,
-          contactEmail: contactEmail || '',
-          refundAddress: refundAddress || '',
-          refundExtraId: refundExtraId || ''
-        })
+        const { data: transaction } =
+          await ChangeNow.setCreateExchangeTransaction({
+            address,
+            extraId: extraId || '',
+            fromAmount,
+            fromCurrency,
+            fromNetwork,
+            toCurrency,
+            toNetwork,
+            contactEmail: contactEmail || '',
+            refundAddress: refundAddress || '',
+            refundExtraId: refundExtraId || ''
+          })
 
         router.push({
           pathname: '/exchange/[txs]',
-          query: { txs: 'txs', id: response.data.id }
+          query: { txs: 'txs', id: transaction.id }
         })
       } catch (err) {}
     }

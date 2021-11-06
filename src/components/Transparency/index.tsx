@@ -1,10 +1,11 @@
+import { memo } from 'react'
 import Image from 'next/image'
 
 import { TransparencyProps } from 'types/components'
 
 import * as S from './styles'
 
-export const Transparency = ({ title, content }: TransparencyProps) => {
+const Transparency = ({ title, content }: TransparencyProps) => {
   return (
     <S.Container>
       <S.Wrapper>
@@ -29,3 +30,5 @@ export const Transparency = ({ title, content }: TransparencyProps) => {
     </S.Container>
   )
 }
+
+export default memo(Transparency)

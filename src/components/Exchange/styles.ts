@@ -2,12 +2,10 @@ import styled, { css } from 'styled-components'
 import { transparentize, lighten, shade } from 'polished'
 import { Input as InputBase } from 'components/Input'
 
-type AlertProps = {
+type Props = {
   alert?: boolean
-}
-
-type NetworkProps = {
-  network: 'from' | 'to'
+  network?: 'from' | 'to'
+  loading?: string
 }
 
 export const Container = styled.div`
@@ -23,27 +21,46 @@ export const Container = styled.div`
   flex-direction: column;
 `
 
-export const WrapperBlock = styled.div<AlertProps>`
+export const WrapperBlock = styled.div<Props>`
   position: relative;
   width: 100%;
 
   display: flex;
   flex-direction: column;
 
-  ${({ theme, alert }) =>
-    alert &&
-    css`
-      border-radius: ${theme.border.xs};
-      box-shadow: 0 0 4px 1px ${theme.colors.alert};
-    `};
+  ${({ theme, alert }) => css`
+    border-radius: ${theme.border.xs};
+    box-shadow: 0 0 4px 1px ${theme.colors[alert ? 'alert' : 'transparent']};
+  `};
 `
 
-export const Input = styled(InputBase)`
+export const Input = styled(InputBase)<Props>`
   ${({ theme, disabled }) =>
     disabled &&
     css`
       color: ${theme.colors.white};
       background: ${transparentize(0.25, theme.colors.secondary)};
+    `}
+
+  ${({ theme, loading }) =>
+    loading === '' &&
+    css`
+      &::before {
+        content: '';
+        position: absolute;
+        border: 4px solid ${transparentize(0.5, theme.colors.secondary)};
+        border-left-color: ${theme.colors.primary};
+        border-radius: 100%;
+        width: 25px;
+        height: 25px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
     `}
 `
 
@@ -85,17 +102,14 @@ export const Button = styled.button`
   `}
 `
 
-export const Alert = styled.span<AlertProps>`
+export const Alert = styled.span<Props>`
   position: absolute;
   text-align: left;
-  visibility: hidden;
   transform: translateY(-100%);
 
-  ${({ alert }) =>
-    alert &&
-    css`
-      visibility: visible;
-    `}
+  ${({ alert }) => css`
+    visibility: ${alert ? 'visible' : 'hidden'};
+  `}
 
   ${({ theme }) => css`
     color: ${theme.colors.secondary};
@@ -117,7 +131,7 @@ export const AlertFixedRateText = styled.span`
   `}
 `
 
-export const Network = styled.span<NetworkProps>`
+export const Network = styled.span<Props>`
   margin-left: auto;
 
   ${({ theme, network }) => css`

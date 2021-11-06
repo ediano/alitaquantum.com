@@ -64,6 +64,10 @@ const storage = {
   }
 }
 
+const multiplies = (value: number, x: number = 250) => {
+  return String((value * x).toFixed(8))
+}
+
 const ExchangeContext = createContext<ContextProps>({} as ContextProps)
 
 type Props = {
@@ -82,7 +86,7 @@ export const ExchangeProvider = ({ children }: Props) => {
   )
 
   const [isQueryLoaded, setIsQueryLoaded] = useState(false)
-  const [estimatedAmount, setEstimatedAmount] = useState('0')
+  const [estimatedAmount, setEstimatedAmount] = useState('')
   const [transactionSpeedForecast, setTransactionSpeedForecast] = useState('')
 
   const [isAlert, setIsAlert] = useState(false)
@@ -129,6 +133,7 @@ export const ExchangeProvider = ({ children }: Props) => {
         }
 
         try {
+          setEstimatedAmount('')
           const { data: estimated } = await ChangeNow.getEstimatedAmount({
             fromCurrency: dataFlow.fromCurrency,
             fromNetwork: dataFlow.fromNetwork,
@@ -153,6 +158,7 @@ export const ExchangeProvider = ({ children }: Props) => {
 
       if (fromNetwork && toNetwork) {
         try {
+          setEstimatedAmount('')
           const { data: range } = await ChangeNow.getRange({
             fromCurrency,
             fromNetwork,
@@ -161,7 +167,7 @@ export const ExchangeProvider = ({ children }: Props) => {
           })
 
           const minAmount = range.minAmount
-          const fromAmount = (minAmount * 10).toFixed(8)
+          const fromAmount = multiplies(minAmount)
 
           setDataFlow((state) => ({
             ...state,
@@ -201,8 +207,7 @@ export const ExchangeProvider = ({ children }: Props) => {
           setTransactionSpeedForecast('Estimativa indisponivel!')
           setDataFlow((state) => ({
             ...state,
-            fromAmount: '0',
-            minAmount: '0'
+            fromAmount: '0'
           }))
 
           if (pathname === '/exchange') {
@@ -357,6 +362,7 @@ export const ExchangeProvider = ({ children }: Props) => {
     }))
 
     try {
+      setEstimatedAmount('')
       const { data: range } = await ChangeNow.getRange({
         fromCurrency: toCurrency,
         fromNetwork: toNetwork,
@@ -365,7 +371,7 @@ export const ExchangeProvider = ({ children }: Props) => {
       })
 
       const minAmount = range.minAmount
-      const fromAmount = String((minAmount * 10).toFixed(8))
+      const fromAmount = multiplies(minAmount)
 
       setDataFlow((state) => ({
         ...state,
@@ -402,6 +408,13 @@ export const ExchangeProvider = ({ children }: Props) => {
       )
     } catch (err) {
       setEstimatedAmount('0')
+      setTransactionSpeedForecast('Estimativa indisponivel!')
+      setDataFlow((state) => ({
+        ...state,
+        fromAmount: '0',
+        minAmount: '0'
+      }))
+
       if (pathname === '/exchange') {
         push(
           {
@@ -428,10 +441,11 @@ export const ExchangeProvider = ({ children }: Props) => {
     }
 
     try {
+      setEstimatedAmount('')
       const { data: range } = await ChangeNow.getRange(initialData)
 
       const minAmount = range.minAmount
-      const fromAmount = String((minAmount * 10).toFixed(8))
+      const fromAmount = multiplies(minAmount)
 
       setDataFlow((state) => ({
         ...state,
@@ -486,6 +500,7 @@ export const ExchangeProvider = ({ children }: Props) => {
       }))
 
       try {
+        setEstimatedAmount('')
         if (fromAmount) {
           const dataRequest = {
             fromCurrency: from.ticker,

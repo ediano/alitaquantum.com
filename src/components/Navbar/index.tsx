@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import Link from 'next/link'
 import { MdMenu } from 'react-icons/md'
 
@@ -10,7 +10,7 @@ export type Props = {
   isHero?: boolean
 }
 
-export const Navbar = ({ isHero }: Props) => {
+const Navbar = ({ isHero }: Props) => {
   const [active, setActive] = useState(false)
 
   return (
@@ -47,3 +47,5 @@ export const Navbar = ({ isHero }: Props) => {
     </S.Nav>
   )
 }
+
+export default memo(Navbar)

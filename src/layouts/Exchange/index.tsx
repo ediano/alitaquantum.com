@@ -73,7 +73,7 @@ export const ExchangeLayout = () => {
         if (origin === 'from') setIsRefundAddress(response.data.result)
       } catch (err) {
         if (origin === 'to') {
-          setIsError(false)
+          setIsError(true)
           setIsDisabledButton(true)
         }
         if (origin === 'from') setIsRefundAddress(false)
@@ -83,11 +83,15 @@ export const ExchangeLayout = () => {
   )
 
   useEffect(() => {
-    handlerClickValidateAddress({
-      address,
-      origin: 'to',
-      currency: dataFlow.toCurrency
-    })
+    if (address) {
+      handlerClickValidateAddress({
+        address,
+        origin: 'to',
+        currency: dataFlow.toCurrency
+      })
+    } else {
+      setIsError(false)
+    }
   }, [address, dataFlow.toCurrency, handlerClickValidateAddress])
 
   useEffect(() => {
@@ -121,8 +125,7 @@ export const ExchangeLayout = () => {
           <S.BlockWrapper>
             <S.Block>
               <S.Input
-                defaultValue=""
-                isValue={!!address}
+                value={address}
                 name="address"
                 onChange={handlerInputChange}
                 color={!isError ? 'secondary' : 'error'}
@@ -133,8 +136,7 @@ export const ExchangeLayout = () => {
             {dataFlow.toId && (
               <S.Block>
                 <S.Input
-                  defaultValue=""
-                  isValue={!!dataCreateTransaction.extraId}
+                  value={dataCreateTransaction.extraId}
                   name="extraId"
                   onChange={handlerInputChange}
                   label="OPCIONAL: ID/MENO/TAG"
@@ -178,9 +180,8 @@ export const ExchangeLayout = () => {
                 </S.OptionMessage>
 
                 <S.Input
-                  defaultValue=""
+                  value={dataCreateTransaction.contactEmail}
                   type="email"
-                  isValue={!!dataCreateTransaction.contactEmail}
                   name="contactEmail"
                   onChange={handlerInputChange}
                   placeholder="SEU EMAIL"
@@ -202,8 +203,7 @@ export const ExchangeLayout = () => {
                 </S.OptionMessage>
 
                 <S.Input
-                  defaultValue=""
-                  isValue={!!dataCreateTransaction.refundAddress}
+                  value={dataCreateTransaction.refundAddress}
                   name="refundAddress"
                   onChange={handlerInputChange}
                   color={isRefundAddress ? 'secondary' : 'error'}
@@ -222,8 +222,7 @@ export const ExchangeLayout = () => {
               {dataFlow.fromId && (
                 <S.OptionBlock>
                   <S.Input
-                    defaultValue=""
-                    isValue={!!dataCreateTransaction.refundExtraId}
+                    value={dataCreateTransaction.refundExtraId}
                     name="refundExtraId"
                     onChange={handlerInputChange}
                     placeholder="OPCIONAL: ID/MENO/TAG PARA REEMBOLSO"

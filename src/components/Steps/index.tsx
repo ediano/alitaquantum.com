@@ -1,8 +1,9 @@
+import { memo } from 'react'
 import * as S from './styles'
 
 import { StepsProps } from 'types/components'
 
-export const Steps = ({ title, description, itens }: StepsProps) => {
+const Steps = ({ title, description, itens }: StepsProps) => {
   return (
     <S.Container>
       <S.Wrapper>
@@ -28,3 +29,5 @@ export const Steps = ({ title, description, itens }: StepsProps) => {
     </S.Container>
   )
 }
+
+export default memo(Steps)

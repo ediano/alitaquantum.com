@@ -78,7 +78,8 @@ export const Exchange = () => {
             name="toAmount"
             color="white"
             background="grey"
-            value={Number(estimatedAmount).toFixed(8)}
+            loading={estimatedAmount}
+            value={!estimatedAmount ? '' : Number(estimatedAmount).toFixed(8)}
           />
 
           <S.Input
