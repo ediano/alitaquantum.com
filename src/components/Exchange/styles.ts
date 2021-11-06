@@ -28,12 +28,10 @@ export const WrapperBlock = styled.div<Props>`
   display: flex;
   flex-direction: column;
 
-  ${({ theme, alert }) =>
-    alert &&
-    css`
-      border-radius: ${theme.border.xs};
-      box-shadow: 0 0 4px 1px ${theme.colors.alert};
-    `};
+  ${({ theme, alert }) => css`
+    border-radius: ${theme.border.xs};
+    box-shadow: 0 0 4px 1px ${theme.colors[alert ? 'alert' : 'transparent']};
+  `};
 `
 
 export const Input = styled(InputBase)<Props>`
@@ -107,14 +105,11 @@ export const Button = styled.button`
 export const Alert = styled.span<Props>`
   position: absolute;
   text-align: left;
-  visibility: hidden;
   transform: translateY(-100%);
 
-  ${({ alert }) =>
-    alert &&
-    css`
-      visibility: visible;
-    `}
+  ${({ alert }) => css`
+    visibility: ${alert ? 'visible' : 'hidden'};
+  `}
 
   ${({ theme }) => css`
     color: ${theme.colors.secondary};

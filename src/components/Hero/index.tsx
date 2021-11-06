@@ -43,3 +43,5 @@ export const Hero = () => {
     </S.Container>
   )
 }
+
+// { shallow: true }

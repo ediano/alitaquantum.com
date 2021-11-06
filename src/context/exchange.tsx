@@ -64,6 +64,10 @@ const storage = {
   }
 }
 
+const multiplies = (value: number, x: number = 250) => {
+  return String((value * x).toFixed(8))
+}
+
 const ExchangeContext = createContext<ContextProps>({} as ContextProps)
 
 type Props = {
@@ -163,7 +167,7 @@ export const ExchangeProvider = ({ children }: Props) => {
           })
 
           const minAmount = range.minAmount
-          const fromAmount = (minAmount * 10).toFixed(8)
+          const fromAmount = multiplies(minAmount)
 
           setDataFlow((state) => ({
             ...state,
@@ -367,7 +371,7 @@ export const ExchangeProvider = ({ children }: Props) => {
       })
 
       const minAmount = range.minAmount
-      const fromAmount = String((minAmount * 10).toFixed(8))
+      const fromAmount = multiplies(minAmount)
 
       setDataFlow((state) => ({
         ...state,
@@ -441,7 +445,7 @@ export const ExchangeProvider = ({ children }: Props) => {
       const { data: range } = await ChangeNow.getRange(initialData)
 
       const minAmount = range.minAmount
-      const fromAmount = String((minAmount * 10).toFixed(8))
+      const fromAmount = multiplies(minAmount)
 
       setDataFlow((state) => ({
         ...state,

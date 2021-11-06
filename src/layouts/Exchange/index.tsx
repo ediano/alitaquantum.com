@@ -73,7 +73,7 @@ export const ExchangeLayout = () => {
         if (origin === 'from') setIsRefundAddress(response.data.result)
       } catch (err) {
         if (origin === 'to') {
-          setIsError(false)
+          setIsError(true)
           setIsDisabledButton(true)
         }
         if (origin === 'from') setIsRefundAddress(false)
@@ -83,11 +83,15 @@ export const ExchangeLayout = () => {
   )
 
   useEffect(() => {
-    handlerClickValidateAddress({
-      address,
-      origin: 'to',
-      currency: dataFlow.toCurrency
-    })
+    if (address) {
+      handlerClickValidateAddress({
+        address,
+        origin: 'to',
+        currency: dataFlow.toCurrency
+      })
+    } else {
+      setIsError(false)
+    }
   }, [address, dataFlow.toCurrency, handlerClickValidateAddress])
 
   useEffect(() => {
