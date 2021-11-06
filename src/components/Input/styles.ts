@@ -4,15 +4,14 @@ import { transparentize } from 'polished'
 import { KeyColors } from 'styles/theme'
 
 export type Props = {
-  background?: KeyColors
-  color?: KeyColors
+  color?: 'primary' | 'secondary' | 'alert' | 'error'
   colorIcon?: KeyColors
   isValue?: boolean
   isIcon?: boolean
   disabled?: boolean
 }
 
-export const Container = styled.div<Props>`
+export const Container = styled.div<{ disabled?: boolean }>`
   position: relative;
   width: 100%;
   height: 64px;
@@ -20,17 +19,68 @@ export const Container = styled.div<Props>`
   display: flex;
   align-items: center;
 
-  ${({ theme, background, color, disabled }) => css`
+  ${({ theme, disabled }) => css`
     font-size: ${theme.fonts.sizes.s};
-    background: ${theme.colors[background || 'white']};
-    color: ${theme.colors[color || 'secondary']};
+    background: ${theme.colors.white};
+    color: ${theme.colors.secondary};
     padding: 0 ${theme.spacing.s};
 
     ${disabled &&
     css`
-      color: ${theme.colors.white};
       background: ${transparentize(0.25, theme.colors.secondary)};
     `}
+
+    &.border {
+      border: 1px solid ${transparentize(0.75, theme.colors.secondary)};
+      border-radius: ${theme.spacing.xs};
+    }
+
+    &.alert {
+      color: ${theme.colors.alert};
+
+      &.border {
+        border: 1px solid ${transparentize(0.5, theme.colors.alert)};
+      }
+    }
+
+    &.error {
+      color: ${theme.colors.error};
+
+      &.border {
+        border: 1px solid ${transparentize(0.5, theme.colors.error)};
+      }
+    }
+
+    &.grey {
+      color: ${theme.colors.grey};
+    }
+
+    &.primary {
+      color: ${theme.colors.secondary};
+      background: ${theme.colors.white};
+    }
+
+    &.secondary {
+      color: ${theme.colors.white};
+      background: ${theme.colors.secondary};
+    }
+
+    &.loading::before {
+      content: '';
+      position: absolute;
+      border: 4px solid ${transparentize(0.5, theme.colors.secondary)};
+      border-left-color: ${theme.colors.primary};
+      border-radius: 100%;
+      width: 25px;
+      height: 25px;
+      animation: spin 1s linear infinite;
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    }
   `}
 `
 
@@ -42,10 +92,30 @@ export const Label = styled.label<Props>`
 
   transition: 0.2s;
 
-  ${({ theme, color }) => css`
+  ${({ theme }) => css`
     left: ${theme.spacing.s};
     font-size: ${theme.fonts.sizes.xxs};
-    color: ${theme.colors[color || 'secondary']};
+    color: ${theme.colors.secondary};
+
+    &.primary {
+      color: ${theme.colors.secondary};
+    }
+
+    &.secondary {
+      color: ${theme.colors.white};
+    }
+
+    &.grey {
+      color: ${theme.colors.grey};
+    }
+
+    &.alert {
+      color: ${theme.colors.alert};
+    }
+
+    &.error {
+      color: ${theme.colors.error};
+    }
   `}
 
   ${({ theme, isIcon }) =>
@@ -62,47 +132,45 @@ export const Label = styled.label<Props>`
     `}
 `
 
-export const Input = styled.input<Props>`
+export const Input = styled.input`
   position: relative;
   z-index: 1;
   width: 100%;
   height: 100%;
 
-  ${({ theme, color }) => css`
+  ${({ theme }) => css`
     background: transparent;
-    color: ${theme.colors[color || 'secondary']};
+    color: ${theme.colors.secondary};
     font-size: ${theme.fonts.sizes.s};
 
     &::placeholder {
       font-size: ${theme.fonts.sizes.xxs};
       transform: translateY(-2px);
     }
+
+    &.primary {
+      color: ${theme.colors.secondary};
+    }
+
+    &.grey {
+      color: ${theme.colors.white};
+    }
+
+    &.secondary {
+      color: ${theme.colors.white};
+    }
+
+    &.alert {
+      color: ${theme.colors.alert};
+    }
+
+    &.error {
+      color: ${theme.colors.error};
+    }
   `}
 
   &:focus ~ ${Label} {
-    z-index: 1;
+    position: absolute;
     top: -12.5%;
   }
-`
-
-export const WrapperIcon = styled.span<Props>`
-  display: flex;
-  align-items: center;
-
-  font-size: 1.8rem;
-
-  width: 30px;
-  height: 100%;
-
-  background-repeat: no-repeat;
-  background-position: 0 50%;
-
-  ${({ theme, color }) =>
-    color && theme.colors[color]
-      ? css`
-          color: ${theme.colors[color || 'secondary']};
-        `
-      : css`
-          color: ${color};
-        `}
 `

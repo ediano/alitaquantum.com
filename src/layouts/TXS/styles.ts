@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import { lighten } from 'polished'
+import { lighten, transparentize } from 'polished'
 
 import { lessThan } from 'styles/layout'
 
@@ -14,7 +14,7 @@ export const Container = styled.section`
 
 export const Wrapper = styled.section`
   width: 100%;
-  max-width: 992px;
+  max-width: 800px;
 
   ${({ theme }) => css`
     background: ${theme.colors.white};
@@ -91,19 +91,32 @@ export const Info = styled.span`
   `};
 `
 
-export const Copy = styled.span`
+export const WrapperCopy = styled.span`
   cursor: pointer;
+  position: relative;
+
+  ${Info} {
+    margin-bottom: 0 !important;
+  }
 
   ${({ theme }) => css`
-    font-size: 1.2rem;
+    border-radius: ${theme.spacing.xxs};
+    padding: 0 ${theme.spacing.xxs};
     font-weight: ${theme.fonts.weight.bold};
+    background: ${transparentize(0.75, theme.colors.secondary)};
+
+    display: flex;
+    align-items: center;
 
     svg {
-      color: ${theme.colors.primary};
-    }
+      font-size: 2rem;
+      position: absolute;
+      right: 0;
 
-    svg {
-      margin-left: ${theme.spacing.s};
+      border-radius: ${theme.spacing.xxs};
+      margin: 0 0.5rem;
+
+      background: #fff;
     }
   `};
 `
@@ -123,8 +136,4 @@ export const Title = styled.strong`
     margin-bottom: ${theme.spacing.s};
     color: ${lighten(0.25, theme.colors.secondary)};
   `}
-`
-
-export const Status = styled.div`
-  display: block;
 `

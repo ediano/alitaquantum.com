@@ -7,7 +7,7 @@ import { useExchange } from 'context/exchange'
 import * as S from './styles'
 
 export const Hero = () => {
-  const { dataFlow } = useExchange()
+  const { dataFlow, estimatedAmount } = useExchange()
 
   const { fromAmount, fromName, toName } = dataFlow
 
@@ -31,6 +31,7 @@ export const Hero = () => {
 
           <AnchorButton
             uppercase
+            disabled={!estimatedAmount}
             title="Trocar"
             href={{
               pathname: '/exchange',
@@ -43,5 +44,3 @@ export const Hero = () => {
     </S.Container>
   )
 }
-
-// { shallow: true }

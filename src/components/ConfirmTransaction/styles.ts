@@ -15,7 +15,7 @@ export const Container = styled.div`
 
 export const Wrapper = styled.div`
   width: 100%;
-  max-width: 992px;
+  max-width: 800px;
 
   ${({ theme }) => css`
     background: ${theme.colors.white};

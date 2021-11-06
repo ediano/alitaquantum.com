@@ -6,6 +6,7 @@ import ChangeNow from 'services/ChangeNowService'
 
 import { Exchange } from 'components/Exchange'
 import { Button } from 'components/Button'
+import { Input } from 'components/Input'
 import { ConfirmTransaction } from 'components/ConfirmTransaction'
 
 import * as S from './styles'
@@ -125,21 +126,26 @@ export const ExchangeLayout = () => {
           <S.BlockWrapper>
             <S.Block>
               <S.Input
-                value={address}
+                isOutline
                 name="address"
-                onChange={handlerInputChange}
-                color={!isError ? 'secondary' : 'error'}
+                color={!isError ? 'primary' : 'error'}
                 label={`SEU ENDEREÇO ${dataFlow.toName?.toUpperCase() || ''}`}
+                input={{
+                  value: address,
+                  onChange: handlerInputChange
+                }}
               />
             </S.Block>
 
             {dataFlow.toId && (
               <S.Block>
                 <S.Input
-                  value={dataCreateTransaction.extraId}
                   name="extraId"
-                  onChange={handlerInputChange}
                   label="OPCIONAL: ID/MENO/TAG"
+                  input={{
+                    value: dataCreateTransaction.extraId,
+                    onChange: handlerInputChange
+                  }}
                 />
               </S.Block>
             )}
@@ -180,12 +186,13 @@ export const ExchangeLayout = () => {
                 </S.OptionMessage>
 
                 <S.Input
-                  value={dataCreateTransaction.contactEmail}
-                  type="email"
                   name="contactEmail"
-                  onChange={handlerInputChange}
-                  placeholder="SEU EMAIL"
-                  icon={MdEmail}
+                  icon={{ ico: MdEmail }}
+                  input={{
+                    type: 'email',
+                    placeholder: 'SEU EMAIL',
+                    value: dataCreateTransaction.contactEmail
+                  }}
                 />
 
                 <S.OptionMessage>
@@ -203,14 +210,16 @@ export const ExchangeLayout = () => {
                 </S.OptionMessage>
 
                 <S.Input
-                  value={dataCreateTransaction.refundAddress}
                   name="refundAddress"
-                  onChange={handlerInputChange}
-                  color={isRefundAddress ? 'secondary' : 'error'}
-                  placeholder={`SEU ENDEREÇO ${
-                    dataFlow.fromName?.toUpperCase() || ''
-                  } PARA REEMBOLSO`}
-                  srcImage={dataFlow.fromImage}
+                  color={isRefundAddress ? 'primary' : 'error'}
+                  image={dataFlow.fromImage}
+                  input={{
+                    value: dataCreateTransaction.refundAddress,
+                    onChange: handlerInputChange,
+                    placeholder: `SEU ENDEREÇO ${
+                      dataFlow.fromName?.toUpperCase() || ''
+                    } PARA REEMBOLSO`
+                  }}
                 />
 
                 <S.OptionMessage>
@@ -222,11 +231,13 @@ export const ExchangeLayout = () => {
               {dataFlow.fromId && (
                 <S.OptionBlock>
                   <S.Input
-                    value={dataCreateTransaction.refundExtraId}
                     name="refundExtraId"
-                    onChange={handlerInputChange}
-                    placeholder="OPCIONAL: ID/MENO/TAG PARA REEMBOLSO"
-                    srcImage={dataFlow.fromImage}
+                    image={dataFlow.fromImage}
+                    input={{
+                      value: dataCreateTransaction.refundExtraId,
+                      onChange: handlerInputChange,
+                      placeholder: 'OPCIONAL: ID/MENO/TAG PARA REEMBOLSO'
+                    }}
                   />
 
                   <S.OptionMessage>

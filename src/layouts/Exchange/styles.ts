@@ -15,7 +15,7 @@ export const Main = styled.main`
 
 export const Container = styled.div`
   width: 100%;
-  max-width: 992px;
+  max-width: 800px;
 
   ${({ theme }) => css`
     background: ${theme.colors.white};
@@ -51,7 +51,7 @@ export const Block = styled.div`
 `
 
 export const Input = styled(InputBase)`
-  ${({ theme, color }) => css`
+  /* ${({ theme, color }) => css`
     color: ${theme.colors.secondary};
     border-radius: ${theme.spacing.xs};
     border: 1px solid ${lighten(0.5, theme.colors.secondary)};
@@ -63,7 +63,7 @@ export const Input = styled(InputBase)`
       : css`
           border: 1px solid ${theme.colors.error};
         `}
-  `}
+  `} */
 `
 
 export const WrapperButton = styled.div`
