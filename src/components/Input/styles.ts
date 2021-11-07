@@ -30,7 +30,7 @@ export const Container = styled.div<{ disabled?: boolean }>`
       background: ${transparentize(0.25, theme.colors.secondary)};
     `}
 
-    &[data-isOutline='true'] {
+    &[data-outline='true'] {
       border: 1px solid ${transparentize(0.75, theme.colors.secondary)};
       border-radius: ${theme.spacing.xs};
     }
@@ -38,7 +38,7 @@ export const Container = styled.div<{ disabled?: boolean }>`
     &.alert {
       color: ${theme.colors.alert};
 
-      &[data-isOutline='true'] {
+      &[data-outline='true'] {
         border: 1px solid ${transparentize(0.5, theme.colors.alert)};
       }
     }
@@ -46,7 +46,7 @@ export const Container = styled.div<{ disabled?: boolean }>`
     &.error {
       color: ${theme.colors.error};
 
-      &[data-isOutline='true'] {
+      &[data-outline='true'] {
         border: 1px solid ${transparentize(0.5, theme.colors.error)};
       }
     }
@@ -65,7 +65,7 @@ export const Container = styled.div<{ disabled?: boolean }>`
       background: ${theme.colors.secondary};
     }
 
-    &[data-isLoading='true']::before {
+    &[data-loading='true']::before {
       content: '';
       position: absolute;
       border: 4px solid ${transparentize(0.5, theme.colors.secondary)};
@@ -118,12 +118,12 @@ export const Label = styled.label<Props>`
         color: ${theme.colors.error};
       }
 
-      &[data-isValue='true'] {
+      &[data-value='true'] {
         z-index: 1;
         top: -12.5%;
       }
 
-      &[data-isIcon='true'] {
+      &[data-icon='true'] {
         left: calc(30px + ${theme.spacing.s});
       }
     }

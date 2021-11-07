@@ -1,39 +1,16 @@
-import { useState, useEffect, useCallback } from 'react'
-import { useRouter } from 'next/router'
+import { useState, useCallback } from 'react'
 import { MdCopyAll } from 'react-icons/md'
 
-import ChangeNow, { TransactionStatus } from 'services/ChangeNowService'
+import { TransactionStatus } from 'services/ChangeNowService'
 
-import { Spinner } from 'components/Spinner'
 import { QRCode } from 'components/QRCode'
 import { Status } from 'components/Status'
 
 import * as S from './styles'
 
-export const TXSLayout = () => {
-  const { isReady, push } = useRouter()
-  const { id: transactionId } = useRouter().query as { id: string }
-  const [dataTransaction, setDataTransaction] = useState<TransactionStatus>(
-    {} as TransactionStatus
-  )
-
+export const TXSLayout = (props: TransactionStatus) => {
   const [copyAddress, setCopyAddress] = useState(false)
   const [copyExtraId, setCopyExtraId] = useState(false)
-
-  const handlerLoadTransaction = useCallback(async (id: string) => {
-    try {
-      const response = await ChangeNow.getTransactionStatus({ id })
-
-      setDataTransaction(response.data)
-    } catch (err) {}
-  }, [])
-
-  useEffect(() => {
-    if (isReady && transactionId) handlerLoadTransaction(transactionId)
-    if (isReady && !transactionId) {
-      push({ pathname: '/' }, undefined, { shallow: true })
-    }
-  }, [transactionId, isReady, push, handlerLoadTransaction])
 
   const handlerCopyText = useCallback(
     (value: string, type: 'address' | 'extraId') => {
@@ -58,8 +35,6 @@ export const TXSLayout = () => {
     []
   )
 
-  if (!dataTransaction.id) return <Spinner />
-
   return (
     <S.Container>
       <S.Wrapper>
@@ -70,76 +45,61 @@ export const TXSLayout = () => {
         <S.Block>
           <S.Info>Envie:</S.Info>
           <S.Info className="primary">
-            {dataTransaction.expectedAmountFrom}{' '}
-            {dataTransaction.fromCurrency?.toUpperCase()}
+            {props.expectedAmountFrom} {props.fromCurrency?.toUpperCase()}
           </S.Info>
 
           <S.WrapperDataFrom>
             <S.ContentDataFrom>
               <S.Info>Para este endereço:</S.Info>
               <S.WrapperCopy
-                onClick={() =>
-                  handlerCopyText(dataTransaction.payinAddress, 'address')
-                }
+                onClick={() => handlerCopyText(props.payinAddress, 'address')}
               >
                 <S.Info className={copyAddress ? 'primary copy' : 'primary'}>
-                  {dataTransaction.payinAddress}
+                  {props.payinAddress}
                 </S.Info>
 
                 <MdCopyAll />
               </S.WrapperCopy>
             </S.ContentDataFrom>
 
-            {dataTransaction.payinAddress && (
-              <QRCode value={dataTransaction.payinAddress} />
-            )}
+            {props.payinAddress && <QRCode value={props.payinAddress} />}
           </S.WrapperDataFrom>
 
-          {dataTransaction.payinExtraId && (
+          {props.payinExtraId && (
             <S.WrapperDataFrom>
               <S.ContentDataFrom>
                 <S.Info>Para este ID: ID/MENO/TAG</S.Info>
                 <S.WrapperCopy
                   onClick={() =>
-                    handlerCopyText(
-                      dataTransaction.payinExtraId as string,
-                      'extraId'
-                    )
+                    handlerCopyText(props.payinExtraId as string, 'extraId')
                   }
                 >
                   <S.Info className={copyExtraId ? 'primary copy' : 'primary'}>
-                    {dataTransaction.payinExtraId}
+                    {props.payinExtraId}
                   </S.Info>
 
                   <MdCopyAll />
                 </S.WrapperCopy>
               </S.ContentDataFrom>
 
-              <QRCode value={dataTransaction.payinExtraId} />
+              <QRCode value={props.payinExtraId} />
             </S.WrapperDataFrom>
           )}
 
-          {dataTransaction.amountFrom && (
+          {props.amountFrom && (
             <S.AmountReceived>
               <S.Info>Recebido:</S.Info>
               <S.Info className="primary">
-                {dataTransaction.amountFrom}{' '}
-                {dataTransaction.fromCurrency?.toUpperCase()}
+                {props.amountFrom} {props.fromCurrency?.toUpperCase()}
               </S.Info>
               <S.Info>Em:</S.Info>
-              <S.Info className="primary">
-                {dataTransaction.depositReceivedAt}
-              </S.Info>
-              <S.Info>Às:</S.Info>
-              <S.Info className="primary">
-                {dataTransaction.depositReceivedAt}
-              </S.Info>
+              <S.Info className="primary">{props.depositReceivedAt}</S.Info>
             </S.AmountReceived>
           )}
         </S.Block>
 
         <S.Block>
-          <Status status={dataTransaction.status} />
+          <Status status={props.status} />
         </S.Block>
 
         <S.Block>
@@ -148,40 +108,33 @@ export const TXSLayout = () => {
           <div>
             <S.Info>Você recebe:</S.Info>
             <S.Info className="primary">
-              {dataTransaction.expectedAmountTo}{' '}
-              {dataTransaction.toCurrency?.toUpperCase()}
+              {props.expectedAmountTo} {props.toCurrency?.toUpperCase()}
             </S.Info>
 
             <S.Info>Carteira do destinatário:</S.Info>
-            <S.Info className="primary">{dataTransaction.payoutAddress}</S.Info>
+            <S.Info className="primary">{props.payoutAddress}</S.Info>
 
-            {dataTransaction.payoutExtraId && (
+            {props.payoutExtraId && (
               <>
                 <S.Info>ID/MENO/TAG:</S.Info>
-                <S.Info className="primary">
-                  {dataTransaction.payoutExtraId}
-                </S.Info>
+                <S.Info className="primary">{props.payoutExtraId}</S.Info>
               </>
             )}
           </div>
         </S.Block>
 
-        {dataTransaction.refundAddress && (
+        {props.refundAddress && (
           <S.Block>
             <S.Title>Dados de reembolso</S.Title>
 
             <div>
               <S.Info>Endereço:</S.Info>
-              <S.Info className="primary">
-                {dataTransaction.refundAddress}
-              </S.Info>
+              <S.Info className="primary">{props.refundAddress}</S.Info>
 
-              {dataTransaction.refundExtraId && (
+              {props.refundExtraId && (
                 <>
                   <S.Info>ID/MENO/TAG:</S.Info>
-                  <S.Info className="primary">
-                    {dataTransaction.refundExtraId}
-                  </S.Info>
+                  <S.Info className="primary">{props.refundExtraId}</S.Info>
                 </>
               )}
             </div>

@@ -32,8 +32,8 @@ export const Input = ({
     <S.Container
       className={color}
       disabled={input?.disabled}
-      data-isLoading={isLoading}
-      data-isOutline={isOutline}
+      data-loading={isLoading}
+      data-outline={isOutline}
     >
       {icon?.ico && !image && <Icon color={icon.color} icon={icon.ico} />}
       {!icon?.ico && image && <Icon image={image} />}
@@ -44,8 +44,8 @@ export const Input = ({
         <S.Label
           htmlFor={name}
           className={color}
-          data-isValue={!!input.value}
-          data-isIcon={!!icon?.ico || !!image}
+          data-value={!!input.value}
+          data-icon={!!icon?.ico || !!image}
         >
           {label}
         </S.Label>

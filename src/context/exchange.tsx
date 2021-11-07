@@ -104,18 +104,16 @@ export const ExchangeProvider = ({ children }: Props) => {
   }, [])
 
   const handlerEstimatedAmountByTheFromAmount = useCallback(
-    async (state: DataFlow) => {
-      const { fromAmount, minAmount } = state
-
-      if (Number(fromAmount) >= Number(minAmount)) {
+    async (value: string) => {
+      if (Number(value) >= Number(dataFlow.minAmount)) {
         try {
           setEstimatedAmount('')
           const { data: estimated } = await ChangeNow.getEstimatedAmount({
-            fromCurrency: state.fromCurrency,
-            fromNetwork: state.fromNetwork,
-            toCurrency: state.toCurrency,
-            toNetwork: state.toNetwork,
-            fromAmount
+            fromCurrency: dataFlow.fromCurrency,
+            fromNetwork: dataFlow.fromNetwork,
+            toCurrency: dataFlow.toCurrency,
+            toNetwork: dataFlow.toNetwork,
+            fromAmount: value
           })
 
           setEstimatedAmount(String(estimated.toAmount))
@@ -131,7 +129,7 @@ export const ExchangeProvider = ({ children }: Props) => {
         setTransactionSpeedForecast('Estimativa indisponivel!')
       }
     },
-    []
+    [dataFlow]
   )
 
   const handlerInputFromAmountChange = useCallback(
@@ -148,10 +146,9 @@ export const ExchangeProvider = ({ children }: Props) => {
       }
 
       if (Number(value) >= 0 && name === 'fromAmount' && limit) {
-        setDataFlow((state) => {
-          handlerEstimatedAmountByTheFromAmount(state)
-          return { ...state, [name]: value }
-        })
+        setDataFlow((state) => ({ ...state, [name]: value }))
+
+        handlerEstimatedAmountByTheFromAmount(value)
 
         if (pathname === '/exchange') {
           const { fromName, toName } = dataFlow
@@ -221,6 +218,14 @@ export const ExchangeProvider = ({ children }: Props) => {
           setTransactionSpeedForecast(
             estimated.transactionSpeedForecast || 'Estimativa indisponivel!'
           )
+
+          setPreviousCurrency({
+            currency: '',
+            name: '',
+            network: '',
+            id: false,
+            image: ''
+          })
         } catch (err) {
           setEstimatedAmount('0')
           setTransactionSpeedForecast('Estimativa indisponivel!')
@@ -243,6 +248,14 @@ export const ExchangeProvider = ({ children }: Props) => {
               { shallow: true }
             )
           }
+
+          setPreviousCurrency({
+            currency: '',
+            name: '',
+            network: '',
+            id: false,
+            image: ''
+          })
         }
       }
     },
@@ -277,9 +290,7 @@ export const ExchangeProvider = ({ children }: Props) => {
 
       setDataFlow((state) => {
         if (name === 'fromName' && value === state.toName) {
-          if (currency?.network) handlerEstimatedAmount(state)
-
-          return {
+          const data = {
             ...state,
             fromName: state.toName,
             fromCurrency: state.toCurrency,
@@ -292,10 +303,12 @@ export const ExchangeProvider = ({ children }: Props) => {
             toId: previousCurrency.id,
             toImage: previousCurrency.image
           }
-        } else if (name === 'toName' && value === state.fromName) {
-          if (currency?.network) handlerEstimatedAmount(state)
 
-          return {
+          if (currency?.network) handlerEstimatedAmount(data)
+
+          return data
+        } else if (name === 'toName' && value === state.fromName) {
+          const data = {
             ...state,
             fromName: previousCurrency.name,
             fromCurrency: previousCurrency.currency,
@@ -308,10 +321,12 @@ export const ExchangeProvider = ({ children }: Props) => {
             toId: state.fromId,
             toImage: state.fromImage
           }
-        } else if (name === 'fromName') {
-          if (currency?.network) handlerEstimatedAmount(state)
 
-          return {
+          if (currency?.network) handlerEstimatedAmount(data)
+
+          return data
+        } else if (name === 'fromName') {
+          const data = {
             ...state,
             fromName: currency?.name || value,
             fromCurrency: currency?.ticker || '',
@@ -319,10 +334,12 @@ export const ExchangeProvider = ({ children }: Props) => {
             fromId: currency?.hasExternalId || false,
             fromImage: currency?.image || ''
           }
-        } else if (name === 'toName') {
-          if (currency?.network) handlerEstimatedAmount(state)
 
-          return {
+          if (currency?.network) handlerEstimatedAmount(data)
+
+          return data
+        } else if (name === 'toName') {
+          const data = {
             ...state,
             toName: currency?.name || value,
             toCurrency: currency?.ticker || '',
@@ -330,22 +347,16 @@ export const ExchangeProvider = ({ children }: Props) => {
             toId: currency?.hasExternalId || false,
             toImage: currency?.image || ''
           }
+
+          if (currency?.network) handlerEstimatedAmount(data)
+
+          return data
         }
 
         if (currency?.network) handlerEstimatedAmount(state)
 
         return state
       })
-
-      if (currency?.name) {
-        setPreviousCurrency({
-          currency: '',
-          name: '',
-          network: '',
-          id: false,
-          image: ''
-        })
-      }
     },
     [currencies, dataFlow, previousCurrency, handlerEstimatedAmount]
   )
