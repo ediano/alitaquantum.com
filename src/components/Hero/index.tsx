@@ -31,7 +31,7 @@ export const Hero = () => {
 
           <AnchorButton
             uppercase
-            disabled={!estimatedAmount}
+            disabled={estimatedAmount === '0'}
             title="Trocar"
             href={{
               pathname: '/exchange',
