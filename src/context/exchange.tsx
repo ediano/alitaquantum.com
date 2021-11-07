@@ -103,6 +103,37 @@ export const ExchangeProvider = ({ children }: Props) => {
     loading()
   }, [])
 
+  const handlerEstimatedAmountByTheFromAmount = useCallback(
+    async (state: DataFlow) => {
+      const { fromAmount, minAmount } = state
+
+      if (Number(fromAmount) >= Number(minAmount)) {
+        try {
+          setEstimatedAmount('')
+          const { data: estimated } = await ChangeNow.getEstimatedAmount({
+            fromCurrency: state.fromCurrency,
+            fromNetwork: state.fromNetwork,
+            toCurrency: state.toCurrency,
+            toNetwork: state.toNetwork,
+            fromAmount
+          })
+
+          setEstimatedAmount(String(estimated.toAmount))
+          setTransactionSpeedForecast(
+            estimated.transactionSpeedForecast || 'Estimativa indisponivel!'
+          )
+        } catch (err) {
+          setEstimatedAmount('0')
+          setTransactionSpeedForecast('Estimativa indisponivel!')
+        }
+      } else {
+        setEstimatedAmount('0')
+        setTransactionSpeedForecast('Estimativa indisponivel!')
+      }
+    },
+    []
+  )
+
   const handlerInputFromAmountChange = useCallback(
     async (event: ChangeEvent<HTMLInputElement>) => {
       const { value, name } = event.target
@@ -117,7 +148,10 @@ export const ExchangeProvider = ({ children }: Props) => {
       }
 
       if (Number(value) >= 0 && name === 'fromAmount' && limit) {
-        setDataFlow((state) => ({ ...state, [name]: value }))
+        setDataFlow((state) => {
+          handlerEstimatedAmountByTheFromAmount(state)
+          return { ...state, [name]: value }
+        })
 
         if (pathname === '/exchange') {
           const { fromName, toName } = dataFlow
@@ -131,24 +165,9 @@ export const ExchangeProvider = ({ children }: Props) => {
             { shallow: true }
           )
         }
-
-        try {
-          setEstimatedAmount('')
-          const { data: estimated } = await ChangeNow.getEstimatedAmount({
-            fromCurrency: dataFlow.fromCurrency,
-            fromNetwork: dataFlow.fromNetwork,
-            toCurrency: dataFlow.toCurrency,
-            toNetwork: dataFlow.toNetwork,
-            fromAmount: value
-          })
-
-          setEstimatedAmount(String(estimated.toAmount))
-        } catch (err) {
-          setEstimatedAmount('0')
-        }
       }
     },
-    [pathname, push, dataFlow]
+    [pathname, push, dataFlow, handlerEstimatedAmountByTheFromAmount]
   )
 
   const handlerEstimatedAmount = useCallback(
@@ -551,6 +570,12 @@ export const ExchangeProvider = ({ children }: Props) => {
       handlerStartPageExchangeQuery()
     }
   }, [handlerStartPageExchangeQuery, asPath, isQueryLoaded, pathname])
+
+  useEffect(() => {
+    if (Number(dataFlow.fromAmount) < Number(dataFlow.minAmount)) {
+      setEstimatedAmount('0')
+    }
+  }, [dataFlow.fromAmount, dataFlow.minAmount, estimatedAmount])
 
   return (
     <ExchangeContext.Provider
