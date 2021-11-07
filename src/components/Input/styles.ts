@@ -1,4 +1,4 @@
-import styled, { css, DefaultTheme } from 'styled-components'
+import styled, { css } from 'styled-components'
 import { transparentize } from 'polished'
 
 import { KeyColors } from 'styles/theme'
