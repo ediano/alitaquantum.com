@@ -141,7 +141,16 @@ export type ReqTransactionStatus = {
 
 export type TransactionStatus = {
   id: string
-  status: string
+  status:
+    | 'new'
+    | 'waiting'
+    | 'confirming'
+    | 'exchanging'
+    | 'sending'
+    | 'finished'
+    | 'failed'
+    | 'refunded'
+    | 'verifying'
   fromCurrency: string
   fromNetwork: string
   toCurrency: string

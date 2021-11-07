@@ -1,11 +1,12 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/router'
-import { MdDoneAll } from 'react-icons/md'
+import { MdCopyAll } from 'react-icons/md'
 
 import ChangeNow, { TransactionStatus } from 'services/ChangeNowService'
 
 import { Spinner } from 'components/Spinner'
 import { QRCode } from 'components/QRCode'
+import { Status } from 'components/Status'
 
 import * as S from './styles'
 
@@ -76,21 +77,17 @@ export const TXSLayout = () => {
           <S.WrapperDataFrom>
             <S.ContentDataFrom>
               <S.Info>Para este endereço:</S.Info>
-              <S.Copy
+              <S.WrapperCopy
                 onClick={() =>
                   handlerCopyText(dataTransaction.payinAddress, 'address')
                 }
               >
-                click para copiar {copyAddress && <MdDoneAll />}{' '}
-              </S.Copy>
-              <S.Info
-                className={copyAddress ? 'primary copy' : 'primary'}
-                onClick={() =>
-                  handlerCopyText(dataTransaction.payinAddress, 'address')
-                }
-              >
-                {dataTransaction.payinAddress}
-              </S.Info>
+                <S.Info className={copyAddress ? 'primary copy' : 'primary'}>
+                  {dataTransaction.payinAddress}
+                </S.Info>
+
+                <MdCopyAll />
+              </S.WrapperCopy>
             </S.ContentDataFrom>
 
             {dataTransaction.payinAddress && (
@@ -101,10 +98,8 @@ export const TXSLayout = () => {
           {dataTransaction.payinExtraId && (
             <S.WrapperDataFrom>
               <S.ContentDataFrom>
-                <S.Info>
-                  Para este ID: ID/MENO/TAG {copyExtraId && <MdDoneAll />}
-                </S.Info>
-                <S.Copy
+                <S.Info>Para este ID: ID/MENO/TAG</S.Info>
+                <S.WrapperCopy
                   onClick={() =>
                     handlerCopyText(
                       dataTransaction.payinExtraId as string,
@@ -112,19 +107,12 @@ export const TXSLayout = () => {
                     )
                   }
                 >
-                  click para copiar {copyAddress && <MdDoneAll />}{' '}
-                </S.Copy>
-                <S.Info
-                  className={copyAddress ? 'primary copy' : 'primary'}
-                  onClick={() =>
-                    handlerCopyText(
-                      dataTransaction.payinExtraId as string,
-                      'extraId'
-                    )
-                  }
-                >
-                  {dataTransaction.payinExtraId}
-                </S.Info>
+                  <S.Info className={copyExtraId ? 'primary copy' : 'primary'}>
+                    {dataTransaction.payinExtraId}
+                  </S.Info>
+
+                  <MdCopyAll />
+                </S.WrapperCopy>
               </S.ContentDataFrom>
 
               <QRCode value={dataTransaction.payinExtraId} />
@@ -151,7 +139,7 @@ export const TXSLayout = () => {
         </S.Block>
 
         <S.Block>
-          <S.Status>status</S.Status>
+          <Status status={dataTransaction.status} />
         </S.Block>
 
         <S.Block>

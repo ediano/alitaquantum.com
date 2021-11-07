@@ -3,6 +3,7 @@ import { BsArrowDownUp } from 'react-icons/bs'
 
 import { Select } from 'components/Select'
 import { TextTouch } from 'components/TextTouch'
+import { Input } from 'components/Input'
 
 import { useExchange } from 'context/exchange'
 
@@ -23,26 +24,29 @@ export const Exchange = () => {
 
   return (
     <S.Container>
-      <S.WrapperBlock alert={isAlert}>
-        <S.Alert alert={isAlert || false}>
+      <S.WrapperBlock className={isAlert ? 'alert' : ''}>
+        <S.Alert className={isAlert ? 'alert' : ''}>
           Montante mínimo: {dataFlow.minAmount}
         </S.Alert>
 
         <S.InputBlock>
-          <S.Input
+          <Input
             name="fromAmount"
-            value={dataFlow.fromAmount}
-            onChange={handlerInputFromAmountChange}
+            input={{
+              value: dataFlow.fromAmount,
+              onChange: handlerInputFromAmountChange
+            }}
           />
 
-          <S.Input
-            list="fromName"
+          <Input
             name="fromName"
-            background="secondary"
-            color="whiteIce"
-            srcImage={dataFlow.fromImage}
-            value={dataFlow.fromName}
-            onChange={handlerInputCurrencyChange}
+            color="secondary"
+            image={dataFlow.fromImage}
+            input={{
+              list: 'fromName',
+              value: dataFlow.fromName,
+              onChange: handlerInputCurrencyChange
+            }}
           />
           <Select name="fromName" currencies={currencies} />
         </S.InputBlock>
@@ -72,24 +76,26 @@ export const Exchange = () => {
 
       <S.WrapperBlock>
         <S.InputBlock>
-          <S.Input
-            readOnly
-            disabled
+          <Input
             name="toAmount"
-            color="white"
-            background="grey"
-            loading={estimatedAmount}
-            value={!estimatedAmount ? '' : Number(estimatedAmount).toFixed(8)}
+            color="grey"
+            isLoading={!estimatedAmount}
+            input={{
+              value: !estimatedAmount ? '' : Number(estimatedAmount).toFixed(8),
+              readOnly: true,
+              disabled: true
+            }}
           />
 
-          <S.Input
-            list="toName"
+          <Input
             name="toName"
-            background="secondary"
-            color="whiteIce"
-            srcImage={dataFlow.toImage}
-            value={dataFlow.toName}
-            onChange={handlerInputCurrencyChange}
+            color="secondary"
+            image={dataFlow.toImage}
+            input={{
+              list: 'toName',
+              value: dataFlow.toName,
+              onChange: handlerInputCurrencyChange
+            }}
           />
           <Select name="toName" currencies={currencies} />
         </S.InputBlock>
