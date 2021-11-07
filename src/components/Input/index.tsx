@@ -28,18 +28,25 @@ export const Input = ({
   isLoading,
   isOutline
 }: Props) => {
-  let className = isLoading ? 'loading' : ''
-  className = isOutline ? 'border' : ''
-
   return (
-    <S.Container className={color + ' ' + className} disabled={input?.disabled}>
+    <S.Container
+      className={color}
+      disabled={input?.disabled}
+      data-isLoading={isLoading}
+      data-isOutline={isOutline}
+    >
       {icon?.ico && !image && <Icon color={icon.color} icon={icon.ico} />}
       {!icon?.ico && image && <Icon image={image} />}
 
       <S.Input name={name} className={color} {...input} />
 
       {label && (
-        <S.Label htmlFor={name} className={color} isValue={!!input.value}>
+        <S.Label
+          htmlFor={name}
+          className={color}
+          data-isValue={!!input.value}
+          data-isIcon={!!icon?.ico || !!image}
+        >
           {label}
         </S.Label>
       )}

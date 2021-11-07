@@ -125,7 +125,7 @@ export const ExchangeLayout = () => {
           <Exchange />
           <S.BlockWrapper>
             <S.Block>
-              <S.Input
+              <Input
                 isOutline
                 name="address"
                 color={!isError ? 'primary' : 'error'}
@@ -139,7 +139,7 @@ export const ExchangeLayout = () => {
 
             {dataFlow.toId && (
               <S.Block>
-                <S.Input
+                <Input
                   name="extraId"
                   label="OPCIONAL: ID/MENO/TAG"
                   input={{
@@ -185,7 +185,8 @@ export const ExchangeLayout = () => {
                   <S.OptionTitle>Receba notificações por e-mail</S.OptionTitle>
                 </S.OptionMessage>
 
-                <S.Input
+                <Input
+                  isOutline
                   name="contactEmail"
                   icon={{ ico: MdEmail }}
                   input={{
@@ -209,7 +210,8 @@ export const ExchangeLayout = () => {
                   <S.OptionTitle>Endereço da moeda de origem</S.OptionTitle>
                 </S.OptionMessage>
 
-                <S.Input
+                <Input
+                  isOutline
                   name="refundAddress"
                   color={isRefundAddress ? 'primary' : 'error'}
                   image={dataFlow.fromImage}
@@ -230,7 +232,8 @@ export const ExchangeLayout = () => {
 
               {dataFlow.fromId && (
                 <S.OptionBlock>
-                  <S.Input
+                  <Input
+                    isOutline
                     name="refundExtraId"
                     image={dataFlow.fromImage}
                     input={{

@@ -2,7 +2,6 @@ import styled, { css } from 'styled-components'
 import { lighten } from 'polished'
 
 import { lessThan, Container as ContainerBase } from 'styles/layout'
-import { Input as InputBase } from 'components/Input'
 
 export const Main = styled.main`
   position: relative;
@@ -48,22 +47,6 @@ export const Block = styled.div`
   ${({ theme }) => css`
     margin: ${theme.spacing.xxl} 0;
   `}
-`
-
-export const Input = styled(InputBase)`
-  /* ${({ theme, color }) => css`
-    color: ${theme.colors.secondary};
-    border-radius: ${theme.spacing.xs};
-    border: 1px solid ${lighten(0.5, theme.colors.secondary)};
-
-    ${!color || color === 'secondary'
-      ? css`
-          border: 1px solid ${lighten(0.5, theme.colors.secondary)};
-        `
-      : css`
-          border: 1px solid ${theme.colors.error};
-        `}
-  `} */
 `
 
 export const WrapperButton = styled.div`

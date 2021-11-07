@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import styled, { css, DefaultTheme } from 'styled-components'
 import { transparentize } from 'polished'
 
 import { KeyColors } from 'styles/theme'
@@ -30,7 +30,7 @@ export const Container = styled.div<{ disabled?: boolean }>`
       background: ${transparentize(0.25, theme.colors.secondary)};
     `}
 
-    &.border {
+    &[data-isOutline='true'] {
       border: 1px solid ${transparentize(0.75, theme.colors.secondary)};
       border-radius: ${theme.spacing.xs};
     }
@@ -38,7 +38,7 @@ export const Container = styled.div<{ disabled?: boolean }>`
     &.alert {
       color: ${theme.colors.alert};
 
-      &.border {
+      &[data-isOutline='true'] {
         border: 1px solid ${transparentize(0.5, theme.colors.alert)};
       }
     }
@@ -46,7 +46,7 @@ export const Container = styled.div<{ disabled?: boolean }>`
     &.error {
       color: ${theme.colors.error};
 
-      &.border {
+      &[data-isOutline='true'] {
         border: 1px solid ${transparentize(0.5, theme.colors.error)};
       }
     }
@@ -65,7 +65,7 @@ export const Container = styled.div<{ disabled?: boolean }>`
       background: ${theme.colors.secondary};
     }
 
-    &.loading::before {
+    &[data-isLoading='true']::before {
       content: '';
       position: absolute;
       border: 4px solid ${transparentize(0.5, theme.colors.secondary)};
@@ -92,44 +92,42 @@ export const Label = styled.label<Props>`
 
   transition: 0.2s;
 
-  ${({ theme }) => css`
-    left: ${theme.spacing.s};
-    font-size: ${theme.fonts.sizes.xxs};
-    color: ${theme.colors.secondary};
-
-    &.primary {
+  ${({ theme, isValue }) => css`
+    && {
+      left: ${theme.spacing.s};
+      font-size: ${theme.fonts.sizes.xxs};
       color: ${theme.colors.secondary};
-    }
 
-    &.secondary {
-      color: ${theme.colors.white};
-    }
+      &.primary {
+        color: ${theme.colors.secondary};
+      }
 
-    &.grey {
-      color: ${theme.colors.grey};
-    }
+      &.secondary {
+        color: ${theme.colors.white};
+      }
 
-    &.alert {
-      color: ${theme.colors.alert};
-    }
+      &.grey {
+        color: ${theme.colors.grey};
+      }
 
-    &.error {
-      color: ${theme.colors.error};
+      &.alert {
+        color: ${theme.colors.alert};
+      }
+
+      &.error {
+        color: ${theme.colors.error};
+      }
+
+      &[data-isValue='true'] {
+        z-index: 1;
+        top: -12.5%;
+      }
+
+      &[data-isIcon='true'] {
+        left: calc(30px + ${theme.spacing.s});
+      }
     }
   `}
-
-  ${({ theme, isIcon }) =>
-    isIcon &&
-    css`
-      left: calc(30px + ${theme.spacing.s});
-    `}
-
-  ${({ isValue }) =>
-    isValue &&
-    css`
-      z-index: 1;
-      top: -12.5%;
-    `}
 `
 
 export const Input = styled.input`
