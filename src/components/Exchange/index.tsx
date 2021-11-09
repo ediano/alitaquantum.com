@@ -45,7 +45,8 @@ export const Exchange = () => {
             input={{
               list: 'fromName',
               value: dataFlow.fromName,
-              onChange: handlerInputCurrencyChange
+              onChange: handlerInputCurrencyChange,
+              onFocus: handlerInputCurrencyChange
             }}
           />
           <Select name="fromName" currencies={currencies} />
@@ -94,7 +95,8 @@ export const Exchange = () => {
             input={{
               list: 'toName',
               value: dataFlow.toName,
-              onChange: handlerInputCurrencyChange
+              onChange: handlerInputCurrencyChange,
+              onFocus: handlerInputCurrencyChange
             }}
           />
           <Select name="toName" currencies={currencies} />

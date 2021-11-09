@@ -35,14 +35,6 @@ type Query = {
   toName?: string
 }
 
-type PreviousCurrency = {
-  name: string
-  currency: string
-  network: string
-  id: boolean
-  image: string
-}
-
 type ContextProps = {
   currencies: Currencies[]
   dataFlow: DataFlow
@@ -79,11 +71,7 @@ export const ExchangeProvider = ({ children }: Props) => {
   const query = useRouter().query as Query
 
   const [currencies, setCurrencies] = useState<Currencies[]>([])
-
   const [dataFlow, setDataFlow] = useState<DataFlow>(initialProps)
-  const [previousCurrency, setPreviousCurrency] = useState<PreviousCurrency>(
-    {} as PreviousCurrency
-  )
 
   const [isQueryLoaded, setIsQueryLoaded] = useState(false)
   const [estimatedAmount, setEstimatedAmount] = useState('')
@@ -218,14 +206,6 @@ export const ExchangeProvider = ({ children }: Props) => {
           setTransactionSpeedForecast(
             estimated.transactionSpeedForecast || 'Estimativa indisponivel!'
           )
-
-          setPreviousCurrency({
-            currency: '',
-            name: '',
-            network: '',
-            id: false,
-            image: ''
-          })
         } catch (err) {
           setEstimatedAmount('0')
           setTransactionSpeedForecast('Estimativa indisponivel!')
@@ -248,14 +228,6 @@ export const ExchangeProvider = ({ children }: Props) => {
               { shallow: true }
             )
           }
-
-          setPreviousCurrency({
-            currency: '',
-            name: '',
-            network: '',
-            id: false,
-            image: ''
-          })
         }
       }
     },
@@ -266,66 +238,16 @@ export const ExchangeProvider = ({ children }: Props) => {
     async (event: ChangeEvent<HTMLInputElement>) => {
       const { value, name } = event.target
 
+      console.log(event.type)
+
+      const isFocus = event.type === 'focus'
+
       const currency = currencies.find((currency) => currency.name === value)
 
-      if (!previousCurrency.name && name === 'fromName') {
-        setPreviousCurrency({
-          currency: dataFlow.fromCurrency,
-          name: dataFlow.fromName,
-          network: dataFlow.fromNetwork,
-          id: dataFlow.fromId,
-          image: dataFlow.fromImage
-        })
-      }
-
-      if (!previousCurrency.name && name === 'toName') {
-        setPreviousCurrency({
-          currency: dataFlow.toCurrency,
-          name: dataFlow.toName,
-          network: dataFlow.toNetwork,
-          id: dataFlow.toId,
-          image: dataFlow.toImage
-        })
-      }
-
       setDataFlow((state) => {
-        if (name === 'fromName' && value === state.toName) {
-          const data = {
-            ...state,
-            fromName: state.toName,
-            fromCurrency: state.toCurrency,
-            fromNetwork: state.toNetwork,
-            fromId: state.toId,
-            fromImage: state.toImage,
-            toName: previousCurrency.name,
-            toCurrency: previousCurrency.currency,
-            toNetwork: previousCurrency.network,
-            toId: previousCurrency.id,
-            toImage: previousCurrency.image
-          }
+        if (name === 'fromName') {
+          if (isFocus) setDataFlow((state) => ({ ...state, fromName: '' }))
 
-          if (currency?.network) handlerEstimatedAmount(data)
-
-          return data
-        } else if (name === 'toName' && value === state.fromName) {
-          const data = {
-            ...state,
-            fromName: previousCurrency.name,
-            fromCurrency: previousCurrency.currency,
-            fromNetwork: previousCurrency.network,
-            fromId: previousCurrency.id,
-            fromImage: previousCurrency?.image,
-            toName: state.fromName,
-            toCurrency: state.fromCurrency,
-            toNetwork: state.fromNetwork,
-            toId: state.fromId,
-            toImage: state.fromImage
-          }
-
-          if (currency?.network) handlerEstimatedAmount(data)
-
-          return data
-        } else if (name === 'fromName') {
           const data = {
             ...state,
             fromName: currency?.name || value,
@@ -338,7 +260,11 @@ export const ExchangeProvider = ({ children }: Props) => {
           if (currency?.network) handlerEstimatedAmount(data)
 
           return data
-        } else if (name === 'toName') {
+        }
+
+        if (name === 'toName') {
+          if (isFocus) setDataFlow((state) => ({ ...state, toName: '' }))
+
           const data = {
             ...state,
             toName: currency?.name || value,
@@ -358,7 +284,7 @@ export const ExchangeProvider = ({ children }: Props) => {
         return state
       })
     },
-    [currencies, dataFlow, previousCurrency, handlerEstimatedAmount]
+    [currencies, handlerEstimatedAmount]
   )
 
   const handlerReverseCurrencyClick = useCallback(async () => {
