@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-const apiKey = {
+export const apiKey = {
   'x-changenow-api-key': process.env.NEXT_PUBLIC_CHANGENOW_API_KEY as string
 }
 
-const contentType = {
+export const contentType = {
   'content-type': 'application/json'
 }
 

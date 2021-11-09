@@ -1,146 +1,48 @@
-import { useState, useCallback } from 'react'
-import { MdCopyAll } from 'react-icons/md'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+import useSWR from 'swr'
 
-import { TransactionStatus } from 'services/ChangeNowService'
+import { ChangeNow, apiKey, TransactionStatus } from 'services/ChangeNowService'
 
-import { QRCode } from 'components/QRCode'
-import { Status } from 'components/Status'
+import { start } from 'components/Status'
+import { Spinner } from 'components/Spinner'
+import { Waiting } from 'components/Waiting'
 
 import * as S from './styles'
 
-export const TXSLayout = (props: TransactionStatus) => {
-  const [copyAddress, setCopyAddress] = useState(false)
-  const [copyExtraId, setCopyExtraId] = useState(false)
+export const TXSLayout = () => {
+  const { isReady, push } = useRouter()
+  const { id: transactionId } = useRouter().query as { id: string }
 
-  const handlerCopyText = useCallback(
-    (value: string, type: 'address' | 'extraId') => {
-      navigator.clipboard.writeText(value)
-
-      if (type === 'address') {
-        setCopyAddress(true)
-        setCopyExtraId(false)
-        setTimeout(() => {
-          setCopyAddress(false)
-        }, 7500)
+  const { data, error } = useSWR<TransactionStatus | null>(
+    `/exchange/by-id?id=${transactionId}`,
+    async (url: string) => {
+      if (transactionId) {
+        return (await ChangeNow.get(url, { headers: { ...apiKey } })).data
       }
-
-      if (type === 'extraId') {
-        setCopyExtraId(true)
-        setCopyAddress(false)
-        setTimeout(() => {
-          setCopyExtraId(false)
-        }, 7500)
-      }
-    },
-    []
+      return null
+    }
   )
+
+  useEffect(() => {
+    if ((isReady && !transactionId) || error) {
+      push({ pathname: '/' }, undefined, { shallow: true })
+    }
+  }, [transactionId, isReady, push, error])
+
+  if (!data) {
+    return (
+      <Spinner heightBase="80vh" circle={{ width: '250px', height: '250px' }} />
+    )
+  }
 
   return (
     <S.Container>
-      <S.Wrapper>
-        <S.Title>
-          Por favor, envie os fundos que você gostaria de trocar
-        </S.Title>
-
-        <S.Block>
-          <S.Info>Envie:</S.Info>
-          <S.Info className="primary">
-            {props.expectedAmountFrom} {props.fromCurrency?.toUpperCase()}
-          </S.Info>
-
-          <S.WrapperDataFrom>
-            <S.ContentDataFrom>
-              <S.Info>Para este endereço:</S.Info>
-              <S.WrapperCopy
-                onClick={() => handlerCopyText(props.payinAddress, 'address')}
-              >
-                <S.Info className={copyAddress ? 'primary copy' : 'primary'}>
-                  {props.payinAddress}
-                </S.Info>
-
-                <MdCopyAll />
-              </S.WrapperCopy>
-            </S.ContentDataFrom>
-
-            {props.payinAddress && <QRCode value={props.payinAddress} />}
-          </S.WrapperDataFrom>
-
-          {props.payinExtraId && (
-            <S.WrapperDataFrom>
-              <S.ContentDataFrom>
-                <S.Info>Para este ID: ID/MENO/TAG</S.Info>
-                <S.WrapperCopy
-                  onClick={() =>
-                    handlerCopyText(props.payinExtraId as string, 'extraId')
-                  }
-                >
-                  <S.Info className={copyExtraId ? 'primary copy' : 'primary'}>
-                    {props.payinExtraId}
-                  </S.Info>
-
-                  <MdCopyAll />
-                </S.WrapperCopy>
-              </S.ContentDataFrom>
-
-              <QRCode value={props.payinExtraId} />
-            </S.WrapperDataFrom>
-          )}
-
-          {props.amountFrom && (
-            <S.AmountReceived>
-              <S.Info>Recebido:</S.Info>
-              <S.Info className="primary">
-                {props.amountFrom} {props.fromCurrency?.toUpperCase()}
-              </S.Info>
-              <S.Info>Em:</S.Info>
-              <S.Info className="primary">{props.depositReceivedAt}</S.Info>
-            </S.AmountReceived>
-          )}
-        </S.Block>
-
-        <S.Block>
-          <Status status={props.status} />
-        </S.Block>
-
-        <S.Block>
-          <S.Title>Estimativa</S.Title>
-
-          <div>
-            <S.Info>Você recebe:</S.Info>
-            <S.Info className="primary">
-              {props.expectedAmountTo} {props.toCurrency?.toUpperCase()}
-            </S.Info>
-
-            <S.Info>Carteira do destinatário:</S.Info>
-            <S.Info className="primary">{props.payoutAddress}</S.Info>
-
-            {props.payoutExtraId && (
-              <>
-                <S.Info>ID/MENO/TAG:</S.Info>
-                <S.Info className="primary">{props.payoutExtraId}</S.Info>
-              </>
-            )}
-          </div>
-        </S.Block>
-
-        {props.refundAddress && (
-          <S.Block>
-            <S.Title>Dados de reembolso</S.Title>
-
-            <div>
-              <S.Info>Endereço:</S.Info>
-              <S.Info className="primary">{props.refundAddress}</S.Info>
-
-              {props.refundExtraId && (
-                <>
-                  <S.Info>ID/MENO/TAG:</S.Info>
-                  <S.Info className="primary">{props.refundExtraId}</S.Info>
-                </>
-              )}
-            </div>
-          </S.Block>
-        )}
-      </S.Wrapper>
+      {start.includes(data.status) && <Waiting {...data} />}
+      {!start.includes(data.status) && data.status !== 'finished' && (
+        <>possível erro</>
+      )}
+      {data.status === 'finished' && <>sucesso</>}
     </S.Container>
   )
 }

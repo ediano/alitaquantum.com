@@ -10,7 +10,7 @@ type Props = {
 
 export const TextTouch = ({ message, toggle = false, setToggle }: Props) => {
   return (
-    <S.Container toggle={toggle}>
+    <S.Container data-toggle={toggle}>
       <S.Close onClick={() => setToggle(!toggle)}>X</S.Close>
       {message}
     </S.Container>

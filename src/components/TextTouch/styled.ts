@@ -1,16 +1,12 @@
 import styled, { css } from 'styled-components'
 import { lighten } from 'polished'
 
-type Props = {
-  toggle: boolean
-}
+export const Container = styled.div`
+  visibility: hidden;
 
-export const Container = styled.div<Props>`
-  ${({ toggle }) =>
-    !toggle &&
-    css`
-      visibility: hidden;
-    `}
+  &[data-toggle='true'] {
+    visibility: visible;
+  }
 
   min-width: 200px;
 

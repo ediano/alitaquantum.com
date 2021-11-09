@@ -15,10 +15,10 @@ const keys = {
 }
 
 const errors = ['failed', 'refunded']
-const start = ['waiting', 'confirming', 'exchanging', 'sending']
+export const start = ['waiting', 'confirming', 'exchanging', 'sending']
 const finished = ['finished']
 
-type Keys = keyof typeof keys
+export type Keys = keyof typeof keys
 
 type Steps = {
   step: string
