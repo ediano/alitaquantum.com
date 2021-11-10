@@ -1,8 +1,7 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import useSWR from 'swr'
 
-import { ChangeNow, apiKey, TransactionStatus } from 'services/ChangeNowService'
+import ChangeNow from 'services/ChangeNowService'
 
 import { start } from 'components/Status'
 import { Spinner } from 'components/Spinner'
@@ -12,23 +11,17 @@ import * as S from './styles'
 
 export const TXSLayout = () => {
   const { isReady, push } = useRouter()
-  const { id: transactionId } = useRouter().query as { id: string }
+  const { query } = useRouter()
 
-  const { data, error } = useSWR<TransactionStatus | null>(
-    `/exchange/by-id?id=${transactionId}`,
-    async (url: string) => {
-      if (transactionId) {
-        return (await ChangeNow.get(url, { headers: { ...apiKey } })).data
-      }
-      return null
-    }
-  )
+  const { data, error } = ChangeNow.getTransactionStatus({
+    id: query.id as string
+  })
 
   useEffect(() => {
-    if ((isReady && !transactionId) || error) {
+    if ((isReady && !query.id) || error) {
       push({ pathname: '/' }, undefined, { shallow: true })
     }
-  }, [transactionId, isReady, push, error])
+  }, [query, isReady, push, error])
 
   if (!data) {
     return (

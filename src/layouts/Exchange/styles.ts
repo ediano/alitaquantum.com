@@ -96,7 +96,6 @@ export const OptionBlock = styled.div`
     & + & {
       padding-top: ${theme.spacing.m};
       margin-top: ${theme.spacing.m};
-      /* border-top: 1px solid ${lighten(0.5, theme.colors.secondary)}; */
     }
   `}
 `

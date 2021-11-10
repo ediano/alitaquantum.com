@@ -238,8 +238,6 @@ export const ExchangeProvider = ({ children }: Props) => {
     async (event: ChangeEvent<HTMLInputElement>) => {
       const { value, name } = event.target
 
-      console.log(event.type)
-
       const isFocus = event.type === 'focus'
 
       const currency = currencies.find((currency) => currency.name === value)

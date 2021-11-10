@@ -140,6 +140,7 @@ export const ExchangeLayout = () => {
             {dataFlow.toId && (
               <S.Block>
                 <Input
+                  isOutline
                   name="extraId"
                   label="OPCIONAL: ID/MENO/TAG"
                   input={{

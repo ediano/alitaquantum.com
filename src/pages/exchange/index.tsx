@@ -7,7 +7,7 @@ import { getUrl } from 'utils/getUrl'
 
 import { Header } from 'components/Header'
 import { ExchangeLayout } from 'layouts/Exchange'
-import Footer from 'components/Footer'
+import { Footer } from 'components/Footer'
 
 type Props = {
   estimated: any
@@ -15,7 +15,7 @@ type Props = {
 
 const ExchangePage = ({ estimated }: Props) => {
   return (
-    <ExchangeProvider>
+    <>
       <NextSeo
         title="Exchange"
         canonical={getUrl('/exchange')}
@@ -29,10 +29,12 @@ const ExchangePage = ({ estimated }: Props) => {
 
       <Header />
 
-      <ExchangeLayout />
+      <ExchangeProvider>
+        <ExchangeLayout />
+      </ExchangeProvider>
 
       <Footer />
-    </ExchangeProvider>
+    </>
   )
 }
 

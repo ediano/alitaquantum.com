@@ -5,7 +5,7 @@ import { getUrl } from 'utils/getUrl'
 
 import { Header } from 'components/Header'
 import { TXSLayout } from 'layouts/TXS'
-import Footer from 'components/Footer'
+import { Footer } from 'components/Footer'
 
 const TXSPage = () => {
   return (

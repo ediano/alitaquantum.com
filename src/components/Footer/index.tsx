@@ -1,4 +1,3 @@
-import { memo } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -8,7 +7,7 @@ import navLinks from 'components/Navbar/content'
 
 import * as S from './styles'
 
-const Footer = () => {
+export const Footer = () => {
   return (
     <S.Container>
       <S.Wrapper>
@@ -43,5 +42,3 @@ const Footer = () => {
     </S.Container>
   )
 }
-
-export default memo(Footer)

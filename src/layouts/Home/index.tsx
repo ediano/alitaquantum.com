@@ -1,7 +1,7 @@
-import Steps from 'components/Steps'
-import Suggestion from 'components/Suggestion'
-import Transparency from 'components/Transparency'
-import About from 'components/About'
+import { Steps } from 'components/Steps'
+import { Suggestion } from 'components/Suggestion'
+import { Transparency } from 'components/Transparency'
+import { About } from 'components/About'
 
 import { HomeProps } from 'types/home'
 

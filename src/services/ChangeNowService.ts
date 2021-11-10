@@ -1,4 +1,6 @@
 import axios from 'axios'
+import swr from 'swr'
+import { stringify } from 'query-string'
 
 export const apiKey = {
   'x-changenow-api-key': process.env.NEXT_PUBLIC_CHANGENOW_API_KEY as string
@@ -172,11 +174,18 @@ export type TransactionStatus = {
   payoutHash: null | string
 }
 
-export const getTransactionStatus = async (params: ReqTransactionStatus) => {
-  return ChangeNow.get<TransactionStatus>('/exchange/by-id', {
-    headers: { ...apiKey },
-    params: { ...params }
+export const getTransactionStatus = (params: ReqTransactionStatus) => {
+  const uri = `/exchange/by-id?${stringify(params)}`
+
+  const { data, error } = swr<TransactionStatus>(uri, async (url) => {
+    const response = await ChangeNow.get(url, {
+      headers: { ...apiKey }
+    })
+
+    return response.data
   })
+
+  return { data, error }
 }
 
 export default {

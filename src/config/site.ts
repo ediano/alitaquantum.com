@@ -1,5 +1,5 @@
 const isDev = process.env.NODE_ENV === 'development'
-const PORT = !process.env.PORT ? '300' : (process.env.PORT as string)
+const PORT = process.env.PORT || '3000'
 
 export const site = {
   name: 'Alita Quantum',

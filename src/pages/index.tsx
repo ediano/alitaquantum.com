@@ -8,13 +8,13 @@ import { ExchangeProvider } from 'context/exchange'
 import { Header } from 'components/Header'
 import { Hero } from 'components/Hero'
 import { HomeLayout } from 'layouts/Home'
-import Footer from 'components/Footer'
+import { Footer } from 'components/Footer'
 
 import { HomeProps } from 'types/home'
 
 const HomePage = ({ suggestions, steps, transparency, about }: HomeProps) => {
   return (
-    <ExchangeProvider>
+    <>
       <NextSeo
         title={site.description}
         canonical={getUrl('/')}
@@ -32,9 +32,11 @@ const HomePage = ({ suggestions, steps, transparency, about }: HomeProps) => {
         }}
       />
 
-      <Header isHero>
-        <Hero />
-      </Header>
+      <ExchangeProvider>
+        <Header isHero>
+          <Hero />
+        </Header>
+      </ExchangeProvider>
 
       <HomeLayout
         about={about}
@@ -44,7 +46,7 @@ const HomePage = ({ suggestions, steps, transparency, about }: HomeProps) => {
       />
 
       <Footer />
-    </ExchangeProvider>
+    </>
   )
 }
 

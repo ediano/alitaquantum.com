@@ -12,6 +12,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <ThemeProvider theme={theme}>
       <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#08b9c1" />
         <link rel="shortcut icon" href={site.favicon} type="image/x-icon" />
         <link rel="apple-touch-icon" href={site.favicon} />

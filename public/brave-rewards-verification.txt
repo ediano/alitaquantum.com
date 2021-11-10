@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: alitaquantum.com
+Token: 763f8db535b0763c93920a0378b62f2f8cf8b683182fd571a8b062fd533e55a3

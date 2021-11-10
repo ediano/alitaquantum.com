@@ -7,6 +7,7 @@ import Document, {
   NextScript
 } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
+import { GoogleAnalytics } from 'components/GoogleAnalytics'
 
 export default class MyDocument extends Document {
   static async getInitialProps(
@@ -41,10 +42,22 @@ export default class MyDocument extends Document {
       <Html lang="pt_BR">
         <Head>
           <meta charSet="utf-8" />
+          <meta
+            name="google-site-verification"
+            content="Yv_79yBgF4dOOjb0n44IIXTOa-kqRgqEK_hKUYq-w7I"
+          />
+
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700&family=Open+Sans:wght@300;400;500;700&display=swap"
+            rel="stylesheet"
+          />
         </Head>
 
         <body>
           <Main />
+          <GoogleAnalytics />
           <NextScript />
         </body>
       </Html>

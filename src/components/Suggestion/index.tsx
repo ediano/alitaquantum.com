@@ -1,4 +1,3 @@
-import { memo } from 'react'
 import Image from 'next/image'
 
 import * as S from './styled'
@@ -9,7 +8,7 @@ type Props = {
   suggestions: SuggestionsProps[]
 }
 
-const Suggestion = ({ suggestions }: Props) => {
+export const Suggestion = ({ suggestions }: Props) => {
   return (
     <S.Container as="section">
       {suggestions.map(({ title, link, image, description }) => (
@@ -40,5 +39,3 @@ const Suggestion = ({ suggestions }: Props) => {
     </S.Container>
   )
 }
-
-export default memo(Suggestion)
