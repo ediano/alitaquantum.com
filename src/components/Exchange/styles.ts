@@ -1,12 +1,6 @@
 import styled, { css } from 'styled-components'
 import { lighten, shade } from 'polished'
 
-type Props = {
-  alert?: boolean
-  network?: 'from' | 'to'
-  loading?: boolean
-}
-
 export const Container = styled.div`
   width: 100%;
   margin: 0 auto;
@@ -20,7 +14,7 @@ export const Container = styled.div`
   flex-direction: column;
 `
 
-export const WrapperBlock = styled.div<Props>`
+export const WrapperBlock = styled.div`
   position: relative;
   width: 100%;
 
@@ -29,11 +23,10 @@ export const WrapperBlock = styled.div<Props>`
 
   ${({ theme }) => css`
     border-radius: ${theme.border.xs};
-    box-shadow: 0 0 4px 1px ${theme.colors.transparent};
+    border: 1px solid ${theme.colors.transparent};
 
-    &.alert {
-      border-radius: ${theme.border.xs};
-      box-shadow: 0 0 4px 1px ${theme.colors.alert};
+    &[data-alert='true'] {
+      border: 1px solid ${theme.colors.alert};
     }
   `};
 `
@@ -76,14 +69,14 @@ export const Button = styled.button`
   `}
 `
 
-export const Alert = styled.span<Props>`
+export const Alert = styled.span`
   position: absolute;
   text-align: left;
   visibility: hidden;
 
   transform: translateY(-100%);
 
-  &.alert {
+  &[data-alert='true'] {
     visibility: visible;
   }
 
@@ -107,17 +100,21 @@ export const AlertFixedRateText = styled.span`
   `}
 `
 
-export const Network = styled.span<Props>`
+export const Network = styled.span`
   margin-left: auto;
 
-  ${({ theme, network }) => css`
+  ${({ theme }) => css`
     color: ${theme.colors.white};
     padding: 0 ${theme.spacing.xxs};
     border-bottom-right-radius: ${theme.border.xs};
     border-bottom-left-radius: ${theme.border.xs};
 
-    background: ${network === 'from'
-      ? lighten(0.2, theme.colors.secondary)
-      : shade(0.2, theme.colors.primary)};
+    &.from {
+      background: ${lighten(0.2, theme.colors.secondary)};
+    }
+
+    &.to {
+      background: ${shade(0.2, theme.colors.primary)};
+    }
   `}
 `
