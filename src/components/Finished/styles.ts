@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import { lighten, shade, transparentize } from 'polished'
+import { lighten, shade } from 'polished'
 import { MdDoneAll } from 'react-icons/md'
 import { BsArrowDown } from 'react-icons/bs'
 
