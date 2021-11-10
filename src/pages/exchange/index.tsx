@@ -9,11 +9,7 @@ import { Header } from 'components/Header'
 import { ExchangeLayout } from 'layouts/Exchange'
 import { Footer } from 'components/Footer'
 
-type Props = {
-  estimated: any
-}
-
-const ExchangePage = ({ estimated }: Props) => {
+const ExchangePage = () => {
   return (
     <>
       <NextSeo

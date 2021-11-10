@@ -24,8 +24,8 @@ export const Exchange = () => {
 
   return (
     <S.Container>
-      <S.WrapperBlock className={isAlert ? 'alert' : ''}>
-        <S.Alert className={isAlert ? 'alert' : ''}>
+      <S.WrapperBlock data-alert={isAlert}>
+        <S.Alert data-alert={isAlert}>
           Montante mínimo: {dataFlow.minAmount}
         </S.Alert>
 
@@ -51,7 +51,7 @@ export const Exchange = () => {
           />
           <Select name="fromName" currencies={currencies} />
         </S.InputBlock>
-        <S.Network network="from">
+        <S.Network className="from">
           Network: {dataFlow.fromNetwork?.toUpperCase()}
         </S.Network>
       </S.WrapperBlock>
@@ -101,7 +101,7 @@ export const Exchange = () => {
           />
           <Select name="toName" currencies={currencies} />
         </S.InputBlock>
-        <S.Network network="to">
+        <S.Network className="to">
           Network: {dataFlow.toNetwork?.toUpperCase()}
         </S.Network>
       </S.WrapperBlock>
