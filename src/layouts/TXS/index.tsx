@@ -6,6 +6,7 @@ import ChangeNow from 'services/ChangeNowService'
 import { start } from 'components/Status'
 import { Spinner } from 'components/Spinner'
 import { Waiting } from 'components/Waiting'
+import { Finished } from 'components/Finished'
 
 import * as S from './styles'
 
@@ -35,7 +36,7 @@ export const TXSLayout = () => {
       {!start.includes(data.status) && data.status !== 'finished' && (
         <>possível erro</>
       )}
-      {data.status === 'finished' && <>sucesso</>}
+      {data.status === 'finished' && <Finished {...data} />}
     </S.Container>
   )
 }
