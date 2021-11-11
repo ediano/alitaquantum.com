@@ -7,6 +7,7 @@ import { site } from 'config/site'
 import { getUrl } from 'utils/getUrl'
 import { theme } from 'styles/theme'
 import { GlobalStyle } from 'styles/global'
+import { GoogleAnalytics } from 'components/GoogleAnalytics'
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
@@ -39,6 +40,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 
       <GlobalStyle />
       <Component {...pageProps} />
+      <GoogleAnalytics />
     </ThemeProvider>
   )
 }
