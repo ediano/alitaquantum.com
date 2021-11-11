@@ -14,6 +14,7 @@ export const Hero = () => {
   return (
     <S.Container>
       <S.Image
+        alt="wallpaper map"
         src="/img/map.svg"
         layout="fill"
         quality={100}
