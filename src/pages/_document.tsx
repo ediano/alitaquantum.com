@@ -7,7 +7,6 @@ import Document, {
   NextScript
 } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
-import { GoogleAnalytics } from 'components/GoogleAnalytics'
 
 export default class MyDocument extends Document {
   static async getInitialProps(
@@ -57,7 +56,6 @@ export default class MyDocument extends Document {
 
         <body>
           <Main />
-          <GoogleAnalytics />
           <NextScript />
         </body>
       </Html>
