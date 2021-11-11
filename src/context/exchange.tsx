@@ -399,17 +399,15 @@ export const ExchangeProvider = ({ children }: Props) => {
       const { data: range } = await ChangeNow.getRange(initialData)
 
       const minAmount = range.minAmount
-      const fromAmount = multiplies(minAmount)
 
       setDataFlow((state) => ({
         ...state,
-        fromAmount,
         minAmount: String(minAmount)
       }))
 
       const { data: estimated } = await ChangeNow.getEstimatedAmount({
         ...initialData,
-        fromAmount
+        fromAmount: initialProps.fromAmount
       })
 
       setEstimatedAmount(String(estimated.toAmount))
