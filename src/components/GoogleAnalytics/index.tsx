@@ -4,12 +4,12 @@ export const GoogleAnalytics = () => {
   return (
     <>
       <Script
-        id="google-analytics-sdk"
-        src="https://www.googletagmanager.com/gtag/js?id=UA-171838425-1"
+        strategy="afterInteractive"
+        src={'https://www.googletagmanager.com/gtag/js?id=UA-171838425-1'}
       />
-
       <Script
-        id="google-analytics-script"
+        id="google-string-gtag"
+        strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: `
             window.dataLayer = window.dataLayer || [];
