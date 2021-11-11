@@ -16,6 +16,7 @@ export const Footer = () => {
             <Link href="/">
               <a>
                 <Image
+                  alt="Alita Quantum"
                   src={site.logo}
                   layout="fill"
                   placeholder="blur"
