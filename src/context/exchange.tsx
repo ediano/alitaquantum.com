@@ -23,7 +23,7 @@ const initialProps = {
   toNetwork: 'eth',
   toId: false,
   toImage: 'https://changenow.io/images/sprite/currencies/eth.svg',
-  fromAmount: '0',
+  fromAmount: '0.15',
   minAmount: '0'
 }
 
