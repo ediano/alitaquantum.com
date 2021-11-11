@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import { lighten, transparentize } from 'polished'
+import { MdDoneAll, MdError } from 'react-icons/md'
 
 import { lessThan } from 'styles/layout'
 
@@ -14,12 +14,43 @@ export const Container = styled.section`
 
 export const Wrapper = styled.section`
   width: 100%;
-  max-width: 800px;
+  max-width: 992px;
+  margin: 0 auto;
+`
+
+export const Block = styled.div`
+  height: 50vh;
+  position: relative;
+
+  width: 100%;
+
+  div {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  strong {
+    margin-bottom: 1.5rem;
+  }
+
+  p {
+    text-align: center;
+    margin: 0 auto;
+    max-width: 500px;
+  }
+
+  p + p {
+    margin-top: 1.5rem;
+  }
 
   ${({ theme }) => css`
     background: ${theme.colors.white};
+    margin-top: ${theme.spacing.xxl};
     padding: ${theme.spacing.xxl};
-    margin: 0 auto;
+    padding-top: 7.5rem;
     border-radius: ${theme.spacing.s};
 
     ${lessThan('s')(css`
@@ -28,112 +59,33 @@ export const Wrapper = styled.section`
   `}
 `
 
-export const Block = styled.div`
-  ${({ theme }) => css`
-    border: 1px solid ${lighten(0.5, theme.colors.secondary)};
-    border-radius: ${theme.spacing.xxs};
-    padding: ${theme.spacing.m};
+const icon = css`
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12.5rem;
+  height: 12.5rem;
+  border-radius: 50%;
 
-    & + & {
-      margin-top: ${theme.spacing.xxl};
-    }
+  ${({ theme }) => css`
+    background: ${theme.colors.white};
+    padding: ${theme.spacing.s};
   `}
 `
 
-export const WrapperDataFrom = styled.div`
-  display: grid;
-  grid-gap: 20px;
-  grid-template-columns: 1fr auto;
-  align-items: center;
+export const IconDoneAll = styled(MdDoneAll)`
+  ${icon}
 
   ${({ theme }) => css`
-    & + & {
-      margin-top: ${theme.spacing.m};
-      padding-top: ${theme.spacing.m};
-      border-top: 1px dashed ${lighten(0.5, theme.colors.secondary)};
-    }
-  `}
-
-  ${lessThan('m')(css`
-    grid-template-columns: 1fr;
-  `)}
-`
-
-export const ContentDataFrom = styled.div`
-  overflow: hidden;
-`
-
-export const Info = styled.span`
-  display: block;
-  align-items: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  transition: 0.2s;
-
-  ${({ theme, onClick }) => css`
-    &.primary {
-      font-size: ${theme.fonts.sizes.sm};
-      font-family: ${theme.fonts.family.secondary};
-      font-weight: ${theme.fonts.weight.bold};
-      margin-bottom: ${theme.spacing.m};
-      color: ${theme.colors.secondary};
-    }
-
-    ${onClick &&
-    css`
-      cursor: pointer;
-    `}
-
-    &.copy {
-      color: ${theme.colors.primary};
-    }
-  `};
-`
-
-export const WrapperCopy = styled.span`
-  cursor: pointer;
-  position: relative;
-
-  ${Info} {
-    margin-bottom: 0 !important;
-  }
-
-  ${({ theme }) => css`
-    border-radius: ${theme.spacing.xxs};
-    padding: 0 ${theme.spacing.xxs};
-    font-weight: ${theme.fonts.weight.bold};
-    background: ${transparentize(0.75, theme.colors.secondary)};
-
-    display: flex;
-    align-items: center;
-
-    svg {
-      font-size: 2rem;
-      position: absolute;
-      right: 0;
-
-      border-radius: ${theme.spacing.xxs};
-      margin: 0 0.5rem;
-
-      background: #fff;
-    }
-  `};
-`
-
-export const AmountReceived = styled.div`
-  ${({ theme }) => css`
-    border-top: 1px solid ${lighten(0.6, theme.colors.secondary)};
-    padding-top: ${theme.spacing.s};
+    color: ${theme.colors.primary};
   `}
 `
 
-export const Title = styled.strong`
-  display: block;
+export const IconError = styled(MdError)`
+  ${icon}
 
   ${({ theme }) => css`
-    font-size: ${theme.fonts.sizes.sm};
-    margin-bottom: ${theme.spacing.s};
-    color: ${lighten(0.25, theme.colors.secondary)};
+    color: ${theme.colors.error};
   `}
 `

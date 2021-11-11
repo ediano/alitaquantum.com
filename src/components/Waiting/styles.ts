@@ -5,7 +5,6 @@ import { lessThan } from 'styles/layout'
 
 export const Container = styled.section`
   width: 100%;
-  max-width: 800px;
 
   ${({ theme }) => css`
     background: ${theme.colors.white};

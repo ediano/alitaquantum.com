@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import { lighten, shade } from 'polished'
+import { lighten, shade, transparentize } from 'polished'
 import { MdDoneAll } from 'react-icons/md'
 import { BsArrowDown } from 'react-icons/bs'
 
@@ -7,7 +7,6 @@ import { lessThan } from 'styles/layout'
 
 export const Container = styled.section`
   width: 100%;
-  max-width: 800px;
   margin: 0 auto;
 `
 
@@ -118,9 +117,55 @@ export const BlockSecondary = styled.section`
     margin-top: ${theme.spacing.xxl};
     padding: ${theme.spacing.xxl};
     border-radius: ${theme.spacing.s};
+    color: ${theme.colors.white};
 
     ${lessThan('s')(css`
       padding: ${theme.spacing.m};
     `)}
+  `}
+`
+
+export const DetalheId = styled.span`
+  display: block;
+  text-align: center;
+  margin-bottom: 5rem;
+`
+
+export const WrapperBlockDetalhes = styled.div`
+  ${({ theme }) => css`
+    & + & {
+      margin-top: 2.5rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid ${transparentize(0.75, theme.colors.white)};
+    }
+  `}
+`
+
+export const BlockDetalhes = styled.div`
+  display: grid;
+  grid-template-columns: 125px 1fr;
+  overflow: hidden;
+`
+
+export const Subtitle = styled.strong`
+  display: block;
+  margin-bottom: 2.5rem;
+
+  ${({ theme }) => css`
+    &.primary {
+      font-size: ${theme.fonts.sizes.s};
+    }
+  `}
+`
+
+export const Text = styled.span`
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  ${({ theme }) => css`
+    &.primary {
+      margin-bottom: 2.5rem;
+      font-weight: ${theme.fonts.weight.bold};
+    }
   `}
 `

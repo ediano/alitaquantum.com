@@ -57,6 +57,46 @@ export const Finished = (props: Props) => {
           <Shared uri={site.url + query} />
         </S.WrapperShared>
       </S.BlockPrimary>
+
+      <S.BlockSecondary>
+        <S.Title>Detalhes da transação</S.Title>
+
+        <S.WrapperBlockDetalhes>
+          <S.BlockDetalhes>
+            <S.Text>Finalizada em:</S.Text>
+            <S.Text className="primary">05/01/1994</S.Text>
+            <S.Text>ID em:</S.Text>
+            <S.Text className="primary">{props.id}</S.Text>
+          </S.BlockDetalhes>
+        </S.WrapperBlockDetalhes>
+
+        <S.WrapperBlockDetalhes>
+          <S.Subtitle>Enviado</S.Subtitle>
+
+          <S.BlockDetalhes>
+            <S.Text>Moeda:</S.Text>
+            <S.Text className="primary">
+              {' '}
+              {props.fromCurrency?.toUpperCase()}
+            </S.Text>
+            <S.Text>HASH:</S.Text>
+            <S.Text className="primary">{props.payinHash}</S.Text>
+          </S.BlockDetalhes>
+        </S.WrapperBlockDetalhes>
+
+        <S.WrapperBlockDetalhes>
+          <S.Subtitle>Recebido</S.Subtitle>
+
+          <S.BlockDetalhes>
+            <S.Text>Moeda:</S.Text>
+            <S.Text className="primary">
+              {props.toCurrency?.toUpperCase()}
+            </S.Text>
+            <S.Text>HASH:</S.Text>
+            <S.Text className="primary">{props.payoutHash}</S.Text>
+          </S.BlockDetalhes>
+        </S.WrapperBlockDetalhes>
+      </S.BlockSecondary>
     </S.Container>
   )
 }

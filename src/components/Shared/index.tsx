@@ -14,7 +14,12 @@ export const Shared = ({ uri }: Props) => {
 
         <S.WrapperIcon>
           {content.map(({ social, icon: Icon, url }) => (
-            <S.Anchor key={social} href={url + uri}>
+            <S.Anchor
+              key={social}
+              href={url + uri}
+              target="_blank"
+              rel="nofollow noopener noreferrer"
+            >
               <Icon />
             </S.Anchor>
           ))}
