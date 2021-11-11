@@ -39,7 +39,7 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <Html lang="pt_BR">
+      <Html lang="pt-BR">
         <Head>
           <meta charSet="utf-8" />
           <meta
