@@ -167,9 +167,9 @@ export type TransactionStatus = {
   payoutExtraId: null | string
   refundAddress: null | string
   refundExtraId: null | string
-  createdAt: string
-  updatedAt: string
-  depositReceivedAt: string
+  createdAt: Date | string
+  updatedAt: Date | string
+  depositReceivedAt: Date | string
   payinHash: null | string
   payoutHash: null | string
 }

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { parseISO, format } from 'date-fns'
 
 import { site } from 'config/site'
 import ChangeNow, { TransactionStatus } from 'services/ChangeNowService'
@@ -11,6 +12,9 @@ type Props = Partial<TransactionStatus>
 
 export const Finished = (props: Props) => {
   const [query, setQuery] = useState('')
+
+  const dateParse = parseISO(props.updatedAt as string)
+  const date = format(dateParse, "dd'/'MM'/'yyyy, HH:mm'h'")
 
   useEffect(() => {
     async function loading() {
@@ -64,7 +68,7 @@ export const Finished = (props: Props) => {
         <S.WrapperBlockDetalhes>
           <S.BlockDetalhes>
             <S.Text>Finalizada em:</S.Text>
-            <S.Text className="primary">05/01/1994</S.Text>
+            <S.Text className="primary">{date}</S.Text>
             <S.Text>ID em:</S.Text>
             <S.Text className="primary">{props.id}</S.Text>
           </S.BlockDetalhes>
