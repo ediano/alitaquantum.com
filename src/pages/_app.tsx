@@ -1,14 +1,16 @@
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { DefaultSeo, LogoJsonLd } from 'next-seo'
+import { ThemeProvider } from 'styled-components'
 
 import { site } from 'config/site'
 import { getUrl } from 'utils/getUrl'
+import { theme } from 'styles/theme'
 import { GlobalStyle } from 'styles/global'
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#08b9c1" />
@@ -37,7 +39,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 
       <GlobalStyle />
       <Component {...pageProps} />
-    </>
+    </ThemeProvider>
   )
 }
 
