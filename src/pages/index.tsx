@@ -1,5 +1,6 @@
 import { GetStaticProps } from 'next'
 import { NextSeo } from 'next-seo'
+
 import { site } from 'config/site'
 import { getUrl } from 'utils/getUrl'
 
