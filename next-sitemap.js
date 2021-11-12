@@ -1,7 +1,5 @@
-// const { globby } = require('globby')
-
 module.exports = {
-  siteUrl: 'https://alitaquantum.com',
+  siteUrl: 'https://www.alitaquantum.com',
   generateRobotsTxt: true,
   exclude: ['/exchange/txs']
 }

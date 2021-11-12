@@ -6,7 +6,7 @@ export const site = {
   title: 'Plataforma de troca de criptomoedas',
   description:
     'Troque criptomoedas de forma simples, fácil e sem limites a qualquer momento.',
-  url: isDev ? `http://localhost:${PORT}` : 'https://alitaquantum.com',
+  url: isDev ? `http://localhost:${PORT}` : 'https://www.alitaquantum.com',
   favicon: '/img/favicon.png',
   logo: '/img/logo_reverse.png'
 }
