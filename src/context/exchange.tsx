@@ -24,10 +24,11 @@ const initialProps = {
   toId: false,
   toImage: 'https://changenow.io/images/sprite/currencies/eth.svg',
   fromAmount: '0.15',
-  minAmount: '0'
+  minAmount: '0',
+  blockList: false
 }
 
-type DataFlow = typeof initialProps
+export type DataFlow = typeof initialProps
 
 type Query = {
   fromAmount?: string
@@ -63,10 +64,11 @@ const multiplies = (value: number, x: number = 250) => {
 const ExchangeContext = createContext<ContextProps>({} as ContextProps)
 
 type Props = {
+  props?: Partial<DataFlow>
   children: ReactNode
 }
 
-export const ExchangeProvider = ({ children }: Props) => {
+export const ExchangeProvider = ({ props, children }: Props) => {
   const { pathname, push, asPath } = useRouter()
   const query = useRouter().query as Query
 
@@ -138,12 +140,12 @@ export const ExchangeProvider = ({ children }: Props) => {
 
         handlerEstimatedAmountByTheFromAmount(value)
 
-        if (pathname === '/exchange') {
+        if (pathname === '/trocar') {
           const { fromName, toName } = dataFlow
 
           push(
             {
-              pathname: '/exchange',
+              pathname: '/trocar',
               query: { fromAmount: value, fromName, toName }
             },
             undefined,
@@ -179,10 +181,10 @@ export const ExchangeProvider = ({ children }: Props) => {
             minAmount: String(minAmount)
           }))
 
-          if (pathname === '/exchange') {
+          if (pathname === '/trocar') {
             push(
               {
-                pathname: '/exchange',
+                pathname: '/trocar',
                 query: {
                   fromAmount,
                   fromName,
@@ -214,10 +216,10 @@ export const ExchangeProvider = ({ children }: Props) => {
             fromAmount: '0'
           }))
 
-          if (pathname === '/exchange') {
+          if (pathname === '/trocar') {
             push(
               {
-                pathname: '/exchange',
+                pathname: '/trocar',
                 query: {
                   fromAmount: '0',
                   fromName,
@@ -333,10 +335,10 @@ export const ExchangeProvider = ({ children }: Props) => {
         minAmount: String(minAmount)
       }))
 
-      if (pathname === '/exchange') {
+      if (pathname === '/trocar') {
         push(
           {
-            pathname: '/exchange',
+            pathname: '/trocar',
             query: {
               fromAmount,
               fromName: toName,
@@ -369,10 +371,10 @@ export const ExchangeProvider = ({ children }: Props) => {
         minAmount: '0'
       }))
 
-      if (pathname === '/exchange') {
+      if (pathname === '/trocar') {
         push(
           {
-            pathname: '/exchange',
+            pathname: '/trocar',
             query: {
               fromAmount: '0',
               fromName: toName,
@@ -420,7 +422,7 @@ export const ExchangeProvider = ({ children }: Props) => {
   }, [])
 
   useEffect(() => {
-    if (pathname === '/' || (pathname === '/exchange' && pathname === asPath)) {
+    if (pathname === '/' || (pathname === '/trocar' && pathname === asPath)) {
       handlerInitialStates()
     }
   }, [handlerInitialStates, asPath, pathname])
@@ -499,10 +501,43 @@ export const ExchangeProvider = ({ children }: Props) => {
   }, [query, currencies])
 
   useEffect(() => {
-    if (pathname === '/exchange' && pathname !== asPath && !isQueryLoaded) {
+    if (pathname === '/trocar' && pathname !== asPath && !isQueryLoaded) {
       handlerStartPageExchangeQuery()
     }
   }, [handlerStartPageExchangeQuery, asPath, isQueryLoaded, pathname])
+
+  const handlerInitialStatesPages = useCallback(async () => {
+    if (
+      props?.fromAmount &&
+      props?.fromCurrency &&
+      props?.fromNetwork &&
+      props?.toCurrency &&
+      props?.toNetwork
+    ) {
+      try {
+        setDataFlow((state) => ({ ...state, ...props, blockList: true }))
+
+        const { data: estimated } = await ChangeNow.getEstimatedAmount({
+          fromAmount: props.fromAmount,
+          fromCurrency: props.fromCurrency,
+          fromNetwork: props.fromNetwork,
+          toCurrency: props.toCurrency,
+          toNetwork: props.toNetwork
+        })
+
+        setEstimatedAmount(String(estimated.toAmount))
+        setTransactionSpeedForecast(
+          estimated.transactionSpeedForecast || 'Estimativa indisponivel!'
+        )
+      } catch (err) {}
+    }
+  }, [props])
+
+  useEffect(() => {
+    if (props?.fromCurrency && props.toCurrency) {
+      handlerInitialStatesPages()
+    }
+  }, [props, handlerInitialStatesPages])
 
   useEffect(() => {
     if (Number(dataFlow.fromAmount) < Number(dataFlow.minAmount)) {

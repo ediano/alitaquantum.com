@@ -35,7 +35,7 @@ export const Hero = () => {
             disabled={estimatedAmount === '0'}
             title="Trocar"
             href={{
-              pathname: '/exchange',
+              pathname: '/trocar',
               query: { fromAmount, fromName, toName }
             }}
             style={{ marginTop: '50px' }}

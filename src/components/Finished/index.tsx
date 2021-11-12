@@ -29,7 +29,7 @@ export const Finished = (props: Props) => {
         )
 
         setQuery(
-          `/exchange?fromAmount=${props.amountFrom}&fromName=${from?.name}&toName=${to?.name}`
+          `/trocar?fromAmount=${props.amountFrom}&fromName=${from?.name}&toName=${to?.name}`
         )
       } catch (err) {}
     }

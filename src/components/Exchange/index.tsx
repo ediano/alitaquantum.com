@@ -46,10 +46,14 @@ export const Exchange = () => {
               list: 'fromName',
               value: dataFlow.fromName,
               onChange: handlerInputCurrencyChange,
-              onFocus: handlerInputCurrencyChange
+              onFocus: handlerInputCurrencyChange,
+              disabled: dataFlow.blockList
             }}
           />
-          <Select name="fromName" currencies={currencies} />
+
+          {!dataFlow.blockList && (
+            <Select name="fromName" currencies={currencies} />
+          )}
         </S.InputBlock>
         <S.Network className="from">
           Network: {dataFlow.fromNetwork?.toUpperCase()}
@@ -96,10 +100,14 @@ export const Exchange = () => {
               list: 'toName',
               value: dataFlow.toName,
               onChange: handlerInputCurrencyChange,
-              onFocus: handlerInputCurrencyChange
+              onFocus: handlerInputCurrencyChange,
+              disabled: dataFlow.blockList
             }}
           />
-          <Select name="toName" currencies={currencies} />
+
+          {!dataFlow.blockList && (
+            <Select name="toName" currencies={currencies} />
+          )}
         </S.InputBlock>
         <S.Network className="to">
           Network: {dataFlow.toNetwork?.toUpperCase()}
