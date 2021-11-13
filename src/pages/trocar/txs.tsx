@@ -14,9 +14,9 @@ const TXSPage = () => {
         nofollow={true}
         noindex={true}
         title={'Trocar moedas'}
-        canonical={getUrl('/exchange/txs')}
+        canonical={getUrl('/trocar/txs')}
         openGraph={{
-          url: getUrl('/exchange/txs'),
+          url: getUrl('/trocar/txs'),
           title: `Trocar moedas | ${site.name}`,
           description: site.description,
           site_name: site.name

@@ -1,15 +1,13 @@
-import { useState } from 'react'
 import { BsArrowDownUp } from 'react-icons/bs'
 
 import { Select } from 'components/Select'
-import { TextTouch } from 'components/TextTouch'
 import { Input } from 'components/Input'
 
 import { useExchange } from 'context/exchange'
 
 import * as S from './styles'
 
-export const Exchange = () => {
+export const InstantExchange = () => {
   const {
     currencies,
     dataFlow,
@@ -19,8 +17,6 @@ export const Exchange = () => {
     handlerInputFromAmountChange,
     handlerInputCurrencyChange
   } = useExchange()
-
-  const [isAlertFixedRate, setIsAlertFixedRate] = useState(false)
 
   return (
     <S.Container>
@@ -46,7 +42,8 @@ export const Exchange = () => {
               list: 'fromName',
               value: dataFlow.fromName,
               onChange: handlerInputCurrencyChange,
-              onFocus: handlerInputCurrencyChange
+              onFocus: handlerInputCurrencyChange,
+              disabled: true
             }}
           />
 
@@ -58,19 +55,6 @@ export const Exchange = () => {
       </S.WrapperBlock>
 
       <S.WrapperDetails>
-        <S.AlertFixedRate>
-          <S.AlertFixedRateText
-            onClick={() => setIsAlertFixedRate(!isAlertFixedRate)}
-          >
-            Sem taxas adicionais.
-          </S.AlertFixedRateText>
-          <TextTouch
-            toggle={isAlertFixedRate}
-            setToggle={setIsAlertFixedRate}
-            message="As taxas de conexão de rede e todas as outras taxas de câmbio estão incluídas na aposta."
-          />
-        </S.AlertFixedRate>
-
         <S.Button type="button" onClick={handlerReverseCurrencyClick}>
           <BsArrowDownUp />
         </S.Button>
@@ -97,7 +81,8 @@ export const Exchange = () => {
               list: 'toName',
               value: dataFlow.toName,
               onChange: handlerInputCurrencyChange,
-              onFocus: handlerInputCurrencyChange
+              onFocus: handlerInputCurrencyChange,
+              disabled: true
             }}
           />
 

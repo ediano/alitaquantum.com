@@ -13,11 +13,11 @@ const ExchangePage = () => {
   return (
     <>
       <NextSeo
-        title="Exchange"
-        canonical={getUrl('/exchange')}
+        title="Trocar"
+        canonical={getUrl('/trocar')}
         openGraph={{
-          url: getUrl('/exchange'),
-          title: `Exchange | ${site.name}`,
+          url: getUrl('/trocar'),
+          title: `Trocar | ${site.name}`,
           description: site.description,
           site_name: site.name
         }}

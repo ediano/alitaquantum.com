@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { parseISO, format } from 'date-fns'
 
-import { site } from 'config/site'
 import ChangeNow, { TransactionStatus } from 'services/ChangeNowService'
 
 import { Shared } from 'components/Shared'
@@ -29,7 +28,7 @@ export const Finished = (props: Props) => {
         )
 
         setQuery(
-          `/exchange?fromAmount=${props.amountFrom}&fromName=${from?.name}&toName=${to?.name}`
+          `/trocar?fromAmount=${props.amountFrom}&fromName=${from?.name}&toName=${to?.name}`
         )
       } catch (err) {}
     }
@@ -58,7 +57,10 @@ export const Finished = (props: Props) => {
         </S.FromTo>
 
         <S.WrapperShared>
-          <Shared uri={site.url + query} />
+          <Shared
+            path={query}
+            message="Conte aos seus amigos os pares de moedas que você acabou de trocar!"
+          />
         </S.WrapperShared>
       </S.BlockPrimary>
 

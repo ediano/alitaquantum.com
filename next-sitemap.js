@@ -1,4 +1,4 @@
 module.exports = {
   siteUrl: 'https://www.alitaquantum.com',
-  exclude: ['/exchange/txs']
+  exclude: ['/trocar/txs']
 }
