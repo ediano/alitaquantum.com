@@ -24,8 +24,7 @@ const initialProps = {
   toId: false,
   toImage: 'https://changenow.io/images/sprite/currencies/eth.svg',
   fromAmount: '0.15',
-  minAmount: '0',
-  blockList: false
+  minAmount: '0'
 }
 
 export type DataFlow = typeof initialProps
@@ -515,7 +514,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
       props?.toNetwork
     ) {
       try {
-        setDataFlow((state) => ({ ...state, ...props, blockList: true }))
+        setDataFlow((state) => ({ ...state, ...props }))
 
         const { data: estimated } = await ChangeNow.getEstimatedAmount({
           fromAmount: props.fromAmount,

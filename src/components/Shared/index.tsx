@@ -1,12 +1,14 @@
+import { site } from 'config/site'
 import content from './content'
 
 import * as S from './styles'
 
 type Props = {
-  uri: string
+  path: string
+  message?: string
 }
 
-export const Shared = ({ uri }: Props) => {
+export const Shared = ({ path, message }: Props) => {
   return (
     <S.Container>
       <S.Wrapper>
@@ -16,7 +18,7 @@ export const Shared = ({ uri }: Props) => {
           {content.map(({ social, icon: Icon, url }) => (
             <S.Anchor
               key={social}
-              href={url + uri}
+              href={url + site.url + path}
               target="_blank"
               rel="nofollow noopener noreferrer"
             >
@@ -26,9 +28,7 @@ export const Shared = ({ uri }: Props) => {
         </S.WrapperIcon>
       </S.Wrapper>
 
-      <S.Description>
-        Conte aos seus amigos os pares de moedas que você acabou de trocar!
-      </S.Description>
+      <S.Description>{message}</S.Description>
     </S.Container>
   )
 }
