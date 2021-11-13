@@ -19,11 +19,15 @@ const tickers = [
   { from: 'bnb', to: 'xlm' },
   { from: 'xlm', to: 'trx' },
   { from: 'trx', to: 'xrp' },
-  { from: 'xrp', to: 'shib' },
-  { from: 'shib', to: 'sol' },
+  { from: 'xrp', to: 'xmr' },
+  { from: 'btc', to: 'xlm' },
   { from: 'sol', to: 'dot' },
   { from: 'dot', to: 'ada' },
-  { from: 'ada', to: 'doge' }
+  { from: 'ada', to: 'doge' },
+  { from: 'bnb', to: 'eth' },
+  { from: 'eth', to: 'dot' },
+  { from: 'btc', to: 'doge' },
+  { from: 'trx', to: 'bnb' }
 ]
 
 type SuggestedCoins = {
