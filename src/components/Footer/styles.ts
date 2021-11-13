@@ -1,6 +1,10 @@
 import styled, { css } from 'styled-components'
 import { shade } from 'polished'
-import { Container as ContainerBase, lessThan } from 'styles/layout'
+import {
+  Container as ContainerBase,
+  lessThan,
+  greaterThan
+} from 'styles/layout'
 
 export const Container = styled.footer`
   ${({ theme }) => css`
@@ -11,9 +15,7 @@ export const Container = styled.footer`
 `
 
 export const Wrapper = styled(ContainerBase)`
-  display: grid;
-  grid-template-columns: 100px 1fr;
-  justify-items: end;
+  display: flex;
 
   ${({ theme }) => css`
     padding: 0 ${theme.spacing.xxl};
@@ -21,6 +23,7 @@ export const Wrapper = styled(ContainerBase)`
   `}
 
   ${lessThan('m')(css`
+    display: grid;
     grid-template-columns: 1fr;
     justify-items: center;
   `)}
@@ -29,11 +32,25 @@ export const Wrapper = styled(ContainerBase)`
 export const Block = styled.div`
   ${({ theme }) => css`
     padding: ${theme.spacing.l};
-
-    & + & {
-      border-top: 1px solid ${theme.colors.secondary};
-    }
   `}
+
+  ${lessThan('l')(css`
+    &.hide-l {
+      display: none;
+    }
+  `)}
+`
+
+export const WrapperBlocks = styled.div`
+  display: flex;
+
+  ${({ theme }) => css`
+    border-top: 1px solid ${theme.colors.secondary};
+  `}
+
+  ${greaterThan('m')(css`
+    margin-left: auto;
+  `)}
 `
 
 export const Logo = styled.div`
@@ -59,5 +76,22 @@ export const Anchor = styled.a`
     &:hover {
       color: ${shade(0.3, theme.colors.white)};
     }
+  `}
+`
+
+export const ListLinksTickers = styled(ListLinks)`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  ${({ theme }) => css`
+    column-gap: ${theme.spacing.l};
+  `}
+`
+
+export const AnchorTickers = styled(Anchor)`
+  margin-top: 0 !important;
+
+  ${({ theme }) => css`
+    margin-bottom: ${theme.spacing.s};
   `}
 `

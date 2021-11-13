@@ -13,7 +13,7 @@ import { Header } from 'components/Header'
 import { TickerLayout } from 'layouts/Ticker'
 import { Footer } from 'components/Footer'
 
-const tickers = [
+export const tickers = [
   { from: 'btc', to: 'eth' },
   { from: 'eth', to: 'bnb' },
   { from: 'bnb', to: 'xlm' },
