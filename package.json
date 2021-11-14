@@ -30,6 +30,7 @@
     "@babel/core": "^7.16.0",
     "@next/eslint-plugin-next": "^12.0.1",
     "@types/cors": "^2.8.12",
+    "@types/gtag.js": "^0.0.8",
     "@types/qrcode.react": "^1.0.2",
     "@types/react": "17.0.27",
     "@types/styled-components": "^5.1.15",
