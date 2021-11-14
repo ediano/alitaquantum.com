@@ -17,7 +17,6 @@ const HomePage = ({ suggestions, steps, transparency, about }: HomeProps) => {
   return (
     <>
       <NextSeo
-        title={'Home'}
         canonical={getUrl('/')}
         openGraph={{
           url: site.url,
