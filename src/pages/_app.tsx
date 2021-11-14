@@ -18,7 +18,6 @@ const App = ({ Component, pageProps }: AppProps) => {
   const router = useRouter()
 
   useEffect(() => {
-    console.log('kldsjfklsdjfsdkljfksjkljslfkdj')
     const handleRouteChange = (url: URL) => {
       if (!isDev) pageView(url)
     }
