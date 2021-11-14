@@ -2,7 +2,7 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import { NextSeo } from 'next-seo'
 
-import ChangeNow from 'services/ChangeNowService'
+import * as ChangeNow from 'services/ChangeNowService'
 import { ExchangeProvider, DataFlow } from 'context/exchange'
 
 import { site } from 'config/site'
@@ -100,6 +100,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     toNetwork: to
   }
 
+  const { data: availablePairs } = await ChangeNow.getAvailablePairs()
   const { data: currencies } = await ChangeNow.getCurrencies()
 
   const { data: range } = await ChangeNow.getRange({ ...initialProps })
@@ -111,14 +112,34 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   let limit = 0
 
-  const suggestedCoins = currencies?.filter((currency) => {
-    if (currency.ticker !== from && !currency.ticker.includes('usd')) {
-      limit = limit + 1
-    }
-    return (
-      limit <= 8 && currency.ticker !== from && !currency.ticker.includes('usd')
-    )
-  })
+  const suggestedCoins = availablePairs
+    .filter((pair) => {
+      if (limit >= 8) return null
+
+      if (from !== pair.toCurrency && !pair.toCurrency.includes('usd')) {
+        limit += 1
+      }
+
+      return (
+        limit <= 8 &&
+        from !== pair.toCurrency &&
+        !pair.toCurrency.includes('usd')
+      )
+    })
+    .map((item) => {
+      const to = currencies.find(
+        (currency) => currency.ticker === item.toCurrency
+      )
+
+      return {
+        name: to?.name,
+        ticker: to?.ticker,
+        network: to?.network,
+        hasExternalId: to?.hasExternalId,
+        image: to?.image
+      }
+    })
+    .filter((i) => i)
 
   return {
     props: {

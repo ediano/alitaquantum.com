@@ -188,6 +188,25 @@ export const getTransactionStatus = (params: ReqTransactionStatus) => {
   return { data, error }
 }
 
+type AvailablePairs = {
+  fromCurrency: string
+  fromNetwork: string
+  toCurrency: string
+  toNetwork: string
+  flow: {
+    standard: boolean
+  }
+}
+
+export const getAvailablePairs = async () => {
+  const response = await ChangeNow.get<AvailablePairs[]>(
+    'exchange/available-pairs',
+    { headers: { ...apiKey } }
+  )
+
+  return response
+}
+
 export default {
   getCurrencies,
   getRange,
