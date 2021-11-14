@@ -116,6 +116,7 @@ export const TickerLayout = ({ data, suggestedCoins }: Props) => {
             <S.FooterContent>
               {suggestedCoins.map((coin) => (
                 <Link
+                  key={coin.image}
                   href={`trocar-${data.fromCurrency}-por-${coin.ticker}`}
                   passHref
                 >
