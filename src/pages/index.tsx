@@ -21,14 +21,8 @@ const HomePage = ({ suggestions, steps, transparency, about }: HomeProps) => {
         openGraph={{
           url: site.url,
           title: `${site.name} | ${site.title}`,
-          description: site.description,
           site_name: site.name,
-          images: [
-            {
-              url: getUrl(site.favicon),
-              alt: site.name
-            }
-          ]
+          images: [{ url: getUrl(site.favicon), alt: site.name }]
         }}
       />
 
