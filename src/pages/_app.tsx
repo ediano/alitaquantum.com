@@ -1,5 +1,7 @@
+import { useEffect } from 'react'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { DefaultSeo, LogoJsonLd } from 'next-seo'
 import { ThemeProvider } from 'styled-components'
 
@@ -7,9 +9,25 @@ import { site } from 'config/site'
 import { getUrl } from 'utils/getUrl'
 import { theme } from 'styles/theme'
 import { GlobalStyle } from 'styles/global'
-import { GoogleAnalytics } from 'components/GoogleAnalytics'
+import { pageView } from '../lib/gtag'
+import { Analytics } from 'components/Analytics'
+
+const isDev = process.env.NODE_ENV === 'development'
 
 const App = ({ Component, pageProps }: AppProps) => {
+  const router = useRouter()
+
+  useEffect(() => {
+    console.log('kldsjfklsdjfsdkljfksjkljslfkdj')
+    const handleRouteChange = (url: URL) => {
+      if (!isDev) pageView(url)
+    }
+    router.events.on('routeChangeComplete', handleRouteChange)
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange)
+    }
+  }, [router.events])
+
   return (
     <ThemeProvider theme={theme}>
       <Head>
@@ -40,7 +58,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 
       <GlobalStyle />
       <Component {...pageProps} />
-      <GoogleAnalytics />
+      <Analytics />
     </ThemeProvider>
   )
 }
