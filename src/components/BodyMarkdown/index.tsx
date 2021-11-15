@@ -5,10 +5,10 @@ import * as S from './styles'
 export type Props = {
   title: string
   body: string
-  url?: URL
+  url?: string
 }
 
-export const BodyMarkdown = ({ title, body }: Props) => {
+export const BodyMarkdown = ({ title, body, url }: Props) => {
   return (
     <S.Container>
       <S.Wrapper>
@@ -16,13 +16,11 @@ export const BodyMarkdown = ({ title, body }: Props) => {
 
         <S.WrapperBody>
           <ReactMarkdown>{body}</ReactMarkdown>
-          <a
-            href="https://changenow.io/terms-of-use"
-            target="_blank"
-            rel="nofollow noopener noreferrer"
-          >
-            acesse aqui
-          </a>
+          {url && (
+            <a href={url} target="_blank" rel="nofollow noopener noreferrer">
+              acesse aqui
+            </a>
+          )}
           .
         </S.WrapperBody>
       </S.Wrapper>
