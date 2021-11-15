@@ -1,5 +1,6 @@
 import { useState, Dispatch, SetStateAction, MouseEvent } from 'react'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 import ChangeNow from 'services/ChangeNowService'
 
@@ -116,7 +117,14 @@ export const ConfirmTransaction = ({
               type="checkbox"
               onClick={() => setCheckbox(!checkbox)}
             />
-            Confirmo que as informações estão corretas!
+            Declaro ter ligo o{' '}
+            <Link href="/termos-de-uso" passHref>
+              <S.Anchor target="_blank">Termos de uso</S.Anchor>
+            </Link>{' '}
+            e a{' '}
+            <Link href="/politica-de-privacidade" passHref>
+              <S.Anchor target="_blank">Política de privacidade</S.Anchor>
+            </Link>
           </S.WrapperCheckbox>
         </S.Block>
       </S.Wrapper>

@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components'
+import { shade } from 'polished'
 import { lessThan } from 'styles/layout'
 
 export const Container = styled.div`
@@ -107,4 +108,14 @@ export const Checkbox = styled.input`
   width: 1.6rem;
   height: 1.6rem;
   margin-right: 0.5rem;
+`
+
+export const Anchor = styled.a`
+  ${({ theme }) => css`
+    color: ${shade(0.25, theme.colors.primary)};
+
+    &:hover {
+      color: ${shade(0.5, theme.colors.primary)};
+    }
+  `}
 `
