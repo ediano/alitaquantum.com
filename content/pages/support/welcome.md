@@ -1,5 +1,5 @@
 ---
-title: 'Bem-vindo a área de suporte da alitaquantum.com'
+title: 'Bem-vindo a área de suporte'
 description: 'Tem alguma dúvida, entre em contato com o suporte da alitaquantum.com'
 ---
 

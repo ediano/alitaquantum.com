@@ -18,6 +18,7 @@ const SupportPage = (props: SupportProps) => {
         openGraph={{
           url: site.url,
           title: `Suporte | ${site.title}`,
+          description: props.welcome.description,
           site_name: site.name,
           images: [{ url: getUrl(site.favicon), alt: site.name }]
         }}
@@ -33,11 +34,13 @@ const SupportPage = (props: SupportProps) => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const welcome = await import('content/pages/support/welcome.md')
+  const { attributes: welcome, body: welcomeBody } = await import(
+    'content/pages/support/welcome.md'
+  )
 
   return {
     props: {
-      welcome
+      welcome: { ...welcome, body: welcomeBody }
     }
   }
 }
