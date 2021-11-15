@@ -57,6 +57,16 @@ export const Footer = () => {
                   )
               )}
             </S.ListLinks>
+
+            <S.ListLinks>
+              <Link href="/termos-de-uso" passHref>
+                <S.Anchor>Termos de uso</S.Anchor>
+              </Link>
+
+              <Link href="/politica-de-privacidade" passHref>
+                <S.Anchor>Política de privacidade</S.Anchor>
+              </Link>
+            </S.ListLinks>
           </S.Block>
         </S.WrapperBlocks>
       </S.Wrapper>

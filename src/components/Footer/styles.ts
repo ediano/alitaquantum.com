@@ -59,7 +59,15 @@ export const Logo = styled.div`
   height: 100px;
 `
 
-export const ListLinks = styled.div``
+export const ListLinks = styled.div`
+  ${({ theme }) => css`
+    & + & {
+      border-top: 1px solid ${theme.colors.secondary};
+      padding-top: ${theme.spacing.m};
+      margin-top: ${theme.spacing.m};
+    }
+  `}
+`
 
 export const Anchor = styled.a`
   display: table;
