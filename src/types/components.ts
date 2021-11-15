@@ -20,3 +20,9 @@ export type AboutProps = {
   title: string
   body: string
 }
+
+export type SupportWelcomeProps = {
+  title: string
+  description: string
+  body: string
+}

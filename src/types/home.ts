@@ -2,7 +2,8 @@ import {
   SuggestionsProps,
   StepsProps,
   AboutProps,
-  TransparencyProps
+  TransparencyProps,
+  SupportWelcomeProps
 } from './components'
 
 export type HomeProps = {
@@ -10,4 +11,8 @@ export type HomeProps = {
   steps: StepsProps
   about: AboutProps
   transparency: TransparencyProps
+}
+
+export type SupportProps = {
+  welcome: SupportWelcomeProps
 }

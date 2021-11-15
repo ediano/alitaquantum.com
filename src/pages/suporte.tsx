@@ -1,0 +1,45 @@
+import { GetStaticProps } from 'next'
+import { NextSeo } from 'next-seo'
+
+import { site } from 'config/site'
+import { getUrl } from 'utils/getUrl'
+
+import { SupportProps } from 'types/home'
+
+import { Header } from 'components/Header'
+import { SupportLayout } from 'layouts/Support'
+import { Footer } from 'components/Footer'
+
+const SupportPage = (props: SupportProps) => {
+  return (
+    <>
+      <NextSeo
+        canonical={getUrl('/suporte')}
+        openGraph={{
+          url: site.url,
+          title: `Suporte | ${site.title}`,
+          site_name: site.name,
+          images: [{ url: getUrl(site.favicon), alt: site.name }]
+        }}
+      />
+
+      <Header />
+
+      <SupportLayout {...props} />
+
+      <Footer />
+    </>
+  )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const welcome = await import('content/pages/support/welcome.md')
+
+  return {
+    props: {
+      welcome
+    }
+  }
+}
+
+export default SupportPage
