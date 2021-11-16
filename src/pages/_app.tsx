@@ -37,7 +37,7 @@ const App = ({ Component, pageProps }: AppProps) => {
       </Head>
 
       <DefaultSeo
-        defaultTitle={site.name}
+        defaultTitle={site.name + ' | ' + site.title}
         titleTemplate={`%s | ${site.name}`}
         description={site.description}
         openGraph={{
