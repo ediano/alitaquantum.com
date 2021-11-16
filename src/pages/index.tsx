@@ -21,6 +21,7 @@ const HomePage = ({ suggestions, steps, transparency, about }: HomeProps) => {
         description={site.description}
         canonical={site.url}
         openGraph={{
+          url: site.url,
           title: `${site.name} | ${site.title}`,
           description: site.description,
           images: [{ url: getUrl(site.favicon), alt: site.name }]

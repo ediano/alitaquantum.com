@@ -21,6 +21,7 @@ const TermsOfUsePage = (props: BodyMarkdownProps) => {
         description={site.description}
         canonical={getUrl('/termos-de-uso')}
         openGraph={{
+          url: getUrl('/termos-de-uso'),
           title: `Termos de uso | ${site.name}`,
           description: site.description,
           images: [{ url: getUrl(site.favicon), alt: site.name }]

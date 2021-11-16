@@ -21,6 +21,7 @@ const PrivacyPolicyPage = (props: BodyMarkdownProps) => {
         description={site.description}
         canonical={getUrl('/politica-de-privacidade')}
         openGraph={{
+          url: getUrl('/politica-de-privacidade'),
           title: `Politica de privacidade | ${site.name}`,
           description: site.description,
           images: [{ url: getUrl(site.favicon), alt: site.name }]

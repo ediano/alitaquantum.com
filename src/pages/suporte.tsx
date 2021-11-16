@@ -18,7 +18,7 @@ const SupportPage = (props: SupportProps) => {
         description={site.description}
         canonical={getUrl('/suporte')}
         openGraph={{
-          url: site.url,
+          url: getUrl('/suporte'),
           title: `Suporte | ${site.name}`,
           description: props.welcome.description,
           images: [{ url: getUrl(site.favicon), alt: site.name }]

@@ -39,7 +39,6 @@ const App = ({ Component, pageProps }: AppProps) => {
       <DefaultSeo
         openGraph={{
           type: 'website',
-          url: site.url,
           locale: 'pt_BR',
           site_name: site.name,
           images: [{ url: getUrl(site.favicon), alt: site.name }]

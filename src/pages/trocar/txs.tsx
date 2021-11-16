@@ -16,6 +16,7 @@ const TXSPage = () => {
         title={`Trocar moedas | ${site.name}`}
         canonical={getUrl('/trocar/txs')}
         openGraph={{
+          url: getUrl('/trocar/txs'),
           title: `Trocar moedas | ${site.name}`,
           description: site.description,
           images: [{ url: getUrl(site.favicon), alt: site.name }]
