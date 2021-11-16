@@ -19,9 +19,9 @@ const HomePage = ({ suggestions, steps, transparency, about }: HomeProps) => {
       <NextSeo
         title={site.name + ' | ' + site.title}
         description={site.description}
-        canonical={site.url}
+        canonical={getUrl('/')}
         openGraph={{
-          url: site.url,
+          url: getUrl('/'),
           title: `${site.name} | ${site.title}`,
           description: site.description,
           images: [{ url: getUrl(site.favicon), alt: site.name }]
