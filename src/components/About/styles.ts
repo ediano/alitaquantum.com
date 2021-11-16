@@ -17,7 +17,7 @@ export const Wrapper = styled(ContainerBase)`
   `}
 `
 
-export const Title = styled.h1`
+export const Title = styled.h2`
   ${({ theme }) => css`
     color: ${theme.colors.whiteIce};
     font-size: ${theme.fonts.sizes.l};

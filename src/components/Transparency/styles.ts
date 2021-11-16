@@ -14,7 +14,7 @@ export const Wrapper = styled(ContainerBase)`
   `}
 `
 
-export const Title = styled.h1`
+export const Title = styled.h2`
   text-align: center;
   margin-bottom: 2rem;
   color: #fff;
