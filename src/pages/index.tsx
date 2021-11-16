@@ -1,10 +1,7 @@
 import { GetStaticProps } from 'next'
-import { NextSeo } from 'next-seo'
-
-import { site } from 'config/site'
-import { getUrl } from 'utils/getUrl'
 
 import { ExchangeProvider } from 'context/exchange'
+import { MetaSEO } from 'components/MetaSEO'
 
 import { Header } from 'components/Header'
 import { Hero } from 'components/Hero'
@@ -16,17 +13,7 @@ import { HomeProps } from 'types/home'
 const HomePage = ({ suggestions, steps, transparency, about }: HomeProps) => {
   return (
     <>
-      <NextSeo
-        title={site.name + ' | ' + site.title}
-        description={site.description}
-        canonical={getUrl('/')}
-        openGraph={{
-          url: getUrl('/'),
-          title: `${site.name} | ${site.title}`,
-          description: site.description,
-          images: [{ url: getUrl(site.favicon), alt: site.name }]
-        }}
-      />
+      <MetaSEO />
 
       <ExchangeProvider>
         <Header isHero>

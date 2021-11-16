@@ -1,8 +1,6 @@
 import { GetStaticProps } from 'next'
-import { NextSeo } from 'next-seo'
 
-import { site } from 'config/site'
-import { getUrl } from 'utils/getUrl'
+import { MetaSEO } from 'components/MetaSEO'
 
 import { SupportProps } from 'types/home'
 
@@ -13,17 +11,7 @@ import { Footer } from 'components/Footer'
 const SupportPage = (props: SupportProps) => {
   return (
     <>
-      <NextSeo
-        title={`Suporte | ${site.name}`}
-        description={site.description}
-        canonical={getUrl('/suporte')}
-        openGraph={{
-          url: getUrl('/suporte'),
-          title: `Suporte | ${site.name}`,
-          description: props.welcome.description,
-          images: [{ url: getUrl(site.favicon), alt: site.name }]
-        }}
-      />
+      <MetaSEO title="Suporte" pathUrl="/suporte" />
 
       <Header />
 

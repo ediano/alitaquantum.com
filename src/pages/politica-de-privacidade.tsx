@@ -1,8 +1,6 @@
 import { GetStaticProps } from 'next'
-import { NextSeo } from 'next-seo'
 
-import { site } from 'config/site'
-import { getUrl } from 'utils/getUrl'
+import { MetaSEO } from 'components/MetaSEO'
 
 import { Header } from 'components/Header'
 import {
@@ -14,18 +12,11 @@ import { Footer } from 'components/Footer'
 const PrivacyPolicyPage = (props: BodyMarkdownProps) => {
   return (
     <>
-      <NextSeo
-        noindex={true}
-        nofollow={true}
-        title={`Politica de privacidade | ${site.name}`}
-        description={site.description}
-        canonical={getUrl('/politica-de-privacidade')}
-        openGraph={{
-          url: getUrl('/politica-de-privacidade'),
-          title: `Politica de privacidade | ${site.name}`,
-          description: site.description,
-          images: [{ url: getUrl(site.favicon), alt: site.name }]
-        }}
+      <MetaSEO
+        noIndex={true}
+        noFollow={true}
+        title="Politica de privacidade"
+        pathUrl="/politica-de-privacidade"
       />
 
       <Header />

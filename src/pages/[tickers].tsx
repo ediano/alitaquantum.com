@@ -1,12 +1,10 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
-import { NextSeo } from 'next-seo'
 
 import * as ChangeNow from 'services/ChangeNowService'
 import { ExchangeProvider, DataFlow } from 'context/exchange'
 
-import { site } from 'config/site'
-import { getUrl } from 'utils/getUrl'
+import { MetaSEO } from 'components/MetaSEO'
 
 import { Spinner } from 'components/Spinner'
 import { Header } from 'components/Header'
@@ -57,17 +55,10 @@ const TickersPage = (props: Props) => {
 
   return (
     <>
-      <NextSeo
-        title={`Trocar ${props.data.fromName} por ${props.data.toName} | ${site.name}`}
+      <MetaSEO
+        title={`Trocar ${props.data.fromName} por ${props.data.toName}`}
+        pathUrl={`trocar-${props.data.fromCurrency}-por-${props.data.toCurrency}`}
         description={`Troque ${props.data.fromName} por ${props.data.toName} instantaneamente. Rápido, seguro e totalmente privado, com o melhor preço disponível somente aqui na Alita Quantum.`}
-        canonical={getUrl(
-          `trocar-${props.data.fromCurrency}-por-${props.data.toCurrency}`
-        )}
-        openGraph={{
-          title: `Trocar ${props.data.fromName} por ${props.data.toName} | ${site.name}`,
-          description: `Troque ${props.data.fromName} por ${props.data.toName} instantaneamente. Rápido, seguro e totalmente privado, com o melhor preço disponível somente aqui na Alita Quantum.`,
-          images: [{ url: getUrl(site.favicon), alt: site.name }]
-        }}
       />
 
       <Header />

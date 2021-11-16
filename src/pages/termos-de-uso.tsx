@@ -1,8 +1,6 @@
 import { GetStaticProps } from 'next'
-import { NextSeo } from 'next-seo'
 
-import { site } from 'config/site'
-import { getUrl } from 'utils/getUrl'
+import { MetaSEO } from 'components/MetaSEO'
 
 import { Header } from 'components/Header'
 import {
@@ -14,18 +12,11 @@ import { Footer } from 'components/Footer'
 const TermsOfUsePage = (props: BodyMarkdownProps) => {
   return (
     <>
-      <NextSeo
-        noindex={true}
-        nofollow={true}
-        title={`Termos de uso | ${site.name}`}
-        description={site.description}
-        canonical={getUrl('/termos-de-uso')}
-        openGraph={{
-          url: getUrl('/termos-de-uso'),
-          title: `Termos de uso | ${site.name}`,
-          description: site.description,
-          images: [{ url: getUrl(site.favicon), alt: site.name }]
-        }}
+      <MetaSEO
+        noIndex={true}
+        noFollow={true}
+        title="Termos de uso"
+        pathUrl="/termos-de-uso"
       />
 
       <Header />

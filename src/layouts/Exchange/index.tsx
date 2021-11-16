@@ -120,7 +120,7 @@ export const ExchangeLayout = () => {
     <>
       <S.Main>
         <S.Container>
-          <S.Message>Preencha os dados para trocar as moedas.</S.Message>
+          <S.Title>Preencha os dados para trocar as moedas.</S.Title>
 
           <Exchange />
           <S.BlockWrapper>

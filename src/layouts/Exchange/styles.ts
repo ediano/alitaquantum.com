@@ -28,7 +28,7 @@ export const Container = styled.div`
   `}
 `
 
-export const Message = styled.span`
+export const Title = styled.h1`
   display: block;
 
   ${({ theme }) => css`
