@@ -71,7 +71,7 @@ export const ExchangeWrapper = styled(Block)`
   `}
 `
 
-export const Title = styled.span`
+export const Title = styled.h1`
   ${({ theme }) => css`
     font-size: ${theme.fonts.sizes.l};
     font-family: ${theme.fonts.family.secondary};
