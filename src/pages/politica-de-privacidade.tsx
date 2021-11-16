@@ -17,10 +17,13 @@ const PrivacyPolicyPage = (props: BodyMarkdownProps) => {
       <NextSeo
         noindex={true}
         nofollow={true}
-        title="Termos de uso"
-        canonical={getUrl('/termos-de-uso')}
+        title={`Termos de uso | ${site.name}`}
+        description={site.description}
+        canonical={getUrl('/politica-de-privacidade')}
         openGraph={{
-          title: `Termos de uso | ${site.title}`
+          title: `Termos de uso | ${site.name}`,
+          description: site.description,
+          images: [{ url: getUrl(site.favicon), alt: site.name }]
         }}
       />
 

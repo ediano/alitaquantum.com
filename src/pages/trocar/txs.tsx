@@ -13,10 +13,12 @@ const TXSPage = () => {
       <NextSeo
         nofollow={true}
         noindex={true}
-        title={'Trocar moedas'}
+        title={`Trocar moedas | ${site.name}`}
         canonical={getUrl('/trocar/txs')}
         openGraph={{
-          title: `Trocar moedas | ${site.name}`
+          title: `Trocar moedas | ${site.name}`,
+          description: site.description,
+          images: [{ url: getUrl(site.favicon), alt: site.name }]
         }}
       />
 

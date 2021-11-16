@@ -14,13 +14,13 @@ const SupportPage = (props: SupportProps) => {
   return (
     <>
       <NextSeo
-        title="Suporte"
+        title={`Suporte | ${site.name}`}
+        description={site.description}
         canonical={getUrl('/suporte')}
         openGraph={{
           url: site.url,
-          title: `Suporte | ${site.title}`,
+          title: `Suporte | ${site.name}`,
           description: props.welcome.description,
-          site_name: site.name,
           images: [{ url: getUrl(site.favicon), alt: site.name }]
         }}
       />

@@ -17,10 +17,13 @@ const TermsOfUsePage = (props: BodyMarkdownProps) => {
       <NextSeo
         noindex={true}
         nofollow={true}
-        title="Termos de uso"
+        title={`Termos de uso | ${site.name}`}
+        description={site.description}
         canonical={getUrl('/termos-de-uso')}
         openGraph={{
-          title: `Termos de uso | ${site.title}`
+          title: `Termos de uso | ${site.name}`,
+          description: site.description,
+          images: [{ url: getUrl(site.favicon), alt: site.name }]
         }}
       />
 

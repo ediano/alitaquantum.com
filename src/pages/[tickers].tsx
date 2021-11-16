@@ -61,11 +61,12 @@ const TickersPage = (props: Props) => {
         title={`Trocar ${props.data.fromName} por ${props.data.toName}`}
         description={`Troque ${props.data.fromName} por ${props.data.toName} instantaneamente. Rápido, seguro e totalmente privado, com o melhor preço disponível somente aqui na Alita Quantum.`}
         canonical={getUrl(
-          `/trocar-${props.data.fromCurrency}-por-${props.data.toCurrency}`
+          `trocar-${props.data.fromCurrency}-por-${props.data.toCurrency}`
         )}
         openGraph={{
           title: `Trocar ${props.data.fromName} por ${props.data.toName} | ${site.name}`,
-          description: `Troque ${props.data.fromName} por ${props.data.toName} instantaneamente. Rápido, seguro e totalmente privado, com o melhor preço disponível somente aqui na Alita Quantum.`
+          description: `Troque ${props.data.fromName} por ${props.data.toName} instantaneamente. Rápido, seguro e totalmente privado, com o melhor preço disponível somente aqui na Alita Quantum.`,
+          images: [{ url: getUrl(site.favicon), alt: site.name }]
         }}
       />
 

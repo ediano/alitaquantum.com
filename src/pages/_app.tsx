@@ -37,23 +37,15 @@ const App = ({ Component, pageProps }: AppProps) => {
       </Head>
 
       <DefaultSeo
-        defaultTitle={site.name + ' | ' + site.title}
-        titleTemplate={`%s | ${site.name}`}
-        description={site.description}
         openGraph={{
           type: 'website',
           url: site.url,
-          title: `${site.name} | ${site.title}`,
-          description: site.description,
+          locale: 'pt_BR',
           site_name: site.name,
-          images: [
-            {
-              url: getUrl(site.favicon),
-              alt: site.name
-            }
-          ]
+          images: [{ url: getUrl(site.favicon), alt: site.name }]
         }}
       />
+
       <LogoJsonLd logo={getUrl(`${site.logo}`)} url={site.url} />
 
       <GlobalStyle />

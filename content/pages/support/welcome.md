@@ -1,6 +1,6 @@
 ---
 title: 'Bem-vindo a área de suporte'
-description: 'Tem alguma dúvida, entre em contato com o suporte da alitaquantum.com'
+description: 'Tem alguma dúvida, entre em contato com o suporte'
 ---
 
 Somos um projeto pequeno ainda em expansão, que visa priorizar o relacionamento ao cliente, para facilitar o contato conosco, você pode estar enviando um e-mail para [suporte@alitaquantum.com](mail:suporte@alitaquantum.com).
