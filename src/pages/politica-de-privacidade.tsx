@@ -13,8 +13,6 @@ const PrivacyPolicyPage = (props: BodyMarkdownProps) => {
   return (
     <>
       <MetaSEO
-        noIndex={true}
-        noFollow={true}
         title="Politica de privacidade"
         pathUrl="/politica-de-privacidade"
       />

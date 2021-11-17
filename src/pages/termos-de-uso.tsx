@@ -12,12 +12,7 @@ import { Footer } from 'components/Footer'
 const TermsOfUsePage = (props: BodyMarkdownProps) => {
   return (
     <>
-      <MetaSEO
-        noIndex={true}
-        noFollow={true}
-        title="Termos de uso"
-        pathUrl="/termos-de-uso"
-      />
+      <MetaSEO title="Termos de uso" pathUrl="/termos-de-uso" />
 
       <Header />
 
