@@ -444,6 +444,20 @@ export const ExchangeProvider = ({ props, children }: Props) => {
     const { fromAmount, fromName, toName, fixedRate } = query
 
     if (fixedRate === 'true') setFixedRate(true)
+    if (fixedRate === 'false') setFixedRate(false)
+
+    push(
+      {
+        pathname: '/trocar',
+        query: {
+          fromAmount,
+          fromName,
+          toName
+        }
+      },
+      undefined,
+      { shallow: true }
+    )
 
     const coins = storage.get() || currencies
 
@@ -481,12 +495,12 @@ export const ExchangeProvider = ({ props, children }: Props) => {
           const [range, estimated] = await Promise.allSettled([
             ChangeNow.getRange({
               ...dataRequest,
-              flow: !fixedRate ? 'standard' : 'fixed-rate'
+              flow: fixedRate === 'false' ? 'standard' : 'fixed-rate'
             }),
             ChangeNow.getEstimatedAmount({
               ...dataRequest,
               fromAmount,
-              flow: !fixedRate ? 'standard' : 'fixed-rate'
+              flow: fixedRate === 'false' ? 'standard' : 'fixed-rate'
             })
           ])
 
@@ -520,7 +534,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
         setDataFlow((state) => ({ ...state, fromAmount: '0', minAmount: '0' }))
       }
     }
-  }, [query, currencies])
+  }, [query, currencies, push])
 
   useEffect(() => {
     if (pathname === '/trocar' && pathname !== asPath && !isQueryLoaded) {
@@ -609,7 +623,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
         setDataFlow((state) => ({ ...state, fromAmount: '0', minAmount: '0' }))
       }
     },
-    [fixedRate, dataFlow]
+    [dataFlow]
   )
 
   useEffect(() => {
