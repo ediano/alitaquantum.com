@@ -29,10 +29,6 @@ export const Exchange = () => {
   return (
     <S.Container>
       <S.WrapperBlock data-alert={isAlert || !!error}>
-        <S.Alert data-alert={isAlert}>
-          Montante mínimo: {dataFlow.minAmount}
-        </S.Alert>
-
         <S.InputBlock>
           <Input
             name="fromAmount"
@@ -58,7 +54,10 @@ export const Exchange = () => {
         </S.InputBlock>
 
         <S.WrapperNetwork>
-          <S.MessageError>{error}</S.MessageError>
+          <S.MessageError>
+            {isAlert && `Montante mínimo: ${dataFlow.minAmount}`}
+            {error}
+          </S.MessageError>
           <S.Network className="from">
             Network: {dataFlow.fromNetwork?.toUpperCase()}
           </S.Network>

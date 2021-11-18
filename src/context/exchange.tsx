@@ -185,6 +185,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
           const minAmount = range.minAmount
           const fromAmount = multiplies(minAmount)
 
+          setIsAlert(false)
           setDataFlow((state) => ({
             ...state,
             fromAmount,
@@ -345,6 +346,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
       const minAmount = range.minAmount
       const fromAmount = multiplies(minAmount)
 
+      setIsAlert(false)
       setDataFlow((state) => ({
         ...state,
         fromAmount,
