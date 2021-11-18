@@ -104,10 +104,7 @@ export const AlertFixedRate = styled.div`
         display: block;
       }
 
-      span[data-dynamic-rate='true']::after {
-        content: '✔️';
-        margin-left: 0.5rem;
-      }
+      span[data-dynamic-rate='true']::after,
       span[data-fixed-rate='true']::after {
         content: '✔️';
         margin-left: 0.5rem;

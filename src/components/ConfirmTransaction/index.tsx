@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 
 import ChangeNow from 'services/ChangeNowService'
+import { useExchange } from 'context/exchange'
 
 import { Button } from 'components/Button'
 import { DataCreateTransaction } from 'layouts/Exchange'
@@ -29,6 +30,7 @@ export const ConfirmTransaction = ({
   setToggle
 }: Props) => {
   const router = useRouter()
+  const { fixedRate } = useExchange()
   const [checkbox, setCheckbox] = useState(false)
 
   const explod = transactionSpeedForecast?.split('-')
@@ -49,7 +51,8 @@ export const ConfirmTransaction = ({
             toNetwork,
             contactEmail: contactEmail || '',
             refundAddress: refundAddress || '',
-            refundExtraId: refundExtraId || ''
+            refundExtraId: refundExtraId || '',
+            flow: !fixedRate ? 'standard' : 'fixed-rate'
           })
 
         router.push({
