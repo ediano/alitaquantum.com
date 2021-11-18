@@ -26,7 +26,7 @@ export const TickerLayout = ({ data, suggestedCoins }: Props) => {
         <S.Container>
           <S.Block>
             <S.Title>
-              Troque {data.fromName} por {data.toName} instantaneamente.
+              Troque {data.fromName} para {data.toName} instantaneamente.
             </S.Title>
 
             <S.Description>
@@ -117,7 +117,7 @@ export const TickerLayout = ({ data, suggestedCoins }: Props) => {
               {suggestedCoins.map((coin) => (
                 <Link
                   key={coin.image}
-                  href={`trocar-${data.fromCurrency}-por-${coin.ticker}`}
+                  href={`trocar-${data.fromCurrency}-para-${coin.ticker}`}
                   passHref
                 >
                   <S.CardSuggestedCoins
