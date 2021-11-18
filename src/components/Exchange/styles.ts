@@ -125,7 +125,7 @@ export const AlertFixedRateText = styled.span`
 
 export const WrapperNetwork = styled.div`
   display: grid;
-  grid-template-columns: 1fr 120px;
+  grid-template-columns: 1fr 115px;
   text-align: left;
 `
 
