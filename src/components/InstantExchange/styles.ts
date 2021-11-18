@@ -80,23 +80,6 @@ export const Button = styled.button`
   `)}
 `
 
-export const Alert = styled.span`
-  position: absolute;
-  text-align: left;
-  visibility: hidden;
-
-  transform: translateY(-100%);
-
-  &[data-alert='true'] {
-    visibility: visible;
-  }
-
-  ${({ theme }) => css`
-    color: ${theme.colors.secondary};
-    padding: 0 ${theme.spacing.xxs};
-  `}
-`
-
 export const AlertFixedRate = styled.div`
   position: relative;
 `
@@ -111,7 +94,17 @@ export const AlertFixedRateText = styled.span`
   `}
 `
 
+export const WrapperNetwork = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 130px;
+  text-align: left;
+`
+
+export const MessageError = styled.span``
+
 export const Network = styled.span`
+  display: flex;
+  align-items: center;
   margin-left: auto;
 
   ${({ theme }) => css`
