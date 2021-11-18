@@ -11,6 +11,7 @@ import * as S from './styles'
 
 export const Exchange = () => {
   const {
+    error,
     fixedRate,
     setFixedRate,
     currencies,
@@ -27,7 +28,7 @@ export const Exchange = () => {
 
   return (
     <S.Container>
-      <S.WrapperBlock data-alert={isAlert}>
+      <S.WrapperBlock data-alert={isAlert || !!error}>
         <S.Alert data-alert={isAlert}>
           Montante mínimo: {dataFlow.minAmount}
         </S.Alert>
@@ -55,9 +56,13 @@ export const Exchange = () => {
 
           <Select name="fromName" currencies={currencies} />
         </S.InputBlock>
-        <S.Network className="from">
-          Network: {dataFlow.fromNetwork?.toUpperCase()}
-        </S.Network>
+
+        <S.WrapperNetwork>
+          <S.MessageError>{error}</S.MessageError>
+          <S.Network className="from">
+            Network: {dataFlow.fromNetwork?.toUpperCase()}
+          </S.Network>
+        </S.WrapperNetwork>
       </S.WrapperBlock>
 
       <S.WrapperDetails>
@@ -115,6 +120,7 @@ export const Exchange = () => {
 
           <Select name="toName" currencies={currencies} />
         </S.InputBlock>
+
         <S.Network className="to">
           Network: {dataFlow.toNetwork?.toUpperCase()}
         </S.Network>

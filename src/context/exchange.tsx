@@ -10,6 +10,8 @@ import {
 } from 'react'
 import { useRouter } from 'next/router'
 
+import { collections } from 'errors/collections'
+
 import ChangeNow, { Currencies } from 'services/ChangeNowService'
 
 const initialProps = {
@@ -38,6 +40,7 @@ type Query = {
 
 type ContextProps = {
   isAlert: boolean
+  error?: string
   fixedRate: boolean
   dataFlow: DataFlow
   estimatedAmount: string
@@ -75,6 +78,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
   const { pathname, push, asPath } = useRouter()
   const query = useRouter().query as Query
 
+  const [error, setError] = useState('')
   const [fixedRate, setFixedRate] = useState(false)
   const [currencies, setCurrencies] = useState<Currencies[]>([])
   const [dataFlow, setDataFlow] = useState<DataFlow>(initialProps)
@@ -215,7 +219,9 @@ export const ExchangeProvider = ({ props, children }: Props) => {
           setTransactionSpeedForecast(
             estimated.transactionSpeedForecast || 'Estimativa indisponivel!'
           )
-        } catch (err) {
+        } catch (err: any) {
+          const error = err?.response?.data?.error
+          setError(collections[error as 'not_valid_params'].text)
           setEstimatedAmount('0')
           setTransactionSpeedForecast('Estimativa indisponivel!')
           setDataFlow((state) => ({
@@ -245,8 +251,9 @@ export const ExchangeProvider = ({ props, children }: Props) => {
 
   const handlerInputCurrencyChange = useCallback(
     async (event: ChangeEvent<HTMLInputElement>) => {
-      const { value, name } = event.target
+      setError('')
 
+      const { value, name } = event.target
       const isFocus = event.type === 'focus'
 
       const currency = currencies.find((currency) => currency.name === value)
@@ -296,6 +303,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
 
   const handlerReverseCurrencyClick = useCallback(async () => {
     setIsAlert(false)
+    setError('')
 
     const {
       fromName,
@@ -371,7 +379,9 @@ export const ExchangeProvider = ({ props, children }: Props) => {
       setTransactionSpeedForecast(
         estimated.transactionSpeedForecast || 'Estimativa indisponivel!'
       )
-    } catch (err) {
+    } catch (err: any) {
+      const error = err?.response?.data?.error
+      setError(collections[error as 'not_valid_params'].text)
       setEstimatedAmount('0')
       setTransactionSpeedForecast('Estimativa indisponivel!')
       setDataFlow((state) => ({
@@ -429,7 +439,9 @@ export const ExchangeProvider = ({ props, children }: Props) => {
       setTransactionSpeedForecast(
         estimated.transactionSpeedForecast || 'Estimativa indisponivel!'
       )
-    } catch (err) {
+    } catch (err: any) {
+      const error = err?.response?.data?.error
+      setError(collections[error as 'not_valid_params'].text)
       setEstimatedAmount('0')
     }
   }, [fixedRate])
@@ -528,7 +540,9 @@ export const ExchangeProvider = ({ props, children }: Props) => {
           setEstimatedAmount('0')
           setTransactionSpeedForecast('Estimativa indisponivel!')
         }
-      } catch (err) {
+      } catch (err: any) {
+        const error = err?.response?.data?.error
+        setError(collections[error as 'not_valid_params'].text)
         setEstimatedAmount('0')
         setTransactionSpeedForecast('Estimativa indisponivel!')
         setDataFlow((state) => ({ ...state, fromAmount: '0', minAmount: '0' }))
@@ -566,7 +580,10 @@ export const ExchangeProvider = ({ props, children }: Props) => {
         setTransactionSpeedForecast(
           estimated.transactionSpeedForecast || 'Estimativa indisponivel!'
         )
-      } catch (err) {}
+      } catch (err: any) {
+        const error = err?.response?.data?.error
+        setError(collections[error as 'not_valid_params'].text)
+      }
     }
   }, [props, fixedRate])
 
@@ -617,7 +634,9 @@ export const ExchangeProvider = ({ props, children }: Props) => {
           setEstimatedAmount('0')
           setTransactionSpeedForecast('Estimativa indisponivel!')
         }
-      } catch (err) {
+      } catch (err: any) {
+        const error = err?.response?.data?.error
+        setError(collections[error as 'not_valid_params'].text)
         setEstimatedAmount('0')
         setTransactionSpeedForecast('Estimativa indisponivel!')
         setDataFlow((state) => ({ ...state, fromAmount: '0', minAmount: '0' }))
@@ -635,6 +654,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
   return (
     <ExchangeContext.Provider
       value={{
+        error,
         setFixedRate,
         fixedRate,
         currencies,

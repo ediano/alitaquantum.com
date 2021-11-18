@@ -123,7 +123,17 @@ export const AlertFixedRateText = styled.span`
   `}
 `
 
+export const WrapperNetwork = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 120px;
+  text-align: left;
+`
+
+export const MessageError = styled.span``
+
 export const Network = styled.span`
+  display: flex;
+  align-items: center;
   margin-left: auto;
 
   ${({ theme }) => css`
