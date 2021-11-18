@@ -56,9 +56,9 @@ const TickersPage = (props: Props) => {
   return (
     <>
       <MetaSEO
-        title={`Trocar ${props.data.fromCurrency} para ${props.data.toCurrency}`}
+        title={`Trocar ${props.data.fromCurrency.toUpperCase()} para ${props.data.toCurrency.toUpperCase()}`}
         pathUrl={`trocar-${props.data.fromCurrency}-para-${props.data.toCurrency}`}
-        description={`Troque ${props.data.fromCurrency} para ${props.data.toCurrency} instantaneamente. Rápido, seguro e totalmente privado, com o melhor preço disponível somente aqui na Alita Quantum.`}
+        description={`Troque ${props.data.fromCurrency.toUpperCase()} para ${props.data.toCurrency.toUpperCase()} instantaneamente. Rápido, seguro e totalmente privado, com o melhor preço disponível somente aqui na Alita Quantum.`}
       />
 
       <Header />
