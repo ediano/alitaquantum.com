@@ -7,7 +7,7 @@ import { useExchange } from 'context/exchange'
 import * as S from './styles'
 
 export const Hero = () => {
-  const { dataFlow, estimatedAmount } = useExchange()
+  const { dataFlow, estimatedAmount, fixedRate } = useExchange()
 
   const { fromAmount, fromName, toName } = dataFlow
 
@@ -36,7 +36,12 @@ export const Hero = () => {
             title="Trocar"
             href={{
               pathname: '/trocar',
-              query: { fromAmount, fromName, toName }
+              query: {
+                fromAmount,
+                fromName,
+                toName,
+                fixedRate
+              }
             }}
             style={{ marginTop: '50px' }}
           />

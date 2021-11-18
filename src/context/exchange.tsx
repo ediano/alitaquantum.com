@@ -33,14 +33,18 @@ type Query = {
   fromAmount?: string
   fromName?: string
   toName?: string
+  fixedRate?: 'true' | 'false'
 }
 
 type ContextProps = {
-  currencies: Currencies[]
+  isAlert: boolean
+  fixedRate: boolean
   dataFlow: DataFlow
   estimatedAmount: string
+  setFixedRate: (value: boolean) => void
+  currencies: Currencies[]
   transactionSpeedForecast: string
-  isAlert: boolean
+  handlerStartFixedRate: (value: boolean) => void
   handlerInputFromAmountChange: (event: ChangeEvent<HTMLInputElement>) => void
   handlerInputCurrencyChange: (event: ChangeEvent<HTMLInputElement>) => void
   handlerReverseCurrencyClick: (event: MouseEvent) => void
@@ -71,6 +75,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
   const { pathname, push, asPath } = useRouter()
   const query = useRouter().query as Query
 
+  const [fixedRate, setFixedRate] = useState(false)
   const [currencies, setCurrencies] = useState<Currencies[]>([])
   const [dataFlow, setDataFlow] = useState<DataFlow>(initialProps)
 
@@ -102,7 +107,8 @@ export const ExchangeProvider = ({ props, children }: Props) => {
             fromNetwork: dataFlow.fromNetwork,
             toCurrency: dataFlow.toCurrency,
             toNetwork: dataFlow.toNetwork,
-            fromAmount: value
+            fromAmount: value,
+            flow: !fixedRate ? 'standard' : 'fixed-rate'
           })
 
           setEstimatedAmount(String(estimated.toAmount))
@@ -118,7 +124,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
         setTransactionSpeedForecast('Estimativa indisponivel!')
       }
     },
-    [dataFlow]
+    [dataFlow, fixedRate]
   )
 
   const handlerInputFromAmountChange = useCallback(
@@ -168,7 +174,8 @@ export const ExchangeProvider = ({ props, children }: Props) => {
             fromCurrency,
             fromNetwork,
             toCurrency,
-            toNetwork
+            toNetwork,
+            flow: !fixedRate ? 'standard' : 'fixed-rate'
           })
 
           const minAmount = range.minAmount
@@ -200,7 +207,8 @@ export const ExchangeProvider = ({ props, children }: Props) => {
             fromCurrency,
             fromNetwork,
             toCurrency,
-            toNetwork
+            toNetwork,
+            flow: !fixedRate ? 'standard' : 'fixed-rate'
           })
 
           setEstimatedAmount(String(estimated.toAmount))
@@ -232,7 +240,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
         }
       }
     },
-    [pathname, push]
+    [pathname, push, fixedRate]
   )
 
   const handlerInputCurrencyChange = useCallback(
@@ -322,7 +330,8 @@ export const ExchangeProvider = ({ props, children }: Props) => {
         fromCurrency: toCurrency,
         fromNetwork: toNetwork,
         toCurrency: fromCurrency,
-        toNetwork: fromNetwork
+        toNetwork: fromNetwork,
+        flow: !fixedRate ? 'standard' : 'fixed-rate'
       })
 
       const minAmount = range.minAmount
@@ -354,7 +363,8 @@ export const ExchangeProvider = ({ props, children }: Props) => {
         fromCurrency: toCurrency,
         fromNetwork: toNetwork,
         toCurrency: fromCurrency,
-        toNetwork: fromNetwork
+        toNetwork: fromNetwork,
+        flow: !fixedRate ? 'standard' : 'fixed-rate'
       })
 
       setEstimatedAmount(String(estimated.toAmount))
@@ -385,7 +395,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
         )
       }
     }
-  }, [pathname, push, dataFlow])
+  }, [pathname, push, dataFlow, fixedRate])
 
   const handlerInitialStates = useCallback(async () => {
     const initialData = {
@@ -397,7 +407,10 @@ export const ExchangeProvider = ({ props, children }: Props) => {
 
     try {
       setEstimatedAmount('')
-      const { data: range } = await ChangeNow.getRange(initialData)
+      const { data: range } = await ChangeNow.getRange({
+        ...initialData,
+        flow: !fixedRate ? 'standard' : 'fixed-rate'
+      })
 
       const minAmount = range.minAmount
 
@@ -408,7 +421,8 @@ export const ExchangeProvider = ({ props, children }: Props) => {
 
       const { data: estimated } = await ChangeNow.getEstimatedAmount({
         ...initialData,
-        fromAmount: initialProps.fromAmount
+        fromAmount: initialProps.fromAmount,
+        flow: !fixedRate ? 'standard' : 'fixed-rate'
       })
 
       setEstimatedAmount(String(estimated.toAmount))
@@ -418,7 +432,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
     } catch (err) {
       setEstimatedAmount('0')
     }
-  }, [])
+  }, [fixedRate])
 
   useEffect(() => {
     if (pathname === '/' || (pathname === '/trocar' && pathname === asPath)) {
@@ -427,7 +441,9 @@ export const ExchangeProvider = ({ props, children }: Props) => {
   }, [handlerInitialStates, asPath, pathname])
 
   const handlerStartPageExchangeQuery = useCallback(async () => {
-    const { fromAmount, fromName, toName } = query
+    const { fromAmount, fromName, toName, fixedRate } = query
+
+    if (fixedRate === 'true') setFixedRate(true)
 
     const coins = storage.get() || currencies
 
@@ -463,8 +479,15 @@ export const ExchangeProvider = ({ props, children }: Props) => {
           }
 
           const [range, estimated] = await Promise.allSettled([
-            ChangeNow.getRange(dataRequest),
-            ChangeNow.getEstimatedAmount({ ...dataRequest, fromAmount })
+            ChangeNow.getRange({
+              ...dataRequest,
+              flow: !fixedRate ? 'standard' : 'fixed-rate'
+            }),
+            ChangeNow.getEstimatedAmount({
+              ...dataRequest,
+              fromAmount,
+              flow: !fixedRate ? 'standard' : 'fixed-rate'
+            })
           ])
 
           if (range.status === 'fulfilled') {
@@ -521,7 +544,8 @@ export const ExchangeProvider = ({ props, children }: Props) => {
           fromCurrency: props.fromCurrency,
           fromNetwork: props.fromNetwork,
           toCurrency: props.toCurrency,
-          toNetwork: props.toNetwork
+          toNetwork: props.toNetwork,
+          flow: !fixedRate ? 'standard' : 'fixed-rate'
         })
 
         setEstimatedAmount(String(estimated.toAmount))
@@ -530,13 +554,63 @@ export const ExchangeProvider = ({ props, children }: Props) => {
         )
       } catch (err) {}
     }
-  }, [props])
+  }, [props, fixedRate])
 
   useEffect(() => {
     if (props?.fromCurrency && props.toCurrency) {
       handlerInitialStatesPages()
     }
   }, [props, handlerInitialStatesPages])
+
+  const handlerStartFixedRate = useCallback(
+    async (fixedRate: boolean) => {
+      const initialData = {
+        fromCurrency: dataFlow.fromCurrency,
+        fromNetwork: dataFlow.fromNetwork,
+        toCurrency: dataFlow.toCurrency,
+        toNetwork: dataFlow.toNetwork
+      }
+
+      try {
+        const [range, estimated] = await Promise.allSettled([
+          ChangeNow.getRange({
+            ...initialData,
+            flow: !fixedRate ? 'standard' : 'fixed-rate'
+          }),
+          ChangeNow.getEstimatedAmount({
+            ...initialData,
+            fromAmount: dataFlow.fromAmount,
+            flow: !fixedRate ? 'standard' : 'fixed-rate'
+          })
+        ])
+
+        if (range.status === 'fulfilled') {
+          setDataFlow((state) => ({
+            ...state,
+            minAmount: String(range.value.data.minAmount)
+          }))
+        } else {
+          setDataFlow((state) => ({ ...state, minAmount: '0' }))
+        }
+
+        if (estimated.status === 'fulfilled') {
+          const { toAmount, transactionSpeedForecast } = estimated.value.data
+          setEstimatedAmount(String(toAmount))
+          setTransactionSpeedForecast(
+            transactionSpeedForecast || 'Estimativa indisponivel!'
+          )
+        } else {
+          setEstimatedAmount('0')
+          setTransactionSpeedForecast('Estimativa indisponivel!')
+        }
+      } catch (err) {
+        setEstimatedAmount('0')
+        setTransactionSpeedForecast('Estimativa indisponivel!')
+        setDataFlow((state) => ({ ...state, fromAmount: '0', minAmount: '0' }))
+      }
+    },
+    [fixedRate, dataFlow]
+  )
 
   useEffect(() => {
     if (Number(dataFlow.fromAmount) < Number(dataFlow.minAmount)) {
@@ -547,11 +621,14 @@ export const ExchangeProvider = ({ props, children }: Props) => {
   return (
     <ExchangeContext.Provider
       value={{
+        setFixedRate,
+        fixedRate,
         currencies,
         dataFlow,
         estimatedAmount,
         transactionSpeedForecast,
         isAlert,
+        handlerStartFixedRate,
         handlerInputFromAmountChange,
         handlerReverseCurrencyClick,
         handlerInputCurrencyChange

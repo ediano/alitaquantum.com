@@ -14,6 +14,10 @@ export const ChangeNow = axios.create({
   baseURL: 'https://api.changenow.io/v2'
 })
 
+export type Flow = { flow: 'standard' | 'fixed-rate' }
+
+export type RqCurrencies = Flow
+
 export type Currencies = {
   ticker: string
   name: string
@@ -22,13 +26,17 @@ export type Currencies = {
   image: string
 }
 
-export const getCurrencies = async () => {
+export const getCurrencies = async (params?: RqCurrencies) => {
   return ChangeNow.get<Currencies[]>('/exchange/currencies', {
-    params: { active: true, flow: 'standard' }
+    params: {
+      active: true,
+      flow: 'standard',
+      ...params
+    }
   })
 }
 
-export type ReqRange = {
+export type ReqRange = Flow & {
   fromCurrency: string
   fromNetwork: string
   toCurrency: string
@@ -47,11 +55,11 @@ export type Range = {
 export const getRange = async (params: ReqRange) => {
   return ChangeNow.get<Range>('/exchange/range', {
     headers: { ...apiKey },
-    params: { flow: 'standard', ...params }
+    params: { ...params }
   })
 }
 
-export type ReqEstimatedAmount = {
+export type ReqEstimatedAmount = Flow & {
   fromAmount: string
   fromCurrency: string
   fromNetwork: string
@@ -70,7 +78,7 @@ export type EstimatedAmount = {
 export const getEstimatedAmount = async (params: ReqEstimatedAmount) => {
   return ChangeNow.get<EstimatedAmount>('/exchange/estimated-amount', {
     headers: { ...apiKey },
-    params: { flow: 'standard', ...params }
+    params: { ...params }
   })
 }
 
@@ -90,9 +98,9 @@ export const getValidateAddress = async (params: ReqValidateAddress) => {
   })
 }
 
-export type ReqCreateExchangeTransaction = {
-  type: string
-  flow: string
+export type ReqCreateExchangeTransaction = Flow & {
+  flow?: string
+  type?: string
   fromAmount: string
   fromCurrency: string
   fromNetwork: string
@@ -121,7 +129,7 @@ export type CreateExchangeTransaction = {
 }
 
 export const setCreateExchangeTransaction = async (
-  params: Omit<ReqCreateExchangeTransaction, 'type' | 'flow'>
+  params: Omit<ReqCreateExchangeTransaction, 'type'>
 ) => {
   return ChangeNow.post<
     ReqCreateExchangeTransaction,
@@ -129,9 +137,8 @@ export const setCreateExchangeTransaction = async (
   >(
     '/exchange',
     {
-      ...params,
       type: 'direct',
-      flow: 'standard'
+      ...params
     },
     { headers: { ...contentType, ...apiKey } }
   )

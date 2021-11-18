@@ -88,6 +88,32 @@ export const Alert = styled.span`
 
 export const AlertFixedRate = styled.div`
   position: relative;
+  display: flex;
+  flex-direction: column;
+
+  ${({ theme }) => css`
+    button {
+      cursor: pointer;
+      border-radius: ${theme.spacing.xxs};
+      border: 1px solid ${theme.colors.secondary};
+      margin-top: 1rem;
+      padding: 1rem;
+
+      span {
+        text-align: left;
+        display: block;
+      }
+
+      span[data-dynamic-rate='true']::after {
+        content: '✔️';
+        margin-left: 0.5rem;
+      }
+      span[data-fixed-rate='true']::after {
+        content: '✔️';
+        margin-left: 0.5rem;
+      }
+    }
+  `}
 `
 
 export const AlertFixedRateText = styled.span`

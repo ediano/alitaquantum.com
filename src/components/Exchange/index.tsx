@@ -11,10 +11,13 @@ import * as S from './styles'
 
 export const Exchange = () => {
   const {
+    fixedRate,
+    setFixedRate,
     currencies,
     dataFlow,
     estimatedAmount,
     isAlert,
+    handlerStartFixedRate,
     handlerReverseCurrencyClick,
     handlerInputFromAmountChange,
     handlerInputCurrencyChange
@@ -69,8 +72,17 @@ export const Exchange = () => {
             setToggle={setIsAlertFixedRate}
             message="As taxas de conexão de rede e todas as outras taxas de câmbio estão incluídas na aposta."
           />
-        </S.AlertFixedRate>
 
+          <button
+            onClick={() => {
+              handlerStartFixedRate(!fixedRate)
+              setFixedRate(!fixedRate)
+            }}
+          >
+            <span data-dynamic-rate={!fixedRate}>Taxa dinâmica</span>
+            <span data-fixed-rate={fixedRate}>Taxa fixa</span>
+          </button>
+        </S.AlertFixedRate>
         <S.Button type="button" onClick={handlerReverseCurrencyClick}>
           <BsArrowDownUp />
         </S.Button>
