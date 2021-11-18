@@ -94,7 +94,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { data: availablePairs } = await ChangeNow.getAvailablePairs()
   const { data: currencies } = await ChangeNow.getCurrencies()
 
-  const { data: range } = await ChangeNow.getRange({ ...initialProps })
+  const { data: range } = await ChangeNow.getRange({
+    ...initialProps,
+    flow: 'standard'
+  })
 
   const fromAmount = String((range.minAmount * 250).toFixed(8))
 
