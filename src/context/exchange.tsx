@@ -38,6 +38,8 @@ type Query = {
   fixedRate?: 'true' | 'false'
 }
 
+type Collections = keyof typeof collections
+
 type ContextProps = {
   isAlert: boolean
   error?: string
@@ -222,7 +224,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
           )
         } catch (err: any) {
           const error = err?.response?.data?.error
-          setError(collections[error as 'not_valid_params'].text)
+          if (error) setError(collections[error as Collections].text)
           setEstimatedAmount('0')
           setTransactionSpeedForecast('Estimativa indisponivel!')
           setDataFlow((state) => ({
@@ -383,7 +385,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
       )
     } catch (err: any) {
       const error = err?.response?.data?.error
-      setError(collections[error as 'not_valid_params'].text)
+      if (error) setError(collections[error as Collections].text)
       setEstimatedAmount('0')
       setTransactionSpeedForecast('Estimativa indisponivel!')
       setDataFlow((state) => ({
@@ -443,7 +445,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
       )
     } catch (err: any) {
       const error = err?.response?.data?.error
-      setError(collections[error as 'not_valid_params'].text)
+      if (error) setError(collections[error as Collections].text)
       setEstimatedAmount('0')
     }
   }, [])
@@ -544,7 +546,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
         }
       } catch (err: any) {
         const error = err?.response?.data?.error
-        setError(collections[error as 'not_valid_params'].text)
+        if (error) setError(collections[error as Collections].text)
         setEstimatedAmount('0')
         setTransactionSpeedForecast('Estimativa indisponivel!')
         setDataFlow((state) => ({ ...state, fromAmount: '0', minAmount: '0' }))
@@ -584,7 +586,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
         )
       } catch (err: any) {
         const error = err?.response?.data?.error
-        setError(collections[error as 'not_valid_params'].text)
+        if (error) setError(collections[error as Collections].text)
       }
     }
   }, [props, fixedRate])
@@ -639,7 +641,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
         }
       } catch (err: any) {
         const error = err?.response?.data?.error
-        setError(collections[error as 'not_valid_params'].text)
+        if (error) setError(collections[error as Collections].text)
         setEstimatedAmount('0')
         setTransactionSpeedForecast('Estimativa indisponivel!')
         setDataFlow((state) => ({ ...state, fromAmount: '0', minAmount: '0' }))
