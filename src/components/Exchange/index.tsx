@@ -55,7 +55,9 @@ export const Exchange = () => {
 
         <S.WrapperNetwork>
           <S.MessageError>
-            {isAlert && `Montante mínimo: ${dataFlow.minAmount}`}
+            {isAlert && error
+              ? `Montante mínimo: ${dataFlow.minAmount}. `
+              : isAlert && `Montante mínimo: ${dataFlow.minAmount}`}
             {error}
           </S.MessageError>
           <S.Network className="from">
