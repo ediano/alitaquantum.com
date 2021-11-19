@@ -65,7 +65,7 @@ const storage = {
   }
 }
 
-const multiplies = (value: number, x: number = 250) => {
+const multiplies = (value: number, x: number = 25) => {
   return String((value * x).toFixed(8))
 }
 
@@ -123,7 +123,9 @@ export const ExchangeProvider = ({ props, children }: Props) => {
           )
 
           setError('')
-        } catch (err) {
+        } catch (err: any) {
+          const error = err?.response?.data?.error
+          if (error) setError(collections[error as Collections].text)
           setEstimatedAmount('0')
           setTransactionSpeedForecast('Estimativa indisponivel!')
         }
