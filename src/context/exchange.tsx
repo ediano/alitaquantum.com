@@ -121,6 +121,8 @@ export const ExchangeProvider = ({ props, children }: Props) => {
           setTransactionSpeedForecast(
             estimated.transactionSpeedForecast || 'Estimativa indisponivel!'
           )
+
+          setError('')
         } catch (err) {
           setEstimatedAmount('0')
           setTransactionSpeedForecast('Estimativa indisponivel!')
@@ -170,7 +172,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
 
   const handlerEstimatedAmount = useCallback(
     async (state: DataFlow) => {
-      const { fromName, toName } = state
+      const { fromName, toName, fromAmount } = state
       const { fromCurrency, fromNetwork, toCurrency, toNetwork } = state
 
       if (fromNetwork && toNetwork) {
@@ -227,17 +229,13 @@ export const ExchangeProvider = ({ props, children }: Props) => {
           if (error) setError(collections[error as Collections].text)
           setEstimatedAmount('0')
           setTransactionSpeedForecast('Estimativa indisponivel!')
-          setDataFlow((state) => ({
-            ...state,
-            fromAmount: '0'
-          }))
 
           if (pathname === '/trocar') {
             push(
               {
                 pathname: '/trocar',
                 query: {
-                  fromAmount: '0',
+                  fromAmount,
                   fromName,
                   toName
                 }
@@ -309,6 +307,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
     setError('')
 
     const {
+      fromAmount,
       fromName,
       fromCurrency,
       fromNetwork,
@@ -388,18 +387,13 @@ export const ExchangeProvider = ({ props, children }: Props) => {
       if (error) setError(collections[error as Collections].text)
       setEstimatedAmount('0')
       setTransactionSpeedForecast('Estimativa indisponivel!')
-      setDataFlow((state) => ({
-        ...state,
-        fromAmount: '0',
-        minAmount: '0'
-      }))
 
       if (pathname === '/trocar') {
         push(
           {
             pathname: '/trocar',
             query: {
-              fromAmount: '0',
+              fromAmount,
               fromName: toName,
               toName: fromName
             }
@@ -549,7 +543,6 @@ export const ExchangeProvider = ({ props, children }: Props) => {
         if (error) setError(collections[error as Collections].text)
         setEstimatedAmount('0')
         setTransactionSpeedForecast('Estimativa indisponivel!')
-        setDataFlow((state) => ({ ...state, fromAmount: '0', minAmount: '0' }))
       }
     }
   }, [query, currencies, push])
@@ -587,6 +580,8 @@ export const ExchangeProvider = ({ props, children }: Props) => {
       } catch (err: any) {
         const error = err?.response?.data?.error
         if (error) setError(collections[error as Collections].text)
+        setEstimatedAmount('0')
+        setTransactionSpeedForecast('Estimativa indisponivel!')
       }
     }
   }, [props, fixedRate])
@@ -639,12 +634,13 @@ export const ExchangeProvider = ({ props, children }: Props) => {
           setEstimatedAmount('0')
           setTransactionSpeedForecast('Estimativa indisponivel!')
         }
+
+        setError('')
       } catch (err: any) {
         const error = err?.response?.data?.error
         if (error) setError(collections[error as Collections].text)
         setEstimatedAmount('0')
         setTransactionSpeedForecast('Estimativa indisponivel!')
-        setDataFlow((state) => ({ ...state, fromAmount: '0', minAmount: '0' }))
       }
     },
     [dataFlow]

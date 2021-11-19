@@ -4,7 +4,7 @@ export const collections = {
     message: 'Currency t is not supported'
   },
   max_amount_exceeded: {
-    text: 'Montante excedido, tente com outro tipo de taxa!',
+    text: 'Montante excedido, tente com uma quantidade menor!',
     message: 'Max amount exceeded'
   }
 }
