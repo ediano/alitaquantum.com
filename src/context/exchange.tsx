@@ -421,7 +421,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
       setEstimatedAmount('')
       const { data: range } = await ChangeNow.getRange({
         ...initialData,
-        flow: !fixedRate ? 'standard' : 'fixed-rate'
+        flow: 'standard'
       })
 
       const minAmount = range.minAmount
@@ -434,7 +434,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
       const { data: estimated } = await ChangeNow.getEstimatedAmount({
         ...initialData,
         fromAmount: initialProps.fromAmount,
-        flow: !fixedRate ? 'standard' : 'fixed-rate'
+        flow: 'standard'
       })
 
       setEstimatedAmount(String(estimated.toAmount))
@@ -446,7 +446,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
       setError(collections[error as 'not_valid_params'].text)
       setEstimatedAmount('0')
     }
-  }, [fixedRate])
+  }, [])
 
   useEffect(() => {
     if (pathname === '/' || (pathname === '/trocar' && pathname === asPath)) {
@@ -590,7 +590,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
   }, [props, fixedRate])
 
   useEffect(() => {
-    if (props?.fromCurrency && props.toCurrency) {
+    if (props?.fromCurrency && props?.toCurrency) {
       handlerInitialStatesPages()
     }
   }, [props, handlerInitialStatesPages])
@@ -605,6 +605,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
       }
 
       try {
+        setEstimatedAmount('')
         const [range, estimated] = await Promise.allSettled([
           ChangeNow.getRange({
             ...initialData,
