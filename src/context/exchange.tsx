@@ -108,6 +108,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
       if (Number(value) >= Number(dataFlow.minAmount)) {
         try {
           setEstimatedAmount('')
+
           const { data: estimated } = await ChangeNow.getEstimatedAmount({
             fromCurrency: dataFlow.fromCurrency,
             fromNetwork: dataFlow.fromNetwork,
@@ -117,12 +118,11 @@ export const ExchangeProvider = ({ props, children }: Props) => {
             flow: !fixedRate ? 'standard' : 'fixed-rate'
           })
 
+          setError('')
           setEstimatedAmount(String(estimated.toAmount))
           setTransactionSpeedForecast(
             estimated.transactionSpeedForecast || 'Estimativa indisponivel!'
           )
-
-          setError('')
         } catch (err: any) {
           const error = err?.response?.data?.error
           if (error) setError(collections[error as Collections].text)
@@ -130,6 +130,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
           setTransactionSpeedForecast('Estimativa indisponivel!')
         }
       } else {
+        setError('')
         setEstimatedAmount('0')
         setTransactionSpeedForecast('Estimativa indisponivel!')
       }
@@ -146,6 +147,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
       const { minAmount } = dataFlow
       if (Number(value) < Number(minAmount)) {
         setIsAlert(true)
+        setError('')
       } else {
         setIsAlert(false)
       }
@@ -651,6 +653,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
   useEffect(() => {
     if (Number(dataFlow.fromAmount) < Number(dataFlow.minAmount)) {
       setEstimatedAmount('0')
+      setError('')
     }
   }, [dataFlow.fromAmount, dataFlow.minAmount, estimatedAmount])
 

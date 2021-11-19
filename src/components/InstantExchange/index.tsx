@@ -20,8 +20,12 @@ export const InstantExchange = () => {
 
   return (
     <S.Container>
-      <S.WrapperBlock data-alert={isAlert}>
-        <S.InputBlock>
+      <S.WrapperBlock>
+        <S.MessageError
+          data-alert={isAlert ? `Montante mínimo: ${dataFlow.minAmount}` : ''}
+        ></S.MessageError>
+
+        <S.InputBlock data-alert={isAlert}>
           <Input
             name="fromAmount"
             input={{
@@ -45,15 +49,9 @@ export const InstantExchange = () => {
 
           <Select name="fromName" currencies={currencies} />
         </S.InputBlock>
-
-        <S.WrapperNetwork>
-          <S.MessageError>
-            {isAlert && `Montante mínimo: ${dataFlow.minAmount}`}
-          </S.MessageError>
-          <S.Network className="from">
-            Network: {dataFlow.fromNetwork?.toUpperCase()}
-          </S.Network>
-        </S.WrapperNetwork>
+        <S.Network className="from">
+          Network: {dataFlow.fromNetwork?.toUpperCase()}
+        </S.Network>
       </S.WrapperBlock>
 
       <S.WrapperDetails>

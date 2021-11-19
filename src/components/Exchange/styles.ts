@@ -20,21 +20,12 @@ export const WrapperBlock = styled.div`
 
   display: flex;
   flex-direction: column;
-
-  ${({ theme }) => css`
-    border-radius: ${theme.border.xs};
-    border: 1px solid ${theme.colors.transparent};
-
-    &[data-alert='true'] {
-      border: 1px solid ${theme.colors.alert};
-    }
-  `};
 `
 
 export const InputBlock = styled.div`
+  position: relative;
   width: 100%;
   overflow: hidden;
-  position: relative;
   display: flex;
 
   box-shadow: 0 2px 12px -4px #000;
@@ -42,6 +33,10 @@ export const InputBlock = styled.div`
   ${({ theme }) => css`
     border-radius: ${theme.border.xs};
     border-bottom-right-radius: 0;
+
+    &[data-alert='true'] {
+      box-shadow: 0 0 12px 0 ${shade(0.1, theme.colors.alert)};
+    }
   `}
 `
 
@@ -106,14 +101,6 @@ export const AlertFixedRateText = styled.span`
   `}
 `
 
-export const WrapperNetwork = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 130px;
-  text-align: left;
-`
-
-export const MessageError = styled.span``
-
 export const Network = styled.span`
   display: flex;
   align-items: center;
@@ -131,6 +118,27 @@ export const Network = styled.span`
 
     &.to {
       background: ${shade(0.2, theme.colors.primary)};
+    }
+  `}
+`
+
+export const MessageError = styled.span`
+  width: 100%;
+
+  ${({ theme }) => css`
+    &::before {
+      width: 100%;
+      position: absolute;
+      left: 50%;
+      border-radius: ${theme.spacing.xxs};
+      transform: translate(-50%, -100%);
+      z-index: 9999;
+      background: ${lighten(0.25, theme.colors.alert)};
+      text-align: center;
+    }
+
+    &::before {
+      content: attr(data-alert);
     }
   `}
 `

@@ -28,8 +28,26 @@ export const Exchange = () => {
 
   return (
     <S.Container>
-      <S.WrapperBlock data-alert={isAlert || !!error}>
-        <S.InputBlock>
+      <S.MessageError
+        data-alert={(() => {
+          if (isAlert && error) {
+            return `Montante mínimo: ${dataFlow.minAmount}. ${error}`
+          }
+
+          if (isAlert && !error) {
+            return `Montante mínimo: ${dataFlow.minAmount}`
+          }
+
+          if (!isAlert && error) {
+            return error
+          }
+
+          return ''
+        })()}
+      ></S.MessageError>
+
+      <S.WrapperBlock>
+        <S.InputBlock data-alert={isAlert || !!error}>
           <Input
             name="fromAmount"
             input={{
@@ -53,17 +71,9 @@ export const Exchange = () => {
           <Select name="fromName" currencies={currencies} />
         </S.InputBlock>
 
-        <S.WrapperNetwork>
-          <S.MessageError>
-            {isAlert && error
-              ? `Montante mínimo: ${dataFlow.minAmount}. `
-              : isAlert && `Montante mínimo: ${dataFlow.minAmount}`}
-            {error}
-          </S.MessageError>
-          <S.Network className="from">
-            Network: {dataFlow.fromNetwork?.toUpperCase()}
-          </S.Network>
-        </S.WrapperNetwork>
+        <S.Network className="from">
+          Network: {dataFlow.fromNetwork?.toUpperCase()}
+        </S.Network>
       </S.WrapperBlock>
 
       <S.WrapperDetails>
