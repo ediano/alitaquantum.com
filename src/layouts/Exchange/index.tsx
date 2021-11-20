@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, ChangeEvent } from 'react'
+import Link from 'next/link'
 import { MdEmail } from 'react-icons/md'
 
 import { useExchange } from 'context/exchange'
@@ -123,6 +124,16 @@ export const ExchangeLayout = () => {
           <S.Title>Preencha os dados para trocar as moedas.</S.Title>
 
           <Exchange />
+
+          {dataFlow.fromCurrency === dataFlow.toCurrency && (
+            <S.AlertKYCAML>
+              Esta transação esta sujeita a verificação KYC/AML.
+              <Link href="/kyc-aml">
+                <a>Saiba mais!</a>
+              </Link>
+            </S.AlertKYCAML>
+          )}
+
           <S.BlockWrapper>
             <S.Block>
               <Input
