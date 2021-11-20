@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { Exchange } from 'components/Exchange'
 import { AnchorButton } from 'components/AnchorButton'
 
@@ -25,6 +26,22 @@ export const Hero = () => {
       <S.Wrapper>
         <S.Block>
           <S.Title>{site.description}</S.Title>
+
+          <S.LinkGuarda
+            href="https://grd.to/ref/bfdY"
+            target="_blank"
+            aria-label="Guarda Wallet"
+            title="Guarda Wallet"
+            rel="nofollow noopener noreferrer"
+          >
+            <span>Carteira recomendada</span>
+            <Image
+              width="22"
+              height="22"
+              src="/img/logos/guarda.svg"
+              alt="Guarda Wallet"
+            />
+          </S.LinkGuarda>
         </S.Block>
 
         <S.ExchangeWrapper>

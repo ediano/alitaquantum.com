@@ -1,7 +1,11 @@
 import styled, { css } from 'styled-components'
 import NextImage from 'next/image'
 import { transparentize } from 'polished'
-import { Container as ContainerBase, lessThan } from 'styles/layout'
+import {
+  Container as ContainerBase,
+  lessThan,
+  greaterThan
+} from 'styles/layout'
 
 export const Container = styled.section`
   position: relative;
@@ -94,4 +98,29 @@ export const Footer = styled.div`
     padding: ${theme.spacing.xxl} 0;
     margin-top: ${theme.spacing.xxl};
   `}
+`
+
+export const LinkGuarda = styled.a`
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  margin-top: 2.5rem;
+
+  ${greaterThan('l')(css`
+    margin-right: auto;
+  `)}
+
+  color: #fff;
+  text-transform: uppercase;
+
+  ${({ theme }) => css`
+    padding: ${theme.spacing.xxs} ${theme.spacing.xs};
+    border-radius: ${theme.spacing.xs};
+    background: ${theme.colors.secondary};
+  `}
+
+  span {
+    margin-right: 0.5rem;
+  }
 `
