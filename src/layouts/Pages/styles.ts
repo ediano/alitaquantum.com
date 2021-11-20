@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import { shade } from 'polished'
+import { shade, lighten } from 'polished'
 
 export const Container = styled.section`
   position: relative;
@@ -12,8 +12,14 @@ export const Container = styled.section`
 
 export const Wrapper = styled.div`
   width: 100%;
-  max-width: 800px;
+  max-width: 992px;
   margin: 0 auto;
+
+  ${({ theme }) => css`
+    padding: ${theme.spacing.xxl};
+    background: ${theme.colors.white};
+    border-radius: ${theme.spacing.s};
+  `}
 `
 
 export const Title = styled.h1`
@@ -21,8 +27,6 @@ export const Title = styled.h1`
   width: 100%;
   margin-bottom: 2.5rem;
 `
-
-export const Welcome = styled.div``
 
 export const Markdown = styled.div`
   display: block;
@@ -32,6 +36,7 @@ export const Markdown = styled.div`
     display: block;
     margin-top: 2.5rem;
     margin-bottom: 2.5rem;
+    text-align: justify;
   }
 
   ${({ theme }) => css`
@@ -43,5 +48,15 @@ export const Markdown = styled.div`
     a:hover {
       color: ${shade(0.5, theme.colors.primary)};
     }
+  `}
+`
+
+export const Children = styled.div`
+  width: 100%;
+  margin-top: 2.5rem;
+  padding-top: 2.5rem;
+
+  ${({ theme }) => css`
+    border-top: 1px solid ${lighten(0.5, theme.colors.secondary)};
   `}
 `

@@ -5,7 +5,7 @@ import { site } from 'config/site'
 
 import { tickers } from 'pages/[ticker]'
 
-import navLinks from 'components/Navbar/content'
+import content from './content'
 
 import * as S from './styles'
 
@@ -48,7 +48,7 @@ export const Footer = () => {
 
           <S.Block>
             <S.ListLinks>
-              {navLinks.map(
+              {content.map(
                 ({ href, title }) =>
                   href !== '/' && (
                     <Link key={href} href={href} passHref>
