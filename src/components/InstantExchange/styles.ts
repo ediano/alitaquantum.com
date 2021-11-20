@@ -44,7 +44,7 @@ export const InputBlock = styled.div`
     border-bottom-right-radius: 0;
 
     &[data-alert='true'] {
-      box-shadow: 0 0 12px 0 ${shade(0.1, theme.colors.alert)};
+      box-shadow: 0 0 12px -2px ${shade(0.1, theme.colors.alert)};
     }
   `}
 `
@@ -117,14 +117,13 @@ export const Network = styled.span`
 `
 
 export const MessageError = styled.span`
-  width: 100%;
-
   ${({ theme }) => css`
     &::before {
       position: absolute;
-      left: 50%;
+      right: 0;
+      left: 0;
       border-radius: ${theme.spacing.xxs};
-      transform: translate(-50%, -100%);
+      transform: translateY(-100%);
       z-index: 9999;
       background: ${lighten(0.25, theme.colors.alert)};
       text-align: center;

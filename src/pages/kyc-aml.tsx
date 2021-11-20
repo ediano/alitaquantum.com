@@ -6,10 +6,10 @@ import { Header } from 'components/Header'
 import { PagesLayout, Props } from 'layouts/Pages'
 import { Footer } from 'components/Footer'
 
-const SupportPage = (props: Props) => {
+const KYCAMLPage = (props: Props) => {
   return (
     <>
-      <MetaSEO title="Suporte" pathUrl="/suporte" />
+      <MetaSEO title="KYC/AML" pathUrl="/kyc-aml" />
 
       <Header />
 
@@ -21,16 +21,16 @@ const SupportPage = (props: Props) => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { attributes: welcome, body: welcomeBody } = await import(
-    'content/pages/support/welcome.md'
+  const { attributes: kycAml, body: kycAmlBody } = await import(
+    'content/pages/kyc-aml.md'
   )
 
   return {
     props: {
-      ...welcome,
-      body: welcomeBody
+      ...kycAml,
+      body: kycAmlBody
     }
   }
 }
 
-export default SupportPage
+export default KYCAMLPage
