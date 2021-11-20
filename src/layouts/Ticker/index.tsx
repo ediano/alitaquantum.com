@@ -4,7 +4,7 @@ import { BsArrowLeftRight } from 'react-icons/bs'
 
 import { useExchange } from 'context/exchange'
 
-import { Props } from 'pages/[tickers]'
+import { Props } from 'pages/[ticker]'
 
 import { InstantExchange } from 'components/InstantExchange'
 import { AnchorButton } from 'components/AnchorButton'

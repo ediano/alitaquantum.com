@@ -41,7 +41,7 @@ export type Props = {
   suggestedCoins: SuggestedCoins[]
 }
 
-const TickersPage = (props: Props) => {
+const TickerPage = (props: Props) => {
   const { isFallback } = useRouter()
 
   if (isFallback) {
@@ -56,7 +56,7 @@ const TickersPage = (props: Props) => {
   return (
     <>
       <MetaSEO
-        title={`Trocar ${props.data.fromCurrency.toUpperCase()} para ${props.data.toCurrency.toUpperCase()}`}
+        title={`Trocar ${props.data.fromCurrency.toUpperCase()} para ${props.data.toCurrency.toUpperCase()} instantaneamente`}
         pathUrl={`trocar-${props.data.fromCurrency}-para-${props.data.toCurrency}`}
         description={`Troque ${props.data.fromCurrency.toUpperCase()} para ${props.data.toCurrency.toUpperCase()} instantaneamente. Rápido, seguro e totalmente privado, com o melhor preço disponível somente aqui na Alita Quantum.`}
       />
@@ -74,15 +74,15 @@ const TickersPage = (props: Props) => {
 
 export const getStaticPaths: GetStaticPaths = () => {
   const paths = tickers.map(({ from, to }) => ({
-    params: { tickers: `trocar-${from}-para-${to}` }
+    params: { ticker: `trocar-${from}-para-${to}` }
   }))
 
   return { paths, fallback: true }
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { tickers } = params as { tickers: string }
-  const [, from, , to] = tickers.split('-')
+  const { ticker } = params as { ticker: string }
+  const [, from, , to] = ticker.split('-')
 
   const initialProps = {
     fromCurrency: from,
@@ -158,4 +158,4 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   }
 }
 
-export default TickersPage
+export default TickerPage

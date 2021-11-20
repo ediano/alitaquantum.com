@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 import { site } from 'config/site'
 
-import { tickers } from 'pages/[tickers]'
+import { tickers } from 'pages/[ticker]'
 
 import navLinks from 'components/Navbar/content'
 
