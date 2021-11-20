@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import { lighten } from 'polished'
+import { lighten, shade } from 'polished'
 
 import { lessThan, Container as ContainerBase } from 'styles/layout'
 
@@ -119,5 +119,21 @@ export const OptionMessage = styled.div`
 export const OptionTitle = styled.strong`
   ${({ theme }) => css`
     color: ${lighten(0.15, theme.colors.secondary)};
+  `}
+`
+
+export const AlertKYCAML = styled.div`
+  margin-top: 2.5rem;
+
+  ${({ theme }) => css`
+    padding: ${theme.spacing.xs};
+    border-radius: ${theme.spacing.xxs};
+    background: ${lighten(0.2, theme.colors.alert)};
+
+    a {
+      margin-left: 0.5rem;
+      color: ${shade(0.25, theme.colors.primary)};
+      font-weight: 500;
+    }
   `}
 `
