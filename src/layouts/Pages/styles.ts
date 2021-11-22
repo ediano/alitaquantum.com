@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components'
 import { shade, lighten } from 'polished'
+import { lessThan } from 'styles/layout'
 
 export const Container = styled.section`
   position: relative;
@@ -19,6 +20,10 @@ export const Wrapper = styled.div`
     padding: ${theme.spacing.xxl};
     background: ${theme.colors.white};
     border-radius: ${theme.spacing.s};
+
+    ${lessThan('m')(css`
+      padding: ${theme.spacing.xxl} ${theme.spacing.m};
+    `)}
   `}
 `
 
