@@ -8,6 +8,10 @@ export const Container = styled.section`
   ${({ theme }) => css`
     padding: ${theme.spacing.xxl};
     background: ${theme.colors.whiteIce};
+
+    ${lessThan('s')(css`
+      padding: ${theme.spacing.xxl} ${theme.spacing.m};
+    `)}
   `}
 `
 
@@ -21,7 +25,7 @@ export const Wrapper = styled.div`
     background: ${theme.colors.white};
     border-radius: ${theme.spacing.s};
 
-    ${lessThan('m')(css`
+    ${lessThan('s')(css`
       padding: ${theme.spacing.xxl} ${theme.spacing.m};
     `)}
   `}
