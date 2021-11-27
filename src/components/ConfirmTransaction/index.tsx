@@ -38,6 +38,7 @@ export const ConfirmTransaction = ({
 
   const handlerCreateTransaction = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
+
     async function handler() {
       try {
         const { data: transaction } =

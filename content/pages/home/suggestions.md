@@ -1,8 +1,8 @@
 ---
-- title: 'Guarda Wallet'
-  link: 'https://grd.to/ref/bfdY'
+- title: 'Binance Exchange'
+  link: 'https://accounts.binance.com/en/register?ref=28351788'
   image: 
     src: '/img/pages/portfolio.svg'
     alt: 'Portfólio de criptomoedas'
-  description: 'Construir um portfólio de criptomoedas nunca foi tão fácil, Guarda pode te ajudar, com mais de 300 moedas e tokens. Carteira 100% fria.'
+  description: 'Você inda não tem criptomoedas para realizar trocas instantâneas, não perca essa change, cadastre-se é comece a construir seu portfolio com a menor taxa de negociação do mercado.'
 ---
