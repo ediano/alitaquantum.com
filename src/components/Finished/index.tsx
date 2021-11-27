@@ -71,7 +71,7 @@ export const Finished = (props: Props) => {
           <S.BlockDetalhes>
             <S.Text>Finalizada em:</S.Text>
             <S.Text className="primary">{date}</S.Text>
-            <S.Text>ID em:</S.Text>
+            <S.Text>ID:</S.Text>
             <S.Text className="primary">{props.id}</S.Text>
           </S.BlockDetalhes>
         </S.WrapperBlockDetalhes>

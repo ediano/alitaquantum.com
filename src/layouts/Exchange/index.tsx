@@ -5,6 +5,7 @@ import { MdEmail } from 'react-icons/md'
 import { useExchange } from 'context/exchange'
 import ChangeNow from 'services/ChangeNowService'
 
+import { HeroBackground } from 'components/HeroBackground'
 import { Exchange } from 'components/Exchange'
 import { Button } from 'components/Button'
 import { Input } from 'components/Input'
@@ -118,75 +119,71 @@ export const ExchangeLayout = () => {
   }, [dataFlow, estimatedAmount, transactionSpeedForecast])
 
   return (
-    <>
-      <S.Main>
-        <S.Container>
-          <S.Title>Preencha os dados para trocar as moedas.</S.Title>
+    <HeroBackground>
+      <S.Title>Preencha os dados para trocar as moedas.</S.Title>
 
-          <Exchange />
+      <Exchange />
 
-          {dataFlow.fromCurrency === dataFlow.toCurrency && (
-            <S.AlertKYCAML>
-              Esta transação esta sujeita a verificação KYC/AML.
-              <Link href="/kyc-aml">
-                <a>Saiba mais!</a>
-              </Link>
-            </S.AlertKYCAML>
-          )}
+      {dataFlow.fromCurrency === dataFlow.toCurrency && (
+        <S.AlertKYCAML>
+          Esta transação esta sujeita a verificação KYC/AML.
+          <Link href="/kyc-aml">
+            <a>Saiba mais!</a>
+          </Link>
+        </S.AlertKYCAML>
+      )}
 
-          <S.BlockWrapper>
-            <S.Block>
-              <Input
-                isOutline
-                name="address"
-                color={!isError ? 'primary' : 'error'}
-                label={`SEU ENDEREÇO ${dataFlow.toName?.toUpperCase() || ''}`}
-                input={{
-                  value: address,
-                  onChange: handlerInputChange
-                }}
-              />
-            </S.Block>
+      <S.BlockWrapper>
+        <S.Block>
+          <Input
+            isOutline
+            name="address"
+            color={!isError ? 'primary' : 'error'}
+            label={`SEU ENDEREÇO ${dataFlow.toName?.toUpperCase() || ''}`}
+            input={{
+              value: address,
+              onChange: handlerInputChange
+            }}
+          />
+        </S.Block>
 
-            {dataFlow.toId && (
-              <S.Block>
-                <Input
-                  isOutline
-                  name="extraId"
-                  label="OPCIONAL: ID/MENO/TAG"
-                  input={{
-                    value: dataCreateTransaction.extraId,
-                    onChange: handlerInputChange
-                  }}
-                />
-              </S.Block>
-            )}
-          </S.BlockWrapper>
-
-          <S.WrapperButton>
-            <Button
-              uppercase
-              title="Proximo"
-              background={isDisabledButton ? 'secondary' : 'primary'}
-              onClick={() => setConfirmTransaction(true)}
-              disabled={isDisabledButton}
+        {dataFlow.toId && (
+          <S.Block>
+            <Input
+              isOutline
+              name="extraId"
+              label="OPCIONAL: ID/MENO/TAG"
+              input={{
+                value: dataCreateTransaction.extraId,
+                onChange: handlerInputChange
+              }}
             />
-          </S.WrapperButton>
+          </S.Block>
+        )}
+      </S.BlockWrapper>
 
-          <S.AdvancedOptionsText
-            onClick={() => setIsAdvancedOptions(!isAdvancedOptions)}
-          >
-            Opções avançadas
-          </S.AdvancedOptionsText>
+      <S.WrapperButton>
+        <Button
+          uppercase
+          title="Proximo"
+          background={isDisabledButton ? 'secondary' : 'primary'}
+          onClick={() => setConfirmTransaction(true)}
+          disabled={isDisabledButton}
+        />
+      </S.WrapperButton>
 
-          {confirmTransaction && address && !isDisabledButton && (
-            <ConfirmTransaction
-              setToggle={setConfirmTransaction}
-              {...dataCreateTransaction}
-            />
-          )}
-        </S.Container>
-      </S.Main>
+      <S.AdvancedOptionsText
+        onClick={() => setIsAdvancedOptions(!isAdvancedOptions)}
+      >
+        Opções avançadas
+      </S.AdvancedOptionsText>
+
+      {confirmTransaction && address && !isDisabledButton && (
+        <ConfirmTransaction
+          setToggle={setConfirmTransaction}
+          {...dataCreateTransaction}
+        />
+      )}
 
       {isAdvancedOptions && (
         <S.AdvancedOptions>
@@ -278,6 +275,6 @@ export const ExchangeLayout = () => {
           </S.AdvancedOptionsContainer>
         </S.AdvancedOptions>
       )}
-    </>
+    </HeroBackground>
   )
 }

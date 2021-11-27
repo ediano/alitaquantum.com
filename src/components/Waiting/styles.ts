@@ -3,7 +3,7 @@ import { lighten, transparentize } from 'polished'
 
 import { lessThan } from 'styles/layout'
 
-export const Container = styled.section`
+export const Container = styled.div`
   width: 100%;
 
   ${({ theme }) => css`

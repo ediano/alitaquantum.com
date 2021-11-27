@@ -5,28 +5,13 @@ import { lessThan } from 'styles/layout'
 export const Container = styled.div`
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 3;
 
   ${({ theme }) => css`
     padding: ${theme.spacing.xxl};
     padding-bottom: ${theme.spacing.xxl};
-    background: ${theme.colors.whiteIce};
-  `}
-`
-
-export const Wrapper = styled.div`
-  width: 100%;
-  max-width: 800px;
-
-  ${({ theme }) => css`
     background: ${theme.colors.white};
-    padding: ${theme.spacing.xxl};
-    margin: 0 auto;
     border-radius: ${theme.spacing.s};
-
-    ${lessThan('s')(css`
-      padding: ${theme.spacing.m};
-    `)}
   `}
 `
 

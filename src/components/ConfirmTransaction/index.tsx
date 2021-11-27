@@ -75,62 +75,57 @@ export const ConfirmTransaction = ({
 
   return (
     <S.Container>
-      <S.Wrapper>
-        <S.Title>Confirme os dados inseridos</S.Title>
+      <S.Title>Confirme os dados inseridos</S.Title>
 
-        <S.Block>
-          <S.Card>
-            <S.CardTitle>Você envia</S.CardTitle>
-            <S.CardAmount>
-              {fromAmount} {fromCurrency?.toUpperCase()}
-            </S.CardAmount>
-          </S.Card>
+      <S.Block>
+        <S.Card>
+          <S.CardTitle>Você envia</S.CardTitle>
+          <S.CardAmount>
+            {fromAmount} {fromCurrency?.toUpperCase()}
+          </S.CardAmount>
+        </S.Card>
 
-          <S.Card>
-            <S.CardTitle>Você recebe</S.CardTitle>
-            <S.CardAmount>
-              ≈ {toAmount} {toCurrency?.toUpperCase()}
-            </S.CardAmount>
-            <S.CardWallet>{address}</S.CardWallet>
-          </S.Card>
+        <S.Card>
+          <S.CardTitle>Você recebe</S.CardTitle>
+          <S.CardAmount>
+            ≈ {toAmount} {toCurrency?.toUpperCase()}
+          </S.CardAmount>
+          <S.CardWallet>{address}</S.CardWallet>
+        </S.Card>
 
-          <S.Card>
-            <S.CardTitle>Tempo estimado</S.CardTitle>
-            <S.CardTime>
-              ≈ {explod?.length ? waitForecast + ' minutos' : waitForecast}
-            </S.CardTime>
-          </S.Card>
-        </S.Block>
+        <S.Card>
+          <S.CardTitle>Tempo estimado</S.CardTitle>
+          <S.CardTime>
+            ≈ {explod?.length ? waitForecast + ' minutos' : waitForecast}
+          </S.CardTime>
+        </S.Card>
+      </S.Block>
 
-        <S.WrapperButton>
-          <Button
-            uppercase
-            title="Confirmar"
-            onClick={handlerCreateTransaction}
-            background={checkbox ? 'primary' : 'secondary'}
-            disabled={!checkbox}
-          />
+      <S.WrapperButton>
+        <Button
+          uppercase
+          title="Confirmar"
+          onClick={handlerCreateTransaction}
+          background={checkbox ? 'primary' : 'secondary'}
+          disabled={!checkbox}
+        />
 
-          <Button uppercase title="Cancelar" onClick={() => setToggle(false)} />
-        </S.WrapperButton>
+        <Button uppercase title="Cancelar" onClick={() => setToggle(false)} />
+      </S.WrapperButton>
 
-        <S.Block>
-          <S.WrapperCheckbox>
-            <S.Checkbox
-              type="checkbox"
-              onClick={() => setCheckbox(!checkbox)}
-            />
-            Declaro ter ligo o{' '}
-            <Link href="/termos-de-uso" passHref>
-              <S.Anchor target="_blank">Termos de uso</S.Anchor>
-            </Link>{' '}
-            e a{' '}
-            <Link href="/politica-de-privacidade" passHref>
-              <S.Anchor target="_blank">Política de privacidade</S.Anchor>
-            </Link>
-          </S.WrapperCheckbox>
-        </S.Block>
-      </S.Wrapper>
+      <S.Block>
+        <S.WrapperCheckbox>
+          <S.Checkbox type="checkbox" onClick={() => setCheckbox(!checkbox)} />
+          Declaro ter ligo o{' '}
+          <Link href="/termos-de-uso" passHref>
+            <S.Anchor target="_blank">Termos de uso</S.Anchor>
+          </Link>{' '}
+          e a{' '}
+          <Link href="/politica-de-privacidade" passHref>
+            <S.Anchor target="_blank">Política de privacidade</S.Anchor>
+          </Link>
+        </S.WrapperCheckbox>
+      </S.Block>
     </S.Container>
   )
 }

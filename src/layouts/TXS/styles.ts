@@ -3,21 +3,6 @@ import { MdDoneAll, MdError } from 'react-icons/md'
 
 import { lessThan } from 'styles/layout'
 
-export const Container = styled.section`
-  position: relative;
-
-  ${({ theme }) => css`
-    padding: ${theme.spacing.xxl};
-    background: ${theme.colors.whiteIce};
-  `}
-`
-
-export const Wrapper = styled.section`
-  width: 100%;
-  max-width: 992px;
-  margin: 0 auto;
-`
-
 export const Block = styled.div`
   height: 50vh;
   position: relative;
@@ -63,7 +48,7 @@ const icon = css`
   position: absolute;
   top: 0;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -150%);
   width: 12.5rem;
   height: 12.5rem;
   border-radius: 50%;

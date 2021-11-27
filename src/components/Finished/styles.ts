@@ -5,12 +5,12 @@ import { BsArrowDown } from 'react-icons/bs'
 
 import { lessThan } from 'styles/layout'
 
-export const Container = styled.section`
+export const Container = styled.div`
   width: 100%;
   margin: 0 auto;
 `
 
-export const BlockPrimary = styled.section`
+export const BlockPrimary = styled.div`
   position: relative;
 
   ${({ theme }) => css`
@@ -30,7 +30,7 @@ export const IconDoneAll = styled(MdDoneAll)`
   position: absolute;
   top: 0;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -115%);
   width: 12.5rem;
   height: 12.5rem;
   border-radius: 50%;
@@ -111,7 +111,7 @@ export const WrapperShared = styled.div`
   `}
 `
 
-export const BlockSecondary = styled.section`
+export const BlockSecondary = styled.div`
   ${({ theme }) => css`
     background: ${theme.colors.secondary};
     margin-top: ${theme.spacing.xxl};
