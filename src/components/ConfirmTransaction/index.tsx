@@ -3,7 +3,6 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 
 import ChangeNow from 'services/ChangeNowService'
-import { Mail } from 'services/MailService'
 import { useExchange } from 'context/exchange'
 
 import { Button } from 'components/Button'
@@ -56,24 +55,6 @@ export const ConfirmTransaction = ({
             refundExtraId: refundExtraId || '',
             flow: !fixedRate ? 'standard' : 'fixed-rate'
           })
-
-        await Mail.post('/submit', {
-          $id: transaction.id,
-          $address: address,
-          $extraId: extraId || '',
-          $fromAmount: fromAmount,
-          $fromCurrency: fromCurrency,
-          $fromNetwork: fromNetwork,
-          $toCurrency: toCurrency,
-          $toNetwork: toNetwork,
-          $contactEmail: contactEmail || '',
-          $refundAddress: refundAddress || '',
-          $refundExtraId: refundExtraId || '',
-          $flow: !fixedRate ? 'standard' : 'fixed-rate',
-          accessKey: '3f6820b8-7e96-4d51-a2cf-6e5b6661688',
-          redirectTo: '',
-          honeypot: ''
-        })
 
         router.push({
           pathname: '/trocar/txs',
