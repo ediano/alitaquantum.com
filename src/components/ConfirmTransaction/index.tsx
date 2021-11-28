@@ -1,8 +1,10 @@
 import { useState, Dispatch, SetStateAction, MouseEvent } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { stringify } from 'query-string'
 
 import ChangeNow from 'services/ChangeNowService'
+import { Mail } from 'services/MailService'
 import { useExchange } from 'context/exchange'
 
 import { Button } from 'components/Button'
@@ -39,6 +41,8 @@ export const ConfirmTransaction = ({
   const handlerCreateTransaction = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
 
+    let id = ''
+
     async function handler() {
       try {
         const { data: transaction } =
@@ -56,11 +60,41 @@ export const ConfirmTransaction = ({
             flow: !fixedRate ? 'standard' : 'fixed-rate'
           })
 
+        id = transaction.id
+
+        await Mail.post(
+          '/submit',
+          stringify({
+            subject: `Exchange Created - ${fromCurrency} vs. ${toCurrency}`,
+            $id: transaction.id,
+            $address: address,
+            $extraId: extraId || '',
+            $fromAmount: fromAmount,
+            $fromCurrency: fromCurrency,
+            $fromNetwork: fromNetwork,
+            $toCurrency: toCurrency,
+            $toNetwork: toNetwork,
+            $contactEmail: contactEmail || '',
+            $refundAddress: refundAddress || '',
+            $refundExtraId: refundExtraId || '',
+            $flow: !fixedRate ? 'standard' : 'fixed-rate',
+            accessKey: '3f6820b8-7e96-4d51-a2cf-6e5b6661688',
+            honeypot: ''
+          })
+        )
+
         router.push({
           pathname: '/trocar/txs',
           query: { id: transaction.id }
         })
-      } catch (err) {}
+      } catch (err) {
+        if (id) {
+          router.push({
+            pathname: '/trocar/txs',
+            query: { id }
+          })
+        }
+      }
     }
     if (
       fromCurrency &&
