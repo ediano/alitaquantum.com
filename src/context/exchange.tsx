@@ -558,7 +558,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
         setTransactionSpeedForecast('Estimativa indisponivel!')
       }
     }
-  }, [query, currencies, push])
+  }, [query, currencies, push, fixedRate])
 
   useEffect(() => {
     if (pathname === '/trocar' && pathname !== asPath && !isQueryLoaded) {
