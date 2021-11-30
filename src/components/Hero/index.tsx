@@ -8,7 +8,7 @@ import { useExchange } from 'context/exchange'
 import * as S from './styles'
 
 export const Hero = () => {
-  const { dataFlow, estimatedAmount, fixedRate } = useExchange()
+  const { dataFlow, estimatedAmount } = useExchange()
 
   const { fromAmount, fromName, toName } = dataFlow
 
@@ -56,8 +56,7 @@ export const Hero = () => {
               query: {
                 fromAmount,
                 fromName,
-                toName,
-                fixedRate
+                toName
               }
             }}
             style={{ marginTop: '50px' }}

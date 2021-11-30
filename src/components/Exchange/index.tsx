@@ -5,7 +5,7 @@ import { Select } from 'components/Select'
 import { TextTouch } from 'components/TextTouch'
 import { Input } from 'components/Input'
 
-import { useExchange } from 'context/exchange'
+import { useExchange, cookieFixedRate } from 'context/exchange'
 
 import * as S from './styles'
 
@@ -91,6 +91,7 @@ export const Exchange = () => {
 
           <button
             onClick={() => {
+              cookieFixedRate.set(!fixedRate)
               handlerStartFixedRate(!fixedRate)
               setFixedRate(!fixedRate)
             }}

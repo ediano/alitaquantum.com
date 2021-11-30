@@ -69,6 +69,18 @@ const multiplies = (value: number, x: number = 25) => {
   return String((value * x).toFixed(8))
 }
 
+export const cookieFixedRate = {
+  get() {
+    const [key, value] = document.cookie?.split('=')
+    if (key === 'fixedRate') return value === 'true'
+    return false
+  },
+  set(value: boolean) {
+    document.cookie = `fixedRate=${value}`
+    return value
+  }
+}
+
 const ExchangeContext = createContext<ContextProps>({} as ContextProps)
 
 type Props = {
@@ -90,7 +102,6 @@ export const ExchangeProvider = ({ props, children }: Props) => {
   const [transactionSpeedForecast, setTransactionSpeedForecast] = useState('')
 
   const [isAlert, setIsAlert] = useState(false)
-
   useEffect(() => {
     async function loading() {
       try {
@@ -101,6 +112,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
       } catch (err) {}
     }
     loading()
+    setFixedRate(cookieFixedRate.get())
   }, [])
 
   const handlerEstimatedAmountByTheFromAmount = useCallback(
@@ -455,10 +467,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
   }, [handlerInitialStates, asPath, pathname])
 
   const handlerStartPageExchangeQuery = useCallback(async () => {
-    const { fromAmount, fromName, toName, fixedRate } = query
-
-    if (fixedRate === 'true') setFixedRate(true)
-    if (fixedRate === 'false') setFixedRate(false)
+    const { fromAmount, fromName, toName } = query
 
     push(
       {
