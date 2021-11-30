@@ -45,6 +45,7 @@ export const MetaSEO = ({
 
       <meta name="title" content={t} />
       <meta name="description" content={d} />
+      <meta name="keywords" content={site.keywords} />
 
       <meta property="og:type" content="website" />
       <meta property="og:url" content={u} />
