@@ -518,12 +518,12 @@ export const ExchangeProvider = ({ props, children }: Props) => {
           const [range, estimated] = await Promise.allSettled([
             ChangeNow.getRange({
               ...dataRequest,
-              flow: fixedRate === 'false' ? 'standard' : 'fixed-rate'
+              flow: !fixedRate ? 'standard' : 'fixed-rate'
             }),
             ChangeNow.getEstimatedAmount({
               ...dataRequest,
               fromAmount,
-              flow: fixedRate === 'false' ? 'standard' : 'fixed-rate'
+              flow: !fixedRate ? 'standard' : 'fixed-rate'
             })
           ])
 
