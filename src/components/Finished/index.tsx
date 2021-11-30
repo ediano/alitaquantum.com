@@ -1,8 +1,6 @@
-import { useState, useEffect } from 'react'
 import { parseISO, format } from 'date-fns'
 
-import ChangeNow, { TransactionStatus } from 'services/ChangeNowService'
-
+import { TransactionStatus } from 'services/ChangeNowService'
 import { Shared } from 'components/Shared'
 
 import * as S from './styles'
@@ -10,31 +8,8 @@ import * as S from './styles'
 type Props = Partial<TransactionStatus>
 
 export const Finished = (props: Props) => {
-  const [query, setQuery] = useState('')
-
   const dateParse = parseISO(props.updatedAt as string)
   const date = format(dateParse, "dd'/'MM'/'yyyy, HH:mm'h'")
-
-  useEffect(() => {
-    async function loading() {
-      try {
-        const { data: currencies } = await ChangeNow.getCurrencies()
-
-        const from = currencies.find(
-          (currency) => currency.ticker === props.fromCurrency
-        )
-        const to = currencies.find(
-          (currency) => currency.ticker === props.toCurrency
-        )
-
-        setQuery(
-          `/trocar?fromAmount=${props.amountFrom}&fromName=${from?.name}&toName=${to?.name}`
-        )
-      } catch (err) {}
-    }
-
-    loading()
-  }, [props.amountFrom, props.fromCurrency, props.toCurrency])
 
   return (
     <S.Container>
@@ -58,7 +33,7 @@ export const Finished = (props: Props) => {
 
         <S.WrapperShared>
           <Shared
-            path={query}
+            path={`/trocar-${props.fromCurrency}-para-${props.toCurrency}`}
             message="Conte aos seus amigos os pares de moedas que você acabou de trocar!"
           />
         </S.WrapperShared>

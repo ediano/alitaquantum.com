@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { BsArrowLeftRight } from 'react-icons/bs'
 
@@ -14,10 +13,8 @@ import { Shared } from 'components/Shared'
 import * as S from './styles'
 
 export const TickerLayout = ({ data, suggestedCoins }: Props) => {
-  const { query } = useRouter()
-  const { tickers } = query as { tickers: string }
   const { estimatedAmount, dataFlow } = useExchange()
-  const { fromAmount, fromName, toName } = dataFlow
+  const { fromAmount, fromName, toName, fromCurrency, toCurrency } = dataFlow
 
   return (
     <HeroBackground>
@@ -88,7 +85,7 @@ export const TickerLayout = ({ data, suggestedCoins }: Props) => {
 
       <S.WrapperShared>
         <Shared
-          path={`/${tickers}`}
+          path={`/trocar-${fromCurrency}-para-${toCurrency}`}
           message="Conte aos seus amigos os pares de moedas que você quer trocar!"
         />
       </S.WrapperShared>
