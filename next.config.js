@@ -13,10 +13,5 @@ module.exports = {
       options: { mode: [FMLMode.BODY] }
     })
     return config
-  },
-  async redirects() {
-    return [
-      { source: '/trocar*', destination: '/transferir*', permanent: true }
-    ]
   }
 }
