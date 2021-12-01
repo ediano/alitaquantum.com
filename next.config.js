@@ -15,6 +15,8 @@ module.exports = {
     return config
   },
   async redirects() {
-    return [{ source: '/trocar', destination: '/transferir*', permanent: true }]
+    return [
+      { source: '/trocar*', destination: '/transferir*', permanent: true }
+    ]
   }
 }
