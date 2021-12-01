@@ -84,13 +84,13 @@ export const ConfirmTransaction = ({
         )
 
         router.push({
-          pathname: '/trocar/txs',
+          pathname: '/transferir/txs',
           query: { id: transaction.id }
         })
       } catch (err) {
         if (id) {
           router.push({
-            pathname: '/trocar/txs',
+            pathname: '/transferir/txs',
             query: { id }
           })
         }

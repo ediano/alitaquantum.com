@@ -33,8 +33,8 @@ export const Finished = (props: Props) => {
 
         <S.WrapperShared>
           <Shared
-            path={`/trocar-${props.fromCurrency}-para-${props.toCurrency}`}
-            message="Conte aos seus amigos os pares de moedas que você acabou de trocar!"
+            path={`/transferir-${props.fromCurrency}-para-${props.toCurrency}`}
+            message="Conte aos seus amigos os pares de moedas que você acabou de transferir!"
           />
         </S.WrapperShared>
       </S.BlockPrimary>

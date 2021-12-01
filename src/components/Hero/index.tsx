@@ -50,9 +50,9 @@ export const Hero = () => {
           <AnchorButton
             uppercase
             disabled={estimatedAmount === '0'}
-            title="Trocar"
+            title="Transferir"
             href={{
-              pathname: '/trocar',
+              pathname: '/transferir',
               query: {
                 fromAmount,
                 fromName,

@@ -20,7 +20,7 @@ export const TickerLayout = ({ data, suggestedCoins }: Props) => {
     <HeroBackground>
       <S.Block>
         <S.Title>
-          Troque {data.fromName} para {data.toName} instantaneamente.
+          Transferir {data.fromName} para {data.toName} instantaneamente.
         </S.Title>
 
         <S.Description>
@@ -37,13 +37,13 @@ export const TickerLayout = ({ data, suggestedCoins }: Props) => {
           disabled={estimatedAmount === '0'}
           title="Proximo"
           href={{
-            pathname: '/trocar',
+            pathname: '/transferir',
             query: { fromAmount, fromName, toName }
           }}
           style={{ marginTop: '25px', width: '250px' }}
         />
 
-        <Link href="/trocar" passHref>
+        <Link href="/transferir" passHref>
           <S.MoreCurrencyOptions>Mais opções de moedas!</S.MoreCurrencyOptions>
         </Link>
       </S.WrapperExchange>
@@ -85,7 +85,7 @@ export const TickerLayout = ({ data, suggestedCoins }: Props) => {
 
       <S.WrapperShared>
         <Shared
-          path={`/trocar-${fromCurrency}-para-${toCurrency}`}
+          path={`/transferir-${fromCurrency}-para-${toCurrency}`}
           message="Conte aos seus amigos os pares de moedas que você quer trocar!"
         />
       </S.WrapperShared>
@@ -98,7 +98,7 @@ export const TickerLayout = ({ data, suggestedCoins }: Props) => {
           <br />
           Essa é apenas a ponta do iceberg, troque com mais de 5 mil pares
           disponíveis.{' '}
-          <Link href="/trocar" passHref>
+          <Link href="/transferir" passHref>
             <S.MoreCurrencyOptions>
               Veja todas as opções de troca!
             </S.MoreCurrencyOptions>
@@ -109,7 +109,7 @@ export const TickerLayout = ({ data, suggestedCoins }: Props) => {
           {suggestedCoins.map((coin) => (
             <Link
               key={coin.image}
-              href={`trocar-${data.fromCurrency}-para-${coin.ticker}`}
+              href={`/transferir-${data.fromCurrency}-para-${coin.ticker}`}
               passHref
             >
               <S.CardSuggestedCoins title={`${data.fromName} vs. ${coin.name}`}>

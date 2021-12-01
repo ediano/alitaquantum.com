@@ -10,8 +10,8 @@ const TXSPage = () => {
       <MetaSEO
         noFollow={true}
         noIndex={true}
-        title="Trocar moedas"
-        pathUrl="/trocar/txs"
+        title="Transferir moedas"
+        pathUrl="/transferir/txs"
       />
 
       <Header />
