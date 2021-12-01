@@ -56,7 +56,11 @@ const TickerPage = (props: Props) => {
   return (
     <>
       <MetaSEO
-        title={`Transferir ${props.data.fromName} para ${props.data.toName} instantaneamente`}
+        title={`Transferir ${
+          props.data.fromName
+        } (${props.data.fromCurrency?.toUpperCase()}) para ${
+          props.data.toName
+        } (${props.data.toCurrency?.toUpperCase()}) instantaneamente`}
         pathUrl={`transferir-${props.data.fromCurrency}-para-${props.data.toCurrency}`}
         description={`Transferir ${
           props.data.fromName
