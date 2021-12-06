@@ -169,12 +169,12 @@ export const ExchangeProvider = ({ props, children }: Props) => {
 
         handlerEstimatedAmountByTheFromAmount(value)
 
-        if (pathname === '/transferir') {
+        if (pathname === '/trocar') {
           const { fromName, toName } = dataFlow
 
           push(
             {
-              pathname: '/transferir',
+              pathname: '/trocar',
               query: { fromAmount: value, fromName, toName }
             },
             undefined,
@@ -212,10 +212,10 @@ export const ExchangeProvider = ({ props, children }: Props) => {
             minAmount: String(minAmount)
           }))
 
-          if (pathname === '/transferir') {
+          if (pathname === '/trocar') {
             push(
               {
-                pathname: '/transferir',
+                pathname: '/trocar',
                 query: {
                   fromAmount,
                   fromName,
@@ -246,10 +246,10 @@ export const ExchangeProvider = ({ props, children }: Props) => {
           setEstimatedAmount('0')
           setTransactionSpeedForecast('Estimativa indisponivel!')
 
-          if (pathname === '/transferir') {
+          if (pathname === '/trocar') {
             push(
               {
-                pathname: '/transferir',
+                pathname: '/trocar',
                 query: {
                   fromAmount,
                   fromName,
@@ -370,10 +370,10 @@ export const ExchangeProvider = ({ props, children }: Props) => {
         minAmount: String(minAmount)
       }))
 
-      if (pathname === '/transferir') {
+      if (pathname === '/trocar') {
         push(
           {
-            pathname: '/transferir',
+            pathname: '/trocar',
             query: {
               fromAmount,
               fromName: toName,
@@ -404,10 +404,10 @@ export const ExchangeProvider = ({ props, children }: Props) => {
       setEstimatedAmount('0')
       setTransactionSpeedForecast('Estimativa indisponivel!')
 
-      if (pathname === '/transferir') {
+      if (pathname === '/trocar') {
         push(
           {
-            pathname: '/transferir',
+            pathname: '/trocar',
             query: {
               fromAmount,
               fromName: toName,
@@ -461,10 +461,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
   }, [])
 
   useEffect(() => {
-    if (
-      pathname === '/' ||
-      (pathname === '/transferir' && pathname === asPath)
-    ) {
+    if (pathname === '/' || (pathname === '/trocar' && pathname === asPath)) {
       handlerInitialStates()
     }
   }, [handlerInitialStates, asPath, pathname])
@@ -474,7 +471,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
 
     push(
       {
-        pathname: '/transferir',
+        pathname: '/trocar',
         query: {
           fromAmount,
           fromName,
@@ -564,7 +561,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
   }, [query, currencies, push, fixedRate])
 
   useEffect(() => {
-    if (pathname === '/transferir' && pathname !== asPath && !isQueryLoaded) {
+    if (pathname === '/trocar' && pathname !== asPath && !isQueryLoaded) {
       handlerStartPageExchangeQuery()
     }
   }, [handlerStartPageExchangeQuery, asPath, isQueryLoaded, pathname])

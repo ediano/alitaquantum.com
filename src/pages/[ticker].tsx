@@ -56,13 +56,13 @@ const TickerPage = (props: Props) => {
   return (
     <>
       <MetaSEO
-        title={`Transferir ${
+        title={`Trocar ${
           props.data.fromName
         } (${props.data.fromCurrency?.toUpperCase()}) para ${
           props.data.toName
         } (${props.data.toCurrency?.toUpperCase()}) instantaneamente`}
-        pathUrl={`transferir-${props.data.fromCurrency}-para-${props.data.toCurrency}`}
-        description={`Transferir ${
+        pathUrl={`trocar-${props.data.fromCurrency}-para-${props.data.toCurrency}`}
+        description={`Trocar ${
           props.data.fromName
         } (${props.data.fromCurrency.toUpperCase()}) para ${
           props.data.toName
@@ -82,7 +82,7 @@ const TickerPage = (props: Props) => {
 
 export const getStaticPaths: GetStaticPaths = () => {
   const paths = tickers.map(({ from, to }) => ({
-    params: { ticker: `transferir-${from}-para-${to}` }
+    params: { ticker: `trocar-${from}-para-${to}` }
   }))
 
   return { paths, fallback: true }
