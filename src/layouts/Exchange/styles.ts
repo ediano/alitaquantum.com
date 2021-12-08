@@ -1,7 +1,6 @@
 import styled, { css } from 'styled-components'
 import { lighten, shade } from 'polished'
-
-import { lessThan, Container as ContainerBase } from 'styles/layout'
+import { lessThan } from 'styles/layout'
 
 export const Title = styled.h1`
   display: block;
@@ -46,7 +45,7 @@ export const AdvancedOptions = styled.section`
   `}
 `
 
-export const AdvancedOptionsContainer = styled(ContainerBase)`
+export const AdvancedOptionsContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
 
@@ -59,13 +58,6 @@ export const AdvancedOptionsContainer = styled(ContainerBase)`
   `)}
 `
 
-const cssOptions = css`
-  ${({ theme }) => css`
-    border-radius: ${theme.spacing.m};
-    padding: ${theme.spacing.l};
-  `}
-`
-
 export const OptionBlock = styled.div`
   ${({ theme }) => css`
     & + & {
@@ -75,13 +67,9 @@ export const OptionBlock = styled.div`
   `}
 `
 
-export const OptionEmail = styled.div`
-  ${cssOptions}
-`
+export const OptionEmail = styled.div``
 
-export const OptionAddress = styled.div`
-  ${cssOptions}
-`
+export const OptionAddress = styled.div``
 
 export const OptionMessage = styled.div`
   ${({ theme }) => css`

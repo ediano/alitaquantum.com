@@ -119,7 +119,7 @@ export const ExchangeLayout = () => {
   }, [dataFlow, estimatedAmount, transactionSpeedForecast])
 
   return (
-    <HeroBackground>
+    <HeroBackground maxWidth="800px">
       <S.Title>Preencha os dados para trocar as moedas.</S.Title>
 
       <Exchange />
@@ -188,7 +188,7 @@ export const ExchangeLayout = () => {
       {isAdvancedOptions && (
         <S.AdvancedOptions>
           <S.AdvancedOptionsContainer>
-            <S.OptionEmail>
+            <div>
               <S.OptionBlock>
                 <S.OptionMessage>
                   <S.OptionTitle>Receba notificações por e-mail</S.OptionTitle>
@@ -211,9 +211,9 @@ export const ExchangeLayout = () => {
                   (moedas recebidas, trocando e envidas).
                 </S.OptionMessage>
               </S.OptionBlock>
-            </S.OptionEmail>
+            </div>
 
-            <S.OptionAddress>
+            <div>
               <S.OptionBlock>
                 <S.OptionMessage>
                   <S.OptionTitle>Endereço da moeda de origem</S.OptionTitle>
@@ -269,9 +269,13 @@ export const ExchangeLayout = () => {
                     currency: dataCreateTransaction.fromCurrency || ''
                   })
                 }
-                style={{ width: 'auto', marginLeft: 'auto' }}
+                style={{
+                  width: 'auto',
+                  marginLeft: 'auto',
+                  padding: '0.75rem'
+                }}
               />
-            </S.OptionAddress>
+            </div>
           </S.AdvancedOptionsContainer>
         </S.AdvancedOptions>
       )}

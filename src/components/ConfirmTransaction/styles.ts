@@ -87,7 +87,11 @@ export const WrapperButton = styled.div`
   `)}
 `
 
-export const WrapperCheckbox = styled.div``
+export const WrapperCheckbox = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+`
 
 export const Checkbox = styled.input`
   width: 1.6rem;

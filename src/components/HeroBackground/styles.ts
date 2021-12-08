@@ -37,13 +37,13 @@ export const Main = styled.main`
   `}
 `
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.div<{ maxWidth?: string }>`
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 992px;
 
-  ${({ theme }) => css`
+  ${({ theme, maxWidth }) => css`
+    max-width: ${maxWidth || '992px'};
     background: ${theme.colors.white};
     padding: ${theme.spacing.xxl};
     margin: 0 auto;

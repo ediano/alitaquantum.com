@@ -151,14 +151,22 @@ export const ConfirmTransaction = ({
       <S.Block>
         <S.WrapperCheckbox>
           <S.Checkbox type="checkbox" onClick={() => setCheckbox(!checkbox)} />
-          Declaro ter ligo o{' '}
+          Declaro ter lido o{' '}
           <Link href="/termos-de-uso" passHref>
-            <S.Anchor target="_blank">Termos de uso</S.Anchor>
+            <S.Anchor
+              target="_blank"
+              style={{ marginRight: '0.5rem', marginLeft: '0.5rem' }}
+            >
+              Termos de uso
+            </S.Anchor>
           </Link>{' '}
-          e a{' '}
+          e as{' '}
           <Link href="/politica-de-privacidade" passHref>
-            <S.Anchor target="_blank">Política de privacidade</S.Anchor>
+            <S.Anchor target="_blank" style={{ marginLeft: '0.5rem' }}>
+              Política de privacidade
+            </S.Anchor>
           </Link>
+          .
         </S.WrapperCheckbox>
       </S.Block>
     </S.Container>
