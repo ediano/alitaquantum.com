@@ -1,14 +1,13 @@
 import { useState, Dispatch, SetStateAction, MouseEvent } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { stringify } from 'query-string'
 
 import ChangeNow from 'services/ChangeNowService'
-import { Mail } from 'services/MailService'
 import { useExchange } from 'context/exchange'
 
 import { Button } from 'components/Button'
 import { DataCreateTransaction } from 'layouts/Exchange'
+import { Spinner } from 'components/Spinner'
 
 import * as S from './styles'
 
@@ -34,17 +33,16 @@ export const ConfirmTransaction = ({
   const router = useRouter()
   const { fixedRate } = useExchange()
   const [checkbox, setCheckbox] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const explod = transactionSpeedForecast?.split('-')
   const waitForecast = explod?.length ? explod?.join(' à ') : explod
 
   const handlerCreateTransaction = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
-
-    let id = ''
-
     async function handler() {
       try {
+        setIsLoading(true)
         const { data: transaction } =
           await ChangeNow.setCreateExchangeTransaction({
             address,
@@ -60,40 +58,12 @@ export const ConfirmTransaction = ({
             flow: !fixedRate ? 'standard' : 'fixed-rate'
           })
 
-        id = transaction.id
-
-        await Mail.post(
-          '/submit',
-          stringify({
-            subject: `Exchange Created - ${fromCurrency} vs. ${toCurrency}`,
-            $id: transaction.id,
-            $address: address,
-            $extraId: extraId || '',
-            $fromAmount: fromAmount,
-            $fromCurrency: fromCurrency,
-            $fromNetwork: fromNetwork,
-            $toCurrency: toCurrency,
-            $toNetwork: toNetwork,
-            $contactEmail: contactEmail || '',
-            $refundAddress: refundAddress || '',
-            $refundExtraId: refundExtraId || '',
-            $flow: !fixedRate ? 'standard' : 'fixed-rate',
-            accessKey: '3f6820b8-7e96-4d51-a2cf-6e5b6661688',
-            honeypot: ''
-          })
-        )
-
         router.push({
           pathname: '/trocar/txs',
           query: { id: transaction.id }
         })
       } catch (err) {
-        if (id) {
-          router.push({
-            pathname: '/trocar/txs',
-            query: { id }
-          })
-        }
+        setIsLoading(false)
       }
     }
     if (
@@ -106,6 +76,17 @@ export const ConfirmTransaction = ({
     ) {
       handler()
     }
+  }
+
+  if (isLoading) {
+    return (
+      <S.Container>
+        <Spinner
+          heightBase="25vh"
+          circle={{ width: '250px', height: '250px' }}
+        />
+      </S.Container>
+    )
   }
 
   return (
