@@ -41,7 +41,7 @@ export const Content = styled.div`
 
   ${({ theme }) => css`
     padding: ${theme.spacing.xxl};
-    background: ${transparentize(0.1, theme.colors.white)};
+    background: ${theme.colors.white};
 
     & + & {
       margin-top: ${theme.spacing.xxl};
