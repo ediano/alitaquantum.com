@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import { lighten, shade, transparentize } from 'polished'
+import { lighten, shade } from 'polished'
 import { Container as ContainerBase, lessThan } from 'styles/layout'
 
 export const Container = styled.section`
