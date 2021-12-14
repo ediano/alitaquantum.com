@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import { shade } from 'polished'
+import { shade, lighten } from 'polished'
 
 import { theme } from 'styles/theme'
 
@@ -25,16 +25,16 @@ export const Container = styled.a<Props>`
 
   ${({ theme, color, background, disabled, uppercase }) => css`
     color: ${theme.colors[color || 'whiteIce']};
-    background: ${shade(0.25, theme.colors[background || 'primary'])};
+    background: ${shade(0.1, theme.colors[background || 'primary'])};
     padding: ${theme.spacing.s};
     border-radius: ${theme.spacing.xs};
     font-size: ${theme.fonts.sizes.s};
     font-weight: ${theme.fonts.weight.bold};
     font-family: ${theme.fonts.family.secondary};
-    box-shadow: 4px 4px 12px 0 ${theme.colors.secondary};
+    box-shadow: 2px 2px 12px 0 ${lighten(0.5, theme.colors.secondary)};
 
     &:hover {
-      background: ${shade(0.5, theme.colors[background || 'primary'])};
+      background: ${shade(0.2, theme.colors[background || 'primary'])};
     }
 
     ${uppercase &&

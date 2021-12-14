@@ -9,7 +9,7 @@ import {
 export const Container = styled.footer`
   ${({ theme }) => css`
     padding: ${theme.calc(theme.spacing.xxl, 2)} 0;
-    background: ${shade(0.5, theme.colors.secondary)};
+    background: ${theme.colors.secondary};
     box-shadow: 0 0 25px 0 ${theme.colors.secondary};
   `}
 `
@@ -57,6 +57,11 @@ export const Logo = styled.div`
   position: relative;
   width: 100px;
   height: 100px;
+
+  a,
+  div {
+    border-radius: 50%;
+  }
 `
 
 export const ListLinks = styled.div`
@@ -102,4 +107,12 @@ export const AnchorTickers = styled(Anchor)`
   ${({ theme }) => css`
     margin-bottom: ${theme.spacing.s};
   `}
+`
+
+export const Copy = styled.div`
+  margin-top: 10rem;
+  padding-top: 10rem;
+  border-top: 1px solid;
+  color: #fff;
+  text-align: center;
 `

@@ -70,6 +70,10 @@ export const Footer = () => {
           </S.Block>
         </S.WrapperBlocks>
       </S.Wrapper>
+
+      <S.Copy>
+        {site.name} © {new Date().getFullYear()}
+      </S.Copy>
     </S.Container>
   )
 }

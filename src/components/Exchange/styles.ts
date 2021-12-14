@@ -117,7 +117,7 @@ export const Network = styled.span`
     }
 
     &.to {
-      background: ${shade(0.2, theme.colors.primary)};
+      background: ${theme.colors.primary};
     }
   `}
 `

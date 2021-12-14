@@ -1,10 +1,10 @@
 import styled, { css } from 'styled-components'
-import { shade, lighten } from 'polished'
+import { lighten, shade, transparentize } from 'polished'
 import { Container as ContainerBase, lessThan } from 'styles/layout'
 
 export const Container = styled.section`
   ${({ theme }) => css`
-    background: ${shade(0.5, theme.colors.primary)};
+    background: ${theme.colors.primary};
   `}
 `
 
@@ -16,10 +16,10 @@ export const Wrapper = styled(ContainerBase)`
 
 export const Title = styled.h2`
   text-align: center;
-  margin-bottom: 2rem;
-  color: #fff;
 
   ${({ theme }) => css`
+    color: ${shade(0.7, theme.colors.primary)};
+    margin-bottom: ${theme.spacing.xxl};
     font-size: ${theme.fonts.sizes.m};
 
     ${lessThan('m')(css`
@@ -37,11 +37,14 @@ export const Content = styled.div`
   align-content: center;
   justify-items: center;
 
+  border-radius: 22px;
+
   ${({ theme }) => css`
-    padding: ${theme.spacing.xxl} 0;
+    padding: ${theme.spacing.xxl};
+    background: ${transparentize(0.1, theme.colors.white)};
 
     & + & {
-      border-top: 1px solid ${lighten(0.5, theme.colors.secondary)};
+      margin-top: ${theme.spacing.xxl};
     }
   `};
 
@@ -52,9 +55,8 @@ export const Content = styled.div`
 
 export const Description = styled.p`
   ${({ theme }) => css`
-    font-size: ${theme.fonts.sizes.ms};
-    font-weight: ${theme.fonts.weight.light};
-    color: ${theme.colors.whiteIce};
+    font-size: ${theme.fonts.sizes.sm};
+    color: ${theme.colors.secondary};
 
     ${lessThan('m')(css`
       text-align: center;
@@ -66,8 +68,8 @@ export const Description = styled.p`
 
 export const Figure = styled.figure`
   position: relative;
-  width: 300px;
-  height: 300px;
+  width: 200px;
+  height: 200px;
 
   ${({ theme }) => css`
     background: ${theme.colors.whiteIce};
@@ -76,7 +78,12 @@ export const Figure = styled.figure`
   `}
 
   ${lessThan('l')(css`
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
+  `)}
+
+  ${lessThan('s')(css`
+    width: 100px;
+    height: 100px;
   `)}
 `

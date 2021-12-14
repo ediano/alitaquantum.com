@@ -17,7 +17,7 @@ export const Nav = styled.nav<Props>`
           background: ${theme.colors.transparent};
         `
       : css`
-          background: ${theme.colors.secondary};
+          background: ${theme.colors.whiteIce};
           box-shadow: 0 4px 12px 0 ${theme.colors.secondary};
         `}
 `
@@ -115,20 +115,15 @@ export const Item = styled.li`
 `
 
 export const ItemLink = styled.a<Props>`
-  ${({ theme, isHero }) =>
+  ${({ theme }) =>
     css`
       font-size: ${theme.fonts.sizes.xs};
       font-weight: ${theme.fonts.weight.semiBold};
       color: ${theme.colors.secondary};
 
       &:hover {
-        color: ${shade(0.25, theme.colors.primary)};
+        color: ${shade(0.1, theme.colors.primary)};
       }
-
-      ${!isHero &&
-      css`
-        color: ${theme.colors.white};
-      `}
 
       ${lessThan('m')(css`
         display: block;
@@ -178,7 +173,7 @@ export const CloseMenu = styled.button`
   visibility: hidden;
 
   &.open {
-    opacity: 0.25;
+    opacity: 0.5;
     visibility: visible;
   }
 

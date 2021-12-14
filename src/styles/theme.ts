@@ -3,8 +3,8 @@ type Op = '*' | '+'
 export const theme = {
   colors: {
     transparent: 'rgb(0 0 0 / 0%)',
-    primary: '#08b9c1',
-    secondary: '#444',
+    primary: '#f0b90b',
+    secondary: '#222',
     text: '#333',
     white: '#fff',
     whiteIce: '#f1f5f8',

@@ -9,5 +9,5 @@ export const site = {
     'trocar, exchange, trocar instantaneamente, transferir, transferir instantaneamente, exchange instantaneamente, criptomoedas, plataforma de criptomoedas, taxa zero, troca sem custódia, troca privada, troca segura, transferir criptomoedas, btc, eth, trx, bnb',
   url: isDev ? `http://localhost:${PORT}` : 'https://www.alitaquantum.com',
   favicon: '/img/favicon.png',
-  logo: '/img/logo_reverse.png'
+  logo: '/img/logo.png'
 }

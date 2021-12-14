@@ -117,9 +117,10 @@ export const Description = styled.div`
   ${({ theme }) => css`
     min-height: ${theme.calc(theme.spacing.xxl, 2)};
     padding: ${theme.spacing.l};
-    color: ${theme.colors.white};
+    color: ${shade(0.9, theme.colors.primary)};
     font-weight: ${theme.fonts.weight.semiBold};
-    background: ${shade(0.25, theme.colors.primary)};
+    font-size: ${theme.fonts.sizes.s};
+    background: ${theme.colors.primary};
     border-radius: ${theme.spacing.xs};
   `}
 `

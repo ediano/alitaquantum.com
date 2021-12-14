@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components'
-import { shade } from 'polished'
-
+import NextImage from 'next/image'
 import { lessThan } from 'styles/layout'
 
 export const Container = styled.div`
@@ -12,15 +11,19 @@ export const Container = styled.div`
   `}
 `
 
+export const Image = styled(NextImage)`
+  opacity: 0.05;
+`
+
 export const Background = styled.div`
   position: absolute;
   top: 0;
-  z-index: 1;
+  z-index: 2;
   width: 100%;
-  height: 300px;
+  height: 500px;
 
   ${({ theme }) => css`
-    background: ${shade(0.5, theme.colors.primary)};
+    background: ${theme.colors.secondary};
   `}
 `
 
