@@ -7,7 +7,7 @@ export const theme = {
     secondary: '#222',
     text: '#333',
     white: '#fff',
-    whiteIce: '#f1f5f8',
+    ice: '#f2f6fc',
     black: '#000',
     bg: '#191919',
     alert: '#f9a825',

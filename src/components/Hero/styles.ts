@@ -17,7 +17,7 @@ export const Container = styled.section`
   padding-top: 100px;
 
   ${({ theme }) => css`
-    background: ${theme.colors.whiteIce};
+    background: ${theme.colors.ice};
   `}
 `
 

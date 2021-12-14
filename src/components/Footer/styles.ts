@@ -19,7 +19,7 @@ export const Wrapper = styled(ContainerBase)`
 
   ${({ theme }) => css`
     padding: 0 ${theme.spacing.xxl};
-    color: ${theme.colors.whiteIce};
+    color: ${theme.colors.ice};
   `}
 
   ${lessThan('m')(css`
@@ -80,7 +80,7 @@ export const Anchor = styled.a`
   transition: 0.2s;
 
   ${({ theme }) => css`
-    color: ${theme.colors.whiteIce};
+    color: ${theme.colors.ice};
 
     & + & {
       margin-top: ${theme.spacing.s};

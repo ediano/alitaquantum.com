@@ -25,7 +25,7 @@ export const Container = styled.button<Props>`
   transition: 0.2s;
 
   ${({ theme, color, background, uppercase, disabled }) => css`
-    color: ${theme.colors[color || 'whiteIce']};
+    color: ${theme.colors[color || 'ice']};
     background: ${shade(0.1, theme.colors[background || 'secondary'])};
     padding: ${theme.spacing.s};
     border-radius: ${theme.spacing.xs};

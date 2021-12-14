@@ -19,7 +19,7 @@ export const Wrapper = styled(ContainerBase)`
 
 export const Title = styled.h2`
   ${({ theme }) => css`
-    color: ${theme.colors.whiteIce};
+    color: ${theme.colors.ice};
     font-size: ${theme.fonts.sizes.l};
     font-family: ${theme.fonts.family.secondary};
     margin-bottom: ${theme.spacing.m};
@@ -33,7 +33,7 @@ export const Title = styled.h2`
 
 export const Description = styled.div`
   ${({ theme }) => css`
-    color: ${theme.colors.whiteIce};
+    color: ${theme.colors.ice};
     font-size: ${theme.fonts.sizes.sm};
 
     p + p {

@@ -24,7 +24,7 @@ export const Container = styled.a<Props>`
   transition: 0.2s;
 
   ${({ theme, color, background, disabled, uppercase }) => css`
-    color: ${theme.colors[color || 'whiteIce']};
+    color: ${theme.colors[color || 'ice']};
     background: ${shade(0.1, theme.colors[background || 'primary'])};
     padding: ${theme.spacing.s};
     border-radius: ${theme.spacing.xs};

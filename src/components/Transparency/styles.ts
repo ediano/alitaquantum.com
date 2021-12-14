@@ -72,7 +72,7 @@ export const Figure = styled.figure`
   height: 200px;
 
   ${({ theme }) => css`
-    background: ${theme.colors.whiteIce};
+    background: ${theme.colors.ice};
     box-shadow: 0 0 12px 2px ${lighten(0.5, theme.colors.secondary)};
     border-radius: 50%;
   `}

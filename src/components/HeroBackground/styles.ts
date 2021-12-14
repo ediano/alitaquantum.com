@@ -7,7 +7,7 @@ export const Container = styled.div`
   padding: 100px 0;
 
   ${({ theme }) => css`
-    background: ${theme.colors.whiteIce};
+    background: ${theme.colors.ice};
   `}
 `
 
@@ -31,7 +31,7 @@ export const Main = styled.main`
   position: relative;
 
   ${({ theme }) => css`
-    background: ${theme.colors.whiteIce};
+    background: ${theme.colors.ice};
     padding: 0 ${theme.spacing.xxl};
 
     ${lessThan('s')(css`

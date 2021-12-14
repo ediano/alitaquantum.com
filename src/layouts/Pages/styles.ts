@@ -7,7 +7,7 @@ export const Container = styled.section`
 
   ${({ theme }) => css`
     padding: ${theme.spacing.xxl};
-    background: ${theme.colors.whiteIce};
+    background: ${theme.colors.ice};
 
     ${lessThan('s')(css`
       padding: ${theme.spacing.xxl} ${theme.spacing.m};
