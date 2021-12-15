@@ -18,7 +18,7 @@ export const Nav = styled.nav<Props>`
         `
       : css`
           background: ${theme.colors.white};
-          box-shadow: 0 4px 12px 0 ${theme.colors.secondary};
+          box-shadow: 0 0 12px -4px ${theme.colors.secondary};
         `}
 `
 
