@@ -6,5 +6,9 @@ export const collections = {
   'Exceeded max amount': {
     text: 'Montante excedido, tente com uma quantidade menor!',
     message: 'Max amount exceeded'
+  },
+  max_amount_exceeded: {
+    text: 'Montante excedido, tente com uma quantidade menor!',
+    message: 'Max amount exceeded'
   }
 }

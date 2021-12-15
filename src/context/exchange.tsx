@@ -136,8 +136,13 @@ export const ExchangeProvider = ({ props, children }: Props) => {
             estimated.transactionSpeedForecast || 'Estimativa indisponivel!'
           )
         } catch (err: any) {
-          const error = err?.response?.data?.message
-          if (error) setError(collections[error as Collections].text)
+          const message = err?.response?.data?.message
+          const error = err?.response?.data?.error
+          if (message) {
+            setError(collections[message as Collections].text)
+          } else if (error) {
+            setError(collections[error as Collections].text)
+          }
           setEstimatedAmount('0')
           setTransactionSpeedForecast('Estimativa indisponivel!')
         }
@@ -241,8 +246,13 @@ export const ExchangeProvider = ({ props, children }: Props) => {
             estimated.transactionSpeedForecast || 'Estimativa indisponivel!'
           )
         } catch (err: any) {
-          const error = err?.response?.data?.message
-          if (error) setError(collections[error as Collections].text)
+          const message = err?.response?.data?.message
+          const error = err?.response?.data?.error
+          if (message) {
+            setError(collections[message as Collections].text)
+          } else if (error) {
+            setError(collections[error as Collections].text)
+          }
           setEstimatedAmount('0')
           setTransactionSpeedForecast('Estimativa indisponivel!')
 
@@ -399,8 +409,13 @@ export const ExchangeProvider = ({ props, children }: Props) => {
         estimated.transactionSpeedForecast || 'Estimativa indisponivel!'
       )
     } catch (err: any) {
-      const error = err?.response?.data?.message
-      if (error) setError(collections[error as Collections].text)
+      const message = err?.response?.data?.message
+      const error = err?.response?.data?.error
+      if (message) {
+        setError(collections[message as Collections].text)
+      } else if (error) {
+        setError(collections[error as Collections].text)
+      }
       setEstimatedAmount('0')
       setTransactionSpeedForecast('Estimativa indisponivel!')
 
@@ -454,8 +469,13 @@ export const ExchangeProvider = ({ props, children }: Props) => {
         estimated.transactionSpeedForecast || 'Estimativa indisponivel!'
       )
     } catch (err: any) {
-      const error = err?.response?.data?.message
-      if (error) setError(collections[error as Collections].text)
+      const message = err?.response?.data?.message
+      const error = err?.response?.data?.error
+      if (message) {
+        setError(collections[message as Collections].text)
+      } else if (error) {
+        setError(collections[error as Collections].text)
+      }
       setEstimatedAmount('0')
     }
   }, [])
@@ -552,8 +572,13 @@ export const ExchangeProvider = ({ props, children }: Props) => {
           setTransactionSpeedForecast('Estimativa indisponivel!')
         }
       } catch (err: any) {
-        const error = err?.response?.data?.message
-        if (error) setError(collections[error as Collections].text)
+        const message = err?.response?.data?.message
+        const error = err?.response?.data?.error
+        if (message) {
+          setError(collections[message as Collections].text)
+        } else if (error) {
+          setError(collections[error as Collections].text)
+        }
         setEstimatedAmount('0')
         setTransactionSpeedForecast('Estimativa indisponivel!')
       }
@@ -591,8 +616,13 @@ export const ExchangeProvider = ({ props, children }: Props) => {
           estimated.transactionSpeedForecast || 'Estimativa indisponivel!'
         )
       } catch (err: any) {
-        const error = err?.response?.data?.message
-        if (error) setError(collections[error as Collections].text)
+        const message = err?.response?.data?.message
+        const error = err?.response?.data?.error
+        if (message) {
+          setError(collections[message as Collections].text)
+        } else if (error) {
+          setError(collections[error as Collections].text)
+        }
         setEstimatedAmount('0')
         setTransactionSpeedForecast('Estimativa indisponivel!')
       }
@@ -652,8 +682,13 @@ export const ExchangeProvider = ({ props, children }: Props) => {
           setTransactionSpeedForecast('Estimativa indisponivel!')
         }
       } catch (err: any) {
-        const error = err?.response?.data?.message
-        if (error) setError(collections[error as Collections].text)
+        const message = err?.response?.data?.message
+        const error = err?.response?.data?.error
+        if (message) {
+          setError(collections[message as Collections].text)
+        } else if (error) {
+          setError(collections[error as Collections].text)
+        }
         setEstimatedAmount('0')
         setTransactionSpeedForecast('Estimativa indisponivel!')
       }
