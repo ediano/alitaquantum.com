@@ -48,6 +48,11 @@ export const Markdown = styled.div`
     text-align: justify;
   }
 
+  > li {
+    list-style: disc;
+    margin-left: 5rem;
+  }
+
   ${({ theme }) => css`
     a {
       color: ${shade(0.25, theme.colors.primary)};
