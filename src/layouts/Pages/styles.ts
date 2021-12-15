@@ -48,7 +48,7 @@ export const Markdown = styled.div`
     text-align: justify;
   }
 
-  > li {
+  li {
     list-style: disc;
     margin-left: 5rem;
   }
