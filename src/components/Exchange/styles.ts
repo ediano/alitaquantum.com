@@ -107,16 +107,17 @@ export const Network = styled.span`
   margin-left: auto;
 
   ${({ theme }) => css`
-    color: ${theme.colors.white};
     padding: 0 ${theme.spacing.xxs};
     border-bottom-right-radius: ${theme.border.xs};
     border-bottom-left-radius: ${theme.border.xs};
 
     &.from {
+      color: ${theme.colors.white};
       background: ${lighten(0.2, theme.colors.secondary)};
     }
 
     &.to {
+      color: ${theme.colors.secondary};
       background: ${theme.colors.primary};
     }
   `}
