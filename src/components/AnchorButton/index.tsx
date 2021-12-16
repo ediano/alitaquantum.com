@@ -36,7 +36,7 @@ export const AnchorButton = ({
   }
 
   return (
-    <Link {...props} passHref shallow replace>
+    <Link {...props} passHref shallow>
       <S.Container
         color={color}
         background={background}
