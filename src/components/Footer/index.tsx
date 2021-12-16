@@ -66,6 +66,22 @@ export const Footer = () => {
               <Link href="/politica-de-privacidade" passHref>
                 <S.Anchor>Política de privacidade</S.Anchor>
               </Link>
+
+              <S.Trustpilot
+                href="https://www.trustpilot.com/review/alitaquantum.com"
+                target="_blank"
+                rel="nofollow noopener noreferrer"
+              >
+                Avalia-nos em
+                <Image
+                  alt="Avalia-nos em Trustpilot"
+                  src="/img/logos/trustpilot.svg"
+                  width={99}
+                  height={24}
+                  placeholder="blur"
+                  blurDataURL="/img/logos/trustpilot.svg"
+                />
+              </S.Trustpilot>
             </S.ListLinks>
           </S.Block>
         </S.WrapperBlocks>

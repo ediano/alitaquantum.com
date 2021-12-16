@@ -109,6 +109,15 @@ export const AnchorTickers = styled(Anchor)`
   `}
 `
 
+export const Trustpilot = styled.a`
+  display: flex;
+  margin: 1.6rem 0;
+
+  ${({ theme }) => css`
+    color: ${theme.colors.ice};
+  `}
+`
+
 export const Copy = styled.div`
   margin-top: 10rem;
   padding-top: 10rem;
