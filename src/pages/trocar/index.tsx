@@ -9,7 +9,10 @@ import { Footer } from 'components/Footer'
 const ExchangePage = () => {
   return (
     <>
-      <MetaSEO title="Trocar" pathUrl="/trocar" />
+      <MetaSEO
+        title="Troca de criptomoeda com taxas mais baixas e sem registro"
+        pathUrl="/trocar"
+      />
 
       <Header />
 
