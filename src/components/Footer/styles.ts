@@ -111,7 +111,12 @@ export const AnchorTickers = styled(Anchor)`
 
 export const Trustpilot = styled.a`
   display: flex;
+  align-items: center;
   margin: 1.6rem 0;
+
+  > div {
+    margin-left: 0.5rem !important;
+  }
 
   ${({ theme }) => css`
     color: ${theme.colors.ice};
