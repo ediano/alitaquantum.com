@@ -5,6 +5,8 @@ import { site } from 'config/site'
 
 import { tickers } from 'pages/[ticker]'
 
+import { Social } from 'components/Social'
+
 import content from './content'
 
 import * as S from './styles'
@@ -27,6 +29,8 @@ export const Footer = () => {
               </a>
             </Link>
           </S.Logo>
+
+          <Social />
         </S.Block>
 
         <S.WrapperBlocks>
