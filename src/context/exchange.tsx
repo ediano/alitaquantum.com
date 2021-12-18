@@ -12,7 +12,8 @@ import { useRouter } from 'next/router'
 
 import { collections } from 'errors/collections'
 
-import ChangeNow, { Currencies } from 'services/ChangeNowService'
+import { Currencies } from 'services/ChangeNowService'
+import * as Api from 'services/ApiService'
 
 const initialProps = {
   fromName: 'Bitcoin',
@@ -102,16 +103,18 @@ export const ExchangeProvider = ({ props, children }: Props) => {
   const [transactionSpeedForecast, setTransactionSpeedForecast] = useState('')
 
   const [isAlert, setIsAlert] = useState(false)
+
   useEffect(() => {
     async function loading() {
       try {
-        const response = await ChangeNow.getCurrencies()
+        const response = await Api.getCurrencies()
         setCurrencies(response.data)
 
         storage.set(response.data)
       } catch (err) {}
     }
     loading()
+
     setFixedRate(cookieFixedRate.get())
   }, [])
 
@@ -121,7 +124,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
         try {
           setEstimatedAmount('')
 
-          const { data: estimated } = await ChangeNow.getEstimatedAmount({
+          const { data: estimated } = await Api.getEstimatedAmount({
             fromCurrency: dataFlow.fromCurrency,
             fromNetwork: dataFlow.fromNetwork,
             toCurrency: dataFlow.toCurrency,
@@ -199,7 +202,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
       if (fromNetwork && toNetwork) {
         try {
           setEstimatedAmount('')
-          const { data: range } = await ChangeNow.getRange({
+          const { data: range } = await Api.getRange({
             fromCurrency,
             fromNetwork,
             toCurrency,
@@ -232,7 +235,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
             )
           }
 
-          const { data: estimated } = await ChangeNow.getEstimatedAmount({
+          const { data: estimated } = await Api.getEstimatedAmount({
             fromAmount,
             fromCurrency,
             fromNetwork,
@@ -362,7 +365,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
 
     try {
       setEstimatedAmount('')
-      const { data: range } = await ChangeNow.getRange({
+      const { data: range } = await Api.getRange({
         fromCurrency: toCurrency,
         fromNetwork: toNetwork,
         toCurrency: fromCurrency,
@@ -395,7 +398,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
         )
       }
 
-      const { data: estimated } = await ChangeNow.getEstimatedAmount({
+      const { data: estimated } = await Api.getEstimatedAmount({
         fromAmount,
         fromCurrency: toCurrency,
         fromNetwork: toNetwork,
@@ -446,7 +449,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
 
     try {
       setEstimatedAmount('')
-      const { data: range } = await ChangeNow.getRange({
+      const { data: range } = await Api.getRange({
         ...initialData,
         flow: 'standard'
       })
@@ -458,7 +461,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
         minAmount: String(minAmount)
       }))
 
-      const { data: estimated } = await ChangeNow.getEstimatedAmount({
+      const { data: estimated } = await Api.getEstimatedAmount({
         ...initialData,
         fromAmount: initialProps.fromAmount,
         flow: 'standard'
@@ -536,11 +539,11 @@ export const ExchangeProvider = ({ props, children }: Props) => {
           }
 
           const [range, estimated] = await Promise.allSettled([
-            ChangeNow.getRange({
+            Api.getRange({
               ...dataRequest,
               flow: !fixedRate ? 'standard' : 'fixed-rate'
             }),
-            ChangeNow.getEstimatedAmount({
+            Api.getEstimatedAmount({
               ...dataRequest,
               fromAmount,
               flow: !fixedRate ? 'standard' : 'fixed-rate'
@@ -602,7 +605,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
       try {
         setDataFlow((state) => ({ ...state, ...props }))
 
-        const { data: estimated } = await ChangeNow.getEstimatedAmount({
+        const { data: estimated } = await Api.getEstimatedAmount({
           fromAmount: props.fromAmount,
           fromCurrency: props.fromCurrency,
           fromNetwork: props.fromNetwork,
@@ -647,11 +650,11 @@ export const ExchangeProvider = ({ props, children }: Props) => {
       try {
         setEstimatedAmount('')
         const [range, estimated] = await Promise.allSettled([
-          ChangeNow.getRange({
+          Api.getRange({
             ...initialData,
             flow: !fixedRate ? 'standard' : 'fixed-rate'
           }),
-          ChangeNow.getEstimatedAmount({
+          Api.getEstimatedAmount({
             ...initialData,
             fromAmount: dataFlow.fromAmount,
             flow: !fixedRate ? 'standard' : 'fixed-rate'
