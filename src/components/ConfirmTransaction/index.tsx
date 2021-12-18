@@ -2,7 +2,7 @@ import { useState, Dispatch, SetStateAction, MouseEvent } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 
-import ChangeNow from 'services/ChangeNowService'
+import * as Api from 'services/ApiService'
 import { useExchange } from 'context/exchange'
 
 import { Button } from 'components/Button'
@@ -27,7 +27,7 @@ export const ConfirmTransaction = ({
   contactEmail,
   refundAddress,
   refundExtraId,
-  transactionSpeedForecast,
+  transactionSpeedForecast: speedForecast,
   setToggle
 }: Props) => {
   const router = useRouter()
@@ -35,28 +35,27 @@ export const ConfirmTransaction = ({
   const [checkbox, setCheckbox] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
-  const explod = transactionSpeedForecast?.split('-')
-  const waitForecast = explod?.length ? explod?.join(' à ') : explod
+  const explod = speedForecast?.split('-')
+  const waitForecast = explod.length === 2 ? explod.join(' à ') : speedForecast
 
   const handlerCreateTransaction = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     async function handler() {
       try {
         setIsLoading(true)
-        const { data: transaction } =
-          await ChangeNow.setCreateExchangeTransaction({
-            address,
-            extraId: extraId || '',
-            fromAmount,
-            fromCurrency,
-            fromNetwork,
-            toCurrency,
-            toNetwork,
-            contactEmail: contactEmail || '',
-            refundAddress: refundAddress || '',
-            refundExtraId: refundExtraId || '',
-            flow: !fixedRate ? 'standard' : 'fixed-rate'
-          })
+        const { data: transaction } = await Api.setCreateExchangeTransaction({
+          address,
+          extraId: extraId || '',
+          fromAmount,
+          fromCurrency,
+          fromNetwork,
+          toCurrency,
+          toNetwork,
+          contactEmail: contactEmail || '',
+          refundAddress: refundAddress || '',
+          refundExtraId: refundExtraId || '',
+          flow: !fixedRate ? 'standard' : 'fixed-rate'
+        })
 
         router.push({
           pathname: '/trocar/txs',
@@ -82,7 +81,7 @@ export const ConfirmTransaction = ({
     return (
       <S.Container>
         <Spinner
-          heightBase="25vh"
+          heightBase="250px"
           circle={{ width: '250px', height: '250px' }}
         />
       </S.Container>
@@ -112,7 +111,7 @@ export const ConfirmTransaction = ({
         <S.Card>
           <S.CardTitle>Tempo estimado</S.CardTitle>
           <S.CardTime>
-            ≈ {explod?.length ? waitForecast + ' minutos' : waitForecast}
+            ≈ {explod.length === 2 ? waitForecast + ' minutos' : waitForecast}
           </S.CardTime>
         </S.Card>
       </S.Block>

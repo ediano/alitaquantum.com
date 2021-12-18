@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-import ChangeNow from 'services/ChangeNowService'
+import * as Api from 'services/ApiService'
 
 import { HeroBackground } from 'components/HeroBackground'
 import { start } from 'components/Status'
@@ -15,7 +15,7 @@ export const TXSLayout = () => {
   const { isReady, push } = useRouter()
   const { query } = useRouter()
 
-  const { data, error } = ChangeNow.getTransactionStatus({
+  const { data, error } = Api.getTransactionStatus({
     id: query.id as string
   })
 

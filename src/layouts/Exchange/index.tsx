@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { MdEmail } from 'react-icons/md'
 
 import { useExchange } from 'context/exchange'
-import ChangeNow from 'services/ChangeNowService'
+import * as Api from 'services/ApiService'
 
 import { HeroBackground } from 'components/HeroBackground'
 import { Exchange } from 'components/Exchange'
@@ -64,7 +64,7 @@ export const ExchangeLayout = () => {
       const { address, currency, origin } = props
 
       try {
-        const response = await ChangeNow.getValidateAddress({
+        const response = await Api.getValidateAddress({
           address,
           currency
         })

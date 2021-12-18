@@ -9,7 +9,6 @@ import * as S from './styles'
 
 export const Hero = () => {
   const { dataFlow, estimatedAmount } = useExchange()
-
   const { fromAmount, fromName, toName } = dataFlow
 
   return (

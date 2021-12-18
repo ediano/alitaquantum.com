@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import { lighten, transparentize } from 'polished'
+import { lighten, transparentize, shade } from 'polished'
 
 import { lessThan } from 'styles/layout'
 
@@ -76,7 +76,7 @@ export const Info = styled.span`
     `}
 
     &.copy {
-      color: ${theme.colors.primary};
+      color: ${shade(0.25, theme.colors.primary)};
     }
   `};
 `
