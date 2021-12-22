@@ -41,7 +41,7 @@ export type Props = {
   suggestedCoins: SuggestedCoins[]
 }
 
-const TickerPage = (props: Props) => {
+const TickerPage = ({ data, suggestedCoins }: Props) => {
   const { isFallback } = useRouter()
 
   if (isFallback) {
@@ -57,22 +57,22 @@ const TickerPage = (props: Props) => {
     <>
       <MetaSEO
         title={`Trocar ${
-          props.data.fromName
-        } (${props.data.fromCurrency?.toUpperCase()}) para ${
-          props.data.toName
-        } (${props.data.toCurrency?.toUpperCase()}) instantaneamente`}
-        pathUrl={`trocar-${props.data.fromCurrency}-para-${props.data.toCurrency}`}
+          data.fromName
+        } (${data.fromCurrency?.toUpperCase()}) para ${
+          data.toName
+        } (${data.toCurrency?.toUpperCase()}) instantaneamente`}
+        pathUrl={`trocar-${data.fromCurrency}-para-${data.toCurrency}`}
         description={`Trocar ${
-          props.data.fromName
-        } (${props.data.fromCurrency.toUpperCase()}) para ${
-          props.data.toName
-        } (${props.data.toCurrency.toUpperCase()}) instantaneamente. Rápido, seguro e totalmente privado, com o melhor preço disponível somente aqui na Alita Quantum.`}
+          data.fromName
+        } (${data.fromCurrency.toUpperCase()}) para ${
+          data.toName
+        } (${data.toCurrency.toUpperCase()}) instantaneamente. Rápido, seguro e totalmente privado, com o melhor preço disponível somente aqui na Alita Quantum.`}
       />
 
       <Header />
 
-      <ExchangeProvider props={props.data}>
-        <TickerLayout data={props.data} suggestedCoins={props.suggestedCoins} />
+      <ExchangeProvider props={data}>
+        <TickerLayout data={data} suggestedCoins={suggestedCoins} />
       </ExchangeProvider>
 
       <Footer />
