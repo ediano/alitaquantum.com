@@ -47,16 +47,20 @@ export const Container = styled.div`
 export const Close = styled.button`
   cursor: pointer;
   display: block;
-  margin-left: auto;
-  margin-top: -15px;
+  position: absolute;
+  top: -7.5%;
+  right: 10px;
+
+  border: none !important;
+  margin-top: 0 !important;
 
   ${({ theme }) => css`
     font-size: 2rem;
 
     background: ${lighten(0.05, theme.colors.secondary)};
     color: ${theme.colors.white};
-    padding: ${theme.spacing.xxs} ${theme.spacing.s} 0;
     border-radius: ${theme.spacing.xxs};
+    padding: ${theme.spacing.xxs} ${theme.spacing.xs} 0 !important;
   `}
 
   transform: translateY(-50%);
