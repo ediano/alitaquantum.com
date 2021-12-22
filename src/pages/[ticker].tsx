@@ -11,6 +11,8 @@ import { Header } from 'components/Header'
 import { TickerLayout } from 'layouts/Ticker'
 import { Footer } from 'components/Footer'
 
+import { getImage } from 'utils/getImage'
+
 export const tickers = [
   { from: 'btc', to: 'eth' },
   { from: 'eth', to: 'bnb' },
@@ -144,7 +146,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         name: to?.name,
         ticker: to?.ticker,
         network: to?.network,
-        hasExternalId: to?.hasExternalId
+        hasExternalId: to?.hasExternalId,
+        image: getImage(to?.ticker as string)
       }
     })
     .filter((i) => i)
@@ -158,14 +161,17 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         fromCurrency: f?.ticker,
         fromNetwork: f?.network,
         fromId: f?.hasExternalId,
+        fromImage: getImage(f?.ticker as string),
         toName: t?.name,
         toCurrency: t?.ticker,
         toNetwork: t?.network,
         toId: t?.hasExternalId,
+        toImage: getImage(t?.ticker as string),
         minAmount: String(range.minAmount)
       },
       suggestedCoins
-    }
+    },
+    revalidate: 600000
   }
 }
 

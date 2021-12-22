@@ -223,6 +223,7 @@ export const ExchangeLayout = () => {
                   isOutline
                   name="refundAddress"
                   color={isRefundAddress ? 'primary' : 'error'}
+                  image={dataFlow.fromImage}
                   input={{
                     value: dataCreateTransaction.refundAddress,
                     onChange: handlerInputChange,
@@ -243,6 +244,7 @@ export const ExchangeLayout = () => {
                   <Input
                     isOutline
                     name="refundExtraId"
+                    image={dataFlow.fromImage}
                     input={{
                       value: dataCreateTransaction.refundExtraId,
                       onChange: handlerInputChange,

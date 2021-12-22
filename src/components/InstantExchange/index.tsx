@@ -37,6 +37,7 @@ export const InstantExchange = () => {
           <Input
             name="fromName"
             color="secondary"
+            image={dataFlow.fromImage}
             input={{
               list: 'fromName',
               value: dataFlow.fromName,
@@ -75,6 +76,7 @@ export const InstantExchange = () => {
           <Input
             name="toName"
             color="secondary"
+            image={dataFlow.toImage}
             input={{
               list: 'toName',
               value: dataFlow.toName,

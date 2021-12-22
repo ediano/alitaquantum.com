@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 import { app } from 'app'
 import { ChangeNow, Currencies } from 'services/ChangeNowService'
+import { getImage } from 'utils/getImage'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -14,8 +15,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       name: currency.name,
       network: currency.network,
       hasExternalId: currency.hasExternalId,
-      image: currency.image
+      image: getImage(currency.ticker)
     }))
+
     return res.status(response.status).json(data)
   } catch (err: any) {
     return res.status(err.response.status).json(err.response.data)

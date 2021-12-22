@@ -20,10 +20,12 @@ const initialProps = {
   fromCurrency: 'btc',
   fromNetwork: 'btc',
   fromId: false,
+  fromImage: 'https://changenow.io/images/sprite/currencies/btc.svg',
   toName: 'Ethereum',
   toCurrency: 'eth',
   toNetwork: 'eth',
   toId: false,
+  toImage: 'https://changenow.io/images/sprite/currencies/eth.svg',
   fromAmount: '0.01',
   minAmount: '0'
 }
@@ -295,7 +297,8 @@ export const ExchangeProvider = ({ props, children }: Props) => {
             fromName: currency?.name || value,
             fromCurrency: currency?.ticker || '',
             fromNetwork: currency?.network || '',
-            fromId: currency?.hasExternalId || false
+            fromId: currency?.hasExternalId || false,
+            fromImage: currency?.image || ''
           }
 
           if (currency?.network) handlerEstimatedAmount(data)
@@ -311,7 +314,8 @@ export const ExchangeProvider = ({ props, children }: Props) => {
             toName: currency?.name || value,
             toCurrency: currency?.ticker || '',
             toNetwork: currency?.network || '',
-            toId: currency?.hasExternalId || false
+            toId: currency?.hasExternalId || false,
+            toImage: currency?.image || ''
           }
 
           if (currency?.network) handlerEstimatedAmount(data)
@@ -337,10 +341,12 @@ export const ExchangeProvider = ({ props, children }: Props) => {
       fromCurrency,
       fromNetwork,
       fromId,
+      fromImage,
       toName,
       toCurrency,
       toNetwork,
-      toId
+      toId,
+      toImage
     } = dataFlow
 
     setDataFlow((state) => ({
@@ -349,10 +355,12 @@ export const ExchangeProvider = ({ props, children }: Props) => {
       fromCurrency: toCurrency,
       fromNetwork: toNetwork,
       fromId: toId,
+      fromImage: toImage,
       toName: fromName,
       toCurrency: fromCurrency,
       toNetwork: fromNetwork,
-      toId: fromId
+      toId: fromId,
+      toImage: fromImage
     }))
 
     try {
@@ -512,10 +520,12 @@ export const ExchangeProvider = ({ props, children }: Props) => {
         fromCurrency: from.ticker,
         fromNetwork: from.network,
         fromId: from.hasExternalId,
+        fromImage: from.image,
         toName: to.name,
         toCurrency: to.ticker,
         toNetwork: to.network,
-        toId: to.hasExternalId
+        toId: to.hasExternalId,
+        toImage: to.image
       }))
 
       try {
