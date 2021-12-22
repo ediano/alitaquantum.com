@@ -158,10 +158,7 @@ export const getRange = async (params: ReqRange) => {
 }
 
 export const getAvailablePairs = async () => {
-  const response = await ChangeNow.get<AvailablePairs[]>(
-    'exchange/available-pairs',
-    { headers: { ...apiKey } }
-  )
-
-  return response
+  return ChangeNow.get<AvailablePairs[]>('exchange/available-pairs', {
+    headers: { ...apiKey }
+  })
 }

@@ -24,45 +24,33 @@ const Api = axios.create({
 })
 
 export const getCurrencies = async () => {
-  const response = await Api.get<Currencies[]>('/currencies')
-  return response
+  return Api.get<Currencies[]>('/currencies')
 }
 
 export const getRange = async (options: ReqRange) => {
-  const response = await Api.get<Range>('/range', {
+  return Api.get<Range>('/range', {
     params: { ...options }
   })
-
-  return response
 }
 
 export const getEstimatedAmount = async (options: ReqEstimatedAmount) => {
-  const response = await Api.get<EstimatedAmount>('/estimated-amount', {
+  return Api.get<EstimatedAmount>('/estimated-amount', {
     params: { ...options }
   })
-
-  return response
 }
 
 export const getValidateAddress = async (options: ReqValidateAddress) => {
-  const response = await Api.get<ValidateAddress>('/validate-address', {
+  return Api.get<ValidateAddress>('/validate-address', {
     params: { ...options }
   })
-
-  return response
 }
 
 export const setCreateExchangeTransaction = async (
   options: ReqCreateExchangeTransaction
 ) => {
-  const response = await Api.get<CreateExchangeTransaction>(
-    '/create-exchange-transaction',
-    {
-      params: { ...options }
-    }
-  )
-
-  return response
+  return Api.get<CreateExchangeTransaction>('/create-exchange-transaction', {
+    params: { ...options }
+  })
 }
 
 export const getTransactionStatus = (params: ReqTransactionStatus) => {

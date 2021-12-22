@@ -107,6 +107,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     flow: 'standard'
   })
 
+  if (!availablePairs?.length && !currencies?.length && !range?.minAmount) {
+    return {
+      notFound: true,
+      revalidate: 600000
+    }
+  }
+
   const fromAmount = String((range.minAmount * 250).toFixed(8))
 
   const f = currencies?.find((currency) => currency.ticker === from)
