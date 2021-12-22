@@ -114,24 +114,12 @@ export const TickerLayout = ({ data, suggestedCoins }: Props) => {
             >
               <S.CardSuggestedCoins title={`${data.fromName} vs. ${coin.name}`}>
                 <S.WrapperCoins>
-                  <S.ImageCoin
-                    style={{
-                      backgroundImage: `url("${data.fromImage}")`,
-                      backgroundRepeat: 'no-repeat'
-                    }}
-                  ></S.ImageCoin>
                   <span>{data.fromCurrency.toUpperCase()}</span>
                 </S.WrapperCoins>
 
                 <BsArrowLeftRight />
 
                 <S.WrapperCoins>
-                  <S.ImageCoin
-                    style={{
-                      backgroundImage: `url("${coin.image}")`,
-                      backgroundRepeat: 'no-repeat'
-                    }}
-                  ></S.ImageCoin>
                   <span>{coin.ticker.toUpperCase()}</span>
                 </S.WrapperCoins>
               </S.CardSuggestedCoins>

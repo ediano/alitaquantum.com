@@ -16,7 +16,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       hasExternalId: currency.hasExternalId,
       image: currency.image
     }))
-
     return res.status(response.status).json(data)
   } catch (err: any) {
     return res.status(err.response.status).json(err.response.data)

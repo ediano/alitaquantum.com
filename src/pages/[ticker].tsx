@@ -144,8 +144,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         name: to?.name,
         ticker: to?.ticker,
         network: to?.network,
-        hasExternalId: to?.hasExternalId,
-        image: to?.image
+        hasExternalId: to?.hasExternalId
       }
     })
     .filter((i) => i)
@@ -159,17 +158,14 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         fromCurrency: f?.ticker,
         fromNetwork: f?.network,
         fromId: f?.hasExternalId,
-        fromImage: f?.image,
         toName: t?.name,
         toCurrency: t?.ticker,
         toNetwork: t?.network,
         toId: t?.hasExternalId,
-        toImage: t?.image,
         minAmount: String(range.minAmount)
       },
       suggestedCoins
-    },
-    revalidate: 600000
+    }
   }
 }
 
