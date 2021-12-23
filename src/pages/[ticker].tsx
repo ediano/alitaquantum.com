@@ -23,7 +23,7 @@ export const tickers = [
   { from: 'btc', to: 'xlm' },
   { from: 'sol', to: 'dot' },
   { from: 'dot', to: 'ada' },
-  { from: 'ada', to: 'doge' },
+  { from: 'eth', to: 'doge' },
   { from: 'bnb', to: 'eth' },
   { from: 'eth', to: 'dot' },
   { from: 'btc', to: 'doge' },
