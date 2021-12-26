@@ -12,7 +12,7 @@ export const Select = ({ name, currencies }: Props) => {
     <S.Container id={name}>
       {currencies?.map((currency) => (
         <S.Option
-          key={currency.ticker + ':' + currency.name}
+          key={currency.network + ':' + currency.ticker}
           value={currency.name}
         >
           {currency.ticker?.toUpperCase()}
