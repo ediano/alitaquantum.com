@@ -17,13 +17,13 @@ import * as Api from 'services/ApiService'
 
 import { getImage } from 'utils/getImage'
 
+const envFromAmount = process.env.NEXT_PUBLIC_FROM_AMOUNT
 const envFromCurrency = process.env.NEXT_PUBLIC_FROM_CURRENCY
 const envFromNetwork = process.env.NEXT_PUBLIC_FROM_NETWORK
 const envFromName = process.env.NEXT_PUBLIC_FROM_NAME
-const envToCurrency = process.env.NEXT_PUBLIC_FROM_CURRENCY
+const envToCurrency = process.env.NEXT_PUBLIC_TO_CURRENCY
 const envToNetwork = process.env.NEXT_PUBLIC_TO_NETWORK
 const envToName = process.env.NEXT_PUBLIC_TO_NAME
-const envFromAmount = process.env.NEXT_PUBLIC_FROM_AMOUNT
 
 const initialProps = {
   fromName: envFromName || 'Bitcoin',
