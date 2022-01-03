@@ -451,10 +451,10 @@ export const ExchangeProvider = ({ props, children }: Props) => {
 
   const handlerInitialStates = useCallback(async () => {
     const initialData = {
-      fromCurrency: 'btc',
-      fromNetwork: 'btc',
-      toCurrency: 'eth',
-      toNetwork: 'eth'
+      fromCurrency: envFromCurrency || 'btc',
+      fromNetwork: envFromNetwork || 'btc',
+      toCurrency: envToCurrency || 'eth',
+      toNetwork: envToNetwork || 'eth'
     }
 
     try {
