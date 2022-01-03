@@ -15,18 +15,28 @@ import { collections } from 'errors/collections'
 import { Currencies } from 'services/ChangeNowService'
 import * as Api from 'services/ApiService'
 
+import { getImage } from 'utils/getImage'
+
+const envFromCurrency = process.env.NEXT_PUBLIC_FROM_CURRENCY
+const envFromNetwork = process.env.NEXT_PUBLIC_FROM_NETWORK
+const envFromName = process.env.NEXT_PUBLIC_FROM_NAME
+const envToCurrency = process.env.NEXT_PUBLIC_FROM_CURRENCY
+const envToNetwork = process.env.NEXT_PUBLIC_TO_NETWORK
+const envToName = process.env.NEXT_PUBLIC_TO_NAME
+const envFromAmount = process.env.NEXT_PUBLIC_FROM_AMOUNT
+
 const initialProps = {
-  fromName: 'Bitcoin',
-  fromCurrency: 'btc',
-  fromNetwork: 'btc',
+  fromName: envFromName || 'Bitcoin',
+  fromCurrency: envFromCurrency || 'btc',
+  fromNetwork: envFromNetwork || 'btc',
   fromId: false,
-  fromImage: 'https://changenow.io/images/sprite/currencies/btc.svg',
-  toName: 'Ethereum',
-  toCurrency: 'eth',
-  toNetwork: 'eth',
+  fromImage: getImage(envFromCurrency || 'btc'),
+  toName: envToName || 'Ethereum',
+  toCurrency: envToCurrency || 'eth',
+  toNetwork: envToNetwork || 'eth',
   toId: false,
-  toImage: 'https://changenow.io/images/sprite/currencies/eth.svg',
-  fromAmount: '0.01',
+  toImage: getImage(envToCurrency || 'eth'),
+  fromAmount: envFromAmount || '0.01',
   minAmount: '0'
 }
 
