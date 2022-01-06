@@ -65,14 +65,14 @@ export const ConfirmTransaction = ({
         await Api.setForm({
           email: contactEmail || 'hubspot@alitaquantum.com',
           transactionId: transaction.id,
-          fromAmount: transaction.fromAmount,
+          fromAmount: String(transaction.fromAmount),
           fromCurrency: transaction.fromCurrency,
           toCurrency: transaction.toCurrency,
           fromAddress: transaction.payinAddress,
           fromExtraId: transaction.payinExtraId || '',
           toAddress: transaction.payoutAddress,
           toExtraId: transaction.payoutExtraId || '',
-          toAmount: transaction.toAmount
+          toAmount: String(transaction.toAmount)
         })
 
         router.push({

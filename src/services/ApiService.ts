@@ -15,7 +15,7 @@ import type {
   ReqTransactionStatus,
   TransactionStatus
 } from './ChangeNowService'
-import type { TransactionFromData } from './from'
+import type { TransactionFromData } from './HubspotService'
 
 const Api = axios.create({
   baseURL: '/api',
