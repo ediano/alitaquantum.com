@@ -40,6 +40,9 @@ export const ConfirmTransaction = ({
 
   const handlerCreateTransaction = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
+
+    let transactionId = ''
+
     async function handler() {
       try {
         setIsLoading(true)
@@ -57,11 +60,30 @@ export const ConfirmTransaction = ({
           flow: !fixedRate ? 'standard' : 'fixed-rate'
         })
 
+        transactionId = transaction.id
+
+        await Api.setForm({
+          email: contactEmail || 'hubspot@alitaquantum.com',
+          transactionId: transaction.id,
+          fromAmount: transaction.fromAmount,
+          fromCurrency: transaction.fromCurrency,
+          toCurrency: transaction.toCurrency,
+          fromAddress: transaction.payinAddress,
+          fromExtraId: transaction.payinExtraId || '',
+          toAddress: transaction.payoutAddress,
+          toExtraId: transaction.payoutExtraId || '',
+          toAmount: transaction.toAmount
+        })
+
         router.push({
           pathname: '/trocar/txs',
           query: { id: transaction.id }
         })
       } catch (err) {
+        router.push({
+          pathname: '/trocar/txs',
+          query: { id: transactionId }
+        })
         setIsLoading(false)
       }
     }

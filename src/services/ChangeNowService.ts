@@ -88,6 +88,7 @@ export type CreateExchangeTransaction = {
   toCurrency: string
   fromNetwork: string
   toNetwork: string
+  payinExtraId?: string
   payoutExtraId?: string
   refundAddress?: string
   refundExtraId?: string
