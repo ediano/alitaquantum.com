@@ -62,7 +62,7 @@ export const ConfirmTransaction = ({
 
         transactionId = transaction.id
 
-        await Api.setForm({
+        Api.setForm({
           email: contactEmail || 'hubspot@alitaquantum.com',
           transactionId: transaction.id,
           fromAmount: String(transaction.fromAmount),
