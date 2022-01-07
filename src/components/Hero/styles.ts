@@ -134,8 +134,8 @@ export const CoinMarketCap = styled.a`
 
   ${({ theme }) => css`
     background: ${theme.colors.ice};
-    padding: ${theme.spacing.xxs};
-    border-radius: ${theme.spacing.xxs};
+    padding: ${theme.spacing.xs};
+    border-radius: ${theme.spacing.xs};
     color: ${theme.colors.secondary};
     border: 1px solid ${transparentize(0.5, theme.colors.secondary)};
 
