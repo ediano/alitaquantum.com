@@ -47,7 +47,7 @@ export const Hero = () => {
           <S.CoinMarketCap
             href="https://coinmarketcap.com/invite?ref=0FVQPWSC"
             target="_blank"
-            aria-label="Guarda Wallet"
+            aria-label="CoinMarketCap"
             title="Guarda Wallet"
             rel="nofollow noopener noreferrer"
           >
