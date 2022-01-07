@@ -132,16 +132,16 @@ export const CoinMarketCap = styled.a`
     margin-right: 0.75rem !important;
   }
 
-  border: 1px solid;
-
   ${({ theme }) => css`
     background: ${theme.colors.ice};
     padding: ${theme.spacing.xxs};
     border-radius: ${theme.spacing.xxs};
     color: ${theme.colors.secondary};
+    border: 1px solid ${transparentize(0.5, theme.colors.secondary)};
 
     &:hover {
       background: ${shade(0.025, theme.colors.ice)};
+      border: 1px solid ${transparentize(0.25, theme.colors.secondary)};
     }
   `}
 
