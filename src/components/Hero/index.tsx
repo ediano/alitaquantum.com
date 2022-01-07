@@ -24,23 +24,41 @@ export const Hero = () => {
 
       <S.Wrapper>
         <S.Block>
-          <S.Title>{site.description}</S.Title>
+          <div>
+            <S.Title>{site.description}</S.Title>
 
-          <S.LinkGuarda
-            href="https://grd.to/ref/bfdY"
+            <S.LinkGuarda
+              href="https://grd.to/ref/bfdY"
+              target="_blank"
+              aria-label="Guarda Wallet"
+              title="Guarda Wallet"
+              rel="nofollow noopener noreferrer"
+            >
+              <span>Carteira recomendada</span>
+              <Image
+                width="22"
+                height="22"
+                src="/img/logos/guarda.svg"
+                alt="Guarda Wallet"
+              />
+            </S.LinkGuarda>
+          </div>
+
+          <S.CoinMarketCap
+            href="https://coinmarketcap.com/invite?ref=0FVQPWSC"
             target="_blank"
             aria-label="Guarda Wallet"
             title="Guarda Wallet"
             rel="nofollow noopener noreferrer"
           >
-            <span>Carteira recomendada</span>
             <Image
-              width="22"
-              height="22"
-              src="/img/logos/guarda.svg"
-              alt="Guarda Wallet"
+              width="42"
+              height="42"
+              src="/img/logos/coinmarketcap.png"
+              alt="CoinMarketCap"
             />
-          </S.LinkGuarda>
+            <span>Ganhe diamantes diariamente e troque por recompensas</span>
+          </S.CoinMarketCap>
         </S.Block>
 
         <S.ExchangeWrapper>

@@ -1,11 +1,7 @@
 import styled, { css } from 'styled-components'
 import NextImage from 'next/image'
-import { transparentize } from 'polished'
-import {
-  Container as ContainerBase,
-  lessThan,
-  greaterThan
-} from 'styles/layout'
+import { transparentize, shade } from 'polished'
+import { Container as ContainerBase, lessThan } from 'styles/layout'
 
 export const Container = styled.section`
   position: relative;
@@ -47,14 +43,16 @@ export const Block = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   justify-items: center;
+  min-height: 500px;
 
   ${({ theme }) => css`
     padding: ${theme.spacing.xxl} ${theme.spacing.m};
     margin: ${theme.spacing.xxl} auto;
 
     ${lessThan('l')(css`
+      min-height: auto;
       width: 70%;
       margin: 0 auto;
       padding: ${theme.spacing.xxl} ${theme.spacing.m};
@@ -101,15 +99,11 @@ export const Footer = styled.div`
 `
 
 export const LinkGuarda = styled.a`
-  position: relative;
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
 
   margin-top: 2.5rem;
-
-  ${greaterThan('l')(css`
-    margin-right: auto;
-  `)}
 
   color: #fff;
   text-transform: uppercase;
@@ -123,4 +117,35 @@ export const LinkGuarda = styled.a`
   span {
     margin-right: 0.5rem;
   }
+
+  ${lessThan('l')(css`
+    display: none;
+  `)}
+`
+
+export const CoinMarketCap = styled.a`
+  display: flex;
+  align-items: center;
+  margin-top: 2.5rem;
+
+  > div {
+    margin-right: 0.75rem !important;
+  }
+
+  border: 1px solid;
+
+  ${({ theme }) => css`
+    background: ${theme.colors.ice};
+    padding: ${theme.spacing.xxs};
+    border-radius: ${theme.spacing.xxs};
+    color: ${theme.colors.secondary};
+
+    &:hover {
+      background: ${shade(0.025, theme.colors.ice)};
+    }
+  `}
+
+  ${lessThan('l')(css`
+    display: none;
+  `)}
 `
