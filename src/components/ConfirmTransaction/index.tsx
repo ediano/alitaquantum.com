@@ -80,10 +80,12 @@ export const ConfirmTransaction = ({
           query: { id: transaction.id }
         })
       } catch (err) {
-        router.push({
-          pathname: '/trocar/txs',
-          query: { id: transactionId }
-        })
+        if (transactionId) {
+          router.push({
+            pathname: '/trocar/txs',
+            query: { id: transactionId }
+          })
+        }
         setIsLoading(false)
       }
     }
