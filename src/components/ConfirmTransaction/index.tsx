@@ -99,17 +99,6 @@ export const ConfirmTransaction = ({
     }
   }
 
-  if (isLoading) {
-    return (
-      <S.Container>
-        <Spinner
-          heightBase="250px"
-          circle={{ width: '250px', height: '250px' }}
-        />
-      </S.Container>
-    )
-  }
-
   return (
     <S.Container>
       <S.Title>Confirme os dados inseridos</S.Title>
@@ -171,6 +160,15 @@ export const ConfirmTransaction = ({
           .
         </S.WrapperCheckbox>
       </S.Block>
+
+      {isLoading && (
+        <S.WrapperSpinner>
+          <Spinner
+            heightBase="100px"
+            circle={{ width: '100px', height: '100px' }}
+          />
+        </S.WrapperSpinner>
+      )}
     </S.Container>
   )
 }
