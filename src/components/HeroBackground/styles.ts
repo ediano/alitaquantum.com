@@ -59,12 +59,8 @@ export const Wrapper = styled.div`
     aside {
       overflow: hidden;
       background: ${theme.colors.ice};
-      padding: ${theme.spacing.xxl};
+      padding: ${theme.spacing.m};
       border-radius: ${theme.spacing.s};
-
-      ${lessThan('l')(css`
-        padding: ${theme.spacing.xxl} ${theme.spacing.m};
-      `)}
     }
   `}
 `
