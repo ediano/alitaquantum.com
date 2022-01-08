@@ -119,7 +119,7 @@ export const ExchangeLayout = () => {
   }, [dataFlow, estimatedAmount, transactionSpeedForecast])
 
   return (
-    <HeroBackground maxWidth="800px">
+    <HeroBackground>
       <S.Title>Preencha os dados para trocar as moedas.</S.Title>
 
       <Exchange />

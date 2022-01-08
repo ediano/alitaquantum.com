@@ -38,7 +38,7 @@ export const Waiting = (props: Props) => {
   )
 
   return (
-    <S.Container>
+    <>
       <S.Title>Por favor, envie os fundos que você gostaria de trocar</S.Title>
 
       <S.Block>
@@ -123,6 +123,6 @@ export const Waiting = (props: Props) => {
           )}
         </div>
       </S.Block>
-    </S.Container>
+    </>
   )
 }

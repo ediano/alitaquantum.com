@@ -1,13 +1,13 @@
 import { ReactNode } from 'react'
+import Image from 'next/image'
 
 import * as S from './styles'
 
 type Props = {
-  maxWidth?: string
   children: ReactNode
 }
 
-export const HeroBackground = ({ maxWidth, children }: Props) => {
+export const HeroBackground = ({ children }: Props) => {
   return (
     <S.Container>
       <S.Background>
@@ -21,9 +21,27 @@ export const HeroBackground = ({ maxWidth, children }: Props) => {
         />
       </S.Background>
 
-      <S.Main>
-        <S.Wrapper maxWidth={maxWidth}>{children}</S.Wrapper>
-      </S.Main>
+      <S.Wrapper>
+        <main>{children}</main>
+
+        <aside>
+          <S.CoinMarketCap
+            href="https://coinmarketcap.com/invite?ref=0FVQPWSC"
+            target="_blank"
+            aria-label="CoinMarketCap"
+            title="CoinMarketCap"
+            rel="nofollow noopener noreferrer"
+          >
+            <Image
+              width="50"
+              height="50"
+              src="/img/logos/coinmarketcap.png"
+              alt="CoinMarketCap"
+            />
+            <span>Ganhe diamantes diariamente e troque por recompensas</span>
+          </S.CoinMarketCap>
+        </aside>
+      </S.Wrapper>
     </S.Container>
   )
 }
