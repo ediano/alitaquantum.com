@@ -39,7 +39,7 @@ export const Footer = () => {
               {tickers.map(({ from, to }) => (
                 <Link
                   key={from + to}
-                  href={`trocar-${from}-para-${to}`}
+                  href={`/trocar-${from}-para-${to}`}
                   passHref
                 >
                   <S.AnchorTickers>

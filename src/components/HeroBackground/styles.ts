@@ -35,7 +35,6 @@ export const Wrapper = styled.div`
   width: 90%;
   max-width: 1200px;
   margin: 0 auto;
-  overflow: hidden;
 
   display: grid;
   gap: 1.5rem;
@@ -47,6 +46,7 @@ export const Wrapper = styled.div`
 
   ${({ theme }) => css`
     main {
+      overflow: hidden;
       background: ${theme.colors.white};
       padding: ${theme.spacing.xxl};
       border-radius: ${theme.spacing.s};
@@ -57,6 +57,7 @@ export const Wrapper = styled.div`
     }
 
     aside {
+      overflow: hidden;
       background: ${theme.colors.ice};
       padding: ${theme.spacing.xxl};
       border-radius: ${theme.spacing.s};

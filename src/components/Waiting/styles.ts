@@ -3,21 +3,6 @@ import { lighten, transparentize, shade } from 'polished'
 
 import { lessThan } from 'styles/layout'
 
-export const Container = styled.div`
-  width: 100%;
-
-  ${({ theme }) => css`
-    background: ${theme.colors.white};
-    padding: ${theme.spacing.xxl};
-    margin: 0 auto;
-    border-radius: ${theme.spacing.s};
-
-    ${lessThan('s')(css`
-      padding: ${theme.spacing.m};
-    `)}
-  `}
-`
-
 export const Block = styled.div`
   ${({ theme }) => css`
     border: 1px solid ${lighten(0.5, theme.colors.secondary)};
