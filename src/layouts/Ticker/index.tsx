@@ -18,16 +18,14 @@ export const TickerLayout = ({ data, suggestedCoins }: Props) => {
 
   return (
     <HeroBackground>
-      <S.Block>
-        <S.Title>
-          Trocar {data.fromName} para {data.toName} instantaneamente.
-        </S.Title>
+      <S.Title>
+        Trocar {data.fromName} para {data.toName} instantaneamente.
+      </S.Title>
 
-        <S.Description>
-          Rápido, seguro e totalmente privado, com o melhor preço disponível
-          somente aqui na Alita Quantum.
-        </S.Description>
-      </S.Block>
+      <S.Description>
+        Rápido, seguro e totalmente privado, com o melhor preço disponível
+        somente aqui na Alita Quantum.
+      </S.Description>
 
       <S.WrapperExchange>
         <InstantExchange />
@@ -48,40 +46,36 @@ export const TickerLayout = ({ data, suggestedCoins }: Props) => {
         </Link>
       </S.WrapperExchange>
 
-      <S.Block>
-        <S.TitleIcon>
-          Como trocar de {data.fromName} para {data.toName}?
-          <S.IconCloseFullscreen />
-        </S.TitleIcon>
-        <p>
-          Aqui na Alita Quantum as trocas são realizadas de forma simples e
-          orientada, imagine que você queira trocar {data.fromName} por{' '}
-          {data.toName}.
-        </p>
+      <S.TitleIcon>
+        Como trocar de {data.fromName} para {data.toName}?
+        <S.IconCloseFullscreen />
+      </S.TitleIcon>
+      <p>
+        Aqui na Alita Quantum as trocas são realizadas de forma simples e
+        orientada, imagine que você queira trocar {data.fromName} por{' '}
+        {data.toName}.
+      </p>
 
-        <S.List>
-          <li>
-            <span>
-              Selecione o par {data.fromName} vs. {data.toName}.
-            </span>
-          </li>
-          <li>
-            <span>
-              Escolha o montante em {data.fromName} que deseja trocar.
-            </span>
-            <span>
-              Note que não existe limite máximo de transferência, entretanto
-              existe limite mínimo.
-            </span>
-          </li>
-          <li>
-            <span>
-              Realize o depósito para carteira indicada, aguardar a troca ser
-              concluída.
-            </span>
-          </li>
-        </S.List>
-      </S.Block>
+      <S.List>
+        <li>
+          <span>
+            Selecione o par {data.fromName} vs. {data.toName}.
+          </span>
+        </li>
+        <li>
+          <span>Escolha o montante em {data.fromName} que deseja trocar.</span>
+          <span>
+            Note que não existe limite máximo de transferência, entretanto
+            existe limite mínimo.
+          </span>
+        </li>
+        <li>
+          <span>
+            Realize o depósito para carteira indicada, aguardar a troca ser
+            concluída.
+          </span>
+        </li>
+      </S.List>
 
       <S.WrapperShared>
         <Shared

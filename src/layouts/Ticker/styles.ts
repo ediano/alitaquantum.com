@@ -4,13 +4,13 @@ import { MdCloseFullscreen } from 'react-icons/md'
 
 import { lessThan } from 'styles/layout'
 
-export const Block = styled.div`
-  width: 90%;
-  margin: 0 auto;
-`
-
 export const Title = styled.h1`
   text-align: center;
+
+  ${({ theme }) =>
+    lessThan('s')(css`
+      font-size: ${theme.fonts.sizes.s};
+    `)}
 `
 
 export const Description = styled.p`

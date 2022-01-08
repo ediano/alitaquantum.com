@@ -143,7 +143,11 @@ export const ConfirmTransaction = ({
 
       <S.Block>
         <S.WrapperCheckbox>
-          <S.Checkbox type="checkbox" onClick={() => setCheckbox(!checkbox)} />
+          <S.Checkbox
+            type="checkbox"
+            checked={checkbox}
+            onClick={(e) => setCheckbox(!checkbox)}
+          />
           Declaro ter lido o{' '}
           <Link href="/termos-de-uso" passHref>
             <S.Anchor
