@@ -200,8 +200,7 @@ export const ExchangeLayout = () => {
                   icon={{ ico: MdEmail }}
                   input={{
                     type: 'email',
-                    placeholder: 'SEU EMAIL',
-                    value: dataCreateTransaction.contactEmail
+                    placeholder: 'SEU EMAIL'
                   }}
                 />
 
@@ -225,7 +224,6 @@ export const ExchangeLayout = () => {
                   color={isRefundAddress ? 'primary' : 'error'}
                   image={dataFlow.fromImage}
                   input={{
-                    value: dataCreateTransaction.refundAddress,
                     onChange: handlerInputChange,
                     placeholder: `SEU ENDEREÇO ${
                       dataFlow.fromName?.toUpperCase() || ''

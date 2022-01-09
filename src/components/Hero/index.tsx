@@ -36,8 +36,8 @@ export const Hero = () => {
             >
               <span>Carteira recomendada</span>
               <Image
-                width="22"
-                height="22"
+                width="28"
+                height="28"
                 src="/img/logos/guarda.svg"
                 alt="Guarda Wallet"
               />

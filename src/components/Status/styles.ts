@@ -9,7 +9,7 @@ export const WrapperCircle = styled.div`
   grid-template-columns: 1fr 1fr 1fr 1fr;
   justify-items: center;
 
-  ${lessThan('m')(css`
+  ${lessThan('l')(css`
     gap: 30px;
     grid-template-columns: 1fr 1fr;
   `)}

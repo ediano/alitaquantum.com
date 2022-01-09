@@ -58,11 +58,20 @@ export const Wrapper = styled.div`
 
     aside {
       overflow: hidden;
-      background: ${theme.colors.ice};
+      background: ${theme.colors.white};
       padding: ${theme.spacing.m};
       border-radius: ${theme.spacing.s};
+      align-self: flex-start;
     }
   `}
+`
+
+export const BlockAside = styled.div`
+  display: block;
+
+  & + & {
+    margin-top: 5rem;
+  }
 `
 
 export const CoinMarketCap = styled.a`
@@ -86,4 +95,30 @@ export const CoinMarketCap = styled.a`
       border: 1px solid ${transparentize(0.25, theme.colors.secondary)};
     }
   `}
+`
+
+export const LinkGuarda = styled.a`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto;
+
+  color: #fff;
+  text-transform: uppercase;
+
+  ${({ theme }) => css`
+    padding: ${theme.spacing.s};
+    border-radius: ${theme.spacing.xs};
+    background: ${theme.colors.secondary};
+  `}
+
+  span {
+    margin-right: 0.5rem;
+  }
+
+  > div {
+    min-width: 32px !important;
+    min-height: 32px !important;
+  }
 `
