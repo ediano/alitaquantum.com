@@ -158,10 +158,10 @@ export const WhatsappNumber = styled.a`
   }
 
   ${({ theme }) => css`
-    color: ${theme.colors.primary};
+    color: ${shade(0.1, theme.colors.primary)};
 
     &:hover {
-      color: ${shade(0.1, theme.colors.primary)};
+      color: ${shade(0.21, theme.colors.primary)};
     }
   `}
 `
