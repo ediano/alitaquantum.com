@@ -1,4 +1,6 @@
 import Image from 'next/image'
+import { BsWhatsapp } from 'react-icons/bs'
+
 import { Exchange } from 'components/Exchange'
 import { AnchorButton } from 'components/AnchorButton'
 
@@ -78,6 +80,15 @@ export const Hero = () => {
             }}
             style={{ marginTop: '50px' }}
           />
+
+          <S.WhatsappNumber
+            href="https://api.whatsapp.com/send?phone=5569999676943"
+            target="_blank"
+            rel="nofollow noopener noreferrer"
+          >
+            <BsWhatsapp />
+            +55 69 99967-6943
+          </S.WhatsappNumber>
         </S.ExchangeWrapper>
       </S.Wrapper>
     </S.Container>

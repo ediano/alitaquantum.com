@@ -27,7 +27,6 @@ export const Wrapper = styled(ContainerBase)`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-evenly;
 
   min-height: 850px;
 
@@ -39,13 +38,12 @@ export const Wrapper = styled(ContainerBase)`
 
 export const Block = styled.div`
   width: 50%;
+  min-height: 500px;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  justify-items: center;
-  min-height: 500px;
 
   ${({ theme }) => css`
     padding: ${theme.spacing.xxl} ${theme.spacing.m};
@@ -148,4 +146,22 @@ export const CoinMarketCap = styled.a`
   ${lessThan('l')(css`
     display: none;
   `)}
+`
+
+export const WhatsappNumber = styled.a`
+  display: flex;
+  align-items: center;
+  margin-top: 3rem;
+
+  svg {
+    margin-right: 0.5rem;
+  }
+
+  ${({ theme }) => css`
+    color: ${theme.colors.primary};
+
+    &:hover {
+      color: ${shade(0.1, theme.colors.primary)};
+    }
+  `}
 `
