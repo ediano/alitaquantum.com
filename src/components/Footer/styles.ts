@@ -58,6 +58,8 @@ export const Logo = styled.div`
   width: 100px;
   height: 100px;
 
+  margin: 0 auto;
+
   a,
   div {
     border-radius: 50%;
@@ -129,4 +131,22 @@ export const Copy = styled.div`
   border-top: 1px solid;
   color: #fff;
   text-align: center;
+`
+
+export const WhatsappNumber = styled.a`
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+
+  svg {
+    margin-right: 0.5rem;
+  }
+
+  ${({ theme }) => css`
+    color: ${theme.colors.white};
+
+    &:hover {
+      color: ${shade(0.25, theme.colors.white)};
+    }
+  `}
 `

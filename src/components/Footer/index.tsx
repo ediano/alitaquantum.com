@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { BsWhatsapp } from 'react-icons/bs'
 
 import { site } from 'config/site'
 
@@ -31,6 +32,11 @@ export const Footer = () => {
           </S.Logo>
 
           <Social />
+
+          <S.WhatsappNumber href="https://api.whatsapp.com/send?phone=5569999676943">
+            <BsWhatsapp />
+            +55 69 99967-6943
+          </S.WhatsappNumber>
         </S.Block>
 
         <S.WrapperBlocks>
