@@ -4,7 +4,7 @@ import { BsWhatsapp } from 'react-icons/bs'
 
 import { site } from 'config/site'
 
-import { tickers } from 'pages/[ticker]'
+import { tickers } from 'pages/trocar/[...ticker]'
 
 import { Social } from 'components/Social'
 
@@ -47,11 +47,7 @@ export const Footer = () => {
           <S.Block className="hide-l">
             <S.ListLinksTickers>
               {tickers.map(({ from, to }) => (
-                <Link
-                  key={from + to}
-                  href={`/trocar-${from}-para-${to}`}
-                  passHref
-                >
+                <Link key={from + to} href={`/trocar/${from}/${to}`} passHref>
                   <S.AnchorTickers>
                     {from.toUpperCase()} para {to.toUpperCase()}
                   </S.AnchorTickers>

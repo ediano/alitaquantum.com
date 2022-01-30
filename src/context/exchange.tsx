@@ -21,9 +21,11 @@ const envFromAmount = process.env.NEXT_PUBLIC_FROM_AMOUNT
 const envFromCurrency = process.env.NEXT_PUBLIC_FROM_CURRENCY
 const envFromNetwork = process.env.NEXT_PUBLIC_FROM_NETWORK
 const envFromName = process.env.NEXT_PUBLIC_FROM_NAME
+const envFromLegacyTicker = process.env.NEXT_PUBLIC_FROM_FROM_LEGACY_TICKER
 const envToCurrency = process.env.NEXT_PUBLIC_TO_CURRENCY
 const envToNetwork = process.env.NEXT_PUBLIC_TO_NETWORK
 const envToName = process.env.NEXT_PUBLIC_TO_NAME
+const envToLegacyTicker = process.env.NEXT_PUBLIC_FROM_TO_LEGACY_TICKER
 
 const initialProps = {
   fromName: envFromName || 'Bitcoin',
@@ -31,22 +33,23 @@ const initialProps = {
   fromNetwork: envFromNetwork || 'btc',
   fromId: false,
   fromImage: getImage(envFromCurrency || 'btc'),
+  fromLegacyTicker: envFromLegacyTicker || 'btc',
   toName: envToName || 'Ethereum',
   toCurrency: envToCurrency || 'eth',
   toNetwork: envToNetwork || 'eth',
   toId: false,
   toImage: getImage(envToCurrency || 'eth'),
   fromAmount: envFromAmount || '0.01',
+  toLegacyTicker: envToLegacyTicker || 'eth',
   minAmount: '0'
 }
 
 export type DataFlow = typeof initialProps
 
 type Query = {
-  fromAmount?: string
-  fromName?: string
-  toName?: string
-  fixedRate?: 'true' | 'false'
+  amount?: string
+  from?: string
+  to?: string
 }
 
 type Collections = keyof typeof collections
@@ -193,7 +196,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
           push(
             {
               pathname: '/trocar',
-              query: { fromAmount: value, fromName, toName }
+              query: { amount: value, from: fromName, to: toName }
             },
             undefined,
             { shallow: true }
@@ -235,9 +238,9 @@ export const ExchangeProvider = ({ props, children }: Props) => {
               {
                 pathname: '/trocar',
                 query: {
-                  fromAmount,
-                  fromName,
-                  toName
+                  amount: fromAmount,
+                  from: fromName,
+                  to: toName
                 }
               },
               undefined,
@@ -274,9 +277,9 @@ export const ExchangeProvider = ({ props, children }: Props) => {
               {
                 pathname: '/trocar',
                 query: {
-                  fromAmount,
-                  fromName,
-                  toName
+                  amount: fromAmount,
+                  from: fromName,
+                  to: toName
                 }
               },
               undefined,
@@ -308,7 +311,8 @@ export const ExchangeProvider = ({ props, children }: Props) => {
             fromCurrency: currency?.ticker || '',
             fromNetwork: currency?.network || '',
             fromId: currency?.hasExternalId || false,
-            fromImage: currency?.image || ''
+            fromImage: currency?.image || '',
+            fromLegacyTicker: currency?.legacyTicker || ''
           }
 
           if (currency?.network) handlerEstimatedAmount(data)
@@ -325,7 +329,8 @@ export const ExchangeProvider = ({ props, children }: Props) => {
             toCurrency: currency?.ticker || '',
             toNetwork: currency?.network || '',
             toId: currency?.hasExternalId || false,
-            toImage: currency?.image || ''
+            toImage: currency?.image || '',
+            toLegacyTicker: currency?.legacyTicker || ''
           }
 
           if (currency?.network) handlerEstimatedAmount(data)
@@ -352,11 +357,13 @@ export const ExchangeProvider = ({ props, children }: Props) => {
       fromNetwork,
       fromId,
       fromImage,
+      fromLegacyTicker,
       toName,
       toCurrency,
       toNetwork,
       toId,
-      toImage
+      toImage,
+      toLegacyTicker
     } = dataFlow
 
     setDataFlow((state) => ({
@@ -366,11 +373,13 @@ export const ExchangeProvider = ({ props, children }: Props) => {
       fromNetwork: toNetwork,
       fromId: toId,
       fromImage: toImage,
+      fromLegacyTicker: toLegacyTicker,
       toName: fromName,
       toCurrency: fromCurrency,
       toNetwork: fromNetwork,
       toId: fromId,
-      toImage: fromImage
+      toImage: fromImage,
+      toLegacyTicker: fromLegacyTicker
     }))
 
     try {
@@ -398,9 +407,9 @@ export const ExchangeProvider = ({ props, children }: Props) => {
           {
             pathname: '/trocar',
             query: {
-              fromAmount,
-              fromName: toName,
-              toName: fromName
+              amount: fromAmount,
+              from: toName,
+              to: fromName
             }
           },
           undefined,
@@ -437,9 +446,9 @@ export const ExchangeProvider = ({ props, children }: Props) => {
           {
             pathname: '/trocar',
             query: {
-              fromAmount,
-              fromName: toName,
-              toName: fromName
+              amount: fromAmount,
+              from: toName,
+              to: fromName
             }
           },
           undefined,
@@ -453,8 +462,10 @@ export const ExchangeProvider = ({ props, children }: Props) => {
     const initialData = {
       fromCurrency: envFromCurrency || 'btc',
       fromNetwork: envFromNetwork || 'btc',
+      fromLegacyTicker: envFromLegacyTicker || 'btc',
       toCurrency: envToCurrency || 'eth',
-      toNetwork: envToNetwork || 'eth'
+      toNetwork: envToNetwork || 'eth',
+      toLegacyTicker: envToLegacyTicker || 'eth'
     }
 
     try {
@@ -500,15 +511,15 @@ export const ExchangeProvider = ({ props, children }: Props) => {
   }, [handlerInitialStates, asPath, pathname])
 
   const handlerStartPageExchangeQuery = useCallback(async () => {
-    const { fromAmount, fromName, toName } = query
+    const { amount: fromAmount, from: fromName, to: toName } = query
 
     push(
       {
         pathname: '/trocar',
         query: {
-          fromAmount,
-          fromName,
-          toName
+          amount: fromAmount,
+          from: fromName,
+          to: toName
         }
       },
       undefined,
@@ -531,11 +542,13 @@ export const ExchangeProvider = ({ props, children }: Props) => {
         fromNetwork: from.network,
         fromId: from.hasExternalId,
         fromImage: from.image,
+        fromLegacyTicker: from.legacyTicker,
         toName: to.name,
         toCurrency: to.ticker,
         toNetwork: to.network,
         toId: to.hasExternalId,
-        toImage: to.image
+        toImage: to.image,
+        toLegacyTicker: to.legacyTicker
       }))
 
       try {

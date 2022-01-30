@@ -3,7 +3,7 @@ import { BsArrowLeftRight } from 'react-icons/bs'
 
 import { useExchange } from 'context/exchange'
 
-import { Props } from 'pages/[ticker]'
+import { Props } from 'pages/trocar/[...ticker]'
 
 import { HeroBackground } from 'components/HeroBackground'
 import { InstantExchange } from 'components/InstantExchange'
@@ -14,7 +14,8 @@ import * as S from './styles'
 
 export const TickerLayout = ({ data, suggestedCoins }: Props) => {
   const { estimatedAmount, dataFlow } = useExchange()
-  const { fromAmount, fromName, toName, fromCurrency, toCurrency } = dataFlow
+  const { fromAmount, fromName, toName } = dataFlow
+  const { fromLegacyTicker, toLegacyTicker } = dataFlow
 
   return (
     <HeroBackground>
@@ -36,7 +37,7 @@ export const TickerLayout = ({ data, suggestedCoins }: Props) => {
           title="Proximo"
           href={{
             pathname: '/trocar',
-            query: { fromAmount, fromName, toName }
+            query: { amount: fromAmount, from: fromName, to: toName }
           }}
           style={{ marginTop: '25px', width: '250px' }}
         />
@@ -79,7 +80,7 @@ export const TickerLayout = ({ data, suggestedCoins }: Props) => {
 
       <S.WrapperShared>
         <Shared
-          path={`/trocar-${fromCurrency}-para-${toCurrency}`}
+          path={`/trocar/${fromLegacyTicker}/${toLegacyTicker}`}
           message="Conte aos seus amigos os pares de moedas que você quer trocar!"
         />
       </S.WrapperShared>
@@ -103,7 +104,7 @@ export const TickerLayout = ({ data, suggestedCoins }: Props) => {
           {suggestedCoins.map((coin) => (
             <Link
               key={coin.image}
-              href={`/trocar-${data.fromCurrency}-para-${coin.ticker}`}
+              href={`/trocar/${data.fromLegacyTicker}/${coin.legacyTicker}`}
               passHref
             >
               <S.CardSuggestedCoins title={`${data.fromName} vs. ${coin.name}`}>

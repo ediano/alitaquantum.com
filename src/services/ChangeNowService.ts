@@ -22,6 +22,7 @@ export type Currencies = {
   network: string
   hasExternalId: boolean
   image: string
+  legacyTicker: string
 }
 
 export type ReqRange = Flow & {

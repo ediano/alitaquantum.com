@@ -15,7 +15,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       name: currency.name,
       network: currency.network,
       hasExternalId: currency.hasExternalId,
-      image: getImage(currency.ticker)
+      image: getImage(currency.ticker),
+      legacyTicker: currency.legacyTicker
     }))
 
     return res.status(response.status).json(data)

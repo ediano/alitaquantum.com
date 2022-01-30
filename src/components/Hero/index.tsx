@@ -73,9 +73,9 @@ export const Hero = () => {
             href={{
               pathname: '/trocar',
               query: {
-                fromAmount,
-                fromName,
-                toName
+                amount: fromAmount,
+                from: fromName,
+                to: toName
               }
             }}
             style={{ marginTop: '50px' }}

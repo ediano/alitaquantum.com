@@ -36,6 +36,7 @@ type SuggestedCoins = {
   network: string
   hasExternalId: string
   image: string
+  legacyTicker: string
 }
 
 export type Props = {
@@ -63,7 +64,7 @@ const TickerPage = ({ data, suggestedCoins }: Props) => {
         } (${data.fromCurrency?.toUpperCase()}) para ${
           data.toName
         } (${data.toCurrency?.toUpperCase()}) instantaneamente`}
-        pathUrl={`trocar-${data.fromCurrency}-para-${data.toCurrency}`}
+        pathUrl={`trocar/${data.fromLegacyTicker}/${data.toLegacyTicker}`}
         description={`Trocar ${
           data.fromName
         } (${data.fromCurrency.toUpperCase()}) para ${
@@ -84,27 +85,34 @@ const TickerPage = ({ data, suggestedCoins }: Props) => {
 
 export const getStaticPaths: GetStaticPaths = () => {
   const paths = tickers.map(({ from, to }) => ({
-    params: { ticker: `trocar-${from}-para-${to}` }
+    params: { ticker: [from, to] }
   }))
 
   return { paths, fallback: true }
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { ticker } = params as { ticker: string }
-  const [, from, , to] = ticker.split('-')
-
-  const initialProps = {
-    fromCurrency: from,
-    fromNetwork: from,
-    toCurrency: to,
-    toNetwork: to
-  }
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const { ticker } = ctx.params as { ticker: string[] }
+  const [fromLegacyTicker, toLegacyTicker] = ticker
 
   const [{ data: availablePairs }, { data: currencies }] = await Promise.all([
     ChangeNow.getAvailablePairs(),
     ChangeNow.getCurrencies()
   ])
+
+  const from = currencies.find(
+    (currency) => currency.legacyTicker === fromLegacyTicker
+  )
+  const to = currencies.find(
+    (currency) => currency.legacyTicker === toLegacyTicker
+  )
+
+  const initialProps = {
+    fromCurrency: from!.ticker,
+    fromNetwork: from!.network,
+    toCurrency: to!.ticker,
+    toNetwork: to!.network
+  }
 
   const { data: range } = await ChangeNow.getRange({
     ...initialProps,
@@ -120,24 +128,18 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const fromAmount = String((range.minAmount * 250).toFixed(8))
 
-  const f = currencies.find((currency) => currency.ticker === from)
-  const t = currencies.find((currency) => currency.ticker === to)
-
   let limit = 0
 
   const suggestedCoins = availablePairs
     .filter((pair) => {
       if (limit >= 8) return null
 
-      if (from !== pair.toCurrency && !pair.toCurrency.includes('usd')) {
-        limit += 1
-      }
+      const isTicker = from!.ticker !== pair.toCurrency
+      const isUsd = !pair.toCurrency.includes('usd')
 
-      return (
-        limit <= 8 &&
-        from !== pair.toCurrency &&
-        !pair.toCurrency.includes('usd')
-      )
+      if (isTicker && isUsd) limit += 1
+
+      return limit <= 8 && isTicker && isUsd
     })
     .map((item) => {
       const to = currencies.find(
@@ -149,26 +151,28 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         ticker: to?.ticker,
         network: to?.network,
         hasExternalId: to?.hasExternalId,
-        image: getImage(to?.ticker as string)
+        image: getImage(to?.ticker as string),
+        legacyTicker: to?.legacyTicker
       }
     })
-    .filter((i) => i)
 
   return {
     props: {
       data: {
         ...initialProps,
         fromAmount,
-        fromName: f?.name,
-        fromCurrency: f?.ticker,
-        fromNetwork: f?.network,
-        fromId: f?.hasExternalId,
-        fromImage: getImage(f?.ticker as string),
-        toName: t?.name,
-        toCurrency: t?.ticker,
-        toNetwork: t?.network,
-        toId: t?.hasExternalId,
-        toImage: getImage(t?.ticker as string),
+        fromName: from!.name,
+        fromCurrency: from!.ticker,
+        fromNetwork: from!.network,
+        fromId: from!.hasExternalId,
+        fromImage: getImage(from!.ticker),
+        fromLegacyTicker: from!.legacyTicker,
+        toName: to!.name,
+        toCurrency: to!.ticker,
+        toNetwork: to!.network,
+        toId: to!.hasExternalId,
+        toImage: getImage(to!.ticker),
+        toLegacyTicker: to!.legacyTicker,
         minAmount: String(range.minAmount)
       },
       suggestedCoins
