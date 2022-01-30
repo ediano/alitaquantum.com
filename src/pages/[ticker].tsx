@@ -101,15 +101,17 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     toNetwork: to
   }
 
-  const { data: availablePairs } = await ChangeNow.getAvailablePairs()
-  const { data: currencies } = await ChangeNow.getCurrencies()
+  const [{ data: availablePairs }, { data: currencies }] = await Promise.all([
+    ChangeNow.getAvailablePairs(),
+    ChangeNow.getCurrencies()
+  ])
 
   const { data: range } = await ChangeNow.getRange({
     ...initialProps,
     flow: 'standard'
   })
 
-  if (!availablePairs?.length && !currencies?.length && !range?.minAmount) {
+  if (!availablePairs.length && !currencies.length && !range.minAmount) {
     return {
       notFound: true,
       revalidate: 600000
@@ -118,8 +120,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const fromAmount = String((range.minAmount * 250).toFixed(8))
 
-  const f = currencies?.find((currency) => currency.ticker === from)
-  const t = currencies?.find((currency) => currency.ticker === to)
+  const f = currencies.find((currency) => currency.ticker === from)
+  const t = currencies.find((currency) => currency.ticker === to)
 
   let limit = 0
 
