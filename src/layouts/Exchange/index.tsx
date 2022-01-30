@@ -300,5 +300,5 @@ export const ExchangeLayout = (props: Query) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  return { props: { ...ctx.query } }
+  return { props: { ...ctx } }
 }
