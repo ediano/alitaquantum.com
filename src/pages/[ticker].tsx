@@ -90,8 +90,8 @@ export const getStaticPaths: GetStaticPaths = () => {
   return { paths, fallback: true }
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { ticker } = params as { ticker: string }
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const { ticker } = ctx.params as { ticker: string }
   const [, from, , to] = ticker.split('-')
 
   const initialProps = {

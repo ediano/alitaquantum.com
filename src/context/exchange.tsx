@@ -42,7 +42,7 @@ const initialProps = {
 
 export type DataFlow = typeof initialProps
 
-type Query = {
+export type Query = {
   fromAmount?: string
   fromName?: string
   toName?: string
