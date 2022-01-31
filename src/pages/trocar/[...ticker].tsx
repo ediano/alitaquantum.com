@@ -15,8 +15,8 @@ import { getImage } from 'utils/getImage'
 
 export const tickers = [
   { from: 'btc', to: 'eth' },
-  { from: 'eth', to: 'bnb' },
-  { from: 'bnb', to: 'xlm' },
+  { from: 'eth', to: 'bnbmainnet' },
+  { from: 'bnbmainnet', to: 'xlm' },
   { from: 'xlm', to: 'trx' },
   { from: 'trx', to: 'xrp' },
   { from: 'xrp', to: 'xmr' },
@@ -24,10 +24,10 @@ export const tickers = [
   { from: 'sol', to: 'dot' },
   { from: 'dot', to: 'ada' },
   { from: 'eth', to: 'doge' },
-  { from: 'bnb', to: 'eth' },
+  { from: 'bnbmainnet', to: 'eth' },
   { from: 'eth', to: 'dot' },
   { from: 'btc', to: 'doge' },
-  { from: 'trx', to: 'bnb' }
+  { from: 'trx', to: 'bnbmainnet' }
 ]
 
 type SuggestedCoins = {
