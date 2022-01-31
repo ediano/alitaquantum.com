@@ -119,7 +119,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     flow: 'standard'
   })
 
-  if (!availablePairs.length && !currencies.length && !range.minAmount) {
+  if (!availablePairs.length || !from || !to || !range.minAmount) {
     return {
       notFound: true,
       revalidate: 600000
