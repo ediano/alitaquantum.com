@@ -134,12 +134,13 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     .filter((pair) => {
       if (limit >= 8) return null
 
-      const isTicker = from!.ticker !== pair.toCurrency
+      const isFromTicker = from!.ticker === pair.fromCurrency
+      const isToTicker = from!.ticker !== pair.toCurrency
       const isUsd = !pair.toCurrency.includes('usd')
 
-      if (isTicker && isUsd) limit += 1
+      if (isFromTicker && isToTicker && isUsd) limit += 1
 
-      return limit <= 8 && isTicker && isUsd
+      return limit <= 8 && isFromTicker && isToTicker && isUsd
     })
     .map((item) => {
       const to = currencies.find(
