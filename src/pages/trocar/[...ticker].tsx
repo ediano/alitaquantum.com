@@ -14,20 +14,20 @@ import { Footer } from 'components/Footer'
 import { getImage } from 'utils/getImage'
 
 export const tickers = [
-  { from: 'btc', to: 'eth' },
-  { from: 'eth', to: 'bnbmainnet' },
-  { from: 'bnbmainnet', to: 'xlm' },
-  { from: 'xlm', to: 'trx' },
-  { from: 'trx', to: 'xrp' },
-  { from: 'xrp', to: 'xmr' },
-  { from: 'btc', to: 'xlm' },
-  { from: 'sol', to: 'dot' },
-  { from: 'dot', to: 'ada' },
-  { from: 'eth', to: 'doge' },
-  { from: 'bnbmainnet', to: 'eth' },
-  { from: 'eth', to: 'dot' },
-  { from: 'btc', to: 'doge' },
-  { from: 'trx', to: 'bnbmainnet' }
+  { fromTicker: 'btc', from: 'btc', toTicker: 'eth', to: 'eth' },
+  { fromTicker: 'eth', from: 'eth', toTicker: 'bnb', to: 'bnbmainnet' },
+  { fromTicker: 'bnb', from: 'bnbmainnet', toTicker: 'xlm', to: 'xlm' },
+  { fromTicker: 'xlm', from: 'xlm', toTicker: 'trx', to: 'trx' },
+  { fromTicker: 'trx', from: 'trx', toTicker: 'xrp', to: 'xrp' },
+  { fromTicker: 'xrp', from: 'xrp', toTicker: 'xmr', to: 'xmr' },
+  { fromTicker: 'btc', from: 'btc', toTicker: 'xlm', to: 'xlm' },
+  { fromTicker: 'sol', from: 'sol', toTicker: 'dot', to: 'dot' },
+  { fromTicker: 'dot', from: 'dot', toTicker: 'ada', to: 'ada' },
+  { fromTicker: 'eth', from: 'eth', toTicker: 'doge', to: 'doge' },
+  { fromTicker: 'bnb', from: 'bnbmainnet', toTicker: 'eth', to: 'eth' },
+  { fromTicker: 'eth', from: 'eth', toTicker: 'dot', to: 'dot' },
+  { fromTicker: 'btc', from: 'btc', toTicker: 'doge', to: 'doge' },
+  { fromTicker: 'trx', from: 'trx', toTicker: 'bnb', to: 'bnbmainnet' }
 ]
 
 type SuggestedCoins = {

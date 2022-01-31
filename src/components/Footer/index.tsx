@@ -46,10 +46,10 @@ export const Footer = () => {
         <S.WrapperBlocks>
           <S.Block className="hide-l">
             <S.ListLinksTickers>
-              {tickers.map(({ from, to }) => (
+              {tickers.map(({ fromTicker, from, toTicker, to }) => (
                 <Link key={from + to} href={`/trocar/${from}/${to}`} passHref>
                   <S.AnchorTickers>
-                    {from.toUpperCase()} para {to.toUpperCase()}
+                    {fromTicker.toUpperCase()} para {toTicker.toUpperCase()}
                   </S.AnchorTickers>
                 </Link>
               ))}
