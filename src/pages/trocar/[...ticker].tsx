@@ -75,11 +75,21 @@ export const getStaticPaths: GetStaticPaths = async () => {
     ChangeNow.getCurrencies()
   ])
   const paths = tickers.reduce(
-    (results: Paths[], { fromTicker, fromNetwork }) => {
+    (results: Paths[], { fromTicker, fromNetwork, from: f, to: t }) => {
       let limit = 0
 
       availablePairs.forEach((pair) => {
-        if (limit > 10) return results
+        if (limit > 5) return results
+
+        const isResult = results.find(({ params }) => {
+          const [from, to] = params.ticker
+          return from === f && to === t
+        })
+
+        if (!isResult) {
+          limit += 1
+          return results.push({ params: { ticker: [f, t] } })
+        }
 
         const isFromTicker = pair.fromCurrency === fromTicker
         const isFromNetwork = pair.fromNetwork === fromNetwork
