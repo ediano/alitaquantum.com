@@ -4,7 +4,7 @@ import { BsWhatsapp } from 'react-icons/bs'
 
 import { site } from 'config/site'
 
-import { tickers } from 'pages/trocar/[...ticker]'
+import { tickers } from 'utils/collections'
 
 import { Social } from 'components/Social'
 

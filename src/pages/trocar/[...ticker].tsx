@@ -12,23 +12,9 @@ import { TickerLayout } from 'layouts/Ticker'
 import { Footer } from 'components/Footer'
 
 import { getImage } from 'utils/getImage'
+import { tickers } from 'utils/collections'
 
-export const tickers = [
-  { fromTicker: 'btc', from: 'btc', toTicker: 'eth', to: 'eth' },
-  { fromTicker: 'eth', from: 'eth', toTicker: 'bnb', to: 'bnbmainnet' },
-  { fromTicker: 'bnb', from: 'bnbmainnet', toTicker: 'xlm', to: 'xlm' },
-  { fromTicker: 'xlm', from: 'xlm', toTicker: 'trx', to: 'trx' },
-  { fromTicker: 'trx', from: 'trx', toTicker: 'xrp', to: 'xrp' },
-  { fromTicker: 'xrp', from: 'xrp', toTicker: 'xmr', to: 'xmr' },
-  { fromTicker: 'btc', from: 'btc', toTicker: 'xlm', to: 'xlm' },
-  { fromTicker: 'sol', from: 'sol', toTicker: 'dot', to: 'dot' },
-  { fromTicker: 'dot', from: 'dot', toTicker: 'ada', to: 'ada' },
-  { fromTicker: 'eth', from: 'eth', toTicker: 'doge', to: 'doge' },
-  { fromTicker: 'bnb', from: 'bnbmainnet', toTicker: 'eth', to: 'eth' },
-  { fromTicker: 'eth', from: 'eth', toTicker: 'dot', to: 'dot' },
-  { fromTicker: 'btc', from: 'btc', toTicker: 'doge', to: 'doge' },
-  { fromTicker: 'trx', from: 'trx', toTicker: 'bnb', to: 'bnbmainnet' }
-]
+type Paths = { params: { ticker: [string, string] } }
 
 type SuggestedCoins = {
   name: string
@@ -83,10 +69,52 @@ const TickerPage = ({ data, suggestedCoins }: Props) => {
   )
 }
 
-export const getStaticPaths: GetStaticPaths = () => {
-  const paths = tickers.map(({ from, to }) => ({
-    params: { ticker: [from, to] }
-  }))
+export const getStaticPaths: GetStaticPaths = async () => {
+  const [{ data: availablePairs }, { data: currencies }] = await Promise.all([
+    ChangeNow.getAvailablePairs(),
+    ChangeNow.getCurrencies()
+  ])
+  const paths = tickers.reduce(
+    (results: Paths[], { fromTicker, fromNetwork }) => {
+      let limit = 0
+
+      availablePairs.forEach((pair) => {
+        if (limit > 10) return results
+
+        const isFromTicker = pair.fromCurrency === fromTicker
+        const isFromNetwork = pair.fromNetwork === fromNetwork
+        const isFromTo = pair.toCurrency !== fromTicker
+        const isUsd = !pair.toCurrency.includes('usd')
+
+        if (!isFromTicker && !isFromNetwork && !isFromTo && !isUsd) {
+          return results
+        }
+
+        const from = currencies.find(
+          ({ ticker, network }) =>
+            ticker === fromTicker && network === fromNetwork
+        )
+
+        if (!from) return results
+
+        const to = currencies.find(
+          ({ ticker, network }) =>
+            ticker === pair.toCurrency && network === pair.toNetwork
+        )
+
+        if (!to) return results
+
+        limit += 1
+
+        return results.push({
+          params: { ticker: [from.legacyTicker, to.legacyTicker] }
+        })
+      })
+
+      return results
+    },
+    []
+  )
 
   return { paths, fallback: true }
 }
