@@ -16,7 +16,7 @@ export const PagesLayout = ({ title, body, children }: Props) => {
         <S.Title>{title}</S.Title>
 
         <S.Markdown>
-          <ReactMarkdown>{body}</ReactMarkdown>
+          <ReactMarkdown linkTarget="_blank">{body}</ReactMarkdown>
         </S.Markdown>
 
         {children && <S.Children>{children} </S.Children>}
