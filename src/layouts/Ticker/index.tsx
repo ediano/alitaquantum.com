@@ -32,6 +32,7 @@ export const TickerLayout = ({ data, suggestedCoins }: Props) => {
         <InstantExchange />
 
         <AnchorButton
+          aria-label="Proximo"
           uppercase
           disabled={estimatedAmount === '0'}
           title="Proximo"
@@ -43,7 +44,9 @@ export const TickerLayout = ({ data, suggestedCoins }: Props) => {
         />
 
         <Link href="/trocar" passHref>
-          <S.MoreCurrencyOptions>Mais opções de moedas!</S.MoreCurrencyOptions>
+          <S.MoreCurrencyOptions aria-label="Mais opções de moedas!">
+            Mais opções de moedas!
+          </S.MoreCurrencyOptions>
         </Link>
       </S.WrapperExchange>
 
@@ -115,7 +118,9 @@ export const TickerLayout = ({ data, suggestedCoins }: Props) => {
                       backgroundRepeat: 'no-repeat'
                     }}
                   ></S.ImageCoin>
-                  <span>{data.fromCurrency.toUpperCase()}</span>
+                  <span aria-label={data.fromCurrency}>
+                    {data.fromCurrency.toUpperCase()}
+                  </span>
                 </S.WrapperCoins>
 
                 <BsArrowLeftRight />
@@ -127,7 +132,9 @@ export const TickerLayout = ({ data, suggestedCoins }: Props) => {
                       backgroundRepeat: 'no-repeat'
                     }}
                   ></S.ImageCoin>
-                  <span>{coin.ticker.toUpperCase()}</span>
+                  <span aria-label={coin.ticker}>
+                    {coin.ticker.toUpperCase()}
+                  </span>
                 </S.WrapperCoins>
               </S.CardSuggestedCoins>
             </Link>

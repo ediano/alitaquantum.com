@@ -18,8 +18,8 @@ const Navbar = ({ isHero }: Props) => {
       <S.Wrapper isHero={isHero}>
         <Link href="/" passHref>
           <S.Logo>
-            <S.Alita>Alita</S.Alita>
-            <S.Quantum>Quantum</S.Quantum>
+            <S.Alita aria-label="Alita">Alita</S.Alita>
+            <S.Quantum aria-label="Quantum">Quantum</S.Quantum>
           </S.Logo>
         </Link>
 
