@@ -17,6 +17,7 @@ export const Shared = ({ path, message }: Props) => {
         <S.WrapperIcon>
           {content.map(({ social, icon: Icon, url }) => (
             <S.Anchor
+              aria-label={`Compartilhar no ${social}`}
               key={social}
               href={url + site.url + path}
               target="_blank"
