@@ -158,6 +158,11 @@ export const ExchangeLayout = () => {
                 onChange: handlerInputChange
               }}
             />
+            <small>
+              Certifique se a carteira para onde você esta enviando seus{' '}
+              {dataFlow.toName.toUpperCase()} se exige ID/MENO/TAG para validar
+              a transferência!
+            </small>
           </S.Block>
         )}
       </S.BlockWrapper>
