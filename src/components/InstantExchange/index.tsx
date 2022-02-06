@@ -27,6 +27,7 @@ export const InstantExchange = () => {
 
         <S.InputBlock data-alert={isAlert}>
           <Input
+            ariaLabel="Quantidade de moedas a enviar?"
             name="fromAmount"
             input={{
               value: dataFlow.fromAmount,
@@ -35,6 +36,7 @@ export const InstantExchange = () => {
           />
 
           <Input
+            ariaLabel="Moedas a enviar?"
             name="fromName"
             color="secondary"
             image={dataFlow.fromImage}
@@ -55,7 +57,11 @@ export const InstantExchange = () => {
       </S.WrapperBlock>
 
       <S.WrapperDetails>
-        <S.Button type="button" onClick={handlerReverseCurrencyClick}>
+        <S.Button
+          type="button"
+          aria-label="Inverter posição das moedas"
+          onClick={handlerReverseCurrencyClick}
+        >
           <BsArrowDownUp />
         </S.Button>
       </S.WrapperDetails>
@@ -63,6 +69,7 @@ export const InstantExchange = () => {
       <S.WrapperBlock>
         <S.InputBlock>
           <Input
+            ariaLabel="Quantidade estimada de moedas a receber?"
             name="toAmount"
             color="grey"
             isLoading={!estimatedAmount}
@@ -74,6 +81,7 @@ export const InstantExchange = () => {
           />
 
           <Input
+            ariaLabel="Moedas a receber?"
             name="toName"
             color="secondary"
             image={dataFlow.toImage}
