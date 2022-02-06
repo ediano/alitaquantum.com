@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import { BsWhatsapp } from 'react-icons/bs'
 
 import { Exchange } from 'components/Exchange'
 import { AnchorButton } from 'components/AnchorButton'
