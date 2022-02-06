@@ -13,6 +13,7 @@ type Props = {
   icon?: { ico: IconType; color?: Color }
   image?: string
   name: string
+  ariaLabel?: string
   color?: Color
   isLoading?: boolean
   isOutline?: boolean
@@ -26,7 +27,8 @@ export const Input = ({
   name,
   color,
   isLoading,
-  isOutline
+  isOutline,
+  ariaLabel
 }: Props) => {
   return (
     <S.Container
@@ -38,7 +40,12 @@ export const Input = ({
       {icon?.ico && !image && <Icon color={icon.color} icon={icon.ico} />}
       {!icon?.ico && image && <Icon image={image} />}
 
-      <S.Input name={name} className={color} {...input} />
+      <S.Input
+        name={name}
+        aria-label={ariaLabel}
+        className={color}
+        {...input}
+      />
 
       {label && (
         <S.Label

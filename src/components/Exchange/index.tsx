@@ -49,7 +49,7 @@ export const Exchange = () => {
       <S.WrapperBlock>
         <S.InputBlock data-alert={isAlert || !!error}>
           <Input
-            aria-label="Quantidade de moedas a enviar?"
+            ariaLabel="Quantidade de moedas a enviar?"
             name="fromAmount"
             input={{
               value: dataFlow.fromAmount,
@@ -58,7 +58,7 @@ export const Exchange = () => {
           />
 
           <Input
-            aria-label="Moedas a enviar?"
+            ariaLabel="Moedas a enviar?"
             name="fromName"
             color="secondary"
             image={dataFlow.fromImage}
@@ -114,7 +114,7 @@ export const Exchange = () => {
       <S.WrapperBlock>
         <S.InputBlock>
           <Input
-            aria-label="Quantidade estimada de moedas a receber?"
+            ariaLabel="Quantidade estimada de moedas a receber?"
             name="toAmount"
             color="grey"
             isLoading={!estimatedAmount}
@@ -126,7 +126,7 @@ export const Exchange = () => {
           />
 
           <Input
-            aria-label="Moedas a receber?"
+            ariaLabel="Moedas a receber?"
             name="toName"
             color="secondary"
             image={dataFlow.toImage}
