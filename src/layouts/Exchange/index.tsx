@@ -160,7 +160,7 @@ export const ExchangeLayout = () => {
             />
             <small>
               Certifique se a carteira para onde você esta enviando seus{' '}
-              {dataFlow.toName.toUpperCase()} se exige ID/MENO/TAG para validar
+              {dataFlow.toName?.toUpperCase()} se exige ID/MENO/TAG para validar
               a transferência!
             </small>
           </S.Block>
