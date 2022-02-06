@@ -147,21 +147,3 @@ export const CoinMarketCap = styled.a`
     display: none;
   `)}
 `
-
-export const WhatsappNumber = styled.a`
-  display: flex;
-  align-items: center;
-  margin-top: 3rem;
-
-  svg {
-    margin-right: 0.5rem;
-  }
-
-  ${({ theme }) => css`
-    color: ${shade(0.1, theme.colors.primary)};
-
-    &:hover {
-      color: ${shade(0.21, theme.colors.primary)};
-    }
-  `}
-`
