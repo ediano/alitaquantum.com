@@ -49,6 +49,7 @@ export const Exchange = () => {
       <S.WrapperBlock>
         <S.InputBlock data-alert={isAlert || !!error}>
           <Input
+            aria-label="Quantidade de moedas a enviar?"
             name="fromAmount"
             input={{
               value: dataFlow.fromAmount,
@@ -57,6 +58,7 @@ export const Exchange = () => {
           />
 
           <Input
+            aria-label="Moedas a enviar?"
             name="fromName"
             color="secondary"
             image={dataFlow.fromImage}
@@ -100,7 +102,11 @@ export const Exchange = () => {
             <span data-fixed-rate={fixedRate}>Taxa fixa</span>
           </button>
         </S.AlertFixedRate>
-        <S.Button type="button" onClick={handlerReverseCurrencyClick}>
+        <S.Button
+          type="button"
+          aria-label="Inverter posição das moedas"
+          onClick={handlerReverseCurrencyClick}
+        >
           <BsArrowDownUp />
         </S.Button>
       </S.WrapperDetails>
@@ -108,6 +114,7 @@ export const Exchange = () => {
       <S.WrapperBlock>
         <S.InputBlock>
           <Input
+            aria-label="Quantidade estimada de moedas a receber?"
             name="toAmount"
             color="grey"
             isLoading={!estimatedAmount}
@@ -119,6 +126,7 @@ export const Exchange = () => {
           />
 
           <Input
+            aria-label="Moedas a receber?"
             name="toName"
             color="secondary"
             image={dataFlow.toImage}

@@ -15,7 +15,6 @@ import type {
   ReqTransactionStatus,
   TransactionStatus
 } from './ChangeNowService'
-import type { TransactionFromData } from './HubspotService'
 
 const Api = axios.create({
   baseURL: '/api',
@@ -64,8 +63,4 @@ export const getTransactionStatus = (params: ReqTransactionStatus) => {
   })
 
   return { data, error }
-}
-
-export const setForm = async (body: TransactionFromData) => {
-  return Api.post('/form', body)
 }
