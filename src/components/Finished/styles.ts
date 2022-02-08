@@ -5,40 +5,27 @@ import { BsArrowDown } from 'react-icons/bs'
 
 import { lessThan } from 'styles/layout'
 
-export const Container = styled.div`
-  width: 100%;
-  margin: 0 auto;
-`
-
 export const BlockPrimary = styled.div`
   position: relative;
 
   ${({ theme }) => css`
     background: ${theme.colors.white};
-    margin-top: ${theme.spacing.xxl};
-    padding: ${theme.spacing.xxl};
-    padding-top: 7.5rem;
     border-radius: ${theme.spacing.s};
-
-    ${lessThan('s')(css`
-      padding: ${theme.spacing.m};
-    `)}
   `}
 `
 
 export const IconDoneAll = styled(MdDoneAll)`
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, -115%);
   width: 12.5rem;
   height: 12.5rem;
   border-radius: 50%;
 
+  display: block;
+  margin: 0 auto;
+
   ${({ theme }) => css`
     color: ${theme.colors.primary};
     background: ${theme.colors.white};
-    padding: ${theme.spacing.s};
+    margin-bottom: ${theme.spacing.xxl};
   `}
 `
 

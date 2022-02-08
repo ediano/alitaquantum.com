@@ -12,9 +12,10 @@ export const Finished = (props: Props) => {
   const date = format(dateParse, "dd'/'MM'/'yyyy, HH:mm'h'")
 
   return (
-    <S.Container>
+    <>
+      <S.IconDoneAll />
+
       <S.BlockPrimary>
-        <S.IconDoneAll />
         <S.Title>Parabéns suas moedas foram trocadas</S.Title>
 
         <S.FromTo>
@@ -78,6 +79,6 @@ export const Finished = (props: Props) => {
           </S.BlockDetalhes>
         </S.WrapperBlockDetalhes>
       </S.BlockSecondary>
-    </S.Container>
+    </>
   )
 }

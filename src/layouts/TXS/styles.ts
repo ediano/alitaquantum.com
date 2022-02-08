@@ -4,7 +4,6 @@ import { MdDoneAll, MdError } from 'react-icons/md'
 import { lessThan } from 'styles/layout'
 
 export const Block = styled.div`
-  height: 50vh;
   position: relative;
 
   width: 100%;
@@ -33,25 +32,21 @@ export const Block = styled.div`
 
   ${({ theme }) => css`
     background: ${theme.colors.white};
-    margin-top: ${theme.spacing.xxl};
-    padding: ${theme.spacing.xxl};
-    padding-top: 7.5rem;
+    padding: ${theme.spacing.xxl} 0;
     border-radius: ${theme.spacing.s};
 
     ${lessThan('s')(css`
-      padding: ${theme.spacing.m};
+      padding: ${theme.spacing.m} 0;
     `)}
   `}
 `
 
 const icon = css`
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, -150%);
   width: 12.5rem;
   height: 12.5rem;
-  border-radius: 50%;
+
+  display: block;
+  margin: 0 auto;
 
   ${({ theme }) => css`
     background: ${theme.colors.white};
