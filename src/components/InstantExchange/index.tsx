@@ -9,6 +9,7 @@ import * as S from './styles'
 
 export const InstantExchange = () => {
   const {
+    error,
     currencies,
     dataFlow,
     estimatedAmount,
@@ -22,7 +23,21 @@ export const InstantExchange = () => {
     <S.Container>
       <S.WrapperBlock>
         <S.MessageError
-          data-alert={isAlert ? `Montante mínimo: ${dataFlow.minAmount}` : ''}
+          data-alert={(() => {
+            if (isAlert && error) {
+              return `Montante mínimo: ${dataFlow.minAmount}. ${error}`
+            }
+
+            if (isAlert && !error) {
+              return `Montante mínimo: ${dataFlow.minAmount}`
+            }
+
+            if (!isAlert && error) {
+              return error
+            }
+
+            return ''
+          })()}
         ></S.MessageError>
 
         <S.InputBlock data-alert={isAlert}>
