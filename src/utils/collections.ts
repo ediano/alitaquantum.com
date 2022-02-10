@@ -96,12 +96,12 @@ export const tickers = [
     toNetwork: 'dot'
   },
   {
-    fromTicker: 'shib',
-    fromNetwork: 'eth',
-    from: 'shib',
-    to: 'doge',
-    toTicker: 'doge',
-    toNetwork: 'doge'
+    fromTicker: 'usd',
+    fromNetwork: 'bsc',
+    from: 'usdtbsc',
+    to: 'shib',
+    toTicker: 'shib',
+    toNetwork: 'eth'
   },
   {
     fromTicker: 'link',
