@@ -164,7 +164,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     }
   }
 
-  const fromAmount = String((range.minAmount * 250).toFixed(8))
+  const fromAmount = String((range.minAmount * 10).toFixed(8))
 
   let limit = 0
 
