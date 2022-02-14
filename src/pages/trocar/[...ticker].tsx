@@ -84,7 +84,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
     if (!pair.flow.standard) return results
 
-    if (limit > 5 || tickerList.includes(fromCurrency) || max > 250) {
+    if (limit > 5 || tickerList.includes(fromCurrency) || max > 225) {
       limit = 0
       tickerList.push(fromCurrency)
       return results
@@ -215,8 +215,10 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     }
   } catch (err) {
     return {
-      notFound: true,
-      revalidate: 600000
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
     }
   }
 }
