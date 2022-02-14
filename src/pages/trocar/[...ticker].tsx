@@ -12,6 +12,7 @@ import { TickerLayout } from 'layouts/Ticker'
 import { Footer } from 'components/Footer'
 
 import { getImage } from 'utils/getImage'
+import { tickers } from 'utils/collections'
 
 type Paths = { params: { ticker: [string, string] } }
 
@@ -76,16 +77,16 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   let max = 0
   let limit = 0
-  const tickers: string[] = []
+  const tickerList: string[] = []
 
-  const paths = availablePairs.reduce((results: Paths[], pair) => {
+  const pairs = availablePairs.reduce((results: Paths[], pair) => {
     const fromCurrency = pair.fromCurrency + pair.fromNetwork
 
     if (!pair.flow.standard) return results
 
-    if (limit > 5 || tickers.includes(fromCurrency) || max > 500) {
+    if (limit > 5 || tickerList.includes(fromCurrency) || max > 250) {
       limit = 0
-      tickers.push(fromCurrency)
+      tickerList.push(fromCurrency)
       return results
     }
 
@@ -110,6 +111,21 @@ export const getStaticPaths: GetStaticPaths = async () => {
       params: { ticker: [from.legacyTicker, to.legacyTicker] }
     })
   }, [])
+
+  const collectionsTickers = tickers.reduce((results: Paths[], ticker) => {
+    const pair = pairs.find((pair) => {
+      const [from, to] = pair.params.ticker
+      return ticker.from === from && ticker.to === to
+    })
+
+    if (pair) return results
+
+    return results.concat({
+      params: { ticker: [ticker.from, ticker.to] }
+    })
+  }, [])
+
+  const paths = [...pairs, ...collectionsTickers]
 
   return { paths, fallback: true }
 }
