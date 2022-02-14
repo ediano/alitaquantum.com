@@ -215,10 +215,8 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     }
   } catch (err) {
     return {
-      redirect: {
-        destination: '/',
-        permanent: false
-      }
+      notFound: true,
+      revalidate: 600000
     }
   }
 }
