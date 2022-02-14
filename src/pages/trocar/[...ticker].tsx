@@ -84,7 +84,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
     if (!pair.flow.standard) return results
 
-    if (limit > 5 || tickerList.includes(fromCurrency) || max > 225) {
+    if (limit > 5 || tickerList.includes(fromCurrency) || max > 250) {
       limit = 0
       tickerList.push(fromCurrency)
       return results
@@ -113,15 +113,29 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }, [])
 
   const collectionsTickers = tickers.reduce((results: Paths[], ticker) => {
+    const available = availablePairs.find(
+      ({ fromCurrency, fromNetwork }) =>
+        fromCurrency && ticker.fromTicker && fromNetwork && ticker.fromNetwork
+    )
+
+    if (!available) return results
+
+    const currency = currencies.find(
+      ({ ticker, network }) =>
+        ticker && available.toCurrency && network && available.toNetwork
+    )
+
+    if (!currency) return results
+
     const pair = pairs.find((pair) => {
       const [from, to] = pair.params.ticker
-      return ticker.from === from && ticker.to === to
+      return ticker.from === from && currency.legacyTicker === to
     })
 
     if (pair) return results
 
     return results.concat({
-      params: { ticker: [ticker.from, ticker.to] }
+      params: { ticker: [ticker.from, currency.legacyTicker] }
     })
   }, [])
 
