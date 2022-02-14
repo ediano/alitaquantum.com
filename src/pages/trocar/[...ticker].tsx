@@ -12,7 +12,6 @@ import { TickerLayout } from 'layouts/Ticker'
 import { Footer } from 'components/Footer'
 
 import { getImage } from 'utils/getImage'
-import { tickers } from 'utils/collections'
 
 type Paths = { params: { ticker: [string, string] } }
 
@@ -74,57 +73,43 @@ export const getStaticPaths: GetStaticPaths = async () => {
     ChangeNow.getAvailablePairs(),
     ChangeNow.getCurrencies()
   ])
-  const paths = tickers.reduce(
-    (results: Paths[], { fromTicker, fromNetwork, from: f, to: t }) => {
-      let limit = 0
 
-      availablePairs.forEach((pair) => {
-        if (limit > 5) return results
+  let max = 0
+  let limit = 0
+  const tickers: string[] = []
 
-        const isResult = results.find(({ params }) => {
-          const [from, to] = params.ticker
-          return from === f && to === t
-        })
+  const paths = availablePairs.reduce((results: Paths[], pair) => {
+    const fromCurrency = pair.fromCurrency + pair.fromNetwork
 
-        if (!isResult) {
-          limit += 1
-          return results.push({ params: { ticker: [f, t] } })
-        }
+    if (!pair.flow.standard) return results
 
-        const isFromTicker = pair.fromCurrency === fromTicker
-        const isFromNetwork = pair.fromNetwork === fromNetwork
-        const isFromTo = pair.toCurrency !== fromTicker
-        const isUsd = !pair.toCurrency.includes('usd')
-
-        if (!isFromTicker && !isFromNetwork && !isFromTo && !isUsd) {
-          return results
-        }
-
-        const from = currencies.find(
-          ({ ticker, network }) =>
-            ticker === fromTicker && network === fromNetwork
-        )
-
-        if (!from) return results
-
-        const to = currencies.find(
-          ({ ticker, network }) =>
-            ticker === pair.toCurrency && network === pair.toNetwork
-        )
-
-        if (!to) return results
-
-        limit += 1
-
-        return results.push({
-          params: { ticker: [from.legacyTicker, to.legacyTicker] }
-        })
-      })
-
+    if (limit > 5 || tickers.includes(fromCurrency) || max > 500) {
+      limit = 0
+      tickers.push(fromCurrency)
       return results
-    },
-    []
-  )
+    }
+
+    const from = currencies.find(
+      ({ ticker, network }) =>
+        ticker === pair.fromCurrency && network === pair.fromNetwork
+    )
+
+    if (!from) return results
+
+    const to = currencies.find(
+      ({ ticker, network }) =>
+        ticker === pair.toCurrency && network === pair.toNetwork
+    )
+
+    if (!to) return results
+
+    max += 1
+    limit += 1
+
+    return results.concat({
+      params: { ticker: [from.legacyTicker, to.legacyTicker] }
+    })
+  }, [])
 
   return { paths, fallback: true }
 }
@@ -133,90 +118,90 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const { ticker } = ctx.params as { ticker: string[] }
   const [fromLegacyTicker, toLegacyTicker] = ticker
 
-  const [{ data: availablePairs }, { data: currencies }] = await Promise.all([
-    ChangeNow.getAvailablePairs(),
-    ChangeNow.getCurrencies()
-  ])
+  try {
+    const [{ data: availablePairs }, { data: currencies }] = await Promise.all([
+      ChangeNow.getAvailablePairs(),
+      ChangeNow.getCurrencies()
+    ])
 
-  const from = currencies.find(
-    (currency) => currency.legacyTicker === fromLegacyTicker
-  )
-  const to = currencies.find(
-    (currency) => currency.legacyTicker === toLegacyTicker
-  )
+    const from = currencies.find(
+      (currency) => currency.legacyTicker === fromLegacyTicker
+    )
+    const to = currencies.find(
+      (currency) => currency.legacyTicker === toLegacyTicker
+    )
 
-  const initialProps = {
-    fromCurrency: from!.ticker,
-    fromNetwork: from!.network,
-    toCurrency: to!.ticker,
-    toNetwork: to!.network
-  }
+    const initialProps = {
+      fromCurrency: from!.ticker,
+      fromNetwork: from!.network,
+      toCurrency: to!.ticker,
+      toNetwork: to!.network
+    }
 
-  const { data: range } = await ChangeNow.getRange({
-    ...initialProps,
-    flow: 'standard'
-  })
+    const { data: range } = await ChangeNow.getRange({
+      ...initialProps,
+      flow: 'standard'
+    })
 
-  if (!availablePairs.length || !from || !to || !range.minAmount) {
+    const fromAmount = String((range.minAmount * 10).toFixed(8))
+
+    let limit = 0
+
+    const suggestedCoins = availablePairs
+      .filter((pair) => {
+        if (limit >= 8) return null
+
+        const isFromTicker = from!.ticker === pair.fromCurrency
+        const isToTicker = from!.ticker !== pair.toCurrency
+        const isUsd = !pair.toCurrency.includes('usd')
+
+        if (isFromTicker && isToTicker && isUsd) limit += 1
+
+        return limit <= 8 && isFromTicker && isToTicker && isUsd
+      })
+      .map((item) => {
+        const to = currencies.find(
+          (currency) => currency.ticker === item.toCurrency
+        )
+
+        return {
+          name: to?.name,
+          ticker: to?.ticker,
+          network: to?.network,
+          hasExternalId: to?.hasExternalId,
+          image: getImage(to?.ticker as string),
+          legacyTicker: to?.legacyTicker
+        }
+      })
+
+    return {
+      props: {
+        data: {
+          ...initialProps,
+          fromAmount,
+          fromName: from!.name,
+          fromCurrency: from!.ticker,
+          fromNetwork: from!.network,
+          fromId: from!.hasExternalId,
+          fromImage: getImage(from!.ticker),
+          fromLegacyTicker: from!.legacyTicker,
+          toName: to!.name,
+          toCurrency: to!.ticker,
+          toNetwork: to!.network,
+          toId: to!.hasExternalId,
+          toImage: getImage(to!.ticker),
+          toLegacyTicker: to!.legacyTicker,
+          minAmount: String(range.minAmount)
+        },
+        suggestedCoins
+      },
+      revalidate: 600000
+    }
+  } catch (err) {
     return {
       notFound: true,
       revalidate: 600000
     }
-  }
-
-  const fromAmount = String((range.minAmount * 10).toFixed(8))
-
-  let limit = 0
-
-  const suggestedCoins = availablePairs
-    .filter((pair) => {
-      if (limit >= 8) return null
-
-      const isFromTicker = from!.ticker === pair.fromCurrency
-      const isToTicker = from!.ticker !== pair.toCurrency
-      const isUsd = !pair.toCurrency.includes('usd')
-
-      if (isFromTicker && isToTicker && isUsd) limit += 1
-
-      return limit <= 8 && isFromTicker && isToTicker && isUsd
-    })
-    .map((item) => {
-      const to = currencies.find(
-        (currency) => currency.ticker === item.toCurrency
-      )
-
-      return {
-        name: to?.name,
-        ticker: to?.ticker,
-        network: to?.network,
-        hasExternalId: to?.hasExternalId,
-        image: getImage(to?.ticker as string),
-        legacyTicker: to?.legacyTicker
-      }
-    })
-
-  return {
-    props: {
-      data: {
-        ...initialProps,
-        fromAmount,
-        fromName: from!.name,
-        fromCurrency: from!.ticker,
-        fromNetwork: from!.network,
-        fromId: from!.hasExternalId,
-        fromImage: getImage(from!.ticker),
-        fromLegacyTicker: from!.legacyTicker,
-        toName: to!.name,
-        toCurrency: to!.ticker,
-        toNetwork: to!.network,
-        toId: to!.hasExternalId,
-        toImage: getImage(to!.ticker),
-        toLegacyTicker: to!.legacyTicker,
-        minAmount: String(range.minAmount)
-      },
-      suggestedCoins
-    },
-    revalidate: 600000
   }
 }
 
