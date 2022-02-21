@@ -79,7 +79,7 @@ const storage = {
   }
 }
 
-const multiplies = (value: number, x: number = 25) => {
+const multiplies = (value: number, x: number = 10) => {
   return String((value * x).toFixed(8))
 }
 
