@@ -3,6 +3,8 @@ import Head from 'next/head'
 import { site } from 'config/site'
 import { getUrl } from 'utils/getUrl'
 
+import { OrganizationSEO } from 'components/OrganizationSEO'
+
 type Props = {
   title?: string
   pathUrl?: string
@@ -64,6 +66,8 @@ export const MetaSEO = ({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(logoJsonLd) }}
       />
+
+      <OrganizationSEO pageUrl={u} pageTitle={t} pageDescription={d} />
     </Head>
   )
 }
