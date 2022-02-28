@@ -122,9 +122,7 @@ export const ExchangeLayout = () => {
     <HeroBackground>
       <S.Title>Preencha os dados para trocar as moedas.</S.Title>
 
-      <S.ExchangeWrapper>
-        <Exchange />
-      </S.ExchangeWrapper>
+      <Exchange />
 
       {dataFlow.fromCurrency === dataFlow.toCurrency && (
         <S.AlertKYCAML>
