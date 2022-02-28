@@ -8,7 +8,7 @@ import Document, {
 } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 
-import { WebsiteSEO } from 'components/WebsiteSEO'
+import { WebSiteSEO } from 'components/WebSiteSEO'
 
 export default class MyDocument extends Document {
   static async getInitialProps(
@@ -55,7 +55,7 @@ export default class MyDocument extends Document {
             rel="stylesheet"
           />
 
-          <WebsiteSEO />
+          <WebSiteSEO />
         </Head>
 
         <body>

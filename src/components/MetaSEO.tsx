@@ -3,7 +3,7 @@ import Head from 'next/head'
 import { site } from 'config/site'
 import { getUrl } from 'utils/getUrl'
 
-import { OrganizationSEO } from 'components/OrganizationSEO'
+import { WebPageSEO } from 'components/WebPageSEO'
 
 type Props = {
   title?: string
@@ -30,13 +30,6 @@ export const MetaSEO = ({
   const index = !noIndex ? 'index' : 'noindex'
   const follow = !noFollow ? ',follow' : ',nofollow'
 
-  const logoJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    url: site.url,
-    logo: site.url + site.logo
-  }
-
   return (
     <Head>
       <title>{t}</title>
@@ -61,13 +54,7 @@ export const MetaSEO = ({
       <meta property="twitter:description" content={d} />
       <meta property="twitter:image" content={i}></meta>
 
-      <script
-        id="logo-json-ld"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(logoJsonLd) }}
-      />
-
-      <OrganizationSEO pageUrl={u} pageTitle={t} pageDescription={d} />
+      <WebPageSEO pageUrl={u} pageTitle={t} pageDescription={d} />
     </Head>
   )
 }
