@@ -225,12 +225,12 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
         },
         suggestedCoins
       },
-      revalidate: 600000
+      revalidate: 60
     }
   } catch (err) {
     return {
       notFound: true,
-      revalidate: 600000
+      revalidate: 10
     }
   }
 }
