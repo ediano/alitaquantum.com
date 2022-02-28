@@ -4,6 +4,7 @@ import { lessThan } from 'styles/layout'
 
 export const Title = styled.h1`
   display: block;
+  text-align: center;
 
   ${({ theme }) => css`
     margin-bottom: ${theme.spacing.l};
