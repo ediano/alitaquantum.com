@@ -4,7 +4,6 @@ import { lessThan } from 'styles/layout'
 
 export const Title = styled.h1`
   display: block;
-  text-align: center;
 
   ${({ theme }) => css`
     margin-bottom: ${theme.spacing.l};
@@ -16,11 +15,6 @@ export const BlockWrapper = styled.div`
   position: relative;
   display: block;
   width: 100%;
-`
-
-export const ExchangeWrapper = styled.div`
-  max-width: 550px;
-  margin: 0 auto;
 `
 
 export const Block = styled.div`
