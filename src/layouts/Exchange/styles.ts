@@ -17,6 +17,11 @@ export const BlockWrapper = styled.div`
   width: 100%;
 `
 
+export const ExchangeWrapper = styled.div`
+  max-width: 550px;
+  margin: 0 auto;
+`
+
 export const Block = styled.div`
   ${({ theme }) => css`
     margin: ${theme.spacing.xxl} 0;
