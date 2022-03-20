@@ -5,7 +5,7 @@ import { Icon } from 'components/Icon'
 
 import * as S from './styles'
 
-export type Color = 'primary' | 'secondary' | 'alert' | 'error' | 'grey'
+export type Color = 'primary' | 'secondary' | 'alert' | 'error' | 'gray'
 
 type Props = {
   input: InputHTMLAttributes<HTMLInputElement>

@@ -18,7 +18,7 @@ export const Container = styled.div`
 export const Title = styled.span`
   ${({ theme }) => css`
     font-size: ${theme.fonts.sizes.m};
-    color: ${theme.colors.grey};
+    color: ${theme.colors.gray};
 
     ${lessThan('s')(css`
       font-size: ${theme.fonts.sizes.s};

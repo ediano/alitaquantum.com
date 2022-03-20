@@ -3,7 +3,7 @@ import { Suggestion } from 'components/Suggestion'
 import { Transparency } from 'components/Transparency'
 import { About } from 'components/About'
 
-import { HomeProps } from 'types/home'
+import { HomeProps } from 'types/pages'
 
 import * as S from './styles'
 

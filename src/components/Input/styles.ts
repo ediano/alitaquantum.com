@@ -51,8 +51,8 @@ export const Container = styled.div<{ disabled?: boolean }>`
       }
     }
 
-    &.grey {
-      color: ${theme.colors.grey};
+    &.gray {
+      color: ${theme.colors.gray};
     }
 
     &.primary {
@@ -106,8 +106,8 @@ export const Label = styled.label<Props>`
         color: ${theme.colors.white};
       }
 
-      &.grey {
-        color: ${theme.colors.grey};
+      &.gray {
+        color: ${theme.colors.gray};
       }
 
       &.alert {
@@ -150,7 +150,7 @@ export const Input = styled.input`
       color: ${theme.colors.secondary};
     }
 
-    &.grey {
+    &.gray {
       color: ${theme.colors.white};
     }
 

@@ -53,7 +53,7 @@ export const Anchor = styled.a`
     svg {
       width: 3.2rem;
       height: 3.2rem;
-      color: ${theme.colors.grey};
+      color: ${theme.colors.gray};
     }
 
     &:hover svg {
