@@ -8,7 +8,7 @@ import { Hero } from 'components/Hero'
 import { HomeLayout } from 'layouts/Home'
 import { Footer } from 'components/Footer'
 
-import { HomeProps } from 'types/home'
+import { HomeProps } from 'types/pages'
 
 const HomePage = ({ suggestions, steps, transparency, about }: HomeProps) => {
   return (

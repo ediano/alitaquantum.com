@@ -86,7 +86,7 @@ export const InstantExchange = () => {
           <Input
             ariaLabel="Quantidade estimada de moedas a receber?"
             name="toAmount"
-            color="grey"
+            color="gray"
             isLoading={!estimatedAmount}
             input={{
               value: !estimatedAmount ? '' : Number(estimatedAmount).toFixed(8),

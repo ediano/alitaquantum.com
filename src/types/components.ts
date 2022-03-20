@@ -26,3 +26,8 @@ export type SupportWelcomeProps = {
   description: string
   body: string
 }
+
+export type FAQContentProps = {
+  title: string
+  description: string
+}

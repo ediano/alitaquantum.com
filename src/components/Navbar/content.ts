@@ -6,5 +6,9 @@ export default [
   {
     title: 'Suporte',
     href: '/suporte'
+  },
+  {
+    title: 'F.A.Q',
+    href: '/faq'
   }
 ]

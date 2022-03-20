@@ -84,7 +84,7 @@ export const IconArrowDown = styled(BsArrowDown)`
   margin: 1rem 0;
 
   ${({ theme }) => css`
-    color: ${theme.colors.grey};
+    color: ${theme.colors.gray};
     padding: ${theme.spacing.s};
   `}
 `

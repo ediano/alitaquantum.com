@@ -3,7 +3,8 @@ import {
   StepsProps,
   AboutProps,
   TransparencyProps,
-  SupportWelcomeProps
+  SupportWelcomeProps,
+  FAQContentProps
 } from './components'
 
 export type HomeProps = {
@@ -15,4 +16,9 @@ export type HomeProps = {
 
 export type SupportProps = {
   welcome: SupportWelcomeProps
+}
+
+export type FAQProps = {
+  title: string
+  content: FAQContentProps[]
 }

@@ -12,7 +12,7 @@ export const theme = {
     bg: '#191919',
     alert: '#f9a825',
     error: '#f44336',
-    grey: '#9e9e9e'
+    gray: '#9e9e9e'
   },
   spacing: {
     xxs: '0.4rem',
