@@ -3,13 +3,10 @@ import { GetStaticProps } from 'next'
 import { MetaSEO } from 'components/MetaSEO'
 
 import { Header } from 'components/Header'
-import {
-  BodyMarkdown,
-  Props as BodyMarkdownProps
-} from 'components/BodyMarkdown'
 import { Footer } from 'components/Footer'
+import { PagesLayout, Props } from 'layouts/Pages'
 
-const PrivacyPolicyPage = (props: BodyMarkdownProps) => {
+const PrivacyPolicyPage = (props: Props) => {
   return (
     <>
       <MetaSEO
@@ -19,7 +16,7 @@ const PrivacyPolicyPage = (props: BodyMarkdownProps) => {
 
       <Header />
 
-      <BodyMarkdown {...props} />
+      <PagesLayout {...props} />
 
       <Footer />
     </>
