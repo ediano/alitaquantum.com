@@ -21,11 +21,11 @@ const envFromAmount = process.env.NEXT_PUBLIC_FROM_AMOUNT
 const envFromCurrency = process.env.NEXT_PUBLIC_FROM_CURRENCY
 const envFromNetwork = process.env.NEXT_PUBLIC_FROM_NETWORK
 const envFromName = process.env.NEXT_PUBLIC_FROM_NAME
-const envFromLegacyTicker = process.env.NEXT_PUBLIC_FROM_FROM_LEGACY_TICKER
+const envFromLegacyTicker = process.env.NEXT_PUBLIC_FROM_LEGACY_TICKER
 const envToCurrency = process.env.NEXT_PUBLIC_TO_CURRENCY
 const envToNetwork = process.env.NEXT_PUBLIC_TO_NETWORK
 const envToName = process.env.NEXT_PUBLIC_TO_NAME
-const envToLegacyTicker = process.env.NEXT_PUBLIC_FROM_TO_LEGACY_TICKER
+const envToLegacyTicker = process.env.NEXT_PUBLIC_TO_LEGACY_TICKER
 
 const initialProps = {
   fromName: envFromName || 'Bitcoin',
