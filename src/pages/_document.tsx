@@ -9,6 +9,7 @@ import Document, {
 import { ServerStyleSheet } from 'styled-components'
 
 import { WebSiteSEO } from 'components/WebSiteSEO'
+import { GoogleOptimize } from 'components/GoogleOptimize'
 
 export default class MyDocument extends Document {
   static async getInitialProps(
@@ -56,6 +57,7 @@ export default class MyDocument extends Document {
           />
 
           <WebSiteSEO />
+          <GoogleOptimize />
         </Head>
 
         <body>

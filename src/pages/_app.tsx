@@ -9,7 +9,6 @@ import { theme } from 'styles/theme'
 import { GlobalStyle } from 'styles/global'
 import { pageView } from '../lib/gtag'
 import { Analytics } from 'components/Analytics'
-import { GoogleOptimize } from 'components/GoogleOptimize'
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -32,7 +31,6 @@ const App = ({ Component, pageProps }: AppProps) => {
         <meta name="theme-color" content="#08b9c1" />
         <link rel="shortcut icon" href={site.favicon} type="image/x-icon" />
         <link rel="apple-touch-icon" href={site.favicon} />
-        <GoogleOptimize />
       </Head>
 
       <GlobalStyle />
