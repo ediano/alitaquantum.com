@@ -7,7 +7,7 @@ import { ThemeProvider } from 'styled-components'
 import { site } from 'config/site'
 import { theme } from 'styles/theme'
 import { GlobalStyle } from 'styles/global'
-import { pageView, optimize } from 'lib/gtag'
+import { pageView } from 'lib/gtag'
 import { Analytics } from 'components/Analytics'
 
 const isDev = process.env.NODE_ENV === 'development'
@@ -19,7 +19,6 @@ const App = ({ Component, pageProps }: AppProps) => {
     const handleRouteChange = (url: URL) => {
       if (!isDev) {
         pageView(url)
-        optimize()
       }
     }
     router.events.on('routeChangeComplete', handleRouteChange)
