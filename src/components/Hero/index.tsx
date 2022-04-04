@@ -37,10 +37,12 @@ export const Hero = () => {
             >
               <span>Carteira recomendada</span>
               <Image
-                width="28"
-                height="28"
+                width={28}
+                height={28}
                 src="/img/logos/guarda.svg"
                 alt="Guarda Wallet"
+                placeholder="blur"
+                blurDataURL="/img/logos/guarda.svg"
               />
             </S.LinkGuarda>
           </div>
@@ -53,10 +55,12 @@ export const Hero = () => {
             rel="nofollow noopener noreferrer"
           >
             <Image
-              width="42"
-              height="42"
+              width={42}
+              height={42}
               src="/img/logos/coinmarketcap.png"
               alt="CoinMarketCap"
+              placeholder="blur"
+              blurDataURL="/img/logos/coinmarketcap.png"
             />
             <span>Ganhe diamantes diariamente e troque por recompensas</span>
           </S.CoinMarketCap>
