@@ -1,3 +1,5 @@
+import Script from 'next/script'
+
 export const GA_TRACKING_ID = 'G-7GPVGRK83N'
 
 type Event = {
@@ -19,4 +21,12 @@ export const event = ({ action, category, label, value }: Event): void => {
     event_label: label,
     value
   })
+}
+
+export const optimize = () => {
+  return (
+    <Script
+      src={`https://www.googleoptimize.com/optimize.js?id=${process.env.NEXT_PUBLIC_GOOGLE_OPTIMIZE}`}
+    />
+  )
 }
