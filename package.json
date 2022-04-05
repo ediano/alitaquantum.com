@@ -9,6 +9,11 @@
     "lint": "next lint",
     "postbuild": "next-sitemap"
   },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
   "dependencies": {
     "axios": "0.22.0",
     "cors": "2.8.5",
