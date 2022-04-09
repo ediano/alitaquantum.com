@@ -54,6 +54,12 @@ export const Markdown = styled.div`
   }
 
   ${({ theme }) => css`
+    blockquote {
+      padding-left: 1rem;
+      margin-left: 1rem;
+      border-left: 3px solid ${theme.colors.primary};
+    }
+
     a {
       color: ${shade(0.25, theme.colors.primary)};
       border-bottom: 1px dashed;

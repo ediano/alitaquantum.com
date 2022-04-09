@@ -34,6 +34,7 @@ Este documento não se sobrepõe aos termos e condições de uso aplicados ao se
 12. O ativo digital depositado pelo usuário será devolvido ao usuário se a página “Status do Pedido”:
 
 > indica que a troca falhou exibindo a mensagem “falhou”; ou,
+
 > indica que a troca travou nos estágios “aguardando troca”, “aguardando confirmação” ou “aguardando depósito”.
 
 Em casos de maiores dúvidas entre em contato com o suporte suporte@alitaquantum.com
