@@ -1,3 +1,5 @@
+import { TableType } from 'components/Table'
+
 export type SuggestionsProps = {
   title: string
   link?: string
@@ -9,6 +11,12 @@ export type StepsProps = {
   title: string
   itens: Array<{ item: string; position: string }>
   description: string
+}
+
+export type ComparisonsProps = {
+  title?: string
+  identifications: TableType
+  functionalities: TableType
 }
 
 export type AboutProps = {

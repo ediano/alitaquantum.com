@@ -3,13 +3,15 @@ import {
   StepsProps,
   AboutProps,
   SupportWelcomeProps,
-  FAQContentProps
+  FAQContentProps,
+  ComparisonsProps
 } from './components'
 
 export type HomeProps = {
   suggestions: SuggestionsProps[]
   steps: StepsProps
   about: AboutProps
+  comparisons: ComparisonsProps
 }
 
 export type SupportProps = {

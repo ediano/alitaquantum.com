@@ -1,0 +1,72 @@
+---
+title: 'Compare a Alita Quantum com demais serviços'
+identifications:
+  titles:
+    - 'Identificações'
+    - 'Alita Quantum'
+    - 'Exchange centralizadas'
+    - 'Exchanges descentralizadas'
+  contents:
+    - columns:
+        - 'Cadastro'
+        - 'Não'
+        - 'Sim'
+        - 'Não'
+    - columns:
+        - 'Verificação de identidade'
+        - 'Não'
+        - 'Sim'
+        - 'Não'
+functionalities:
+  titles:
+    - 'Funcionalidades'
+    - 'Alita Quantum'
+    - 'Exchange centralizadas'
+    - 'Exchanges descentralizadas'
+  contents:
+    - columns:
+        - 'Tem custódia sobre as criptomoedas'
+        - 'Não'
+        - 'Sim'
+        - 'Não'
+    - columns:
+        - 'Trocas ilimitadas'
+        - 'Sim'
+        - 'Não'
+        - 'Sim'
+    - columns:
+        - 'Trocas entre redes iguais'
+        - 'Sim'
+        - 'Sim'
+        - 'Sim'
+    - columns:
+        - 'Trocas entre redes diferentes'
+        - 'Sim'
+        - ''
+        - 'Não'
+    - columns:
+        - 'Trocas entre blockchain iguais'
+        - 'Sim'
+        - 'Sim'
+        - 'Sim'
+    - columns:
+        - 'Trocas entre blockchain diferentes'
+        - 'Sim'
+        - ''
+        - 'Não'
+    - columns:
+        - 'Criação de carteira temporária'
+        - 'Sim'
+        - 'Não'
+        - 'Não'
+    - columns:
+        - 'Carteira temporária pode ser reutilizada'
+        - 'Não'
+        - ''
+        - ''
+    - columns:
+        - 'Embaralhamento da carteira de origem'
+        - 'Sim'
+        - 'Não'
+        - 'Não'
+---
