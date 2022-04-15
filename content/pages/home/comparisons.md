@@ -42,7 +42,7 @@ functionalities:
     - columns:
         - 'Trocas entre redes diferentes'
         - 'Sim'
-        - ''
+        - '-'
         - 'Não'
     - columns:
         - 'Trocas entre blockchain iguais'
@@ -52,7 +52,7 @@ functionalities:
     - columns:
         - 'Trocas entre blockchain diferentes'
         - 'Sim'
-        - ''
+        - '-'
         - 'Não'
     - columns:
         - 'Criação de carteira temporária'
@@ -62,8 +62,8 @@ functionalities:
     - columns:
         - 'Carteira temporária pode ser reutilizada'
         - 'Não'
-        - ''
-        - ''
+        - '-'
+        - '-'
     - columns:
         - 'Embaralhamento da carteira de origem'
         - 'Sim'
