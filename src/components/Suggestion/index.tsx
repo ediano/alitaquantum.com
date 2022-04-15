@@ -13,27 +13,34 @@ export const Suggestion = ({ suggestions }: Props) => {
     <S.Container as="section">
       {suggestions.map(({ title, link, image, description }) => (
         <S.Wrapper key={title}>
-          <S.Figure>
-            <Image
-              src={image.src}
-              alt={title}
-              layout="fill"
-              placeholder="blur"
-              blurDataURL={image.src}
-            />
-          </S.Figure>
-          <S.Description>
-            {description}
+          <S.Content>
+            {image && (
+              <S.Figure>
+                <Image
+                  src={image.src}
+                  alt={title}
+                  layout="fill"
+                  placeholder="blur"
+                  blurDataURL={image.src}
+                />
+              </S.Figure>
+            )}
 
-            <S.Link
-              href={link}
-              target="_blank"
-              aria-label={title}
-              rel="nofollow noopener noreferrer"
-            >
-              Saiba mais!
-            </S.Link>
-          </S.Description>
+            <S.Description>
+              {description}
+
+              {link && (
+                <S.Link
+                  href={link}
+                  target="_blank"
+                  aria-label={title}
+                  rel="nofollow noopener noreferrer"
+                >
+                  Saiba mais!
+                </S.Link>
+              )}
+            </S.Description>
+          </S.Content>
         </S.Wrapper>
       ))}
     </S.Container>

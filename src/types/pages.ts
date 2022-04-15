@@ -2,16 +2,16 @@ import {
   SuggestionsProps,
   StepsProps,
   AboutProps,
-  TransparencyProps,
   SupportWelcomeProps,
-  FAQContentProps
+  FAQContentProps,
+  ComparisonsProps
 } from './components'
 
 export type HomeProps = {
   suggestions: SuggestionsProps[]
   steps: StepsProps
   about: AboutProps
-  transparency: TransparencyProps
+  comparisons: ComparisonsProps
 }
 
 export type SupportProps = {

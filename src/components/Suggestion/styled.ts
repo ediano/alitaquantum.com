@@ -6,40 +6,50 @@ export const Container = styled(ContainerBase)`
   position: relative;
   z-index: 1;
 
+  display: flex;
+  flex-wrap: wrap;
+
   ${({ theme }) => css`
     transform: translateY(-${theme.spacing.xxl});
     background: ${theme.colors.white};
     padding: ${theme.spacing.xxl};
-    margin-bottom: ${theme.spacing.xxl};
     border-radius: ${theme.spacing.m};
     box-shadow: 0 -4px 12px -4px ${theme.colors.white};
   `}
 `
 
 export const Wrapper = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 2fr;
+  display: flex;
+  width: 50%;
+  flex: 1 0 50%;
+
+  ${lessThan(1050)(css`
+    width: 100%;
+    flex: 1 0 100%;
+  `)}
+`
+
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 2rem;
 
   align-items: center;
   justify-content: center;
   justify-items: center;
 
   ${({ theme }) => css`
-    gap: ${theme.spacing.m};
+    gap: 2rem;
     padding: ${theme.spacing.xxl};
     border-radius: ${theme.spacing.m};
     box-shadow: 0 12px 12px -2px ${lighten(0.5, theme.colors.secondary)};
   `}
-
-  ${lessThan(1050)(css`
-    grid-template-columns: 1fr;
-  `)}
 `
 
 export const Figure = styled.figure`
   position: relative;
-  width: 300px;
-  height: 300px;
+  width: 150px;
+  height: 150px;
 `
 
 export const Description = styled.p`

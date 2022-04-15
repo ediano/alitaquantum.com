@@ -1,7 +1,9 @@
+import { TableType } from 'components/Table'
+
 export type SuggestionsProps = {
   title: string
-  link: string
-  image: { src: string; alt: string }
+  link?: string
+  image?: { src: string }
   description: string
 }
 
@@ -11,9 +13,10 @@ export type StepsProps = {
   description: string
 }
 
-export type TransparencyProps = {
-  title: string
-  content: Array<{ description: string; image: string; alt: string }>
+export type ComparisonsProps = {
+  title?: string
+  identifications: TableType
+  functionalities: TableType
 }
 
 export type AboutProps = {

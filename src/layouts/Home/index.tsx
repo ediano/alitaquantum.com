@@ -1,6 +1,6 @@
 import { Steps } from 'components/Steps'
 import { Suggestion } from 'components/Suggestion'
-import { Transparency } from 'components/Transparency'
+import { Table } from 'components/Table'
 import { About } from 'components/About'
 
 import { HomeProps } from 'types/pages'
@@ -10,14 +10,17 @@ import * as S from './styles'
 export const HomeLayout = ({
   suggestions,
   steps,
-  transparency,
-  about
+  about,
+  comparisons
 }: HomeProps) => {
   return (
     <S.Main>
       <Steps {...steps} />
       <Suggestion suggestions={suggestions} />
-      <Transparency {...transparency} />
+
+      <Table title={comparisons.title} table={comparisons.identifications} />
+      <Table table={comparisons.functionalities} />
+
       <About {...about} />
     </S.Main>
   )
