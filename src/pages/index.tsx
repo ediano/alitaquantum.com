@@ -10,7 +10,7 @@ import { Footer } from 'components/Footer'
 
 import { HomeProps } from 'types/pages'
 
-const HomePage = ({ suggestions, steps, transparency, about }: HomeProps) => {
+const HomePage = ({ suggestions, steps, about }: HomeProps) => {
   return (
     <>
       <MetaSEO />
@@ -21,12 +21,7 @@ const HomePage = ({ suggestions, steps, transparency, about }: HomeProps) => {
         </Header>
       </ExchangeProvider>
 
-      <HomeLayout
-        about={about}
-        steps={steps}
-        suggestions={suggestions}
-        transparency={transparency}
-      />
+      <HomeLayout about={about} steps={steps} suggestions={suggestions} />
 
       <Footer />
     </>
@@ -40,10 +35,6 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const { attributes: steps } = await import('content/pages/home/steps.md')
 
-  const { attributes: transparency } = await import(
-    'content/pages/home/transparency.md'
-  )
-
   const { attributes: about, body: aboutBody } = await import(
     'content/pages/home/about.md'
   )
@@ -52,7 +43,6 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       suggestions,
       steps,
-      transparency,
       about: { ...about, body: aboutBody }
     }
   }
