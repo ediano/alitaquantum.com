@@ -42,6 +42,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const { attributes: about, body: aboutBody } = await import(
     'content/pages/home/about.md'
   )
+
   return {
     props: {
       suggestions,
