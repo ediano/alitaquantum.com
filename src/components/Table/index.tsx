@@ -1,12 +1,12 @@
 import * as S from './styles'
 
 type ColumnType = {
-  columns: string[]
+  row: string[]
 }
 
 export type TableType = {
-  titles: string[]
-  contents: ColumnType[]
+  columns: string[]
+  rows: ColumnType[]
 }
 
 type Props = {
@@ -19,27 +19,27 @@ export const Table = ({ title, table }: Props) => {
     <S.Container as="section">
       {!!title && <S.Title>{title}</S.Title>}
 
-      {!!table.titles.length && !!table.contents.length && (
+      {!!table.columns.length && !!table.rows.length && (
         <S.Wrapper>
           <S.TitleWrapper>
-            {table.titles.map((title, i) => (
-              <strong data-title={i === 0} key={title}>
-                {title}
+            {table.columns.map((column, i) => (
+              <strong data-title={i === 0} key={column}>
+                {column}
               </strong>
             ))}
           </S.TitleWrapper>
 
           <S.ContentWrapper>
-            {table.contents.map((content, index) => (
+            {table.rows.map((content, index) => (
               <S.Content key={index}>
-                {!!content.columns.length &&
-                  content.columns.map((column, i) => (
+                {!!content.row.length &&
+                  content.row.map((row, i) => (
                     <span
                       data-title={i === 0}
-                      className={column === 'Sim' ? 'ok' : ''}
+                      className={row === 'Sim' ? 'ok' : ''}
                       key={i}
                     >
-                      {column}
+                      {row}
                     </span>
                   ))}
               </S.Content>
