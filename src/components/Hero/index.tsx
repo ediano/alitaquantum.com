@@ -41,8 +41,6 @@ export const Hero = () => {
                 height={28}
                 src="/img/logos/guarda.svg"
                 alt="Guarda Wallet"
-                placeholder="blur"
-                blurDataURL="/img/logos/guarda.svg"
               />
             </S.LinkGuarda>
           </div>
