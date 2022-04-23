@@ -1,4 +1,4 @@
-export const GA_TRACKING_ID = 'G-7GPVGRK83N'
+export const GA_TRACKING_ID = 'G-HY30L2M771'
 
 type Event = {
   action: string
