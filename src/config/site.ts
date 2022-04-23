@@ -7,7 +7,7 @@ export const site = {
   description: 'Troque criptomoedas de forma simples, fácil e sem limites.',
   keywords:
     'trocar, exchange, trocar instantaneamente, transferir, transferir instantaneamente, exchange instantaneamente, criptomoedas, plataforma de criptomoedas, taxa zero, troca sem custódia, troca privada, troca segura, transferir criptomoedas, btc, eth, trx, bnb',
-  url: isDev ? `http://localhost:${PORT}` : 'https://alitaquantum.com',
+  url: isDev ? `http://localhost:${PORT}` : 'https://www.alitaquantum.com',
   favicon: '/img/favicon.png',
   logo: '/img/logo.png'
 }
