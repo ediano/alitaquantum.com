@@ -1,4 +1,4 @@
-export const GA_TRACKING_ID = 'G-7GPVGRK83N'
+export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GOOGLE_ANALYTIC_WEB_ID
 
 type Event = {
   action: string
