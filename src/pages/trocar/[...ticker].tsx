@@ -75,6 +75,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     ChangeNow.getCurrencies()
   ])
 
+  let max = 0
   let limit = 0
   const tickerList: string[] = []
 
@@ -83,7 +84,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
     if (!pair.flow.standard) return results
 
-    if (limit > 5 || tickerList.includes(fromCurrency)) {
+    if (limit > 5 || tickerList.includes(fromCurrency) || max > 1000) {
       limit = 0
       tickerList.push(fromCurrency)
       return results
@@ -103,6 +104,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
     if (!to) return results
 
+    max += 1
     limit += 1
 
     return results.concat({
