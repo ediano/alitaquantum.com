@@ -298,8 +298,13 @@ export const ExchangeProvider = ({ props, children }: Props) => {
 
       const { value, name } = event.target
       const isFocus = event.type === 'focus'
+      const [currencyName, network] = value.split('-')
 
-      const currency = currencies.find((currency) => currency.name === value)
+      const currency = currencies.find(
+        (currency) =>
+          currency.name === currencyName?.trim() &&
+          currency.network === network?.trim().toLowerCase()
+      )
 
       setDataFlow((state) => {
         if (name === 'fromName') {
@@ -307,7 +312,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
 
           const data = {
             ...state,
-            fromName: currency?.name || value,
+            fromName: currency?.name || currencyName,
             fromCurrency: currency?.ticker || '',
             fromNetwork: currency?.network || '',
             fromId: currency?.hasExternalId || false,
@@ -325,7 +330,7 @@ export const ExchangeProvider = ({ props, children }: Props) => {
 
           const data = {
             ...state,
-            toName: currency?.name || value,
+            toName: currency?.name || currencyName,
             toCurrency: currency?.ticker || '',
             toNetwork: currency?.network || '',
             toId: currency?.hasExternalId || false,

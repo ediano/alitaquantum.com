@@ -13,9 +13,9 @@ export const Select = ({ name, currencies }: Props) => {
       {currencies?.map((currency) => (
         <S.Option
           key={currency.network + ':' + currency.ticker}
-          value={currency.name}
+          value={`${currency.name} - ${currency.network?.toUpperCase()}`}
         >
-          {currency.ticker?.toUpperCase()}
+          {currency.ticker?.toUpperCase()} - {currency.network?.toUpperCase()}
         </S.Option>
       ))}
     </S.Container>
