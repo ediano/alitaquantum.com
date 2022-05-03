@@ -413,8 +413,8 @@ export const ExchangeProvider = ({ props, children }: Props) => {
             pathname: '/trocar',
             query: {
               amount: fromAmount,
-              from: toName,
-              to: fromName
+              from: `${toName} - ${toNetwork}`,
+              to: `${fromName} - ${fromNetwork}`
             }
           },
           undefined,
@@ -533,8 +533,20 @@ export const ExchangeProvider = ({ props, children }: Props) => {
 
     const coins = storage.get() || currencies
 
-    const from = coins.find((coin: Currencies) => coin.name === fromName)
-    const to = coins.find((coin: Currencies) => coin.name === toName)
+    const [currencyFromName, currencyFromNetwork] = fromName!.split('-')
+    const [currencyToName, currencyToNetwork] = toName!.split('-')
+
+    const from = coins.find(
+      (coin: Currencies) =>
+        coin.name === currencyFromName?.trim() &&
+        coin.network === currencyFromNetwork?.trim().toLowerCase()
+    )
+
+    const to = coins.find(
+      (coin: Currencies) =>
+        coin.name === currencyToName?.trim() &&
+        coin.network === currencyToNetwork?.trim().toLowerCase()
+    )
 
     if (from?.ticker && to?.ticker) {
       setIsQueryLoaded(true)

@@ -14,7 +14,7 @@ import * as S from './styles'
 
 export const TickerLayout = ({ data, suggestedCoins }: Props) => {
   const { estimatedAmount, dataFlow } = useExchange()
-  const { fromAmount, fromName, toName } = dataFlow
+  const { fromAmount, fromName, fromNetwork, toName, toNetwork } = dataFlow
   const { fromLegacyTicker, toLegacyTicker } = dataFlow
 
   return (
@@ -37,7 +37,11 @@ export const TickerLayout = ({ data, suggestedCoins }: Props) => {
           title="Proximo"
           href={{
             pathname: '/trocar',
-            query: { amount: fromAmount, from: fromName, to: toName }
+            query: {
+              amount: fromAmount,
+              from: `${fromName} - ${fromNetwork}`,
+              to: `${toName} - ${toNetwork}`
+            }
           }}
           style={{ marginTop: '25px', width: '250px' }}
         />

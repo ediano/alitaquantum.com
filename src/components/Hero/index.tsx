@@ -10,7 +10,7 @@ import * as S from './styles'
 
 export const Hero = () => {
   const { dataFlow, estimatedAmount } = useExchange()
-  const { fromAmount, fromName, toName } = dataFlow
+  const { fromAmount, fromName, fromNetwork, toName, toNetwork } = dataFlow
 
   return (
     <S.Container>
@@ -75,8 +75,8 @@ export const Hero = () => {
               pathname: '/trocar',
               query: {
                 amount: fromAmount,
-                from: fromName,
-                to: toName
+                from: `${fromName} - ${fromNetwork}`,
+                to: `${toName} - ${toNetwork}`
               }
             }}
             style={{ marginTop: '50px' }}
