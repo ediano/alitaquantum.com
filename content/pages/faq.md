@@ -37,10 +37,10 @@ content:
       2. Esse identificadores é de uso obrigatório, portanto no momento de você enviar seus BNB, além de informar a carteira você também deve informar o identificador.
 
 
-      ATENÇÃO: Se uma de nossas transações gerar o identificador automaticamente, e ele não for informado no momento de enviar as moedas, elas podem ser perdidas, nesse caso entre em contato com o suporte por e-mail [suporte@alitaquantum.com](mailto:suporte@alitaquantum.com) ou via [WhatsApp](https://api.whatsapp.com/send?phone=5569999676943).'
+      ATENÇÃO: Se uma de nossas transações gerar o identificador automaticamente, e ele não for informado no momento de enviar as moedas, elas podem ser perdidas, nesse caso entre em contato com o suporte por e-mail [suporte@alitaquantum.com](mailto:suporte@alitaquantum.com).'
     - title: 'Como funciona o reembolso em casos de falhas?'
       description: 'Em casos de falhar um reembolso automático pode ser iniciado pelo próprio sistemas de troca, para que isso seja possível antes de criar a transação deve ser informado o endereço de reembolso, normalmente o endereço deve ser compatível com a moeda de origem, exemplo: Se você estiver enviando BTC para ETH o endereço de reembolso deve ser um endereço BTC válido.
 
 
-      Caso haja alguma falha com a troca é o endereço de reembolso não tenha sido informado por favor entre em contato com o suporte por e-mail [suporte@alitaquantum.com](mailto:suporte@alitaquantum.com) ou via [WhatsApp](https://api.whatsapp.com/send?phone=5569999676943).'
+      Caso haja alguma falha com a troca é o endereço de reembolso não tenha sido informado por favor entre em contato com o suporte por e-mail [suporte@alitaquantum.com](mailto:suporte@alitaquantum.com).'
 ---
