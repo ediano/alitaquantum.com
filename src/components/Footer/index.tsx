@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { BsWhatsapp } from 'react-icons/bs'
 
 import { site } from 'config/site'
 
