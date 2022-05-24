@@ -48,6 +48,7 @@ export default class MyDocument extends Document {
             content="Yv_79yBgF4dOOjb0n44IIXTOa-kqRgqEK_hKUYq-w7I"
           />
 
+          <link rel="manifest" href="/manifest.json" />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link

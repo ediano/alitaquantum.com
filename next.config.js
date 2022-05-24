@@ -1,7 +1,10 @@
+/** @type {import('next').NextConfig} */
 const FMLMode = require('frontmatter-markdown-loader/mode')
 
-/** @type {import('next').NextConfig} */
-module.exports = {
+const withPWA = require('next-pwa')
+const runtimeCaching = require('next-pwa/cache')
+
+module.exports = withPWA({
   reactStrictMode: true,
   images: {
     domains: ['changenow.io']
@@ -13,5 +16,10 @@ module.exports = {
       options: { mode: [FMLMode.BODY] }
     })
     return config
+  },
+  pwa: {
+    dest: 'public',
+    runtimeCaching,
+    disable: process.env.NODE_ENV === 'development'
   }
-}
+})
