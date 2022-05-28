@@ -66,9 +66,11 @@ export const InstantExchange = () => {
 
           <Select name="fromName" currencies={currencies} />
         </S.InputBlock>
-        <S.Network className="from">
-          Network: {dataFlow.fromNetwork?.toUpperCase()}
-        </S.Network>
+        {!!dataFlow.fromNetwork && (
+          <S.Network className="from">
+            {dataFlow.fromNetwork?.toUpperCase()}
+          </S.Network>
+        )}
       </S.WrapperBlock>
 
       <S.WrapperDetails>
@@ -111,9 +113,11 @@ export const InstantExchange = () => {
 
           <Select name="toName" currencies={currencies} />
         </S.InputBlock>
-        <S.Network className="to">
-          Network: {dataFlow.toNetwork?.toUpperCase()}
-        </S.Network>
+        {!!dataFlow.toNetwork && (
+          <S.Network className="to">
+            {dataFlow.toNetwork?.toUpperCase()}
+          </S.Network>
+        )}
       </S.WrapperBlock>
     </S.Container>
   )
