@@ -12,7 +12,6 @@ import { TickerLayout } from 'layouts/Ticker'
 import { Footer } from 'components/Footer'
 
 import { getImage } from 'utils/getImage'
-import { tickers } from 'utils/collections'
 
 type Paths = { params: { ticker: [string, string] } }
 
@@ -75,71 +74,24 @@ export const getStaticPaths: GetStaticPaths = async () => {
     ChangeNow.getCurrencies()
   ])
 
-  let max = 0
-  let limit = 0
-  const tickerList: string[] = []
-
-  const pairs = availablePairs.reduce((results: Paths[], pair) => {
-    const fromCurrency = pair.fromCurrency + pair.fromNetwork
-
-    if (!pair.flow.standard) return results
-
-    if (limit > 5 || tickerList.includes(fromCurrency) || max > 1000) {
-      limit = 0
-      tickerList.push(fromCurrency)
-      return results
-    }
-
+  const paths = availablePairs.reduce((result: Paths[], pair) => {
     const from = currencies.find(
       ({ ticker, network }) =>
         ticker === pair.fromCurrency && network === pair.fromNetwork
     )
-
-    if (!from) return results
-
     const to = currencies.find(
       ({ ticker, network }) =>
         ticker === pair.toCurrency && network === pair.toNetwork
     )
 
-    if (!to) return results
+    if (from && to) {
+      return result.concat({
+        params: { ticker: [from.legacyTicker, to.legacyTicker] }
+      })
+    }
 
-    max += 1
-    limit += 1
-
-    return results.concat({
-      params: { ticker: [from.legacyTicker, to.legacyTicker] }
-    })
+    return result
   }, [])
-
-  const collectionsTickers = tickers.reduce((results: Paths[], ticker) => {
-    const available = availablePairs.find(
-      ({ fromCurrency, fromNetwork }) =>
-        fromCurrency && ticker.fromTicker && fromNetwork && ticker.fromNetwork
-    )
-
-    if (!available) return results
-
-    const currency = currencies.find(
-      ({ ticker, network }) =>
-        ticker && available.toCurrency && network && available.toNetwork
-    )
-
-    if (!currency) return results
-
-    const pair = pairs.find((pair) => {
-      const [from, to] = pair.params.ticker
-      return ticker.from === from && currency.legacyTicker === to
-    })
-
-    if (pair) return results
-
-    return results.concat({
-      params: { ticker: [ticker.from, currency.legacyTicker] }
-    })
-  }, [])
-
-  const paths = [...pairs, ...collectionsTickers]
 
   return { paths, fallback: true }
 }
