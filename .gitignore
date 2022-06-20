@@ -34,4 +34,7 @@ yarn-error.log*
 # vercel
 .vercel
 
-sitemap.xml
+/public/robots.txt
+/public/sitemap*
+/public/sw.js
+/public/workbox*

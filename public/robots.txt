@@ -1,7 +1,0 @@
-User-agent: *
-Allow: /
-
-User-agent: *
-Disallow: /.well-known
-
-Sitemap: https://www.alitaquantum.com/sitemap.xml
