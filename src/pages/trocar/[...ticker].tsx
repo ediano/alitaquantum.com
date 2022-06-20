@@ -78,7 +78,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const paths: Paths[] = []
 
   for await (const pair of availablePairs) {
-    if (limit > 10) return { paths, fallback: 'blocking' }
+    if (limit > 2500) return { paths, fallback: 'blocking' }
 
     try {
       const from = currencies.find(
