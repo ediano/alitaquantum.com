@@ -531,99 +531,102 @@ export const ExchangeProvider = ({ props, children }: Props) => {
       { shallow: true }
     )
 
-    const coins = storage.get() || currencies
+    if (!!fromName && !!toName) {
+      const coins = storage.get() || currencies
 
-    const [currencyFromName, currencyFromNetwork] = fromName!.split('-')
-    const [currencyToName, currencyToNetwork] = toName!.split('-')
+      const [currencyFromName, currencyFromNetwork] = fromName.split('-')
+      const [currencyToName, currencyToNetwork] = toName.split('-')
 
-    const from = coins.find(
-      (coin: Currencies) =>
-        coin.name === currencyFromName?.trim() &&
-        coin.network === currencyFromNetwork?.trim().toLowerCase()
-    )
+      const from = coins.find(
+        (coin: Currencies) =>
+          coin.name === currencyFromName?.trim() &&
+          coin.network === currencyFromNetwork?.trim().toLowerCase()
+      )
 
-    const to = coins.find(
-      (coin: Currencies) =>
-        coin.name === currencyToName?.trim() &&
-        coin.network === currencyToNetwork?.trim().toLowerCase()
-    )
+      const to = coins.find(
+        (coin: Currencies) =>
+          coin.name === currencyToName?.trim() &&
+          coin.network === currencyToNetwork?.trim().toLowerCase()
+      )
 
-    if (from?.ticker && to?.ticker) {
-      setIsQueryLoaded(true)
+      if (from?.ticker && to?.ticker) {
+        setIsQueryLoaded(true)
 
-      setDataFlow((state) => ({
-        ...state,
-        fromAmount: fromAmount || '0',
-        fromName: from.name,
-        fromCurrency: from.ticker,
-        fromNetwork: from.network,
-        fromId: from.hasExternalId,
-        fromImage: from.image,
-        fromLegacyTicker: from.legacyTicker,
-        toName: to.name,
-        toCurrency: to.ticker,
-        toNetwork: to.network,
-        toId: to.hasExternalId,
-        toImage: to.image,
-        toLegacyTicker: to.legacyTicker
-      }))
+        setDataFlow((state) => ({
+          ...state,
+          fromAmount: fromAmount || '0',
+          fromName: from.name,
+          fromCurrency: from.ticker,
+          fromNetwork: from.network,
+          fromId: from.hasExternalId,
+          fromImage: from.image,
+          fromLegacyTicker: from.legacyTicker,
+          toName: to.name,
+          toCurrency: to.ticker,
+          toNetwork: to.network,
+          toId: to.hasExternalId,
+          toImage: to.image,
+          toLegacyTicker: to.legacyTicker
+        }))
 
-      try {
-        setEstimatedAmount('')
-        if (fromAmount) {
-          const dataRequest = {
-            fromCurrency: from.ticker,
-            fromNetwork: from.network,
-            toCurrency: to.ticker,
-            toNetwork: to.network
-          }
+        try {
+          setEstimatedAmount('')
+          if (fromAmount) {
+            const dataRequest = {
+              fromCurrency: from.ticker,
+              fromNetwork: from.network,
+              toCurrency: to.ticker,
+              toNetwork: to.network
+            }
 
-          const [range, estimated] = await Promise.allSettled([
-            Api.getRange({
-              ...dataRequest,
-              flow: !fixedRate ? 'standard' : 'fixed-rate'
-            }),
-            Api.getEstimatedAmount({
-              ...dataRequest,
-              fromAmount,
-              flow: !fixedRate ? 'standard' : 'fixed-rate'
-            })
-          ])
+            const [range, estimated] = await Promise.allSettled([
+              Api.getRange({
+                ...dataRequest,
+                flow: !fixedRate ? 'standard' : 'fixed-rate'
+              }),
+              Api.getEstimatedAmount({
+                ...dataRequest,
+                fromAmount,
+                flow: !fixedRate ? 'standard' : 'fixed-rate'
+              })
+            ])
 
-          if (range.status === 'fulfilled') {
-            setDataFlow((state) => ({
-              ...state,
-              fromAmount,
-              minAmount: String(range.value.data.minAmount)
-            }))
-          } else {
-            setDataFlow((state) => ({ ...state, fromAmount, minAmount: '0' }))
-          }
+            if (range.status === 'fulfilled') {
+              setDataFlow((state) => ({
+                ...state,
+                fromAmount,
+                minAmount: String(range.value.data.minAmount)
+              }))
+            } else {
+              setDataFlow((state) => ({ ...state, fromAmount, minAmount: '0' }))
+            }
 
-          if (estimated.status === 'fulfilled') {
-            const { toAmount, transactionSpeedForecast } = estimated.value.data
-            setEstimatedAmount(String(toAmount))
-            setTransactionSpeedForecast(
-              transactionSpeedForecast || 'Estimativa indisponivel!'
-            )
+            if (estimated.status === 'fulfilled') {
+              const { toAmount, transactionSpeedForecast } =
+                estimated.value.data
+              setEstimatedAmount(String(toAmount))
+              setTransactionSpeedForecast(
+                transactionSpeedForecast || 'Estimativa indisponivel!'
+              )
+            } else {
+              setEstimatedAmount('0')
+              setTransactionSpeedForecast('Estimativa indisponivel!')
+            }
           } else {
             setEstimatedAmount('0')
             setTransactionSpeedForecast('Estimativa indisponivel!')
           }
-        } else {
+        } catch (err: any) {
+          const message = err?.response?.data?.message
+          const error = err?.response?.data?.error
+          if (message) {
+            setError(collections[message as Collections].text)
+          } else if (error) {
+            setError(collections[error as Collections].text)
+          }
           setEstimatedAmount('0')
           setTransactionSpeedForecast('Estimativa indisponivel!')
         }
-      } catch (err: any) {
-        const message = err?.response?.data?.message
-        const error = err?.response?.data?.error
-        if (message) {
-          setError(collections[message as Collections].text)
-        } else if (error) {
-          setError(collections[error as Collections].text)
-        }
-        setEstimatedAmount('0')
-        setTransactionSpeedForecast('Estimativa indisponivel!')
       }
     }
   }, [query, currencies, push, fixedRate])

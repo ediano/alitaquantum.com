@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, ChangeEvent } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { MdEmail } from 'react-icons/md'
 
 import { useExchange } from 'context/exchange'
@@ -35,6 +36,7 @@ type HandlerClickValidateAddress = {
 }
 
 export const ExchangeLayout = () => {
+  const { query, push } = useRouter()
   const { dataFlow, estimatedAmount, transactionSpeedForecast } = useExchange()
   const [dataCreateTransaction, setDataCreateTransaction] =
     useState<DataCreateTransaction>({} as DataCreateTransaction)
@@ -117,6 +119,11 @@ export const ExchangeLayout = () => {
       extraId: state.extraId || ''
     }))
   }, [dataFlow, estimatedAmount, transactionSpeedForecast])
+
+  useEffect(() => {
+    const { amount, from, to } = query
+    if (!amount || !from || !to) push('/')
+  }, [query, push])
 
   return (
     <HeroBackground>
