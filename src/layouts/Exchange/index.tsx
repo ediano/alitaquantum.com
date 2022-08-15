@@ -88,6 +88,10 @@ export const ExchangeLayout = () => {
   )
 
   useEffect(() => {
+    if (!query?.amount || !query?.from || !query?.to) push('/')
+  }, [query, push])
+
+  useEffect(() => {
     if (address) {
       handlerClickValidateAddress({
         address,
@@ -119,11 +123,6 @@ export const ExchangeLayout = () => {
       extraId: state.extraId || ''
     }))
   }, [dataFlow, estimatedAmount, transactionSpeedForecast])
-
-  useEffect(() => {
-    const { amount, from, to } = query
-    if (!amount || !from || !to) push('/')
-  }, [query, push])
 
   return (
     <HeroBackground>
