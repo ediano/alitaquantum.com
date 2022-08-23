@@ -25,25 +25,7 @@ export const Hero = () => {
 
       <S.Wrapper>
         <S.Block>
-          <div>
-            <S.Title>{site.description}</S.Title>
-
-            <S.LinkGuarda
-              href="https://grd.to/ref/bfdY"
-              target="_blank"
-              aria-label="Guarda Wallet"
-              title="Guarda Wallet"
-              rel="nofollow noopener noreferrer"
-            >
-              <span>Carteira recomendada</span>
-              <Image
-                width={28}
-                height={28}
-                src="/img/logos/guarda.svg"
-                alt="Guarda Wallet"
-              />
-            </S.LinkGuarda>
-          </div>
+          <S.Title>{site.description}</S.Title>
 
           <S.CoinMarketCap
             href="https://coinmarketcap.com/invite?ref=0FVQPWSC"

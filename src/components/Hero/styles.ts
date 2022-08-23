@@ -96,31 +96,6 @@ export const Footer = styled.div`
   `}
 `
 
-export const LinkGuarda = styled.a`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  margin-top: 2.5rem;
-
-  color: #fff;
-  text-transform: uppercase;
-
-  ${({ theme }) => css`
-    padding: ${theme.spacing.xxs} ${theme.spacing.xs};
-    border-radius: ${theme.spacing.xs};
-    background: ${theme.colors.secondary};
-  `}
-
-  span {
-    margin-right: 0.5rem;
-  }
-
-  ${lessThan('l')(css`
-    display: none;
-  `)}
-`
-
 export const CoinMarketCap = styled.a`
   display: flex;
   align-items: center;
