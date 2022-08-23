@@ -42,24 +42,6 @@ export const HeroBackground = ({ children }: Props) => {
               <span>Ganhe diamantes diariamente e troque por recompensas</span>
             </S.CoinMarketCap>
           </S.BlockAside>
-
-          <S.BlockAside>
-            <S.LinkGuarda
-              href="https://grd.to/ref/bfdY"
-              target="_blank"
-              aria-label="Guarda Wallet"
-              title="Guarda Wallet"
-              rel="nofollow noopener noreferrer"
-            >
-              <span>Carteira recomendada</span>
-              <Image
-                width="32"
-                height="32"
-                src="/img/logos/guarda.svg"
-                alt="Guarda Wallet"
-              />
-            </S.LinkGuarda>
-          </S.BlockAside>
         </aside>
       </S.Wrapper>
     </S.Container>
