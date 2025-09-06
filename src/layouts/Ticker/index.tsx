@@ -89,55 +89,59 @@ export const TickerLayout = ({ data, suggestedCoins }: Props) => {
         />
       </S.WrapperShared>
 
-      <S.BlockFooter>
-        <S.TitleIcon>Mais opções de troca de {data.fromName}</S.TitleIcon>
+      {suggestedCoins?.length ? (
+        <S.BlockFooter>
+          <S.TitleIcon>Mais opções de troca de {data.fromName}</S.TitleIcon>
 
-        <S.FooterDescription>
-          {data.fromName} tem mais opções de pares disponíveis.
-          <br />
-          Essa é apenas a ponta do iceberg, troque com mais de 5 mil pares
-          disponíveis.{' '}
-          <Link href="/trocar" passHref>
-            <S.MoreCurrencyOptions>
-              Veja todas as opções de troca!
-            </S.MoreCurrencyOptions>
-          </Link>
-        </S.FooterDescription>
-
-        <S.FooterContent>
-          {suggestedCoins.map((coin) => (
-            <Link
-              key={coin.legacyTicker}
-              href={`/trocar/${data.fromLegacyTicker}/${coin.legacyTicker}`}
-              passHref
-            >
-              <S.CardSuggestedCoins title={`${data.fromName} vs. ${coin.name}`}>
-                <S.WrapperCoins>
-                  <S.ImageCoin
-                    style={{
-                      backgroundImage: `url("${data.fromImage}")`,
-                      backgroundRepeat: 'no-repeat'
-                    }}
-                  ></S.ImageCoin>
-                  <span>{data.fromCurrency.toUpperCase()}</span>
-                </S.WrapperCoins>
-
-                <BsArrowLeftRight />
-
-                <S.WrapperCoins>
-                  <S.ImageCoin
-                    style={{
-                      backgroundImage: `url("${coin.image}")`,
-                      backgroundRepeat: 'no-repeat'
-                    }}
-                  ></S.ImageCoin>
-                  <span>{coin.ticker.toUpperCase()}</span>
-                </S.WrapperCoins>
-              </S.CardSuggestedCoins>
+          <S.FooterDescription>
+            {data.fromName} tem mais opções de pares disponíveis.
+            <br />
+            Essa é apenas a ponta do iceberg, troque com mais de 5 mil pares
+            disponíveis.{' '}
+            <Link href="/trocar" passHref>
+              <S.MoreCurrencyOptions>
+                Veja todas as opções de troca!
+              </S.MoreCurrencyOptions>
             </Link>
-          ))}
-        </S.FooterContent>
-      </S.BlockFooter>
+          </S.FooterDescription>
+
+          <S.FooterContent>
+            {suggestedCoins.map((coin) => (
+              <Link
+                key={coin.legacyTicker}
+                href={`/trocar/${data.fromLegacyTicker}/${coin.legacyTicker}`}
+                passHref
+              >
+                <S.CardSuggestedCoins
+                  title={`${data.fromName} vs. ${coin.name}`}
+                >
+                  <S.WrapperCoins>
+                    <S.ImageCoin
+                      style={{
+                        backgroundImage: `url("${data.fromImage}")`,
+                        backgroundRepeat: 'no-repeat'
+                      }}
+                    ></S.ImageCoin>
+                    <span>{data.fromCurrency.toUpperCase()}</span>
+                  </S.WrapperCoins>
+
+                  <BsArrowLeftRight />
+
+                  <S.WrapperCoins>
+                    <S.ImageCoin
+                      style={{
+                        backgroundImage: `url("${coin.image}")`,
+                        backgroundRepeat: 'no-repeat'
+                      }}
+                    ></S.ImageCoin>
+                    <span>{coin.ticker.toUpperCase()}</span>
+                  </S.WrapperCoins>
+                </S.CardSuggestedCoins>
+              </Link>
+            ))}
+          </S.FooterContent>
+        </S.BlockFooter>
+      ) : null}
     </HeroBackground>
   )
 }

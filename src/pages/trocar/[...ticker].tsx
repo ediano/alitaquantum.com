@@ -26,7 +26,7 @@ type SuggestedCoins = {
 
 export type Props = {
   data: DataFlow
-  suggestedCoins: SuggestedCoins[]
+  suggestedCoins?: SuggestedCoins[]
 }
 
 const TickerPage = ({ data, suggestedCoins }: Props) => {
@@ -74,12 +74,40 @@ export const getStaticPaths: GetStaticPaths = async () => {
     ChangeNow.getCurrencies()
   ])
 
-  let limit = 0
   const paths: Paths[] = []
 
-  for await (const pair of availablePairs) {
-    if (limit > 1500) return { paths, fallback: 'blocking' }
+  const defaultCurrency = [
+    'btc',
+    'eth',
+    'sol',
+    'bnb',
+    'usdc',
+    'usdt',
+    'xrp',
+    'doge',
+    'trx',
+    'ada',
+    'hype',
+    'link',
+    'sui'
+  ]
 
+  const filteredAvailablePairs = availablePairs.reduce((results, item) => {
+    const isFromCurrency = defaultCurrency.includes(
+      item.fromCurrency.toLowerCase()
+    )
+    if (!isFromCurrency) return results
+
+    const itens = results.filter(
+      (result) => result.fromCurrency === item.fromCurrency
+    )
+    if (itens.length >= 20) return results
+
+    results.push(item)
+    return results
+  }, [] as ChangeNow.AvailablePairs[])
+
+  for await (const pair of filteredAvailablePairs) {
     try {
       const from = currencies.find(
         ({ ticker, network }) =>
@@ -99,7 +127,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
           toNetwork: from.network
         })
 
-        limit += 1
         paths.push({
           params: { ticker: [from.legacyTicker, to.legacyTicker] }
         })
@@ -115,10 +142,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const [fromLegacyTicker, toLegacyTicker] = ticker
 
   try {
-    const [{ data: availablePairs }, { data: currencies }] = await Promise.all([
-      ChangeNow.getAvailablePairs(),
-      ChangeNow.getCurrencies()
-    ])
+    const { data: currencies } = await ChangeNow.getCurrencies()
 
     const from = currencies.find(
       (currency) => currency.legacyTicker === fromLegacyTicker
@@ -142,31 +166,22 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     const fromAmount = String((range.minAmount * 10).toFixed(8))
 
     let limit = 0
+    const suggestedCoins = currencies
+      .filter((currency) => {
+        if (limit >= 8) return false
 
-    const suggestedCoins = availablePairs
-      .filter((pair) => {
-        if (limit >= 8) return null
+        const isFromTicker = from!.ticker === currency.ticker
+        const isToTicker = to!.ticker !== currency.ticker
 
-        const isFromTicker = from!.ticker === pair.fromCurrency
-        const isToTicker = from!.ticker !== pair.toCurrency
-        const isUsd = !pair.toCurrency.includes('usd')
+        if (!isFromTicker && !isToTicker) return false
 
-        if (isFromTicker && isToTicker && isUsd) limit += 1
-
-        return limit <= 8 && isFromTicker && isToTicker && isUsd
+        limit += 1
+        return limit <= 8 && isFromTicker && isToTicker
       })
-      .map((item) => {
-        const to = currencies.find(
-          (currency) => currency.ticker === item.toCurrency
-        )
-
+      .map((to) => {
         return {
-          name: to?.name,
-          ticker: to?.ticker,
-          network: to?.network,
-          hasExternalId: to?.hasExternalId,
-          image: getImage(to?.ticker as string),
-          legacyTicker: to?.legacyTicker
+          ...to,
+          image: getImage(to?.ticker as string)
         }
       })
 
