@@ -171,12 +171,11 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
         if (limit >= 8) return false
 
         const isFromTicker = from!.ticker === currency.ticker
-        const isToTicker = to!.ticker !== currency.ticker
 
-        if (!isFromTicker && !isToTicker) return false
+        if (!isFromTicker) return false
 
         limit += 1
-        return limit <= 8 && isFromTicker && isToTicker
+        return limit <= 8 && isFromTicker
       })
       .map((to) => {
         return {
