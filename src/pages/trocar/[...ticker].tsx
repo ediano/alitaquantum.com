@@ -165,12 +165,25 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
     const fromAmount = String((range.minAmount * 10).toFixed(8))
 
-    const suggestedCoins = currencies.map((to) => {
-      return {
-        ...to,
-        image: getImage(to?.ticker as string)
-      }
-    })
+    let limit = 0
+    const suggestedCoins = currencies
+      .filter((currency) => {
+        if (limit >= 8) return false
+
+        const isFromTicker = from!.ticker === currency.ticker
+        const isToTicker = to!.ticker !== currency.ticker
+
+        if (!isFromTicker && !isToTicker) return false
+
+        limit += 1
+        return limit <= 8 && isFromTicker && isToTicker
+      })
+      .map((to) => {
+        return {
+          ...to,
+          image: getImage(to?.ticker as string)
+        }
+      })
 
     return {
       props: {
