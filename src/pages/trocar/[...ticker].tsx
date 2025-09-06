@@ -98,7 +98,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
     )
     if (!isFromCurrency) return results
 
-    const itens = results.filter((result) => result.fromCurrency)
+    const itens = results.filter(
+      (result) => result.fromCurrency === item.fromCurrency
+    )
     if (itens.length >= 20) return results
 
     results.push(item)
