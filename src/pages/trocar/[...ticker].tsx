@@ -77,9 +77,34 @@ export const getStaticPaths: GetStaticPaths = async () => {
   let limit = 0
   const paths: Paths[] = []
 
-  for await (const pair of availablePairs) {
-    if (limit > 1500) return { paths, fallback: 'blocking' }
+  const defaultCurrency = [
+    'btc',
+    'eth',
+    'sol',
+    'bnb',
+    'usdc',
+    'usdt',
+    'xrp',
+    'doge',
+    'trx',
+    'ada',
+    'hype',
+    'link',
+    'sui'
+  ]
 
+  const filteredAvailablePairs = availablePairs.reduce((results, item) => {
+    const isFromCurrency = defaultCurrency.includes(item.fromCurrency)
+    if (!isFromCurrency) return results
+
+    const itens = results.filter((result) => result.fromCurrency)
+    if (itens.length >= 20) return results
+
+    results.push(item)
+    return results
+  }, [] as ChangeNow.AvailablePairs[])
+
+  for await (const pair of filteredAvailablePairs) {
     try {
       const from = currencies.find(
         ({ ticker, network }) =>
