@@ -170,16 +170,21 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
       .filter((currency) => {
         if (limit >= 8) return false
 
-        const isFromTicker = from!.ticker === currency.ticker
+        const isFromTicker = from!.ticker !== currency.ticker
+        const isNetwork = from!.network === currency.network
 
-        if (!isFromTicker) return false
+        if (!isFromTicker && !isNetwork) return false
 
         limit += 1
-        return limit <= 8 && isFromTicker
+        return limit <= 8 && isFromTicker && isNetwork
       })
       .map((to) => {
         return {
-          ...to,
+          name: from?.name,
+          ticker: from?.ticker,
+          network: from?.network,
+          hasExternalId: !!from?.hasExternalId,
+          legacyTicker: to.legacyTicker,
           image: getImage(to?.ticker as string)
         }
       })
