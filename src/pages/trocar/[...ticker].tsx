@@ -172,8 +172,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
         const isFromTicker = from!.ticker !== currency.ticker
         const isNetwork = from!.network === currency.network
-
-        if (!isFromTicker && !isNetwork) return false
+        if (!isFromTicker || !isNetwork) return false
 
         limit += 1
         return limit <= 8 && isFromTicker && isNetwork
