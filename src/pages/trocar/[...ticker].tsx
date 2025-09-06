@@ -180,11 +180,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
       })
       .map((to) => {
         return {
-          name: from?.name,
-          ticker: from?.ticker,
-          network: from?.network,
-          hasExternalId: !!from?.hasExternalId,
-          legacyTicker: to.legacyTicker,
+          ...to,
           image: getImage(to?.ticker as string)
         }
       })
