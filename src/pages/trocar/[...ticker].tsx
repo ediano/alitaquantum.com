@@ -166,17 +166,15 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     const fromAmount = String((range.minAmount * 10).toFixed(8))
 
     let limit = 0
-    const tickers: string[] = []
     const suggestedCoins = currencies
       .filter((currency) => {
         if (limit >= 8) return false
 
         const isFromTicker = currency.ticker === from!.ticker
         const isToTicker = currency.ticker !== to!.ticker
-        if (!isFromTicker && isToTicker) return false
+        if (isFromTicker && isToTicker) return false
 
         limit += 1
-        tickers.push(currency.ticker)
         return limit <= 8 && isFromTicker
       })
       .map((to) => {
